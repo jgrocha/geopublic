@@ -1,0 +1,33 @@
+{
+    "ServerConfig": {
+        "port": 3000,
+        "logger": "dev",
+        "enableUpload": true,
+        "enableCompression": true,
+        "webRoot": "/public",
+        "fileUploadFolder": "./uploads",
+        "enableSessions": true,
+        "sessionSecret": "vdW3F6y3506h",
+        "enableCORS": true,
+        "AccessControlAllowOrigin": "*",
+        "AccessControlAllowMethods": "GET,PUT,POST,DELETE,OPTIONS",
+        "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
+        "AccessControlAllowCredentials": true,
+        "AccessControlMaxAge": 3600
+    },
+
+    "ExtDirectConfig": {
+        "namespace": "ExtRemote",
+        "apiName": "REMOTING_API",
+        "apiPath": "/directapi",
+        "classPath": "/direct",
+        "classPrefix": "DX",
+        "_server": "localhost",
+        "server": "development.localhost.lan",
+        "_port": "3000",
+        "port": "80",
+        "protocol": "http",
+        "relativeUrl": false,
+        "appendRequestResponseObjects": true
+    }
+}

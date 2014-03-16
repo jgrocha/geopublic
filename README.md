@@ -75,6 +75,7 @@ ln -s ../../client/DemoExtJs public
 mkdir public/uploaded_images
 npm install
 nodemon server.js
+```
 
 ###Architect 3 sample project
 

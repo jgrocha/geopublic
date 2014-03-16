@@ -1,15 +1,5 @@
 var mysql = require('mysql'), nconf = require('nconf');
 
-/*
-{
-    "hostname": "localhost",
-    "port": 3306,
-    "user": "extdirectnode",
-    "password": "extdirectnode",
-    "db": "extdirectnode"
-}
-*/
-
 nconf.env().file({
 	file : 'db-config.json'
 });
