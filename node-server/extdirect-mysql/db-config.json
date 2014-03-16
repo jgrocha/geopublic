@@ -1,7 +1,7 @@
 {
     "hostname": "localhost",
     "port": 3306,
-    "user": "script",
-    "password": "qwerty12",
+    "user": "jgr",
+    "password": "25batata",
     "db": "extdirectnode"
 }

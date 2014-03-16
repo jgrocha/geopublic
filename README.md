@@ -66,6 +66,16 @@ Sencha Touch:
 
     Note: It contains an override for form load/submit. That fix will be provided as part of Sencha Touch 2.3.2
 
+### Serving both client and server
+
+```bash
+cd node-server/extdirect-mysql
+rm -rf public
+ln -s ../../client/DemoExtJs public
+mkdir public/uploaded_images
+npm install
+nodemon server.js
+
 ###Architect 3 sample project
 
     * check out example from the repository

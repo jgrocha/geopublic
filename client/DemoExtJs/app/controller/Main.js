@@ -74,6 +74,7 @@ Ext.define('DemoExtJs.controller.Main', {
                     Ext.getStore('Todo').add(records);
                 }else{
                     console.log('Failure to add record: ', arguments);
+                    Ext.Msg.alert('Server side Error', 'Unable to insert record');
                 }
             }
         });
@@ -99,7 +100,8 @@ Ext.define('DemoExtJs.controller.Main', {
                     if(success){
                         console.log('Sucessfully removed record: ', arguments);
                     }else{
-                        store.insert(record.index, record);
+                        // store.insert(record.index, record);
+                        store.add(record);
                         console.log('Failure to remove record: ', arguments);
                         Ext.Msg.alert('Server side Error', 'Unable to remove the record');
                     }
@@ -131,6 +133,7 @@ Ext.define('DemoExtJs.controller.Main', {
                     var exception = operation.getError();
                     if (exception && exception.errors) form.markInvalid(exception.errors);
                     console.log('failure', record, operation, exception);
+                    Ext.Msg.alert('Server side Error', 'Unable to update the record');
                 },
                 scope: this
             });
