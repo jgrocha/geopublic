@@ -1,5 +1,22 @@
 var DXFormTest = {
-	testMe : function(params, callback) {
+	/*
+	 testMe : function(params, callback) {
+	 console.log(params);
+	 callback({
+	 success : true,
+	 msg : 'Hello world',
+	 params : params
+	 });
+	 },
+	 */
+	testMe : function(params, callback, sessionID, request, response) {
+		// testMe : function(params, callback) {
+		console.log('Session ID = ' + sessionID);
+		console.log('Params = ' + JSON.stringify(params));
+		console.log('session.user = ' + request.session.user);
+		console.log('Cookie = ' + JSON.stringify(request.session.cookie));
+		request.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000;
+		console.log('Cookie = ' + JSON.stringify(request.session.cookie));
 		callback({
 			success : true,
 			msg : 'Hello world',
@@ -40,7 +57,7 @@ var DXFormTest = {
 		var fs = require('fs'), file = files.photo, tmp_path = file.path;
 
 		console.log('Tempory path = ' + tmp_path);
-		
+
 		// set where the file should actually exists - in this case it is in the "demo" directory
 		var target_path = './public/uploaded_images/' + file.name;
 
@@ -97,4 +114,4 @@ var DXFormTest = {
 	}
 };
 
-module.exports = DXFormTest; 
+module.exports = DXFormTest;

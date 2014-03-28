@@ -2,7 +2,10 @@ var table = 'todoitem';
 var db = global.App.database;
 
 var DXTodoItem = {
-	create : function(params, callback) {
+	create : function(params, callback, sessionID) {
+
+		console.log('DXTodoItem.create Session ID = ' + sessionID);
+
 		var conn = db.connect();
 		delete params['id'];
 		delete params['complete'];
@@ -36,7 +39,14 @@ var DXTodoItem = {
 	},
 
 	//callback as last argument is mandatory
-	read : function(params, callback) {
+	read : function(params, callback, sessionID, request) {
+		console.log('DXTodoItem.read Session ID = ' + sessionID);
+		if (request.session.user) {
+			console.log('Utilizador = ' + request.session.user);
+		} else {
+			console.log('Sem utilizador');
+		}
+								
 		var conn = db.connect();
 
 		var sql = 'SELECT * FROM ' + table, where = '';
@@ -83,7 +93,8 @@ var DXTodoItem = {
 		});
 	},
 
-	update : function(params, callback) {
+	update : function(params, callback, sessionID) {
+		console.log('DXTodoItem.update Session ID = ' + sessionID);
 		var conn = db.connect();
 		conn.query('UPDATE ' + table + ' SET text = $1 where id = ' + params['id'], [params['text']], function(err, result) {
 			db.disconnect(conn);
@@ -98,7 +109,8 @@ var DXTodoItem = {
 		});
 	},
 
-	destroy : function(params, callback) {
+	destroy : function(params, callback, sessionID) {
+		console.log('DXTodoItem.update Session ID = ' + sessionID);
 		var conn = db.connect();
 
 		conn.query('DELETE FROM ' + table + ' WHERE id = $1', [params['id']], function(err, result) {
