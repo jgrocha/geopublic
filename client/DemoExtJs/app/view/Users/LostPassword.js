@@ -43,7 +43,7 @@ Ext.define('DemoExtJs.view.Users.LostPassword', {
 			fieldLabel : 'E-mail',
 			vtype : 'email',
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>',
-			maxLength : 25,
+			maxLength : 48,
 			allowBlank : false,
 			tooltip : 'Insira o seu email'
 		}],

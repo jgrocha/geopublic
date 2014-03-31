@@ -104,7 +104,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	onButtonLastAccess : function(button, e, options) {
 		Ext.Msg.show({
 			title : 'Registo de entradas',
-			msg : 'O registo já está disponível.',
+			msg : 'Falta abrir o store, que tem o auo a off.',
 			icon : Ext.Msg.INFO,
 			buttons : Ext.Msg.OK
 		});
@@ -131,7 +131,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		Ext.create('DemoExtJs.view.Users.LostPassword').show();
 	},
 	onButtonClickRegisto : function(button, e, options) {
-		var win = Ext.create('DemoExtJs.view.Registo');
+		var win = Ext.create('DemoExtJs.view.Users.Registo');
 		win.show();
 	},
 	onButtonMenu : function(button, e, options) {
@@ -139,6 +139,22 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	},
 	onButtonClickPerfil : function(button, e, options) {
 		console.log('Vamos mostrar e permitir atualizar o perfil do utilizador');
+		var mainPanel = this.getPainelPrincipal();
+		var newTab = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Profile';
+		});
+		if (!newTab) {
+			if (Ext.ClassManager.getNameByAlias('widget.profile') != "") {
+				newTab = mainPanel.add({
+					xtype : 'profile',
+					closable : true,
+					title : 'Profile'
+				});
+			} else {
+				console.log("Erro! The class " + 'widget.profile' + " does not exist!");
+			}
+		}
+		mainPanel.setActiveTab(newTab);
 	},
 	onButtonClickLogin : function(button, e, options) {
 		console.log('Vamos autenticar um utilizador, se não estiver já loginado');
@@ -147,7 +163,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		// ao entrar, verifico no servidor que é uma sessão conhecida e devoldo os dados do utilizador para este objeto
 		// var user = Ext.state.Manager.get("utilizador");
 		if (DemoExtJs.LoggedInUser == null) {
-			var win = Ext.create('DemoExtJs.view.Login');
+			var win = Ext.create('DemoExtJs.view.Users.Login');
 			win.show();
 		} else {
 			console.log('Utilizador atual ' + DemoExtJs.LoggedInUser.data.nome + ' com o email ' + DemoExtJs.LoggedInUser.data.email);
@@ -192,7 +208,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				if (result.success) {
 					Ext.Msg.alert('Successul', Ext.encode(result) + '<br/>' + 'Foi enviado um email para ' + email);
 				} else {
-					Ext.Msg.alert('Problems with password', Ext.encode(result));
+					Ext.Msg.alert('Problems with password', result.message);
 				}
 				registo.close();
 			});
@@ -234,7 +250,9 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	onButtonClickEntrar : function(button, e, options) {
 		var me = this;
 		console.log('login submit');
-		var formPanel = button.up('form'), login = button.up('login'), user = formPanel.down('textfield[name=user]').getValue(), pass = formPanel.down('textfield[name=password]').getValue(), remember = formPanel.down('checkbox[name=remember]').checked;
+		var formPanel = button.up('form'), login = button.up('login');
+		var email = formPanel.down('textfield[name=email]').getValue(), pass = formPanel.down('textfield[name=password]').getValue();
+		var remember = formPanel.down('checkbox[name=remember]').checked;
 		if (remember) {
 			console.log('Para recordar...');
 		} else {
@@ -243,9 +261,9 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		var sha1 = CryptoJS.SHA1(pass).toString();
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
-			console.log('Vai tentar com o login com ' + user + ' e a password = ' + pass + ' codificada = ' + sha1);
+			console.log('Vai tentar com o login com ' + email + ' e a password = ' + pass + ' codificada = ' + sha1);
 			ExtRemote.DXLogin.authenticate({
-				username : user,
+				email : email,
 				password : sha1,
 				remember : remember
 			}, function(result, event) {
@@ -253,23 +271,18 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				console.debug(result);
 				// console.debug(event);
 				if (result.success) {
-					if (result.data.length > 0) {
-						// We have a valid user data
-						Ext.Msg.alert('Successul login', Ext.encode(result));
-						DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
-						/*
-						 * se remember, altero o cookie para sobreviver mais tempo
-						 * se o cookie sobreviver, ele será loginado na próxima vez
-						 * não preciso de usar o local storage ou qualquer outro cookie
-						 */
-						me.application.fireEvent('loginComSucesso');
-						login.close();
-					} else {
-						// We don't have a user...
-						Ext.Msg.alert('Invalid login', Ext.encode(result));
-					}
+					// We have a valid user data
+					Ext.Msg.alert('Successul login', Ext.encode(result));
+					DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
+					/*
+					 * se remember, altero o cookie para sobreviver mais tempo
+					 * se o cookie sobreviver, ele será loginado na próxima vez
+					 * não preciso de usar o local storage ou qualquer outro cookie
+					 */
+					me.application.fireEvent('loginComSucesso');
+					login.close();
 				} else {
-					Ext.Msg.alert('Authentication not available', Ext.encode(result));
+					Ext.Msg.alert('Invalid login', Ext.encode(result));
 				}
 			});
 		}

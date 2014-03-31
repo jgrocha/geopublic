@@ -41,8 +41,8 @@ var DXTodoItem = {
 	//callback as last argument is mandatory
 	read : function(params, callback, sessionID, request) {
 		console.log('DXTodoItem.read Session ID = ' + sessionID);
-		if (request.session.user) {
-			console.log('Utilizador = ' + request.session.user);
+		if (request.session.userid) {
+			console.log('Utilizador = ' + request.session.userid);
 		} else {
 			console.log('Sem utilizador');
 		}

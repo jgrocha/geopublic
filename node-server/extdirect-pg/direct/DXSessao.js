@@ -3,15 +3,15 @@ var db = global.App.database;
 var DXSessao = {
 	//callback as last argument is mandatory
 	read : function(params, callback, sessionID, request) {
-		var username = request.session.user;		
+		var userid = request.session.userid;		
 		console.log('DXSessao.read Session ID = ' + sessionID);
-		if (request.session.user) {
-			console.log('Utilizador = ' + request.session.user);
+		if (request.session.userid) {
+			console.log('Utilizador = ' + request.session.userid);
 		} else {
 			console.log('Sem utilizador');
 		}
 		var conn = db.connect();
-		var sql = 'SELECT * FROM ' + table, where = " WHERE login = '" + username + "'";
+		var sql = 'SELECT * FROM ' + table, where = " WHERE userid = '" + userid + "'";
 		//filtering. this example assumes filtering on 1 field, as multiple field where clause requires additional info e.g. chain operator
 		if (params.filter) {
 			where = " AND " + params.filter[0].property + " LIKE '%" + params.filter[0].value + "%'";

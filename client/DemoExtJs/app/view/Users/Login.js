@@ -1,8 +1,8 @@
-Ext.define('DemoExtJs.view.Login', {
+Ext.define('DemoExtJs.view.Users.Login', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.login',
 	// autoShow : true,
-	height : 170,
+	height : 240,
 	width : 360,
 	layout : {
 		type : 'fit'
@@ -26,10 +26,10 @@ Ext.define('DemoExtJs.view.Login', {
 			minLengthText : 'O mínimo são {0} carateres'
 		},
 		items : [{
-			name : 'user',
-			// itemId : 'user',
-			fieldLabel : 'Utilizador',
-			maxLength : 25
+			name : 'email',
+			fieldLabel : 'Email',
+			vtype : 'email',			
+			maxLength : 48
 		}, {
 			inputType : 'password',
 			name : 'password',

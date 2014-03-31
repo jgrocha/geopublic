@@ -3,7 +3,7 @@ Ext.define('DemoExtJs.store.Sessao', {
     requires: [
         'DemoExtJs.model.Sessao'
     ],
-    autoLoad: true,
+    autoLoad: false, // só pode ler este store depois de ter um utilizador autenticado
     remoteSort:true, //enable remote filter
     remoteFilter:true, //enable remote sorting
     pageSize: 5,

@@ -11,7 +11,7 @@ Ext.apply(Ext.form.field.VTypes, {
 
 // http://stackoverflow.com/questions/9704913/confirm-password-validator-extjs-4
 
-Ext.define('DemoExtJs.view.Registo', {
+Ext.define('DemoExtJs.view.Users.Registo', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.registo',
 	// autoShow : true,
@@ -57,7 +57,7 @@ Ext.define('DemoExtJs.view.Registo', {
 			fieldLabel : 'E-mail',
 			vtype : 'email',
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>',
-			maxLength : 100,
+			maxLength : 48,
 			allowBlank : false,
 			tooltip : 'Insira o seu email'
 		}, {
