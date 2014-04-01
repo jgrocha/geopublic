@@ -45,7 +45,7 @@ CREATE TABLE utilizador
 
 #####email field
 
-    * in the database, the maximum sise is 100.
+    * in the database, the maximum size is 100.
     * in the interface (forms), the maximum allowed size is 48
     * in the interface, the regular expression used to validate the email is the default ExtJs expression
     * the official size should be 254!

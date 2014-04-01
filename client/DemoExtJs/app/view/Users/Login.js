@@ -2,7 +2,7 @@ Ext.define('DemoExtJs.view.Users.Login', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.login',
 	// autoShow : true,
-	height : 240,
+	height : 380,
 	width : 360,
 	layout : {
 		type : 'fit'
@@ -28,7 +28,7 @@ Ext.define('DemoExtJs.view.Users.Login', {
 		items : [{
 			name : 'email',
 			fieldLabel : 'Email',
-			vtype : 'email',			
+			vtype : 'email',
 			maxLength : 48
 		}, {
 			inputType : 'password',
@@ -42,6 +42,13 @@ Ext.define('DemoExtJs.view.Users.Login', {
 			labelWidth : 160,
 			fieldLabel : 'Estou no meu computador',
 			name : 'remember'
+		}, {
+			xtype : 'box',
+			// el : 'fb-login-button',
+			// https://developers.facebook.com/docs/plugins/login-button/
+			html: '<div class="fb-login-button" data-scope="basic_info,email" data-max-rows="1" data-size="medium" data-show-faces="true" data-auto-logout-link="true"></div>',
+			// data-show-faces="true" - Aparece "Jorge Gustavo Rocha uses Promoção da Acessibilidade" e a cara
+			autoShow : true
 		}],
 		dockedItems : [{
 			xtype : 'toolbar',
@@ -63,5 +70,12 @@ Ext.define('DemoExtJs.view.Users.Login', {
 				text : 'Entrar'
 			}]
 		}]
-	}]
+	}],
+	listeners : {
+		afterrender : function() {
+			console.log('DemoExtJs.view.Users.Login afterrender');
+			// really important to have facebook button get rendered
+			FB.XFBML.parse();
+		}
+	}
 });

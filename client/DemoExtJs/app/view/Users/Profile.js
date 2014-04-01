@@ -63,7 +63,8 @@ Ext.define('DemoExtJs.view.Avatar', {
 });
 
 Ext.define('DemoExtJs.view.Users.Profile', {
-	extend : 'Ext.form.Panel',
+	extend : 'Ext.panel.Panel',
+	// com vários forms dentro
 	xtype : 'profile',
 	title : 'Profile',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
@@ -72,44 +73,117 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 		xtype : 'avatar',
 		title : 'Fotografia'
 	}, {
-		xtype : 'panel',
-		title : 'Contactos',
+		xtype : 'form',
+		trackResetOnLoad : true, // saber que fields estão dirty
+		title : 'Dados',
 		items : [{
-			xtype : 'textfield',
-			fieldLabel : 'Email',
-			name : 'email'
+			xtype : 'fieldset',
+			title : 'Identificação',
+			frame : false,
+			items : [{
+				xtype : 'textfield',
+				fieldLabel : 'Nome',
+				name : 'nome'
+			}, {
+				xtype : 'textfield',
+				fieldLabel : 'Nº de Identificação Fiscal',
+				name : 'nif'
+			}, {
+				xtype : 'textfield',
+				fieldLabel : 'Nº de Identificação Civil (BI ou CC)',
+				name : 'nic'
+			}, {
+				xtype : 'checkbox',
+				fieldLabel : 'Masculino?',
+				name : 'masculino',
+				inputValue : '1',
+				uncheckedValue : '0'
+			}]
 		}, {
-			xtype : 'textfield',
-			fieldLabel : 'Telefone',
-			name : 'telefone'
+			xtype : 'fieldset',
+			title : 'Endereço de email',
+			layout : 'hbox',
+			items : [{
+				xtype : 'textfield',
+				fieldLabel : 'Email',
+				name : 'email',
+				readOnly : true,
+				disabled : true,
+				maxLength : 48
+			}, {
+				xtype : 'button',
+				itemId : 'changeEmail',
+				text : 'Alterar o email'
+			}]
 		}, {
-			xtype : 'textfield',
-			fieldLabel : 'Telemóvel',
-			name : 'telemovel'
+			xtype : 'fieldset',
+			title : 'Telefones',
+			frame : false,
+			items : [{
+				xtype : 'textfield',
+				fieldLabel : 'Telefone',
+				name : 'telefone'
+			}, {
+				xtype : 'textfield',
+				fieldLabel : 'Telemóvel',
+				name : 'telemovel'
+			}]
+		}, {
+			xtype : 'fieldset',
+			title : 'Endereço postal',
+			frame : false,
+			items : [{
+				xtype : 'textfield',
+				fieldLabel : 'Morada',
+				name : 'morada'
+			}, {
+				xtype : 'textfield',
+				fieldLabel : 'Localidade',
+				name : 'localidade'
+			}, {
+				xtype : 'panel',
+				layout : 'hbox',
+				items : [{
+					xtype : 'textfield',
+					fieldLabel : 'Código',
+					name : 'codpostal',
+					maxLength : 8, // 4715-281
+					minLength : 4,
+					minLengthText : 'O código postal tem que ter 4 digitos.'
+				}, {
+					xtype : 'textfield',
+					name : 'despostal'
+				}]
+			}]
+		}],
+		dockedItems : [{
+			xtype : 'toolbar',
+			flex : 1,
+			dock : 'bottom',
+			layout : {
+				pack : 'end',
+				type : 'hbox'
+			},
+			items : [{
+				xtype : 'button',
+				itemId : 'carregar',
+				text : 'Carregar'
+			}, {
+				xtype : 'button',
+				itemId : 'cancelar',
+				text : 'Cancelar'
+			}, {
+				xtype : 'button',
+				itemId : 'gravar',
+				formBind : true,
+				text : 'Gravar'
+			}, {
+				xtype : 'tbfill'
+			}]
 		}]
 	}, {
 		xtype : 'panel',
 		title : 'Localização'
 	}],
-	dockedItems : [{
-		xtype : 'toolbar',
-		flex : 1,
-		dock : 'bottom',
-		layout : {
-			pack : 'end',
-			type : 'hbox'
-		},
-		items : [{
-			xtype : 'button',
-			itemId : 'cancelar',
-			text : 'Cancelar'
-		}, {
-			xtype : 'button',
-			itemId : 'gravar',
-			formBind : true,
-			text : 'Gravar'
-		}, {
-			xtype : 'tbfill'
-		}]
-	}]
+
 });

@@ -17,6 +17,9 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		selector : 'topheader splitbutton',
 		ref : 'botaoMenu' // gera um getBotaoMenu
 	}, {
+		selector : 'login',
+		ref : 'loginPanel' // gera um getLoginPanel
+	}, {
 		selector : 'viewport > tabpanel',
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
 	}],
@@ -77,10 +80,10 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		});
 	},
 	onLaunch : function() {
+		var me = this;
 		console.log('...O controlador arrancou.');
 		this.getBotaoMenu().menu.disable();
 	},
-
 	onLogout : function() {
 		console.log('Vamos reagir ao evento logoutComSucesso');
 		this.getBotaoRegisto().setDisabled(false);

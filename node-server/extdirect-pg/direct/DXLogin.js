@@ -379,6 +379,120 @@ var DXLogin = {
 				}
 			}
 		});
+	},
+	update : function(params, callback, sessionID, request, response) {
+		console.log('Session ID = ' + sessionID);
+		var fields = [], values = [], i = 1;
+		for (var key in params) {
+			fields.push(key + '= $' + i);
+			values.push(params[key]);
+			i = i + 1;
+		}
+		if (request.session.userid) {
+			var conn = db.connect();
+			conn.query('UPDATE ' + table + ' SET ' + fields.join() + ' WHERE id = ' + request.session.userid, values, function(err, result) {
+				db.disconnect(conn);
+				if (err) {
+					console.log('UPDATE =' + sql + ' Error: ' + err);
+					db.debugError(callback, err);
+				} else {
+					callback({
+						success : true,
+						message : 'User updated'
+					});
+				}
+			});
+		} else {
+			callback({
+				success : false,
+				message : 'User was not updated'
+			});
+		}
+	},
+	/*
+	 * Se existir alguém com o email retornado, é simples:
+	 * 	i) Escolhe esse utilizador da BD e retorna esse utilizador
+	 * 	ii) Eventualmente "vê" se há alguma informação do FB que possa ser acrescentado no perfil do utilizador...
+	 * 	ii) Será que o utilizador já lá teve essa informação e removeu-a?
+	 * 	iii) Preciso de flag para saber se faz/fez login pelo facebook:
+	 * 		só na primeira vez é que copio os dados
+	 * 		ou tenho um botão específico, caso tenha sido feito o login via FB
+	 *
+	 * Se esse email ainda não existir:
+	 * 	a) Cria um utilizador, com o email, SEM PASSWORD, e com toda a informação possível do FB
+	 * 	b) Retorna esse utilizador
+	 */
+	
+	/*
+	 * Muito fixe!
+	 * Falta só acrescentar a sessão que acabou de iniciar.
+	 */
+	facebook : function(params, callback, sessionID, request, response) {
+		console.log(params);
+		var name = params.name, email = params.email.toLowerCase();
+		var sexo = (params.gender == "male") ? 1 : 0;
+		var conn = db.connect();
+
+		var inserirNovoUtilizador = function() {
+			var campos = ['nome', 'idgrupo', 'password', 'email', 'ativo', 'emailconfirmacao'];
+			var valores = [name, 5, 'facebook', email, 'true', 'true'];
+			var buracos = [];
+			for ( i = 1; i <= campos.length; i++) {
+				buracos.push('$' + i);
+			}
+			conn.query('INSERT INTO utilizador (' + campos.join() + ') VALUES (' + buracos.join() + ') RETURNING id', valores, function(err, resultInsert) {
+				if (err) {
+					db.debugError(callback, err);
+				} else {
+					console.log('resultInsert = ' + resultInsert.rows[0].id);
+					var sql = "SELECT * FROM utilizador WHERE id = " + resultInsert.rows[0].id;
+					conn.query(sql, function(err, result) {
+						db.disconnect(conn);
+						// release connection
+						if (err) {
+							db.debugError(callback, err);
+						} else {
+							request.session.userid = resultInsert.rows[0].id;
+							callback({
+								success : true,
+								message : 'Login valid and logged',
+								data : result.rows
+							});
+						}
+					});
+
+				}
+			});
+		};
+
+		console.log('Session ID = ' + sessionID);
+		var agent = useragent.parse(request.headers['user-agent']);
+		var browser = agent.toAgent();
+		var os = agent.os.toString();
+		var device = agent.device.toString();
+		console.log('Useragent detected: ' + browser, os, device);
+		var ip = request.ip;
+		var host = '';
+
+		var sql = "SELECT * FROM utilizador WHERE email = '" + email + "'";
+		conn.query(sql, function(err, result) {
+			if (err) {
+				db.debugError(callback, err);
+			} else {
+				if (result.rows.length == 0) {
+					// Ainda não existe este utilizador
+					inserirNovoUtilizador();
+				} else {
+					request.session.userid = result.rows;
+					callback({
+						success : true,
+						message : 'Login valid and logged',
+						data : result.rows
+					});
+				}
+			}
+		});
+
 	}
 };
 
