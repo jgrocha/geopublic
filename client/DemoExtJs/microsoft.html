@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>DEMO</title>
+		<script src="./resources/js/hello.all.min.js"></script>
+	</head>
+	<body>
+		<script>
+			var sessionstart = function(auth) {
+				console.log('Welcome! Start fetching your information from ' + auth.network + '...');
+				console.log(auth);
+				var api_me_error = function() {
+					console.log("Whoops!");
+				};
+				var api_me = function(response) {
+					console.log("response api_me: ", response);
+				};
+				hello(auth.network).api("me").success(api_me).error(api_me_error);
+
+			};
+			var sessionend = function(auth) {
+				console.log("Session has ended. Auth: " + auth.network);
+			};
+			// events are called twice
+			hello.on("auth.logout", sessionend);
+
+			hello.on("auth.login", sessionstart);
+
+			hello.on("auth.failed", function() {
+				console.log("failed: ", arguments);
+			});
+
+			hello.on("auth", function() {
+				console.log("auth callback: ", arguments);
+			});
+
+			function entrar(service) {
+				hello(service).login({
+					scope : "email"
+				}, function() {
+					console.log("hello(\"" + service + "\").login callback: You are signed in to " + service);
+				});
+			};
+			function sair(service) {
+				hello(service).logout(function() {
+					console.log("hello(\"" + service + "\").logout callback: You are no longer signed in to " + service);
+				});
+			};
+
+			hello.init({
+				windows : '0000000048117A44',
+				google : '171807226739-pl2lsvoh70jeqqtkcdrqpo9j8urfdcij.apps.googleusercontent.com',
+				facebook : '1425420377699726'
+			});
+
+		</script>
+		<h1>Bem vindo</h1>
+		<button onclick="entrar('windows')">
+			Login na Microsoft
+		</button>
+		<button onclick="entrar('google')">
+			Login no Google
+		</button>
+		<button onclick="entrar('facebook')">
+			Login no Facebook
+		</button>
+		<p>
+			Sair
+		</p>
+		<button onclick="sair('windows')">
+			Logout na Microsoft
+		</button>
+		<button onclick="sair('google')">
+			Logout no Google
+		</button>
+		<button onclick="sair('facebook')">
+			Logout no Facebook
+		</button>
+	</body>
+</html>

@@ -6,40 +6,38 @@
 		<!-- <x-compile> -->
 		<!-- <x-bootstrap> -->
 		<link rel="stylesheet" href="bootstrap.css">
+		<style>
+			/*
+			 * garantir que o thumbnail do utilizador é redimensionado para o tamanho do botão de login
+			 */
+			.x-btn-icon-el {
+				background-size: cover;
+			}
+		</style>
 		<script src="ext/ext-dev.js"></script>
+		<script src="ext/locale/ext-lang-pt_PT.js"></script><!-- ok, tem que ser aqui -->
 		<script src="bootstrap.js"></script>
 		<!-- </x-bootstrap> -->
+		<!-- adicionar a pasta resources/js ao app.classpath em ".sencha/app/sencha.cfg" -->
+		<!-- este código vai ser integrado em app.js -->
+		<script src="resources/js/sha1.js"></script>
+		<script src="resources/js/hello.all.min.js"></script>
 		<script src="app.js"></script>
-		<script src="crypto/sha1.js"></script>
 		<!-- </x-compile> -->
+
+		<!-- Include OpenLayers. It isn't managed by Ext.Loader -->
+		<!-- This lib folder must be copied to production -->
+		<!-- app.resource.paths=${app.dir}/resources,${app.dir}/lib -->
+		<link rel="stylesheet" type="text/css" href="resources/js/OpenLayers-2.13.1/theme/default/style.css" />
+		<script src="resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
+		<script src="resources/js/proj4js/lib/proj4js.js"></script>
+		<!--
+		<script src="lib/proj4js/lib/defs/EPSG20790.js"></script>
+		<script src="lib/proj4js/lib/defs/EPSG27492.js"></script>
+		-->
+		<script src="resources/js/proj4js/lib/defs/EPSG3763.js"></script>
+		<script src="resources/js/proj4js/lib/defs/EPSG900913.js"></script>
+
 	</head>
-	<body>
-		<div id="fb-root"></div>
-		<script>
-			window.fbAsyncInit = function() {
-				FB.init({
-					appId : '1425420377699726',
-					status : true, // check login status
-					cookie : true, // enable cookies to allow the server to access the session
-					xfbml : true // parse XFBML
-				});
-
-
-			};
-
-			// Load the SDK asynchronously
-			( function(d) {
-					var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-					if (d.getElementById(id)) {
-						return;
-					}
-					js = d.createElement('script');
-					js.id = id;
-					js.async = true;
-					js.src = "//connect.facebook.net/en_US/all.js";
-					ref.parentNode.insertBefore(js, ref);
-				}(document));
-
-		</script>
-	</body>
+	<body></body>
 </html>

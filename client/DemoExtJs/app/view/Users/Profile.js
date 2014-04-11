@@ -69,6 +69,7 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 	title : 'Profile',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	bodyPadding : 5,
+	autoScroll : true,
 	items : [{
 		xtype : 'avatar',
 		title : 'Fotografia'
@@ -184,6 +185,6 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 	}, {
 		xtype : 'panel',
 		title : 'Localização'
-	}],
+	}]
 
 });

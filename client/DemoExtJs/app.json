@@ -1,8 +1,8 @@
 {
-    "name": "DemoExtJs",
+	"name":"DemoExtJs",
+	"requires":[
+		
+	],
 
-    "requires": [
-    ],
-
-    "id": "10e238ac-188d-49dc-a154-8faa5e268372"
+	"id":"10e238ac-188d-49dc-a154-8faa5e268372"
 }

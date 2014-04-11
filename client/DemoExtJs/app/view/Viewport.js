@@ -14,6 +14,8 @@ Ext.define('DemoExtJs.view.Viewport', {
 		region : 'center',
 		xtype : 'tabpanel',
 		items : [{
+			xtype : 'app-main-map-panel'
+		}, {
 			xtype : 'grid-actions'
 		}, {
 			xtype : 'method-call'

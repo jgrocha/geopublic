@@ -50,6 +50,15 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			"login form button#entrar" : {
 				click : this.onButtonClickEntrar
 			},
+			"login form button#google" : {
+				click : this.onButtonClickFacebook
+			},
+			"login form button#facebook" : {
+				click : this.onButtonClickFacebook
+			},
+			"login form button#windows" : {
+				click : this.onButtonClickFacebook
+			},
 			"login form button#cancelar" : {
 				click : this.onButtonClickCancelar
 			},
@@ -93,6 +102,8 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		if (DemoExtJs.LoggedInUser) {
 			DemoExtJs.LoggedInUser = null;
 		}
+		// Tirar alguma fotografia que haja
+		this.getBotaoLogin().setIcon('');
 	},
 	onLogin : function() {
 		console.log('Vamos reagir ao evento loginComSucesso');
@@ -103,6 +114,17 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		}
 		// Mostra o menu, só por curiosidade...
 		// this.getBotaoMenu().showMenu();
+		var login = this.getLoginPanel();
+		if (login) {
+			login.close();
+		}
+		// Se foi login pelo facebook, devíamos mudar o botão/ação de logout
+
+		// por a fotografia
+		// http://localhost/extjs/docs/index.html#!/api/Ext.button.Button-method-setIcon
+		if (DemoExtJs.LoggedInUser.data.fotografia && DemoExtJs.LoggedInUser.data.fotografia.trim() !== '') {
+			this.getBotaoLogin().setIcon(DemoExtJs.LoggedInUser.data.fotografia);
+		}
 	},
 	onButtonLastAccess : function(button, e, options) {
 		Ext.Msg.show({
@@ -140,6 +162,14 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	onButtonMenu : function(button, e, options) {
 		console.log('onButtonMenu');
 	},
+	onButtonClickFacebook : function(button, e, options) {
+		console.debug(button.itemId);
+		hello(button.itemId).login({
+			scope : "email"
+		}, function() {
+			console.log('hello("' + button.itemId + '").login');
+		});
+	},
 	onButtonClickPerfil : function(button, e, options) {
 		console.log('Vamos mostrar e permitir atualizar o perfil do utilizador');
 		var mainPanel = this.getPainelPrincipal();
@@ -176,25 +206,32 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				// you can grab useful info from event
 				console.log('Invoquei ExtRemote.DXFormTest.testMe');
 			});
+			if (DemoExtJs.LoggedInUser["login"]) {
+				console.log("Fez login por " + DemoExtJs.LoggedInUser["login"]);
+			}
 		}
 	},
 
 	onButtonClickLogout : function(button, e, options) {
 		var me = this;
 		console.log('logout!');
-		ExtRemote.DXLogin.deauthenticate({}, function(result, event) {
-			// result == event.result
-			console.debug(result);
-			// console.debug(event);
-			if (result.success) {
-				Ext.Msg.alert(result.message);
-				// Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
-				DemoExtJs.LoggedInUser = null;
-				me.application.fireEvent('logoutComSucesso');
-			} else {
-				Ext.Msg.alert('Something wrong with logout', Ext.encode(result));
-			}
-		});
+		if (DemoExtJs.LoggedInUser["login"] && DemoExtJs.LoggedInUser["login"] !== "local") {
+			console.log("Fez login por " + DemoExtJs.LoggedInUser["login"]);
+			// FB.logout();
+			hello(DemoExtJs.LoggedInUser["login"]).logout(function() {
+				console.log("Signed out");
+			});
+		} else {
+			console.log("Fez login normal");
+			ExtRemote.DXLogin.deauthenticate({}, function(result, event) {
+				if (result.success) {
+					Ext.Msg.alert(result.message);
+					me.application.fireEvent('logoutComSucesso');
+				} else {
+					Ext.Msg.alert('Something wrong with logout', Ext.encode(result));
+				}
+			});
+		}
 	},
 
 	onButtonClickSendLostPassword : function(button, e, options) {
@@ -277,13 +314,14 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 					// We have a valid user data
 					Ext.Msg.alert('Successul login', Ext.encode(result));
 					DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
+					DemoExtJs.LoggedInUser["login"] = "local";
 					/*
 					 * se remember, altero o cookie para sobreviver mais tempo
 					 * se o cookie sobreviver, ele será loginado na próxima vez
 					 * não preciso de usar o local storage ou qualquer outro cookie
 					 */
 					me.application.fireEvent('loginComSucesso');
-					login.close();
+					// login.close(); // passou para o evento
 				} else {
 					Ext.Msg.alert('Invalid login', Ext.encode(result));
 				}

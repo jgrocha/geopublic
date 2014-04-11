@@ -11,12 +11,14 @@ Ext.define('DemoExtJs.view.TopHeader', {
 		xtype : 'button',
 		text : 'New user',
 		icon : 'resources/assets/plus-circle.png',
-		itemId : 'botaoRegisto'
+		itemId : 'botaoRegisto',
+		scale : 'medium'
 	}, {
 		xtype : 'splitbutton',
 		text : 'Log in',
 		itemId : 'botaoLogin',
 		resizable : true,
+		scale : 'medium',
 		menu : [{
 			text : 'Last access',
 			itemId : 'botaoLastAccess'
