@@ -3,15 +3,20 @@ var db = global.App.database;
 var DXSessao = {
 	//callback as last argument is mandatory
 	read : function(params, callback, sessionID, request) {
-		var userid = request.session.userid;		
 		console.log('DXSessao.read Session ID = ' + sessionID);
+		// Estou a passar o userid, embora seja desnecessário
+		console.log(params);
+		// { userid: 31, page: 1, start: 0, limit: 5 }
+		var userid = request.session.userid;
 		if (request.session.userid) {
-			console.log('Utilizador = ' + request.session.userid);
+			console.log('Utilizador = ' + request.session.userid + ' == ' + userid);
 		} else {
 			console.log('Sem utilizador');
 		}
 		var conn = db.connect();
-		var sql = 'SELECT * FROM ' + table, where = " WHERE userid = '" + userid + "'";
+		var sql = 'SELECT * FROM ' + table;
+		var where = " WHERE userid = '" + userid + "'";
+		sql += where;
 		//filtering. this example assumes filtering on 1 field, as multiple field where clause requires additional info e.g. chain operator
 		if (params.filter) {
 			where = " AND " + params.filter[0].property + " LIKE '%" + params.filter[0].value + "%'";
@@ -21,10 +26,11 @@ var DXSessao = {
 		// this sample implementation supports 1 sorter, to have more than one, you have to loop and alter query
 		if (params.sort) {
 			var s = params.sort[0];
-			sql = sql + ' ORDER BY ' + s.property + ' ' + s.direction;
+			sql += ' ORDER BY ' + s.property + ' ' + s.direction;
 		}
 		// Paging
-		sql = sql + ' LIMIT ' + params.limit + ' OFFSET ' + params.start;
+		sql += ' LIMIT ' + params.limit + ' OFFSET ' + params.start;
+		console.log(sql);
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);

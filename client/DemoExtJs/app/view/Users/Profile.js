@@ -9,7 +9,7 @@ Ext.define('DemoExtJs.view.Avatar', {
 		submit : 'ExtRemote.DXFormTest.filesubmit'
 	},
 
-	paramOrder : ['uid'],
+	// paramOrder : ['uid'],
 
 	/*
 	 * The Profile Image dimensions are 160px by 160px!
@@ -18,10 +18,12 @@ Ext.define('DemoExtJs.view.Avatar', {
 	items : [{
 		xtype : 'imagecomponent',
 		src : 'resources/images/Man-Silhouette-Clip-Art-160.jpg',
+		itemId : 'imagecomponent160',
 		height : 160
 	}, {
 		xtype : 'imagecomponent',
 		src : 'resources/images/Man-Silhouette-Clip-Art-32.jpg',
+		itemId : 'imagecomponent32',
 		height : 32
 	}, {
 		xtype : 'filefield',
@@ -34,6 +36,10 @@ Ext.define('DemoExtJs.view.Avatar', {
 		buttonText : 'Select Photo...'
 	}],
 	bbar : [{
+		xtype : 'button',
+		itemId : 'upload',
+		text : 'Enviar'
+	}, {
 		text : 'Upload..',
 		handler : function(btn) {
 
@@ -75,6 +81,7 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 		title : 'Fotografia'
 	}, {
 		xtype : 'form',
+		itemId : 'dados',
 		trackResetOnLoad : true, // saber que fields estão dirty
 		title : 'Dados',
 		items : [{
@@ -165,7 +172,7 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 				pack : 'end',
 				type : 'hbox'
 			},
-			items : [{
+			items : [ /*{
 				xtype : 'button',
 				itemId : 'carregar',
 				text : 'Carregar'
@@ -173,7 +180,7 @@ Ext.define('DemoExtJs.view.Users.Profile', {
 				xtype : 'button',
 				itemId : 'cancelar',
 				text : 'Cancelar'
-			}, {
+			}, */ {
 				xtype : 'button',
 				itemId : 'gravar',
 				formBind : true,

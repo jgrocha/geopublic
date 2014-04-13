@@ -8,9 +8,10 @@ Ext.define('DemoExtJs.model.Sessao', {
 		name : 'datalogin',
 		type : 'date'
 	}, /*{
-		name : 'datalogout',
-		type : 'date'
-	}, */ {
+	 name : 'datalogout',
+	 type : 'date'
+	 }, */
+	{
 		name : 'ip',
 		type : 'string'
 	}, {
@@ -19,11 +20,11 @@ Ext.define('DemoExtJs.model.Sessao', {
 	}, {
 		name : 'browser',
 		type : 'string'
-	}, {
-		name : 'sisoperativo',
-		type : 'string'
-	}
-	/*{
+	} /*, {
+	 name : 'sisoperativo',
+	 type : 'string'
+	 }
+	 {
 	 name : 'ativo',
 	 type : 'boolean'
 	 }*/],

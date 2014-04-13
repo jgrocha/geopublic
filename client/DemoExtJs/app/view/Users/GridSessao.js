@@ -1,4 +1,4 @@
-Ext.define('DemoExtJs.view.GridSessao', {
+Ext.define('DemoExtJs.view.Users.GridSessao', {
 	extend : 'Ext.container.Container',
 	xtype : 'grid-sessao',
 	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action'],
@@ -47,12 +47,13 @@ Ext.define('DemoExtJs.view.GridSessao', {
 			 }
 			 */
 		}, /* {
-			dataIndex : 'datalogout',
-			xtype : 'datecolumn',
-			text : 'Logout date',
-			format : 'Y-m-d H:i:s',
-			width : 140
-		}, */ {
+		 dataIndex : 'datalogout',
+		 xtype : 'datecolumn',
+		 text : 'Logout date',
+		 format : 'Y-m-d H:i:s',
+		 width : 140
+		 }, */
+		{
 			dataIndex : 'ip',
 			text : 'IP address',
 			width : 120
@@ -64,10 +65,10 @@ Ext.define('DemoExtJs.view.GridSessao', {
 			dataIndex : 'browser',
 			text : 'Browser',
 			flex : 1
-		}, {
-			dataIndex : 'sisoperativo',
-			text : 'Sistema operativo',
-			width : 120
-		}]
+		} /*, {
+		 dataIndex : 'sisoperativo',
+		 text : 'Sistema operativo',
+		 width : 120
+		 } */]
 	}]
 });

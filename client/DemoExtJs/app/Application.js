@@ -2,7 +2,7 @@ Ext.define('DemoExtJs.Application', {
 	name : 'DemoExtJs',
 	requires : ['DemoExtJs.DirectAPI', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map'],
 	extend : 'Ext.app.Application',
-	views : ['MainMapPanel', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'GridSessao', 'Users.Profile'],
+	views : ['MainMapPanel', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile'],
 	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel'],
 	models : ['TodoItem', 'Utilizador', 'Sessao'],
 	stores : ['Todo', 'Tree', 'Sessao'],
@@ -85,9 +85,9 @@ Ext.define('DemoExtJs.Application', {
 
 				// console.log(DemoExtJs.LoggedInUser);
 				me.fireEvent('loginComSucesso');
-			} else {
-				me.fireEvent('logoutComSucesso');
-			}
+			} /* else {
+			 me.fireEvent('logoutComSucesso');
+			 } */
 		});
 
 	}

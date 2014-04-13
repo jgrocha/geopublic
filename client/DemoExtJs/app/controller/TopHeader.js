@@ -3,6 +3,7 @@
  */
 Ext.define('DemoExtJs.controller.TopHeader', {
 	extend : 'Ext.app.Controller',
+	stores : ['Sessao'], // getSessaoStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
 		selector : 'topheader button#botaoLogin',
@@ -87,6 +88,28 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			loginComSucesso : this.onLogin,
 			logoutComSucesso : this.onLogout
 		});
+		// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Server-event-exception
+		this.getSessaoStore().proxy.addListener("exception", function(proxy, response, operation, eOpts) {
+			var resultado = Ext.JSON.decode(response.responseText);
+			Ext.Msg.show({
+				title : 'Erro',
+				msg : resultado.errors.reason,
+				icon : Ext.Msg.ERROR,
+				buttons : Ext.Msg.OK
+			});
+			// this.getGruposStore().rejectChanges();
+		}, this);
+		this.getSessaoStore().proxy.addListener("load", this.onSessaoStoreLoad, this);
+	},
+	onSessaoStoreLoad : function(proxy, records, successful, eOpts) {
+		if (!successful) {
+			Ext.MessageBox.show({
+				title : 'Data Load Error',
+				msg : 'The data encountered a load error, please try again in a few minutes.'
+			});
+		} else {
+			console.log(records.length + ' registos foram devolvidos');
+		}
 	},
 	onLaunch : function() {
 		var me = this;
@@ -127,13 +150,14 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		}
 	},
 	onButtonLastAccess : function(button, e, options) {
-		Ext.Msg.show({
-			title : 'Registo de entradas',
-			msg : 'Falta abrir o store, que tem o auo a off.',
-			icon : Ext.Msg.INFO,
-			buttons : Ext.Msg.OK
-		});
-
+		/*
+		 Ext.Msg.show({
+		 title : 'Registo de entradas',
+		 msg : 'Falta abrir o store, que tem o auo a off.',
+		 icon : Ext.Msg.INFO,
+		 buttons : Ext.Msg.OK
+		 });
+		 */
 		var mainPanel = this.getPainelPrincipal();
 		var newTab = mainPanel.items.findBy(function(tab) {
 			return tab.title === 'Last access';
@@ -145,6 +169,9 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 					closable : true,
 					title : 'Last access'
 				});
+				// perfeito! Não serve para nada, pois no servidor uso o userid da sessão
+				this.getSessaoStore().proxy.setExtraParam("userid", DemoExtJs.LoggedInUser.data.id);
+				this.getSessaoStore().load();
 			} else {
 				console.log("Erro! The class " + 'widget.grid-sessao' + " does not exist!");
 			}
