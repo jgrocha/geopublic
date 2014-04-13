@@ -4,9 +4,10 @@ if (!global['App']) {
 	global.App = {};
 }
 var express = require('express'), nconf = require('nconf'), http = require('http'), path = require('path'), extdirect = require('extdirect'), db = require('./server-db');
-var crypto = require('crypto');
+
 var templatesDir = path.resolve(__dirname, 'templates'), emailTemplates = require('email-templates'), nodemailer = require('nodemailer');
-var generatePassword = require('password-generator');
+
+var routes = require('./routes');
 
 nconf.env().file({
 	file : 'server-config.json'
@@ -24,6 +25,7 @@ var transport = nodemailer.createTransport("SMTP", {
 		pass : "79colemil"
 	}
 });
+
 global.App.transport = transport;
 global.App.templates = templatesDir;
 
@@ -68,9 +70,20 @@ app.configure(function() {
 		app.use(express.session({
 			secret : ServerConfig.sessionSecret,
 			store : store
+			// mesmo depois de fechar o browser Chrome, a sessionID continua a ser a mesma!
+			// Não, não. No Ubuntu, o chrome continua ligado! É preciso fechá-lo na barra superior.
+			// no Firefox está tudo bem
+			// cookie: { maxAge: null }
 		}));
 	}
 	app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
+
+	app.set('views', path.join(__dirname, 'views'));
+	app.set('view engine', 'jade');
+	// ~/bin/favicon.sh traffic-cone-icon-512.png favicon.ico
+	// cp favicon.ico ~/git/extdirect.examples/client/DemoExtJs
+	// app.use(express.favicon());
+	app.use(express.favicon(path.join(__dirname, 'public/resources/images/favicon.ico')));
 });
 
 //CORS Supports
@@ -84,7 +97,7 @@ if (ServerConfig.enableCORS) {
 		res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders);
 		//specify headers
 		res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials);
-		//include cookies as part of the request if set to true
+		//include node.jss as part of the request if set to true
 		res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge);
 		//prevents from requesting OPTIONS with every server-side call (value in seconds)
 
@@ -114,106 +127,8 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
  * Using this strategy, the user does not see/uses the parameters in the application URL
  */
 
-// app.get('/registo/:id', loadUser, function(req, res, next) {
-app.get('/registo/:id', function(req, res, next) {
-	console.log('/registo/' + req.params.id);
-	// o parametro é só para informar a interface
-	// para de poder dar um feedback ao utilizador
-	var pg = global.App.database;
-	var conn = pg.connect();
-	// var sql = "UPDATE utilizador SET datamodificacao = now(), emailconfirmacao = true, token=null where token = '" + req.params.id + "'";
-	var sql = "UPDATE utilizador SET datamodificacao = now(), ativo = true, emailconfirmacao = true where token = '" + req.params.id + "'";
-	conn.query(sql, function(err, updateResult) {
-		console.log(updateResult);
-		pg.disconnect(conn);
-		// release connection
-		if (err || updateResult.rowCount == 0) {
-			console.log('UPDATE =' + sql + ' Error: ' + err);
-			res.redirect('?action=registo&error=A query pelo token falhou');
-		} else {
-			res.redirect('?action=registo');
-		}
-	});
-});
-
-app.get('/reset/:id', function(req, res, next) {
-	console.log('/reset/' + req.params.id);
-	/*
-	 * http://development.localhost.lan/reset/e4a247b6dbd054cadfe00857ae0717c625c031184d58db9e7078aa46f1788956
-	 * Se apareceu este URL, é porque o utilizador clicou num link que recebeu com o reset da password
-	 * Fazemos o seguinte:
-	 * i) verificar que existe o token e qual o utilizador/email associado
-	 * ii) gerar uma nova password
-	 * ii) enviar novo email com uma nova password (que ele depois pode mudar no perfil)
-	 */
-	var pg = global.App.database;
-	var conn = pg.connect();
-	var sql = "select * from utilizador where token = '" + req.params.id + "'";
-	conn.query(sql, function(err, result) {
-		if (err) {
-			console.log('SQL =' + sql + ' Error: ' + err);
-			// encodeURIComponent()
-			res.redirect('?action=reset&error=' + encodeURIComponent('A query pelo token falhou'));
-		} else {
-			if (result.rowCount == 0) {
-				res.redirect('?action=reset&error=' + encodeURIComponent('O token não existe'));
-			} else {
-				var newpassword = generatePassword();
-				var shasum = crypto.createHash('sha1');
-				shasum.update(newpassword);
-				var encrypted = shasum.digest('hex');
-				// token should be removed, to prevent duplicated tokens
-				var sqlUpdate = "UPDATE utilizador SET datamodificacao = now(), token = NULL, password = '" + encrypted + "' where token = '" + req.params.id + "'";
-				conn.query(sqlUpdate, function(err, updateResult) {
-					pg.disconnect(conn);
-					// release connection
-					if (err || updateResult.rowCount == 0) {
-						console.log('UPDATE =' + sqlUpdate + ' Error: ' + err);
-						res.redirect('?action=reset&error=Erro ao atualizar o utilizador com a nova senha');
-					} else {
-						var locals = {
-							email : 'info@jorge-gustavo-rocha.pt',
-							subject : 'Nova senha de acesso',
-							saudacao : 'Caro',
-							name : 'Gustavo Rocha',
-							password : newpassword,
-							callback : function(err, responseStatus) {
-								if (err) {
-									console.log(err);
-								} else {
-									console.log(responseStatus.message);
-								}
-								res.redirect('?action=reset');
-								transport.close();
-							}
-						};
-						emailTemplates(templatesDir, function(err, template) {
-							if (err) {
-								console.log(err);
-							} else {
-								template('password', locals, function(err, html, text) {
-									if (err) {
-										console.log(err);
-									} else {
-										transport.sendMail({
-											// from : 'Jorge Gustavo <jorgegustavo@sapo.pt>',
-											to : locals.email,
-											subject : locals.subject,
-											html : html,
-											// generateTextFromHTML: true,
-											text : text
-										}, locals.callback);
-									}
-								});
-							}
-						});
-
-					}
-				});
-			}
-		}
-	});
-});
+app.get('/registo/:id', routes.registo(global.App.database));
+app.get('/reset/:id', routes.reset(global.App.database));
 
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function(request, response) {

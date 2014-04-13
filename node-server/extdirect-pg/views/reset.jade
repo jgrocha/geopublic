@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Reposição da senha
+    
+  if user
+    p. Bem vindo, #{user.name}
+    p. 
+      Foi-lhe atribuída uma nova senha, que foi encaminhada para #{user.email}. 
+      Pode autenticar-se com este email e com a nova senha que recebeu.
+    p No site pode alterar a senha atribuída para uma outra mais fácil de memorizar.
+  else
+    p. 
+      Algo de errado aconteceu. 
+      Este pedido de reposição de senha provavelmente é antigo.
+    p Lamentamos, mas tem que voltar a pedir uma nova senha, se não está a conseguir entrar no site.
+    
+  p Seguir para o 
+    a(href='#{site}') site

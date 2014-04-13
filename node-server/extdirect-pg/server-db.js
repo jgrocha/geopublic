@@ -4,6 +4,10 @@ var conString = "postgres://geobox:geobox@localhost/extdirectnode";
 // var conString = "postgres://readonly:readonly@localhost/extdirectnode";
 
 var myPG = {
+	
+	// cf. https://github.com/brianc/node-postgres
+	// change to client pooling...
+	
 	connect : function() {
 		var client = new pg.Client(conString);
 		client.connect(function(err) {

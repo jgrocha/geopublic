@@ -30,12 +30,12 @@ Ext.define('DemoExtJs.view.Users.LostPassword', {
 		},
 		items : [{
 			xtype : 'label',
-			text : 'Introduza o endereço de email que usa.',
+			text : 'Introduza o endereço de email com que se registou.',
 			style : 'display:block; padding:10px 0px 0px 0px' // top right bottom left
 		}, {
 			xtype : 'label',
 			forId : 'email',
-			text : 'Irá receber instruções nesse no email que lhe vamos enviar.',
+			text : 'Irá receber nesse email as instruções necessárias.',
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			name : 'email',

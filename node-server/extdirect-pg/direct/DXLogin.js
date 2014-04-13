@@ -159,7 +159,7 @@ var DXLogin = {
 		console.log(request.session);
 		if (request.session.userid && request.session.userid > 0) {
 			var conn = db.connect();
-			var sql = "UPDATE sessao SET datalogout = now(), ativo = false where userid = " + request.session.userid + " and sessionid = '" + sessionID + "'";
+			var sql = "UPDATE sessao SET datalogout = now() where userid = " + request.session.userid + " and sessionid = '" + sessionID + "'";
 			conn.query(sql, function(err, updateResult) {
 				db.disconnect(conn);
 				// release connection
@@ -170,6 +170,8 @@ var DXLogin = {
 					// este session destroy é assíncrono, claro
 					// os dados da sessão estão num store e é preciso algum tempo para atualizar o store
 					request.session.destroy(function(err) {
+						// se o cookie tiver sido alterado anteriormente, volta a pô-lo a null
+						// o cookie só dura durante a sessão do browser, com maxAge: null
 						if (err) {
 							console.log('Error destroying session: ' + err);
 						} else {
@@ -204,6 +206,7 @@ var DXLogin = {
 				subject : 'Registo',
 				saudacao : 'Caro(a)',
 				name : name,
+				site : 'http://' + request.headers.host,
 				token : token,
 				callback : function(err, responseStatus) {
 					if (err) {
@@ -349,6 +352,7 @@ var DXLogin = {
 									saudacao : result.rows[0].masculino ? 'Caro' : 'Cara',
 									name : result.rows[0].nome,
 									token : token,
+									site: 'http://' + request.headers.host,
 									callback : function(err, responseStatus) {
 										if (err) {
 											callback({
@@ -613,8 +617,6 @@ var DXLogin = {
 };
 
 module.exports = DXLogin;
-
-// ERRO! não estou a atribuir o seesionid
 
 // https://apis.live.net/v5.0/1a701f6273d6dd43/picture?access_token=EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAXUO/xd7+r2/Pj/+Ucxm+KYx9anFViAGsoaDARbG3OFfGLWW4kIFZDIVbNMdyBPc9pihY7XGpIKYB/QSTJy/21C46Nxjp6PM984ayzwg+z5E44ja97pRAIUOH0wZZ87u4TSOQQ/H3N6czztOftfnANRYUTChFIuavE5vf7peaskvFggiOysR7uuhzPlu90ngdlHMGx9uMxdwB7zIQ1BTs3uEkYdH8bG2lM//CC2+jWm8dVhPGJ7IoiRfZOBkPNdsS4Fe9vPOyg5/4Emi4Sr8u+VhMZOr2Arcma5+NheSIQaCTLyLXvqi3fzgBYsKqtEiIGP6G4hYTEkkj0fIX/y785sDZgAACLbgSUskcijgSAHG+bK7JgRrEmYxHzr4lVqdXM36WjWveDciicihofhlBRgl/yzFziy7tAzdU2KakjgPeVkNofD7GLwOCUN8i6OsnRGQHZD5yBJeQKFkLRDNk+TZ4D0LF/KU7FR3eoNjDLjngdsh7RD/25PEy8zaZgkguImgqxltusxwEJIh5Qka+XvaVPEQg6qhBnbkBM4hcGzQTWm3npQKVB/H7khmZn63ZmU6L8L9ISFaJTKDLmjGz7xG6BycxgI+8fDDH65fCxcZaIux5pPBk1ABAy+XGlWjvAJuEmt081O+W48csXNYznG7oowT4LBysnSHo1pOv98fTi6O/DIUPepCC48Mh3lFSoRYJ+eHCa/9dWfYV+oe4vMNzvQ1QCBNjgSKqJjy3nRYjL0N2AVLE3MostAhxBvNvzZPI+m+1xDc8IaHCqKMSt+dgT0HQi2fTwE=
 // https://apis.live.net/v5.0/1a701f6273d6dd43/picture?access_token=EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAQAyhV+UpMhuoPFea22da+qMnxzfYomGxEBVNnyosi+B7ezMPY/mW2RXuZyDNk3lqj2V48qDUChdPGsJg/prtv6QkNnxDIH7SX/080m2JHkVrb315KB8ip684S+ungduORuUZ+8R9cP8JfZ9V/NRcAwxEUDff0PH6n0qGFc6A7DUTrBFBV2mB6S+G7YwNDgIF1b/s6oHzOiZleSqwfAIqkML1fck5ajSUtFUwWVjnop5130XLRgRqY4bLQByE6ydMKwBdikOx0cAsnGoFQmDOOa7Q49nNKhcrQdneHo3caSn+avvZ9HgipXDLP8U7N7mk94EiG/AIJRzTKbbFKTbZpYDZgAACI47Pnu8EFA/SAE1oD293TFkVDbzCaY4ZBkqm2adbtYKrkvjbvVGDhMUuvGF5iEPkWqnMS+ksRVxhDTRzMXjCX7AP2EMN0nN+z1o/6lPd2g0DAMXi+siOL6VCZhFecLJ84p+stj/IEFfqsvuV7MuGoyMG3MMD/u2CHWniP/dsmIb0RYX6H2sSQ/H/76hBUWFuhgvhQrHJqsDJNQUDoKg5mBYG2wCPFCs/qCmgnRPSwxSJcADQbpaPTroCZjP5oAQ1wZG/4yWH3OuysslGoyfAzxOx76f+MGQfUBzSbxRveM7bCyhgA1mUp54lZxLd3mM6RTzM2OoUg+6cZoxR+AdkZmp5VDCPnmzeM6X1v1G8nHgJGBMUD04zzKiSDmCFWVR1wV8tsu1QjTWUqU+sOCgjslLc7GqTCPIZRrmq18RG+qQsOheDhRo45UQ4+dRNO1+FnawTwE=

@@ -246,7 +246,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				email : email
 			}, function(result, event) {
 				if (result.success) {
-					Ext.Msg.alert('Successul', Ext.encode(result) + '<br/>' + 'Foi enviado um email para ' + email);
+					Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
 				} else {
 					Ext.Msg.alert('Problems with password', result.message);
 				}
@@ -276,9 +276,9 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				console.debug(result);
 				// console.debug(event);
 				if (result.success) {
-					Ext.Msg.alert('Successul registered', Ext.encode(result) + '<br/>' + 'Foi enviado um email para ' + email);
+					Ext.Msg.alert('Successul registered', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
 				} else {
-					Ext.Msg.alert('Problems with registration', Ext.encode(result));
+					Ext.Msg.alert('Problems with registration', result.message);
 				}
 				registo.close();
 			});

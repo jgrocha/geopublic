@@ -1,8 +1,9 @@
 <h3><%= saudacao %> <%= name %>,</h3>
 
-<p>Obrigado por se registar.</p>
+<p>Obrigado por se registar em <a href="<%= site %>"><%= site %></a>.</p>
 
-<p><a href="http://development.localhost.lan/registo/<%= token %>">Confirme que recebeu esta mensagem</a>. Só depois poderá usar o email 
-e a senha que escolheu para se autenticar.</p>
+<p>Para completar o registo, siga a ligação seguinte para confirmar que recebeu esta mensagem.</p>
 
-<p>Votos de um bom dia!</p>
+<p><a href="<%= site %>/registo/<%= token %>"><%= site %>/registo/<%= token %></a></p>
+
+<p>Bem vindo!</p>
