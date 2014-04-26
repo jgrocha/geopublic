@@ -6,6 +6,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	stores : ['Sessao'], // getSessaoStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
+		// selector : 'topheader splitbutton',
 		selector : 'topheader button#botaoLogin',
 		ref : 'botaoLogin' // gera um getBotaoLogin
 	}, {
@@ -15,8 +16,8 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		selector : 'topheader button#botaoRegisto',
 		ref : 'botaoRegisto' // gera um getBotaoRegisto
 	}, {
-		selector : 'topheader splitbutton',
-		ref : 'botaoMenu' // gera um getBotaoMenu
+		selector : 'topheader splitbutton menu',
+		ref : 'loginMenu' // gera um getLoginMenu
 	}, {
 		selector : 'login',
 		ref : 'loginPanel' // gera um getLoginPanel
@@ -114,29 +115,31 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 	onLaunch : function() {
 		var me = this;
 		console.log('...O controlador arrancou.');
-		this.getBotaoMenu().menu.disable();
+		this.getBotaoLogin().menu.disable();
 	},
 	onLogout : function() {
 		console.log('Vamos reagir ao evento logoutComSucesso');
 		this.getBotaoRegisto().setDisabled(false);
 		this.getBotaoLogin().setText('Iniciar sessão');
-		this.getBotaoMenu().menu.disable();
+		// Tirar alguma fotografia que haja
+		this.getBotaoLogin().setIcon('');
+		this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
+		this.getBotaoLogin().menu.disable();
 		// eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
 		if (DemoExtJs.LoggedInUser) {
 			DemoExtJs.LoggedInUser = null;
 		}
-		// Tirar alguma fotografia que haja
-		this.getBotaoLogin().setIcon('');
 	},
 	onLogin : function() {
 		console.log('Vamos reagir ao evento loginComSucesso');
 		this.getBotaoRegisto().setDisabled(true);
 		if (DemoExtJs.LoggedInUser) {
 			this.getBotaoLogin().setText(DemoExtJs.LoggedInUser.data.nome);
-			this.getBotaoMenu().menu.enable();
+			this.getBotaoLogin().menu.enable();
+			this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
 		}
 		// Mostra o menu, só por curiosidade...
-		// this.getBotaoMenu().showMenu();
+		// this.getBotaoLogin().showMenu();
 		var login = this.getLoginPanel();
 		if (login) {
 			login.close();
@@ -147,6 +150,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		// http://localhost/extjs/docs/index.html#!/api/Ext.button.Button-method-setIcon
 		if (DemoExtJs.LoggedInUser.data.fotografia && DemoExtJs.LoggedInUser.data.fotografia.trim() !== '') {
 			this.getBotaoLogin().setIcon(DemoExtJs.LoggedInUser.data.fotografia);
+			this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
 		}
 	},
 	onButtonLastAccess : function(button, e, options) {

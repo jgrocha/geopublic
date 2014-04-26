@@ -30,18 +30,24 @@ var myPG = {
 		if (global.App.mode === 'development') {
 			fn({
 				success : false,
+				message : 'Database error'
+				/*
 				message : {
 					text : 'Database error',
 					debug : error
 				}
+				*/
 			});
 		} else {
 			fn({
 				success : false,
+				message : 'Unknown error'
+				/*
 				message : {
 					text : 'Unknown error',
 					debug : null
 				}
+				*/
 			});
 		}
 	}

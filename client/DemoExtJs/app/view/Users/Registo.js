@@ -1,16 +1,3 @@
-Ext.apply(Ext.form.field.VTypes, {
-	password : function(val, field) {
-		var formPanel = field.up('form'), pwd = formPanel.down('textfield[name=password]').getValue();
-		// console.log(val, field.name, pwd);
-		// consoante eu sou a password de cima ou de baixo, tenho que fazera comparação
-		// tenho que por este vtype em ambos os campos
-		return val == pwd;
-	},
-	passwordText : 'Passwords do not match'
-});
-
-// http://stackoverflow.com/questions/9704913/confirm-password-validator-extjs-4
-
 Ext.define('DemoExtJs.view.Users.Registo', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.registo',

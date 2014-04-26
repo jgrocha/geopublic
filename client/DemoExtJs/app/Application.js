@@ -2,10 +2,10 @@ Ext.define('DemoExtJs.Application', {
 	name : 'DemoExtJs',
 	requires : ['DemoExtJs.DirectAPI', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map'],
 	extend : 'Ext.app.Application',
-	views : ['MainMapPanel', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile'],
-	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel'],
-	models : ['TodoItem', 'Utilizador', 'Sessao'],
-	stores : ['Todo', 'Tree', 'Sessao'],
+	views : ['BemVindoPanel', 'MainMapPanel', 'Promotor', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile'],
+	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel', 'BemVindoPanel', 'Promotor'],
+	models : ['TodoItem', 'Utilizador', 'Sessao', 'Promotor'],
+	stores : ['Todo', 'Tree', 'Sessao', 'Promotor'],
 	init : function() {
 		var me = this;
 		hello.init({
@@ -57,6 +57,7 @@ Ext.define('DemoExtJs.Application', {
 		 console.log(arguments);
 		 });
 		 */
+
 	},
 	launch : function() {
 		var me = this;

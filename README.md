@@ -77,6 +77,59 @@ npm install
 nodemon server.js
 ```
 
+http://blog.nodejitsu.com/keep-a-nodejs-server-up-with-forever/
+
+### Apache
+
+Aplication: http://development.localhost.lan/ppgis/
+Ext Direct API: http://development.localhost.lan/node/directapi
+Ext Direct calls: http://development.localhost.lan/direct
+
+Maps: http://development.localhost.lan/mapproxy/tms
+
+```
+<VirtualHost *:80>
+	ServerAdmin jorge@di.uminho.pt
+	ServerName development.localhost.lan
+	CustomLog "|/usr/sbin/rotatelogs /home/jgr/etc/logs/access_log 2592000" combined
+	ErrorLog  "|/usr/sbin/rotatelogs /home/jgr/etc/errors/error_log 2592000"
+
+    # LoadModule wsgi_module modules/mod_wsgi.so
+    WSGIScriptAlias /mapproxy /home/jgr/mymapproxy/config.py
+    <Directory /home/jgr/mymapproxy/>
+      Order deny,allow
+      Allow from all
+    </Directory>
+    
+	ProxyRequests Off
+	# ProxyPreserveHost On
+	<Proxy *>
+		Order deny,allow
+		Allow from all
+	</Proxy>
+	<Location /ppgis>
+		ProxyPass http://localhost:3000
+		ProxyPassReverse http://localhost:3000
+	</Location>
+	<Location /direct>
+		ProxyPass http://localhost:3000/direct
+		ProxyPassReverse http://localhost:3000/direct
+	</Location>
+#	<Location />
+#		ProxyPass http://localhost:3000/
+#		ProxyPassReverse http://localhost:3000/
+#	</Location>
+        AddHandler cgi-script .cgi 
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+</VirtualHost>
+```
+
 ###Architect 3 sample project
 
     * check out example from the repository

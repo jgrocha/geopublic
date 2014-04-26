@@ -22,12 +22,13 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
-        "_server": "development.localhost.lan",
-        "_port": "80",
-        "server": "braga.dtdns.net",
-        "port": "3000",
+        "server": "development.localhost.lan",
+        "port": "80",
+        "_server": "braga.dtdns.net",
+        "_port": "3000",
         "protocol": "http",
-        "relativeUrl": false,
+        "relativeUrl": true,
+        "_relativeUrl": false,
         "appendRequestResponseObjects": true
     }
 }

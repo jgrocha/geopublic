@@ -61,3 +61,7 @@ Ext.require([
 
 Not managed by sencha app
 
+### MapProxy
+
+Está a ser utilizado o MapProxy para servir tiles do OpenStreetMap reprojetados no EPSG:3763.
+

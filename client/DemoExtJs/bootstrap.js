@@ -7,6 +7,8 @@
 Ext.Loader.addClassPathMappings({
   "DemoExtJs": "app",
   "DemoExtJs.view.Avatar": "app/view/Users/Profile.js",
+  "DemoExtJs.view.ChangePassword": "app/view/Users/Profile.js",
+  "DemoExtJs.view.Home": "app/view/Users/Profile.js",
   "Ext": "ext/src",
   "Ext.Msg": "ext/src/window/MessageBox.js",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
@@ -16,26 +18,34 @@ Ext.Loader.addClassPathMappings({
 Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.Application": [],
   "DemoExtJs.DirectAPI": [],
+  "DemoExtJs.controller.BemVindoPanel": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
   "DemoExtJs.view.Avatar": [],
+  "DemoExtJs.view.BemVindoPanel": [],
+  "DemoExtJs.view.ChangePassword": [],
   "DemoExtJs.view.Cookies": [],
   "DemoExtJs.view.FormActions": [],
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
-  "DemoExtJs.view.GridSessao": [],
+  "DemoExtJs.view.Home": [],
   "DemoExtJs.view.MainMapPanel": [],
   "DemoExtJs.view.MethodCall": [],
+  "DemoExtJs.view.Promotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.TreeActions": [],
+  "DemoExtJs.view.Users.GridSessao": [],
   "DemoExtJs.view.Users.Login": [],
   "DemoExtJs.view.Users.LostPassword": [],
   "DemoExtJs.view.Users.Profile": [],
@@ -1016,18 +1026,28 @@ Ext.ClassManager.addNameAlternateMappings({
 Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.Application": [],
   "DemoExtJs.DirectAPI": [],
+  "DemoExtJs.controller.BemVindoPanel": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
   "DemoExtJs.view.Avatar": [
     "widget.avatar"
+  ],
+  "DemoExtJs.view.BemVindoPanel": [
+    "widget.bem-vindo-panel"
+  ],
+  "DemoExtJs.view.ChangePassword": [
+    "widget.xpassword"
   ],
   "DemoExtJs.view.Cookies": [
     "widget.demo-cookies"
@@ -1041,8 +1061,8 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.GridActions": [
     "widget.grid-actions"
   ],
-  "DemoExtJs.view.GridSessao": [
-    "widget.grid-sessao"
+  "DemoExtJs.view.Home": [
+    "widget.home-map-panel"
   ],
   "DemoExtJs.view.MainMapPanel": [
     "widget.app-main-map-panel"
@@ -1050,11 +1070,17 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.MethodCall": [
     "widget.method-call"
   ],
+  "DemoExtJs.view.Promotor": [
+    "widget.grid-promotor"
+  ],
   "DemoExtJs.view.TopHeader": [
     "widget.topheader"
   ],
   "DemoExtJs.view.TreeActions": [
     "widget.tree-actions"
+  ],
+  "DemoExtJs.view.Users.GridSessao": [
+    "widget.grid-sessao"
   ],
   "DemoExtJs.view.Users.Login": [
     "widget.login"

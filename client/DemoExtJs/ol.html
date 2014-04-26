@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Multiple projections</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="http://svn.osgeo.org/metacrs/proj4js/trunk/lib/proj4js-compressed.js"></script>
+		<script src="http://spatialreference.org/ref/epsg/3763/proj4js/"></script>
+		<link rel="stylesheet" type="text/css" href="http://dev.openlayers.org/releases/OpenLayers-2.13.1/theme/default/style.css" />
+		<script src="http://dev.openlayers.org/releases/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+		<script>
+			var map = null;
+			function init() {
+				var options = {
+					controls : [new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
+					units : "m",
+					maxExtent : new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+					maxResolution : 156543.0399,
+					numZoomLevels : 19,
+					projection : "EPSG:900913",
+					displayProjection : new OpenLayers.Projection("EPSG:3763")
+				};
+				map = new OpenLayers.Map('map', options);
+				map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+
+				var bounds = new OpenLayers.Bounds(-119191.40749999962, -300404.80399999936, 162129.08110000013, 276083.7674000006);
+				var vector_layer = new OpenLayers.Layer.Vector("Point", {
+					units : "m",
+					projection : "EPSG:3763",
+					maxExtent : bounds,
+					maxResolution : 2251.90848203125
+				});
+				vector_layer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-22000, 108000), {
+					name : "foo",
+					description : "bar"
+				})]);
+				map.addLayer(vector_layer);
+
+				var fromProjection = map.displayProjection;
+				var toProjection = new OpenLayers.Projection("EPSG:900913");
+				var position = new OpenLayers.LonLat(-22000, 108000).transform(fromProjection, toProjection);
+				console.log(position);
+				map.setCenter(position, 8);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<div id='map' style='width: 400px; height: 500px;'></div>
+	</body>
+</html>

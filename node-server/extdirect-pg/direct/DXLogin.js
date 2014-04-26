@@ -23,7 +23,7 @@ var DXLogin = {
 		console.log(request.session);
 		if (request.session.userid) {
 			var conn = db.connect();
-			var sql = 'SELECT * FROM ' + table, where = '';
+			var sql = 'SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM ' + table, where = '';
 			where = " WHERE id = '" + request.session.userid + "' and ativo and emailconfirmacao";
 			sql += where;
 			conn.query(sql, function(err, resultUtilizador) {
@@ -98,7 +98,7 @@ var DXLogin = {
 				}
 			}
 			var conn = db.connect();
-			var sql = 'SELECT * FROM ' + table, where = '';
+			var sql = 'SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM ' + table, where = '';
 			where = " WHERE email = '" + email + "'  AND password = '" + password + "' and ativo and emailconfirmacao";
 			sql += where;
 
@@ -141,6 +141,7 @@ var DXLogin = {
 									request.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000;
 								}
 								request.session.userid = resultSelect.rows[0].id;
+								request.session.groupid = resultSelect.rows[0].idgrupo;
 								callback({
 									success : true,
 									message : 'Login valid and logged',
@@ -352,7 +353,7 @@ var DXLogin = {
 									saudacao : result.rows[0].masculino ? 'Caro' : 'Cara',
 									name : result.rows[0].nome,
 									token : token,
-									site: 'http://' + request.headers.host,
+									site : 'http://' + request.headers.host,
 									callback : function(err, responseStatus) {
 										if (err) {
 											callback({
@@ -405,18 +406,78 @@ var DXLogin = {
 			values.push(params[key]);
 			i = i + 1;
 		}
+		fields.push('datamodificacao = $' + i);
+		values.push('now()');
+
 		if (request.session.userid) {
 			var conn = db.connect();
 			conn.query('UPDATE ' + table + ' SET ' + fields.join() + ' WHERE id = ' + request.session.userid, values, function(err, result) {
-				db.disconnect(conn);
 				if (err) {
 					console.log('UPDATE =' + sql + ' Error: ' + err);
 					db.debugError(callback, err);
 				} else {
-					callback({
-						success : true,
-						message : 'User updated'
+					var sql = 'SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM utilizador where id = ' + request.session.userid;
+					conn.query(sql, function(err, resultSelect) {
+						db.disconnect(conn);
+						if (err) {
+							console.log('SQL=' + sql + ' Error: ', err);
+							db.debugError(callback, err);
+						} else {
+							callback({
+								success : true,
+								message : 'User updated',
+								data : resultSelect.rows
+							});
+						}
 					});
+
+				}
+			});
+		} else {
+			callback({
+				success : false,
+				message : 'User was not updated'
+			});
+		}
+	},
+	updateLocation : function(params, callback, sessionID, request, response) {
+		console.log('Session ID = ' + sessionID);
+
+		function isNumber(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		};
+
+		var updatestr = '';
+		if (isNumber(params.longitude) && isNumber(params.latitude)) {
+			updatestr = ' ponto = ST_SetSRID(ST_Point(' + params.longitude + ', ' + params.latitude + '),3763), ';
+		} else {
+			updatestr = ' ponto = NULL, ';
+		}
+		updatestr += 'datamodificacao = now() ';
+		console.log(updatestr);
+
+		if (request.session.userid) {
+			var conn = db.connect();
+			conn.query('UPDATE ' + table + ' SET ' + updatestr + ' WHERE id = ' + request.session.userid, function(err, result) {
+				if (err) {
+					console.log('UPDATE =' + sql + ' Error: ' + err);
+					db.debugError(callback, err);
+				} else {
+					var sql = 'SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM utilizador where id = ' + request.session.userid;
+					conn.query(sql, function(err, resultSelect) {
+						db.disconnect(conn);
+						if (err) {
+							console.log('SQL=' + sql + ' Error: ', err);
+							db.debugError(callback, err);
+						} else {
+							callback({
+								success : true,
+								message : 'User updated',
+								data : resultSelect.rows
+							});
+						}
+					});
+
 				}
 			});
 		} else {
@@ -449,15 +510,16 @@ var DXLogin = {
 	social : function(params, callback, sessionID, request, response) {
 		console.log('+1--------------------------------- facebook ---------------------------+');
 		console.log(params);
-		var network = 0; // facebook, google, windows 
+		var network = 0;
+		// facebook, google, windows
 		switch (params.network) {
-			case 'facebook': 
+			case 'facebook':
 				network = 1;
 				break;
-			case 'google': 
+			case 'google':
 				network = 2;
 				break;
-			case 'windows': 
+			case 'windows':
 				network = 3;
 				break;
 			default:
@@ -525,6 +587,7 @@ var DXLogin = {
 					db.debugError(callback, err);
 				} else {
 					request.session.userid = userid;
+					request.session.groupid = rows[0].idgrupo;
 					console.log("request.session.userid <-- ", userid);
 					callback({
 						success : true,
@@ -560,7 +623,7 @@ var DXLogin = {
 					db.debugError(callback, err);
 				} else {
 					console.log('resultInsert = ' + resultInsert.rows[0].id);
-					var sql = "SELECT * FROM utilizador WHERE id = " + resultInsert.rows[0].id;
+					var sql = "SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM utilizador WHERE id = " + resultInsert.rows[0].id;
 					conn.query(sql, function(err, result) {
 						if (err) {
 							db.debugError(callback, err);
@@ -583,7 +646,7 @@ var DXLogin = {
 		var host = '';
 
 		var conn = db.connect();
-		var sql = "SELECT * FROM utilizador WHERE email = '" + email + "'";
+		var sql = "SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM utilizador WHERE email = '" + email + "'";
 
 		console.log('+4--------------------------------- facebook ---------------------------+');
 		console.log('+sql ----------------------+' + sql);

@@ -92,5 +92,14 @@ Ext.define('DemoExtJs.model.Utilizador', {
 	}, {
 		name : 'ativo',
 		type : 'boolean'
+	}, {
+		name : 'latitude',
+		type : 'int',
+		useNull : true
+	}, {
+		// http://docs.sencha.com/extjs/4.1.3/#!/api/Ext.data.Field-cfg-useNull
+		name : 'longitude',
+		type : 'int',
+		useNull : true
 	}]
 });

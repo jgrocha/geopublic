@@ -8,7 +8,9 @@ Ext.define('DemoExtJs.DirectAPI', {
         wasLoading = Loader.isLoading;
 
     //Loading API
-    Loader.loadScriptFile('http://localhost:3000/directapi', Ext.emptyFn, Ext.emptyFn, null, true);
+    Loader.loadScriptFile('directapi', Ext.emptyFn, Ext.emptyFn, null, true);
+    // Loader.loadScriptFile('http://localhost:3000/directapi', Ext.emptyFn, Ext.emptyFn, null, true);
+    // http://development.localhost.lan/node/directapi
     Loader.isLoading = wasLoading;
     /*
      Add provider. Name must match settings on serverside

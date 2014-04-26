@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Multiple projections</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="resources/js/OpenLayers-2.13.1/theme/default/style.css" />
+		<script src="resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
+		<script type="text/javascript">
+			var map;
+			function init() {
+				var mapOptions = {
+					controls : [new OpenLayers.Control.MousePosition({
+						prefix : 'Coordenadas <a href="http://www.igeo.pt/produtos/Geodesia/inf_tecnica/sistemas_referencia/Datum_ETRS89.htm" target="_blank">PT-TM06/ETRS89</a>: ',
+						suffix : ' (long, lat)',
+						numDigits : 0
+					}), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
+					projection : new OpenLayers.Projection('EPSG:3763'),
+					maxResolution : 2251.90848203,
+					resolutions : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306], // , 0.0343613965153, 0.0171806982577, 0.00859034912883, 0.00429517456441],
+					units : 'm',
+					numZoomLevels : 16, // 20,
+					maxExtent : new OpenLayers.Bounds(-119191.407499, -300404.803999, 162129.0811, 276083.7674)
+				};
+				map = new OpenLayers.Map('map', mapOptions);
+				var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+					layername : 'mapquest/pt_tm_06',
+					type : 'png',
+					tileSize : new OpenLayers.Size(256, 256)
+				});
+				var layerMapnik = new OpenLayers.Layer.TMS('TMS osm', '/mapproxy/tms/', {
+					layername : 'osm/pt_tm_06',
+					type : 'png',
+					tileSize : new OpenLayers.Size(256, 256)
+				});
+
+				map.addLayers([layerQuest, layerMapnik]);
+
+				var markers = new OpenLayers.Layer.Markers("Markers");
+				map.addLayer(markers);
+
+				var size = new OpenLayers.Size(24, 24);
+				var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+				var icon = new OpenLayers.Icon('resources/images/heart24.png', size, offset);
+
+				map.events.register("click", map, function(e) {
+					var position = map.getLonLatFromPixel(e.xy);
+					markers.clearMarkers();
+					markers.addMarker(new OpenLayers.Marker(position, icon));
+					console.log(position);
+					me.getFormHome().getForm().setValues({
+						longitude : position.lon,
+						latitude : position.lat
+					});
+				});
+
+				/*
+				var ocorrencias = new OpenLayers.Layer.WMS("topp:ocorrencias - Untiled", "http://localhost:80/geoserver/topp/wms", {
+				transparent : 'true',
+				LAYERS : 'topp:ocorrencias',
+				STYLES : '',
+				format : 'image/png'
+				}, {
+				singleTile : true,
+				ratio : 1,
+				isBaseLayer : false,
+				yx : {
+				'EPSG:3763' : false
+				}
+				});
+				map.addLayer(ocorrencias);
+				*/
+				// map.zoomToExtent(new OpenLayers.Bounds(-128436.73, -301921.53, 174686.58, 277913.12));
+				map.setCenter(new OpenLayers.LonLat(-22461, 208612), 8);
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<div id='map' style='width: 400px; height: 500px;'></div>
+	</body>
+</html>

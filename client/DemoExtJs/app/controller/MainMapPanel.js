@@ -15,17 +15,20 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		// this = instância "DemoExtJs.controller.MainMapPanel"
 		var me = this;
+
 		var layers = [];
-		var map = mapPanel.map;
+		map = mapPanel.map;
 		// OpenLayers object creating
-		var wms = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0?", {
-			layers : 'basic'
+
+		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+			layername : 'mapquest/pt_tm_06',
+			type : 'png',
+			tileSize : new OpenLayers.Size(256, 256)
 		});
-		var osm = new OpenLayers.Layer.OSM("Simple OSM Map");
-		layers.push(osm);
-		map.addLayers(layers);
-		// map.setCenter(new OpenLayers.LonLat(-8.44561, 40.57744).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()), 12);		
-        // globals for dev purpose
+		layers.push(layerQuest);
+		map.addLayers(layers);		
+		map.setCenter(new OpenLayers.LonLat(-26557, 100814), 5);
+		
         mapDebug = map;
         mapPanelDebug = mapPanel;		
 	}
