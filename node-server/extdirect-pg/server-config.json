@@ -15,7 +15,6 @@
         "AccessControlAllowCredentials": true,
         "AccessControlMaxAge": 3600
     },
-
     "ExtDirectConfig": {
         "namespace": "ExtRemote",
         "apiName": "REMOTING_API",
@@ -23,12 +22,9 @@
         "classPath": "/direct",
         "classPrefix": "DX",
         "server": "development.localhost.lan",
-        "port": "80",
-        "_server": "braga.dtdns.net",
-        "_port": "3000",
+        "port": "3000",
         "protocol": "http",
-        "relativeUrl": true,
-        "_relativeUrl": false,
+        "relativeUrl": true,      
         "appendRequestResponseObjects": true
     }
 }

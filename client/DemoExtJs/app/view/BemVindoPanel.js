@@ -21,6 +21,18 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		items : [{
 			title : 'Outro Panel',
 			html : 'Ext.example.shortBogusMarkup'
+		}, {
+			xtype : 'combo',
+			itemId : 'promotor-bem-vindo-cbx',
+			width : 240,
+			editable : false,
+			valueField : 'id',
+			displayField : 'designacao',
+			emptyText : 'Escolha um promotor...',
+			forceSelection : true,
+			triggerAction : 'all',
+			store : 'PromotorCombo',
+			queryMode : 'local'
 		}]
 	}, {
 		columnWidth : 1 / 3,

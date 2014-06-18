@@ -1,7 +1,0 @@
-{
-    "hostname": "localhost",
-    "port": 3306,
-    "user": "extdirectnode",
-    "password": "extdirectnode",
-    "db": "extdirectnode"
-}

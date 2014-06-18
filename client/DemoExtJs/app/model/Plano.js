@@ -1,11 +1,19 @@
-Ext.define('DemoExtJs.model.Promotor', {
+Ext.define('DemoExtJs.model.Plano', {
 	extend : 'Ext.data.Model',
-	// requires : ['DemoExtJs.model.Plano'],
 	fields : [{
 		name : 'id',
 		type : 'int'
 	}, {
+		name : 'idpromotor',
+		type : 'int'
+	}, {
 		name : 'designacao',
+		type : 'string'
+	}, {
+		name : 'descricao',
+		type : 'string'
+	}, {
+		name : 'responsavel',
 		type : 'string'
 	}, {
 		name : 'email',
@@ -14,32 +22,27 @@ Ext.define('DemoExtJs.model.Promotor', {
 		name : 'site',
 		type : 'string'
 	}, {
-		name : 'dataregisto',
+		name : 'inicio',
+		type : 'date'
+	}, {
+		name : 'fim',
 		type : 'date'
 	}],
-	// http://extjs-tutorials.blogspot.co.uk/2012/05/extjs-hasmany-relationships-rules.html
-	/*
-	hasMany : [{
-		foreignKey : 'idpromotor',
-		name : 'plano',
-		model : 'DemoExtJs.model.Plano'
-		// associationKey: 'phoneNumbers'
-	}],
-	*/
+	// belongsTo : 'DemoExtJs.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct
 	proxy : {
 		// Extra parameters that will be included on every read request.
 		// Individual requests with params of the same name will override these params when they are in conflict.
 		// extraParams : {
-		// 	tabela : 'grupo'
+		// 	tabela : 'plano'
 		// },
 		type : 'direct',
 		paramOrder : 'id', // Tells the proxy to pass the id as the first parameter to the remoting method.
 		api : {
-			create : 'ExtRemote.DXParticipacao.createPromotor',
-			read : 'ExtRemote.DXParticipacao.readPromotor',
-			update : 'ExtRemote.DXParticipacao.updatePromotor',
-			destroy : 'ExtRemote.DXParticipacao.destroyPromotor'
+			create : 'ExtRemote.DXParticipacao.createPlano',
+			read : 'ExtRemote.DXParticipacao.readPlano',
+			update : 'ExtRemote.DXParticipacao.updatePlano',
+			destroy : 'ExtRemote.DXParticipacao.destroyPlano'
 		},
 		reader : {
 			type : 'json',
@@ -48,17 +51,9 @@ Ext.define('DemoExtJs.model.Promotor', {
 		}
 		// NÃO TESTADO; acrescentei par ver se dava para ir só as partes modificadas do RowEditor
 		/*
-		writer : {
-			writeAllFields : false
-		}
-		*/
+		 writer : {
+		 writeAllFields : false
+		 }
+		 */
 	}
 });
-
-/*
- id serial NOT NULL,
- designacao character varying(100) NOT NULL,
- email character varying(50) NOT NULL,
- site character varying(120),
- dataregisto timestamp with time zone NOT NULL DEFAULT now(),
- */

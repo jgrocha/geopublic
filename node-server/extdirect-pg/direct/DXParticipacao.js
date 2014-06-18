@@ -1,5 +1,307 @@
 var db = global.App.database;
 var DXParticipacao = {
+
+	createTipoOcorrencia : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		/*
+		 createPromotor:
+		 {
+		 id: 0,
+		 designacao: 'Nova entidade',
+		 email: 'info@entidade.pt',
+		 site: 'http://www.entidade.pt',
+		 dataregisto: null }
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		console.log('createTipoOcorrencia: ', params);
+		var fields = [], values = [];
+		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
+		// o id vem a 0, quando se insere um registo
+		for (var key in params) {
+			switch (key) {
+				case "id":
+					break;
+				default:
+					fields.push(key);
+					values.push(params[key]);
+					break;
+			}
+		}
+		fields.push('datamodificacao');
+		values.push('now()');
+		fields.push('idutilizador');
+		values.push(request.session.userid);
+		var i = 0, buracos = [];
+		for ( i = 1; i <= fields.length; i++) {
+			buracos.push('$' + i);
+		}
+		var conn = db.connect();
+		conn.query('INSERT INTO ppgis.tipoocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+			db.disconnect(conn);
+			if (err) {
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true,
+					message : 'Dados atualizados',
+					data : resultInsert.rows
+					// id : resultInsert.rows[0].id
+				});
+			}
+		});
+	},
+	updateTipoOcorrencia : function(params, callback, sessionID, request) {
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		var fields = [], values = [], i = 0, id = 0;
+		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
+		// Está a deixar alterar a dataregisto, mas depois a ideia é não deixar
+		for (var key in params) {
+			// if (i==0 && key == 'id') {
+			if (i == 0) {
+				id = params[key];
+			} else {
+				fields.push(key + '= $' + i);
+				values.push(params[key]);
+			}
+			i = i + 1;
+		}
+		fields.push('datamodificacao = $' + i);
+		values.push('now()');
+		i = i + 1;
+		fields.push('idutilizador = $' + i);
+		values.push(request.session.userid);
+		if (request.session.userid && request.session.groupid <= 1) {
+			var conn = db.connect();
+			conn.query('UPDATE ppgis.tipoocorrencia SET ' + fields.join() + ' WHERE id = ' + id, values, function(err, result) {
+				if (err) {
+					console.log('UPDATE =' + sql + ' Error: ' + err);
+					db.debugError(callback, err);
+				} else {
+					var sql = 'SELECT * FROM ppgis.tipoocorrencia where id = ' + id;
+					conn.query(sql, function(err, resultSelect) {
+						db.disconnect(conn);
+						if (err) {
+							console.log('SQL=' + sql + ' Error: ', err);
+							db.debugError(callback, err);
+						} else {
+							callback({
+								success : true,
+								message : 'Dados atualizados',
+								data : resultSelect.rows
+							});
+						}
+					});
+				}
+			});
+		} else {
+			callback({
+				success : false,
+				message : 'Utilizador sem permissão para alterar os dados.'
+			});
+		}
+	},
+	destroyTipoOcorrencia : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		console.log('destroyTipoOcorrencia: ', params.id);
+		var conn = db.connect();
+		var sql = 'delete FROM ppgis.tipoocorrencia where id = ' + params.id;
+		conn.query(sql, function(err, result) {
+			db.disconnect(conn);
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true
+				});
+			}
+		});
+	},
+	readTipoOcorrencia : function(params, callback, sessionID, request) {
+		console.log('readTipoOcorrencia: ');
+		console.log(params);
+		var plano = params;
+		// ???
+		var userid = request.session.userid;
+		var conn = db.connect();
+		var sql = 'SELECT * FROM ppgis.tipoocorrencia where idplano = ' + plano;
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals from ppgis.tipoocorrencia where idplano = ' + plano;
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals // rowsTotal[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+
+	createPlano : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		/*
+		 createPromotor:
+		 {
+		 id: 0,
+		 designacao: 'Nova entidade',
+		 email: 'info@entidade.pt',
+		 site: 'http://www.entidade.pt',
+		 dataregisto: null }
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		console.log('createPlano: ', params);
+		var fields = [], values = [];
+		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
+		// o id vem a 0, quando se insere um registo
+		for (var key in params) {
+			switch (key) {
+				case "id":
+					break;
+				default:
+					fields.push(key);
+					values.push(params[key]);
+					break;
+			}
+		}
+		fields.push('datamodificacao');
+		values.push('now()');
+		fields.push('idutilizador');
+		values.push(request.session.userid);
+		var i = 0, buracos = [];
+		for ( i = 1; i <= fields.length; i++) {
+			buracos.push('$' + i);
+		}
+		var conn = db.connect();
+		conn.query('INSERT INTO ppgis.plano (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+			db.disconnect(conn);
+			if (err) {
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true,
+					message : 'Dados atualizados',
+					data : resultInsert.rows
+					// id : resultInsert.rows[0].id
+				});
+			}
+		});
+	},
+	updatePlano : function(params, callback, sessionID, request) {
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		var fields = [], values = [], i = 0, id = 0;
+		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
+		// Está a deixar alterar a dataregisto, mas depois a ideia é não deixar
+		for (var key in params) {
+			// if (i==0 && key == 'id') {
+			if (i == 0) {
+				id = params[key];
+			} else {
+				fields.push(key + '= $' + i);
+				values.push(params[key]);
+			}
+			i = i + 1;
+		}
+		fields.push('datamodificacao = $' + i);
+		values.push('now()');
+		i = i + 1;
+		fields.push('idutilizador = $' + i);
+		values.push(request.session.userid);
+		if (request.session.userid && request.session.groupid <= 1) {
+			var conn = db.connect();
+			conn.query('UPDATE ppgis.plano SET ' + fields.join() + ' WHERE id = ' + id, values, function(err, result) {
+				if (err) {
+					console.log('UPDATE =' + sql + ' Error: ' + err);
+					db.debugError(callback, err);
+				} else {
+					var sql = 'SELECT * FROM ppgis.plano where id = ' + id;
+					conn.query(sql, function(err, resultSelect) {
+						db.disconnect(conn);
+						if (err) {
+							console.log('SQL=' + sql + ' Error: ', err);
+							db.debugError(callback, err);
+						} else {
+							callback({
+								success : true,
+								message : 'Dados atualizados',
+								data : resultSelect.rows
+							});
+						}
+					});
+				}
+			});
+		} else {
+			callback({
+				success : false,
+				message : 'Utilizador sem permissão para alterar os dados.'
+			});
+		}
+	},
+	destroyPlano : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		console.log('destroyPlano: ', params.id);
+		var conn = db.connect();
+		var sql = 'delete FROM ppgis.plano where id = ' + params.id;
+		conn.query(sql, function(err, result) {
+			db.disconnect(conn);
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true
+				});
+			}
+		});
+	},
+	readPlano : function(params, callback, sessionID, request) {
+		console.log('readPlano: ');
+		console.log(params);
+		// var promotor = params.params.idpromotor;
+		var promotor = params;
+		// ???
+		var userid = request.session.userid;
+		var conn = db.connect();
+		var sql = 'SELECT * FROM ppgis.plano where idpromotor = ' + promotor;
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor;
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals // rowsTotal[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+
 	/*
 	 * 		api : {
 	 create : 'ExtRemote.DXParticipacao.createPromotor',

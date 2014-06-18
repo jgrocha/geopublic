@@ -18,40 +18,36 @@ Ext.define('DemoExtJs.view.TopHeader', {
 		xtype : 'label',
 		html : 'Participação Cívica'
 	}, {
-		xtype : 'splitbutton',
-		text : 'Promotor',
-		itemId : 'botaoPromotor',
-		resizable : true,
-		scale : 'medium',
-		menu : [{
-			text : 'Câmara Mnunicipal de Águeda',
-			icon : 'resources/images/logo_cmagueda.png',
-			itemId : 'botaoCMA'
-		}, {
-			text : 'Associação U Mosquito',
-			icon : 'resources/images/umosquito_26x24.png',
-			itemId : 'botaoUMosquito'
-		}]
+		xtype : 'combo',
+		itemId : 'promotor',
+		width : 240,
+		editable : false,
+		valueField : 'id',
+		displayField : 'designacao',
+		emptyText : 'Escolha um promotor...',
+		forceSelection : true,
+		triggerAction : 'all',
+		store : 'PromotorCombo',
+		queryMode : 'local'
 	}, {
-		// É preenchido de acordo com o splitbutton anterior...
-		xtype : 'splitbutton',
-		text : 'Plano',
-		itemId : 'botaoPlano',
-		resizable : true,
-		scale : 'medium',
-		menu : [{
-			text : 'Last access',
-			itemId : 'botaoLastAccess'
-		}, {
-			text : 'Messages'
-		}, {
-			text : 'Profile',
-			itemId : 'botaoPerfil'
-		}, {
-			text : 'Log out',
-			icon : 'resources/assets/logout.png',
-			itemId : 'botaoLogout'
-		}]
+		xtype : 'combo',
+		itemId : 'plano',
+		width : 240,
+		editable : false,
+		valueField : 'id',
+		displayField : 'designacao',
+		emptyText : 'Escolha o plano...',
+		forceSelection : true,
+		triggerAction : 'all',
+		store : 'PlanoCombo',
+		queryMode : 'local'
+		/*
+		border : 5,
+		style : {
+			borderColor : 'red',
+			borderStyle : 'solid'
+		}
+		*/
 	}, {
 		xtype : 'tbfill'
 	}, {
