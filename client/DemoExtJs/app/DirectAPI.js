@@ -7,7 +7,8 @@ Ext.define('DemoExtJs.DirectAPI', {
 	var Loader = Ext.Loader, wasLoading = Loader.isLoading;
 
 	//Loading API
-	Loader.loadScriptFile('directapi', Ext.emptyFn, Ext.emptyFn, null, true);
+	// Loader.loadScriptFile('/directapi', Ext.emptyFn, Ext.emptyFn, null, true);
+	Loader.loadScriptFile('/ppgis.js', Ext.emptyFn, Ext.emptyFn, null, true);
 	Loader.isLoading = wasLoading;
 	/*
 	 Add provider. Name must match settings on serverside

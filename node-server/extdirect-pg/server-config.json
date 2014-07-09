@@ -21,10 +21,13 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
+        "_server": "localhost",
         "server": "development.localhost.lan",
-        "port": "3000",
+        "port": "80",
+        "_port": "3000",
         "protocol": "http",
         "relativeUrl": true,      
+        "_relativeUrl": true,      
         "appendRequestResponseObjects": true
     }
 }

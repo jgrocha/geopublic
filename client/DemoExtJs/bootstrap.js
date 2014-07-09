@@ -26,12 +26,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.Confrontacao": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TipoOcorrencia": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.Confrontacao": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
@@ -48,6 +50,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
   "DemoExtJs.view.Home": [],
+  "DemoExtJs.view.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.view.MainMapPanel": [],
   "DemoExtJs.view.MethodCall": [],
   "DemoExtJs.view.Promotor": [],
@@ -1042,12 +1045,14 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.Confrontacao": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TipoOcorrencia": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.Confrontacao": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
@@ -1079,6 +1084,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.Home": [
     "widget.home-map-panel"
+  ],
+  "DemoExtJs.view.InfPrevia.WindowConfrontacao": [
+    "widget.windowconfrontacao"
   ],
   "DemoExtJs.view.MainMapPanel": [
     "widget.app-main-map-panel"

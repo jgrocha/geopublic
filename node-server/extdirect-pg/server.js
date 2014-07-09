@@ -119,7 +119,6 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 		response.end(api);
 	} catch(e) {
 		console.log(e);
-		console.log('Erro ao sacar API');
 	}
 });
 
