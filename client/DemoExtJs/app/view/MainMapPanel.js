@@ -23,7 +23,7 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 			maxExtent : new OpenLayers.Bounds(-119191.407499, -300404.803999, 162129.0811, 276083.7674)
 		};
 		this.map = new OpenLayers.Map(options);
-		this.callParent();
+		this.callParent(arguments);
 	},
 	tbar : [{
 		text : 'Mostra',

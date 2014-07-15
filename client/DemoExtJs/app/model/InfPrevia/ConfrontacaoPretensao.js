@@ -1,6 +1,5 @@
-Ext.define('DemoExtJs.model.Confrontacao', {
+Ext.define('DemoExtJs.model.InfPrevia.ConfrontacaoPretensao', {
 	extend : 'Ext.data.Model',
-
 	fields : [{
 		name : 'id',
 		type : 'int'
@@ -37,19 +36,5 @@ Ext.define('DemoExtJs.model.Confrontacao', {
 	}, {
 		name : 'entidade',
 		type : 'string'
-	}],
-	proxy : {
-		type : 'direct',
-		api : {
-			// create : 'ExtRemote.DXTodoItem.create',
-			read : 'ExtRemote.DXConfrontacao.read'
-			// update : 'ExtRemote.DXTodoItem.update',
-			// destroy : 'ExtRemote.DXTodoItem.destroy'
-		},
-		reader : {
-			type : 'json',
-			root : 'data',
-			messageProperty : 'message' // mandatory if you want the framework to set it's content
-		}
-	}
+	}]
 }); 

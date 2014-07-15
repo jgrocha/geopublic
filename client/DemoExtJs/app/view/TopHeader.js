@@ -16,7 +16,7 @@ Ext.define('DemoExtJs.view.TopHeader', {
 		src : 'resources/images/hands_raised_x44.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'label',
-		html : 'Participação Cívica'
+		html : 'Aplicação'
 	}, {
 		xtype : 'combo',
 		itemId : 'promotor',

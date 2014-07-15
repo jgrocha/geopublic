@@ -4,8 +4,8 @@ Ext.define('DemoExtJs.Application', {
 	extend : 'Ext.app.Application',
 	views : ['BemVindoPanel', 'MainMapPanel', 'Promotor', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'InfPrevia.WindowConfrontacao'],
 	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'InfPrevia.WindowConfrontacao'],
-	models : ['TodoItem', 'Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Confrontacao'],
-	stores : ['Todo', 'Tree', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Confrontacao'],
+	models : ['TodoItem', 'Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia'],
+	stores : ['Todo', 'Tree', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia'],
 	init : function() {
 		var me = this;
 		hello.init({

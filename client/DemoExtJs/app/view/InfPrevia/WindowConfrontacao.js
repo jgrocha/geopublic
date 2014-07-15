@@ -1,14 +1,14 @@
 Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 	extend : 'GeoExt.panel.Map',
-	xtype : 'feedback-map-panel',
+	alias : 'widget.feedback-map-panel',
 	// center : '-940328.71082446, 4949944.6827996', // coordenadas ESPG:900913
 	width : 800,
 	height : 200,
 	zoom : 12,
 	stateful : false, // true,
-	
 	// stateId : 'mappanel',
 	initComponent : function() {
+		var items = [];
 		var options = {
 			controls : [new OpenLayers.Control.MousePosition({
 				prefix : 'Coordenadas <a href="http://www.igeo.pt/produtos/Geodesia/inf_tecnica/sistemas_referencia/Datum_ETRS89.htm" target="_blank">PT-TM06/ETRS89</a>: ',
@@ -24,7 +24,110 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 		};
 		this.map = new OpenLayers.Map(options);
 		// this.center = new OpenLayers.LonLat(-8.44561, 40.57744).transform(new OpenLayers.Projection("EPSG:4326"), this.map.getProjectionObject());
-		this.callParent();
+
+		// OpenLayers object creating
+
+		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+			layername : 'mapquest/pt_tm_06',
+			type : 'png',
+			tileSize : new OpenLayers.Size(256, 256)
+		});
+		this.map.addLayer(layerQuest);
+
+		/*
+		 items.push(Ext.create('Ext.button.Button', Ext.create('GeoExt.Action', {
+		 control : new OpenLayers.Control.ZoomToMaxExtent(),
+		 map : map,
+		 text : "max extent",
+		 tooltip : "zoom to max extent"
+		 })));
+
+		 Ext.apply(me, {
+		 map : map,
+		 dockedItems : [{
+		 xtype : 'toolbar',
+		 dock : 'top',
+		 items : items,
+		 style : {
+		 border : 0,
+		 padding : 0
+		 }
+		 }]
+		 });
+		 */
+
+		this.callParent(arguments);
+	}
+});
+
+Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
+	extend : 'Ext.grid.Panel',
+	requires : ['GeoExt.selection.FeatureModel', 'GeoExt.grid.column.Symbolizer'],
+	alias : 'widget.tabela-confrontacao',
+	// http://osgeo-org.1560.x6.nabble.com/ZoomBox-not-working-when-using-Ext-toolbar-and-GeoExt-Action-td3911425.html
+	initComponent : function() {
+		Ext.apply(this, {
+			border : false,
+			columns : [{
+				dataIndex : 'id',
+				text : 'Id',
+				width : 20
+			}, {
+				// tentar por apenas uma casa decimal
+				dataIndex : 'area',
+				text : 'Área',
+				width : 80
+			}, {
+				dataIndex : 'dominio',
+				text : 'Domínio',
+				width : 80
+			}, {
+				dataIndex : 'subdominio',
+				text : 'Subdomínio',
+				width : 80
+			}, {
+				dataIndex : 'familia',
+				text : 'Família',
+				width : 80
+			}, {
+				dataIndex : 'objecto',
+				text : 'Objecto',
+				width : 80
+			}, {
+				dataIndex : 'ident_gene',
+				text : 'Id. genérico',
+				width : 80
+			}, {
+				dataIndex : 'ident_part',
+				text : 'Id. particular',
+				width : 80
+			}, {
+				dataIndex : 'diploma_es',
+				text : 'Diploma',
+				width : 80
+			}, {
+				dataIndex : 'parecer',
+				text : 'Parecer',
+				width : 80
+			}, {
+				dataIndex : 'entidade',
+				text : 'Entidade',
+				width : 80
+			}
+			/* {
+			 flex : 1,
+			 dataIndex : 'texto',
+			 text : 'Texto'
+			 }, {
+			 dataIndex : 'complete',
+			 text : 'Complete'
+			 } */
+			],
+			flex : 2,
+			store : 'InfPrevia.ConfrontacaoPretensao',
+			selType : 'featuremodel'
+		});
+		this.callParent(arguments);
 	}
 });
 
@@ -34,11 +137,16 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 	// autoShow : true,
 	height : 400,
 	width : 800,
-	title : "Confrontações",
+	title : "Confrontações", // vai ser redefinido pelos parâmetros de inicialização da view
 	modal : true,
 	closable : true,
-	defaultFocus : 'email',
-	bounds : {},
+	closeAction : 'hide', // 'destroy', // 'hide',
+	initComponent : function() {
+		// console.debug(this.initialConfig);
+		// console.debug(this.bounds);
+		console.log('Abrir com a pretensão ' + this.pretensao);
+		this.callParent(arguments);
+	},
 	items : [{
 		xtype : 'panel',
 		itemId : 'localizacao',
@@ -47,64 +155,8 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 			xtype : 'feedback-map-panel'
 		}]
 	}, {
-		flex : 1,
-		xtype : 'gridpanel',
-		region : 'center',
-		// itemId: 'todoGrid',
-		store : 'Confrontacao',
-		columns : [{
-			dataIndex : 'id',
-			text : 'Id',
-			width : 20
-		}, {
-			// tentar por apenas uma casa decimal
-			dataIndex : 'area',
-			text : 'Área',
-			width : 80
-		}, {
-			dataIndex : 'dominio',
-			text : 'Domínio',
-			width : 80
-		}, {
-			dataIndex : 'subdominio',
-			text : 'Subdomínio',
-			width : 80
-		}, {
-			dataIndex : 'familia',
-			text : 'Família',
-			width : 80
-		}, {
-			dataIndex : 'objecto',
-			text : 'Objecto',
-			width : 80
-		}, {
-			dataIndex : 'ident_gene',
-			text : 'Id. genérico',
-			width : 80
-		}, {
-			dataIndex : 'ident_part',
-			text : 'Id. particular',
-			width : 80
-		}, {
-			dataIndex : 'diploma_es',
-			text : 'Diploma',
-			width : 80
-		}, {
-			dataIndex : 'parecer',
-			text : 'Parecer',
-			width : 80
-		}, {
-			dataIndex : 'entidade',
-			text : 'Entidade',
-			width : 80
-		} /* {
-		 flex : 1,
-		 dataIndex : 'texto',
-		 text : 'Texto'
-		 }, {
-		 dataIndex : 'complete',
-		 text : 'Complete'
-		 } */]
+		xtype : 'tabela-confrontacao',
+		region : 'south'
 	}]
 });
 
