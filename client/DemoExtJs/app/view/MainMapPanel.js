@@ -7,7 +7,12 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 	stateful : true, // false,
 	// o estado [do mapa] é guardado num cookie
 	stateId : 'app-main-map-panel',
-
+	
+	selectCtrl : {},
+	highlightCtrl : {},
+	insertPoint : {},
+	insertPolygon : {},
+	
 	initComponent : function() {
 		var options = {
 			controls : [new OpenLayers.Control.MousePosition({
@@ -25,21 +30,23 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		this.map = new OpenLayers.Map(options);
 		this.callParent(arguments);
 	},
-	tbar : [{
-		text : 'Mostra',
-		itemId : 'highlightCtrl',
-		icon : 'resources/images/icons/fam/grid.png'
-	}, {
-		text : 'Ponto',
-		itemId : 'insertPoint',
-		icon : 'resources/assets/pencil.png'
-	}, {
-		text : 'Polígono',
+	tbar : [/* {
+	 text : 'Mostra',
+	 itemId : 'highlightCtrl',
+	 icon : 'resources/images/icons/fam/grid.png'
+	 }, {
+	 text : 'Ponto',
+	 itemId : 'insertPoint',
+	 icon : 'resources/assets/pencil.png'
+	 },*/
+	{
+		text : 'Desenhar a pretensão', // só vamos deixar desenhar a partir de um dado nível de zoom...
 		itemId : 'insertPolygon',
-		icon : 'resources/assets/pencil.png'
-	}, {
-		text : 'Submeter',
-		itemId : 'save',
-		icon : 'resources/images/icons/fam/accept.png'
-	}]
+		icon : 'resources/assets/pencil.png',
+		enableToggle : true
+	} /*, {
+	 text : 'Submeter',
+	 itemId : 'save',
+	 icon : 'resources/images/icons/fam/accept.png'
+	 } */ ]
 });

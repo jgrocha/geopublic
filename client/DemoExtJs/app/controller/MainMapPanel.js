@@ -4,11 +4,15 @@
 Ext.define('DemoExtJs.controller.MainMapPanel', {
 	extend : 'Ext.app.Controller',
 	requires : ['GeoExt.Action'],
-	selectCtrl : {},
-	highlightCtrl : {},
-	insertPoint : {},
-	insertPolygon : {},
-	wfs_ocorrencia : {},
+
+	/*
+	 selectCtrl : {},
+	 highlightCtrl : {},
+	 insertPoint : {},
+	 insertPolygon : {},
+	 */
+
+	wfs_pretensao : {},
 	saveStrategy : {},
 	refs : [
 
@@ -70,10 +74,28 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	},
 	onButtonClickInsertPolygon : function(button, e, options) {
 		console.log('onButtonClickInsertPolygon');
-		this.selectCtrl.deactivate();
-		this.highlightCtrl.deactivate();
-		this.insertPoint.deactivate();
-		this.insertPolygon.activate();
+		console.debug(button);
+
+		if (button.pressed) {
+			button.up('app-main-map-panel').selectCtrl.deactivate();
+			button.up('app-main-map-panel').highlightCtrl.deactivate();
+			button.up('app-main-map-panel').insertPoint.deactivate();
+			button.up('app-main-map-panel').insertPolygon.activate();
+		} else {
+			button.up('app-main-map-panel').insertPolygon.cancel();
+			
+			button.up('app-main-map-panel').selectCtrl.activate();
+			button.up('app-main-map-panel').highlightCtrl.activate();
+			button.up('app-main-map-panel').insertPoint.deactivate();
+			button.up('app-main-map-panel').insertPolygon.deactivate();
+		}
+
+		/*
+		 this.selectCtrl.deactivate();
+		 this.highlightCtrl.deactivate();
+		 this.insertPoint.deactivate();
+		 this.insertPolygon.activate();
+		 */
 	},
 	saveSuccess : function(event) {
 		// só agora tenho o fid atribuído... fixe, que é para ser atribuído à imagem.
@@ -86,6 +108,22 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		this.layer.refresh({
 			force : true
 		});
+
+		// tenho que ir buscar estes controlos...
+
+		//-- a ordem destes dois é importante
+		this.layer.map.controls[6].activate();
+		this.layer.map.controls[5].activate();
+		this.layer.map.controls[7].deactivate();
+		this.layer.map.controls[8].deactivate();
+
+		/*
+		 highlightCtrl.activate();
+		 this.selectCtrl.activate();
+		 //--
+		 this.insertPoint.deactivate();
+		 this.insertPolygon.deactivate();
+		 */
 	},
 	saveFail : function(event) {
 		console.log('Error! Your changes could not be saved. ');
@@ -133,11 +171,13 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		mapDebug = map;
 		mapPanelDebug = mapPanel;
 
-		// me.saveStrategy = new OpenLayers.Strategy.Save({auto: 'true'});
-		me.saveStrategy = new OpenLayers.Strategy.Save();
+		me.saveStrategy = new OpenLayers.Strategy.Save({
+			auto : 'true'
+		});
+		// me.saveStrategy = new OpenLayers.Strategy.Save();
 		me.saveStrategy.events.register('success', null, this.saveSuccess);
 		me.saveStrategy.events.register('fail', null, this.saveFail);
-		me.wfs_ocorrencia = new OpenLayers.Layer.Vector('Pretensões', {
+		me.wfs_pretensao = new OpenLayers.Layer.Vector('Pretensões', {
 			strategies : [new OpenLayers.Strategy.BBOX(), me.saveStrategy],
 			protocol : new OpenLayers.Protocol.WFS({
 				url : 'http://development.localhost.lan/geoserver/wfs', //
@@ -151,15 +191,20 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				geometryName : 'the_geom'
 			}),
 			visibility : true,
-			projection : new OpenLayers.Projection("EPSG:3763")
+			projection : new OpenLayers.Projection("EPSG:3763"),
+			filter : new OpenLayers.Filter.Comparison({
+				type : OpenLayers.Filter.Comparison.EQUAL_TO,
+				property : "idutilizador",
+				value : DemoExtJs.LoggedInUser.data.id
+			})
 		});
-		map.addLayer(me.wfs_ocorrencia);
+		map.addLayer(me.wfs_pretensao);
 
 		/*
-		 this.insertPoint = new OpenLayers.Control.DrawFeature(wfs_ocorrencia, OpenLayers.Handler.Point, {
+		 this.insertPoint = new OpenLayers.Control.DrawFeature(wfs_pretensao, OpenLayers.Handler.Point, {
 		 'displayClass' : 'olControlDrawFeaturePoint'
 		 });
-		 this.insertPolygon = new OpenLayers.Control.DrawFeature(wfs_ocorrencia, OpenLayers.Handler.Polygon, {
+		 this.insertPolygon = new OpenLayers.Control.DrawFeature(wfs_pretensao, OpenLayers.Handler.Polygon, {
 		 'displayClass' : 'olControlDrawFeaturePolygon'
 		 });
 
@@ -175,7 +220,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// this = instância "DemoExtJs.controller.MainMapPanel"
 		var me = this;
 
-		this.selectCtrl = new OpenLayers.Control.SelectFeature(me.wfs_ocorrencia, {
+		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(me.wfs_pretensao, {
 			clickout : true,
 			eventListeners : {
 				beforefeaturehighlighted : function(event) {
@@ -188,7 +233,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 					// me.getConfrontacaoStore().load();
 					// widget.windowconfrontacao
 					var view = Ext.widget('windowconfrontacao', {
-						title : 'New User title',
+						// title : 'Área total: ' + parseFloat(event.feature.data.area).toFixed(2) + ' m2',
+						title : 'Área total: ' + Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
 						bounds : event.feature.geometry.getBounds(),
 						pretensao : parseInt(event.feature.data.id)
 					});
@@ -202,7 +248,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			}
 		});
 
-		this.highlightCtrl = new OpenLayers.Control.SelectFeature(me.wfs_ocorrencia, {
+		mapPanel.highlightCtrl = new OpenLayers.Control.SelectFeature(me.wfs_pretensao, {
 			hover : true,
 			highlightOnly : true,
 			renderIntent : "temporary"
@@ -233,26 +279,36 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			 */
 		});
 
-		this.insertPoint = new OpenLayers.Control.DrawFeature(me.wfs_ocorrencia, OpenLayers.Handler.Point, {
+		mapPanel.insertPoint = new OpenLayers.Control.DrawFeature(me.wfs_pretensao, OpenLayers.Handler.Point, {
 			'displayClass' : 'olControlDrawFeaturePoint'
 		});
-		this.insertPolygon = new OpenLayers.Control.DrawFeature(me.wfs_ocorrencia, OpenLayers.Handler.Polygon, {
+		mapPanel.insertPolygon = new OpenLayers.Control.DrawFeature(me.wfs_pretensao, OpenLayers.Handler.Polygon, {
 			'displayClass' : 'olControlDrawFeaturePolygon'
 		});
 
 		var toolbar = new OpenLayers.Control.Panel({
 			displayClass : 'customEditingToolbar'
 		});
-		toolbar.addControls([this.selectCtrl, this.highlightCtrl, this.insertPoint, this.insertPolygon]);
+		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint, mapPanel.insertPolygon]);
 		map.addControl(toolbar);
 
-		this.insertPolygon.events.on({
-			featureadded : function(event) {
-				console.log('featureadded');
+		me.wfs_pretensao.events.on({
+			beforefeatureadded : function(event) {
+				console.log('beforefeatureadded');
 				event.feature.attributes["designacao"] = 'Acabadinho de pescar';
 				event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
 			}
 		});
+
+		mapPanel.insertPolygon.events.on({
+			featureadded : function(event) {
+				console.log('featureadded');
+			}
+		});
+
+		//-- a ordem destes dois é importante
+		mapPanel.highlightCtrl.activate();
+		mapPanel.selectCtrl.activate();
 
 		/*
 		var ctrl, toolbarItems = [], action, actions = {};

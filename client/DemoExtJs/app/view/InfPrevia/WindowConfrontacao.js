@@ -68,31 +68,74 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 	initComponent : function() {
 		Ext.apply(this, {
 			border : false,
-			columns : [{
-				dataIndex : 'id',
-				text : 'Id',
-				width : 20
-			}, {
+			columns : [/*{
+			 dataIndex : 'id',
+			 text : 'Id',
+			 width : 20
+			 }, */
+			{
 				// tentar por apenas uma casa decimal
 				dataIndex : 'area',
-				text : 'Área',
-				width : 80
-			}, {
-				dataIndex : 'dominio',
-				text : 'Domínio',
-				width : 80
-			}, {
-				dataIndex : 'subdominio',
-				text : 'Subdomínio',
-				width : 80
-			}, {
-				dataIndex : 'familia',
-				text : 'Família',
-				width : 80
-			}, {
-				dataIndex : 'objecto',
-				text : 'Objecto',
-				width : 80
+				text : 'Área (m2)',
+				width : 80,
+				renderer : Ext.util.Format.numberRenderer('0.00'),
+				align : 'right'
+			}, /* {
+			 dataIndex : 'dominio',
+			 text : 'Domínio',
+			 width : 80
+			 }, {
+			 dataIndex : 'subdominio',
+			 text : 'Subdomínio',
+			 width : 80
+			 }, {
+			 dataIndex : 'familia',
+			 text : 'Família',
+			 width : 80
+			 }, {
+			 dataIndex : 'objecto',
+			 text : 'Objecto',
+			 width : 80
+			 }, */
+			{
+				xtype : 'actioncolumn',
+				width : 20,
+				items : [{
+					icon : 'resources/images/tree_structure.png',
+					// tooltip : 'Classes de espaços',
+					getTip : function(v, meta, record, rowIndex, colIndex, store) {
+						return record.get('objecto');
+					},
+					handler : function(grid, rowIndex, colIndex) {
+						var rec = grid.getStore().getAt(rowIndex);
+						// Ext.Msg.alert('Exige parecer', 'Entidade: ' + rec.get('entidade'));
+						console.log('Vai mostrar hierarquia');
+						var view = Ext.widget('hierarquia', {
+							title : 'Instrumentos de Gestão do Território',
+							root : {
+								text : 'Carta',
+								expanded : true,
+								children : [{
+									text : rec.get('dominio'), // "Condicionantes",
+									expanded : true,
+									children : [{
+										text : rec.get('subdominio'), // "Reserva Agrícola Nacional",
+										expanded : true,
+										children : [{
+											text : rec.get('familia'), // "Recursos Naturais",
+											expanded : true,
+											children : [{
+												text : rec.get('objecto'), // "Reserva Agrícola Nacional",
+												leaf : true
+											}]
+										}]
+									}]
+								}]
+							}
+						});
+						view.show();
+					}
+				}]
 			}, {
 				dataIndex : 'ident_gene',
 				text : 'Id. genérico',
@@ -101,18 +144,46 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 				dataIndex : 'ident_part',
 				text : 'Id. particular',
 				width : 80
+			}, /*{
+			 dataIndex : 'diploma_es',
+			 text : 'Diploma',
+			 width : 80
+			 },
+			 {
+			 dataIndex : 'parecer',
+			 text : 'Parecer',
+			 width : 80
+			 }, {
+			 dataIndex : 'entidade',
+			 text : 'Entidade',
+			 width : 80
+			 }, */
+			{
+				xtype : 'actioncolumn',
+				width : 20,
+				items : [{
+					icon : 'resources/images/icons/fam/user_comment.png',
+					tooltip : 'Exige parecer',
+					handler : function(grid, rowIndex, colIndex) {
+						var rec = grid.getStore().getAt(rowIndex);
+						Ext.Msg.alert('Exige parecer', 'Entidade: ' + rec.get('entidade'));
+					},
+					isDisabled : function(view, rowIndex, colIndex, item, record) {
+						// Returns true if 'editable' is false (, null, or undefined)
+						return record.get('parecer') != '1';
+					}
+				}]
 			}, {
-				dataIndex : 'diploma_es',
-				text : 'Diploma',
-				width : 80
-			}, {
-				dataIndex : 'parecer',
-				text : 'Parecer',
-				width : 80
-			}, {
-				dataIndex : 'entidade',
-				text : 'Entidade',
-				width : 80
+				xtype : 'actioncolumn',
+				width : 20,
+				items : [{
+					icon : 'resources/images/icons/fam/book.png',
+					tooltip : 'Diplomas específicos',
+					handler : function(grid, rowIndex, colIndex) {
+						var rec = grid.getStore().getAt(rowIndex);
+						Ext.Msg.alert('Diplomas específicos aplicáveis', 'Diplomas: ' + rec.get('diploma_es'));
+					}
+				}]
 			}
 			/* {
 			 flex : 1,
