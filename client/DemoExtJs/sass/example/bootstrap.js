@@ -9,16 +9,20 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.view.Avatar": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.Home": "../../app/view/Users/Profile.js",
+  "DemoExtJs.view.InfPrevia.Feedback": "../../app/view/InfPrevia/WindowConfrontacao.js",
+  "DemoExtJs.view.InfPrevia.Tabela": "../../app/view/InfPrevia/WindowConfrontacao.js",
   "Ext": "../../ext/src",
   "Ext.Msg": "../../ext/src/window/MessageBox.js",
   "Ext.rtl.EventObjectImpl": "../../ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "../../ext/packages/ext-theme-neptune/overrides",
-  "GeoExt": "../../geoext2/src/GeoExt"
+  "GeoExt": "../../geoext2-2.0.2/src/GeoExt"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.Application": [],
   "DemoExtJs.DirectAPI": [],
   "DemoExtJs.controller.BemVindoPanel": [],
+  "DemoExtJs.controller.InfPrevia.Hierarquia": [],
+  "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
   "DemoExtJs.controller.Plano": [],
@@ -26,12 +30,16 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
+  "DemoExtJs.model.InfPrevia.Hierarquia": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TipoOcorrencia": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
+  "DemoExtJs.store.InfPrevia.Hierarquia": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
@@ -48,6 +56,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
   "DemoExtJs.view.Home": [],
+  "DemoExtJs.view.InfPrevia.Feedback": [],
+  "DemoExtJs.view.InfPrevia.Hierarquia": [],
+  "DemoExtJs.view.InfPrevia.Tabela": [],
+  "DemoExtJs.view.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.view.MainMapPanel": [],
   "DemoExtJs.view.MethodCall": [],
   "DemoExtJs.view.Promotor": [],
@@ -1035,6 +1047,8 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.Application": [],
   "DemoExtJs.DirectAPI": [],
   "DemoExtJs.controller.BemVindoPanel": [],
+  "DemoExtJs.controller.InfPrevia.Hierarquia": [],
+  "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
   "DemoExtJs.controller.Plano": [],
@@ -1042,12 +1056,16 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
+  "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
+  "DemoExtJs.model.InfPrevia.Hierarquia": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
   "DemoExtJs.model.TipoOcorrencia": [],
   "DemoExtJs.model.TodoItem": [],
   "DemoExtJs.model.Utilizador": [],
+  "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
+  "DemoExtJs.store.InfPrevia.Hierarquia": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
@@ -1079,6 +1097,18 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.Home": [
     "widget.home-map-panel"
+  ],
+  "DemoExtJs.view.InfPrevia.Feedback": [
+    "widget.feedback-map-panel"
+  ],
+  "DemoExtJs.view.InfPrevia.Hierarquia": [
+    "widget.hierarquia"
+  ],
+  "DemoExtJs.view.InfPrevia.Tabela": [
+    "widget.tabela-confrontacao"
+  ],
+  "DemoExtJs.view.InfPrevia.WindowConfrontacao": [
+    "widget.windowconfrontacao"
   ],
   "DemoExtJs.view.MainMapPanel": [
     "widget.app-main-map-panel"

@@ -1,18 +1,20 @@
 Ext.define('DemoExtJs.view.MainMapPanel', {
 	extend : 'GeoExt.panel.Map',
-	xtype : 'app-main-map-panel',
+	// xtype : 'app-main-map-panel',
+	alias : 'widget.app-main-map-panel',
 	title : 'Mapa',
 	// center : '-940328.71082446, 4949944.6827996', // coordenadas ESPG:900913
 	// zoom : 12,
 	stateful : true, // false,
 	// o estado [do mapa] é guardado num cookie
 	stateId : 'app-main-map-panel',
-	
+
+	wfs_pretensao : {},
 	selectCtrl : {},
 	highlightCtrl : {},
 	insertPoint : {},
 	insertPolygon : {},
-	
+
 	initComponent : function() {
 		var options = {
 			controls : [new OpenLayers.Control.MousePosition({
@@ -45,8 +47,9 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		icon : 'resources/assets/pencil.png',
 		enableToggle : true
 	} /*, {
-	 text : 'Submeter',
-	 itemId : 'save',
-	 icon : 'resources/images/icons/fam/accept.png'
-	 } */ ]
+		text : 'Remover',
+		itemId : 'removePolygon',
+		icon : 'resources/images/icons/fam/cross.gif',
+		enableToggle : true
+	} */ ]
 });

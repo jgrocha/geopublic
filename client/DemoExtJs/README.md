@@ -65,3 +65,8 @@ Not managed by sencha app
 
 Está a ser utilizado o MapProxy para servir tiles do OpenStreetMap reprojetados no EPSG:3763.
 
+### MapFish Print ou GeoServer Print Module
+
+Ver qual é melhor
+
+

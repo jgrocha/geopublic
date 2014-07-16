@@ -3,7 +3,7 @@ Ext.define('DemoExtJs.view.InfPrevia.Hierarquia', {
 	alias : 'widget.hierarquia',
 	// autoShow : true,
 	height : 200,
-	width : 400,
+	width : 440,
 	title : "Classes de espaços",
 	modal : true,
 	closable : true,

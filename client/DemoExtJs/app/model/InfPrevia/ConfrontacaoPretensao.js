@@ -36,5 +36,8 @@ Ext.define('DemoExtJs.model.InfPrevia.ConfrontacaoPretensao', {
 	}, {
 		name : 'entidade',
 		type : 'string'
+	}, {
+		name : 'sumario',
+		type : 'string'
 	}]
 }); 

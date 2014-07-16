@@ -2,8 +2,8 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 	extend : 'GeoExt.panel.Map',
 	alias : 'widget.feedback-map-panel',
 	// center : '-940328.71082446, 4949944.6827996', // coordenadas ESPG:900913
-	width : 800,
-	height : 200,
+	width : 400,
+	height : 400,
 	zoom : 12,
 	stateful : false, // true,
 	// stateId : 'mappanel',
@@ -77,8 +77,8 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 				// tentar por apenas uma casa decimal
 				dataIndex : 'area',
 				text : 'Área (m2)',
-				width : 80,
-				renderer : Ext.util.Format.numberRenderer('0.00'),
+				width : 76,
+				renderer : Ext.util.Format.numberRenderer('0.0'),
 				align : 'right'
 			}, /* {
 			 dataIndex : 'dominio',
@@ -98,6 +98,9 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 			 width : 80
 			 }, */
 			{
+				// text : 'Hierarquia',
+				menuDisabled : true,
+				sortable : false,
 				xtype : 'actioncolumn',
 				width : 20,
 				items : [{
@@ -110,25 +113,61 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 						var rec = grid.getStore().getAt(rowIndex);
 						// Ext.Msg.alert('Exige parecer', 'Entidade: ' + rec.get('entidade'));
 						console.log('Vai mostrar hierarquia');
+						var ident_part = {};
+						if (rec.get('ident_part') != '') {
+							ident_part = {
+								text : rec.get('ident_part'),
+								leaf : true
+							};
+						}
+						var ident_gene = {};
+						if (rec.get('ident_gene') != '') {
+							if (Object.keys(ident_part).length > 0) {
+								ident_gene = {
+									text : rec.get('ident_gene'),
+									expanded : true,
+									children : ident_part
+								};
+							} else {
+								ident_gene = {
+									text : rec.get('ident_gene'),
+									leaf : true
+								};
+							}
+						}
+						var objecto = {};
+						if (rec.get('objecto') != '') {
+							if (Object.keys(ident_gene).length > 0) {
+								objecto = {
+									text : rec.get('objecto'),
+									expanded : true,
+									children : ident_gene
+								};
+							} else if (Object.keys(ident_part).length > 0) {
+								objecto = {
+									text : rec.get('objecto'),
+									expanded : true,
+									children : ident_part
+								};
+							} else {
+								objecto = {
+									text : rec.get('objecto'),
+									leaf : true
+								};
+							}
+						}
 						var view = Ext.widget('hierarquia', {
 							title : 'Instrumentos de Gestão do Território',
 							root : {
-								text : 'Carta',
+								text : rec.get('dominio'), // "Condicionantes",
 								expanded : true,
 								children : [{
-									text : rec.get('dominio'), // "Condicionantes",
+									text : rec.get('subdominio'), // "Reserva Agrícola Nacional",
 									expanded : true,
 									children : [{
-										text : rec.get('subdominio'), // "Reserva Agrícola Nacional",
+										text : rec.get('familia'), // "Recursos Naturais",
 										expanded : true,
-										children : [{
-											text : rec.get('familia'), // "Recursos Naturais",
-											expanded : true,
-											children : [{
-												text : rec.get('objecto'), // "Reserva Agrícola Nacional",
-												leaf : true
-											}]
-										}]
+										children : objecto
 									}]
 								}]
 							}
@@ -136,15 +175,15 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 						view.show();
 					}
 				}]
-			}, {
-				dataIndex : 'ident_gene',
-				text : 'Id. genérico',
-				width : 80
-			}, {
-				dataIndex : 'ident_part',
-				text : 'Id. particular',
-				width : 80
-			}, /*{
+			}, /* {
+			 dataIndex : 'ident_gene',
+			 text : 'Id. genérico',
+			 width : 80
+			 }, {
+			 dataIndex : 'ident_part',
+			 text : 'Id. particular',
+			 width : 80
+			 }, {
 			 dataIndex : 'diploma_es',
 			 text : 'Diploma',
 			 width : 80
@@ -159,6 +198,9 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 			 width : 80
 			 }, */
 			{
+				// text : 'Parecer',
+				menuDisabled : true,
+				sortable : false,
 				xtype : 'actioncolumn',
 				width : 20,
 				items : [{
@@ -174,6 +216,9 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 					}
 				}]
 			}, {
+				// text : 'Diplomas',
+				menuDisabled : true,
+				sortable : false,
 				xtype : 'actioncolumn',
 				width : 20,
 				items : [{
@@ -184,6 +229,12 @@ Ext.define('DemoExtJs.view.InfPrevia.Tabela', {
 						Ext.Msg.alert('Diplomas específicos aplicáveis', 'Diplomas: ' + rec.get('diploma_es'));
 					}
 				}]
+			}, {
+				dataIndex : 'sumario',
+				text : 'Sumário',
+				// width : 80,
+				flex : 5,
+				tdCls : 'grid-cell-wrap-text'
 			}
 			/* {
 			 flex : 1,
@@ -206,8 +257,8 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.windowconfrontacao',
 	// autoShow : true,
-	height : 400,
-	width : 800,
+	height : 490,
+	width : 880,
 	title : "Confrontações", // vai ser redefinido pelos parâmetros de inicialização da view
 	modal : true,
 	closable : true,
@@ -218,16 +269,45 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 		console.log('Abrir com a pretensão ' + this.pretensao);
 		this.callParent(arguments);
 	},
-	items : [{
-		xtype : 'panel',
-		itemId : 'localizacao',
-		// title : 'Localização',
-		items : [{
-			xtype : 'feedback-map-panel'
-		}]
+	layout : {
+		type : 'hbox',
+		padding : '10',
+		align : 'top'
+	},
+	defaults : {
+		margin : '0 10 0 0'
+	}, // separação entre as duas colunas
+	items : [/*{
+	 xtype : 'panel',
+	 itemId : 'localizacao',
+	 // title : 'Localização',
+	 items : [{
+	 xtype : 'feedback-map-panel'
+	 }]
+	 }, */
+	{
+		xtype : 'feedback-map-panel'
 	}, {
-		xtype : 'tabela-confrontacao',
-		region : 'south'
+		xtype : 'panel', // para depois ter scroll na grid
+		layout : 'fit',
+		width : 440,
+		height : 400,
+		items : {
+			xtype : 'tabela-confrontacao'
+		}
+	}],
+	bbar : [{
+		text : 'Centrar na pretensão',
+		itemId : 'centra',
+		icon : 'resources/images/target.png'
+	}, '->', {
+		text : 'Remover',
+		itemId : 'remove',
+		icon : 'resources/images/icons/fam/cross.gif'
+	}, {
+		text : 'Imprimir relatório', // 'Enviar relatório para o email',
+		itemId : 'relatorio',
+		icon : 'resources/images/envelope.png'
 	}]
 });
 

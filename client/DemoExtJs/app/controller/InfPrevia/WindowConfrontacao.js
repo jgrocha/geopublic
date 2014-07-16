@@ -30,8 +30,42 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			'feedback-map-panel' : {
 				'beforerender' : this.onMapPanelBeforeRender,
 				'afterrender' : this.onMapPanelAfterRender
+			},
+			"windowconfrontacao button#remove" : {
+				click : this.onButtonClickRemovePolygon
+			},
+			"windowconfrontacao button#relatorio" : {
+				click : this.onButtonClickEnviaRelatorio
+			},
+			"windowconfrontacao button#centra" : {
+				click : this.onButtonClickCentrar
 			}
-		});
+		}, this);
+	},
+	onButtonClickRemovePolygon : function(button, e, options) {
+		console.log('onButtonClickRemovePolygon para remover o feature: ');
+
+		Ext.Msg.confirm('Remover confrontação', 'Tem a certeza?', function(id, value) {
+			if (id === 'yes') {
+				console.log('confirmed');
+				// no access to list, record, node, ... here, why?
+				var f = button.up('windowconfrontacao').feature;
+				console.debug(f);
+				f.state = OpenLayers.State.DELETE;
+				f.layer.events.triggerEvent("afterfeaturemodified", {
+					feature : f
+				});
+				button.up('windowconfrontacao').close();
+			}
+		}, this);
+	},
+	onButtonClickEnviaRelatorio : function(button, e, options) {
+		console.log('onButtonClickEnviaRelatorio');
+	},
+	onButtonClickCentrar : function(button, e, options) {
+		console.log('onButtonClickCentrar');
+		var bb = button.up('windowconfrontacao').bounds;
+		button.up('windowconfrontacao').down('feedback-map-panel').map.zoomToExtent(bb);
 	},
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		var me = this;
@@ -156,7 +190,7 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {
 		var me = this;
-		var bounds = mapPanel.up().up().bounds;
+		// var bounds = mapPanel.up().up().bounds;
 		var bounds = mapPanel.up('windowconfrontacao').bounds;
 
 		// console.debug(mapPanel);
