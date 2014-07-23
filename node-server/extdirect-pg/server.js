@@ -130,6 +130,8 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 app.get('/registo/:id', routes.registo(global.App.database));
 app.get('/reset/:id', routes.reset(global.App.database));
 
+app.get('/search', routes.searchProcesso(global.App.database));
+
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function(request, response) {
 	response.writeHead(200, {

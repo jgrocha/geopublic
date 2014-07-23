@@ -129,6 +129,14 @@ Maps: http://development.localhost.lan/mapproxy/tms
 	</Directory>
 </VirtualHost>
 ```
+### Printing maps
+
+Using Geoserver with Print extension (provided by MapFish)
+
+```
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d @pedido.json http://localhost:8080/geoserver/pdf/create.json
+wget http://localhost:8080/geoserver/pdf/8548576072996938105.pdf.printout -O teste.pdf
+```
 
 ###Architect 3 sample project
 

@@ -29,7 +29,7 @@ Ext.define('DemoExtJs.view.Viewport', {
 			xtype : 'app-main-map-panel'
 		}, {
 			xtype : 'grid-promotor'
-		}, {
+		} /*, {
 			xtype : 'grid-actions'
 		}, {
 			xtype : 'method-call'
@@ -41,6 +41,6 @@ Ext.define('DemoExtJs.view.Viewport', {
 			xtype : 'tree-actions'
 		}, {
 			xtype : 'demo-cookies'
-		}]
+		} */ ]
 	}]
 });

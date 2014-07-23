@@ -564,6 +564,7 @@ Ext.define('GeoExt.data.MapfishPrintProvider', {
                 jsonData: jsonData,
                 headers: {"Content-Type": "application/json; charset=" + this.encoding},
                 success: function(response) {
+                	// console.debug(response);
                     var url = Ext.decode(response.responseText).getURL;
                     this.download(url);
                 },

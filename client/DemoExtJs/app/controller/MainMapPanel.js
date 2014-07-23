@@ -18,7 +18,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	// ver exemplo: http://geoext.github.io/geoext2/examples/action/mappanel_with_actions.html
 
-	// Ext.ComponentQuery.query('app-main-map-panel tbar')
+	// Ext.ComponentQuery.query('app-main-map-panel toolbar')
 	{
 		ref : 'barra',
 		selector : 'app-main-map-panel toolbar'
@@ -27,10 +27,13 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'app-main-map-panel'
 	}, {
 		ref : 'inserir',
-		selector : 'app-main-map-panel button#insertPolygon'
+		selector : 'app-main-map-panel toolbar button#insertPolygon'
 	}, {
-		ref : 'remover',
-		selector : 'app-main-map-panel button#removePolygon'
+		ref : 'geocoder',
+		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoder'
+	}, {
+		ref : 'geocoderprocesso',
+		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoderprocesso'
 	}],
 	init : function() {
 		console.log('O controlador Ppgis.controller.MainMapPanel init...');
@@ -42,8 +45,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel button#highlightCtrl" : {
 				click : this.onButtonClickHighlightCtrl
 			},
-			"app-main-map-panel button#insertPoint" : {
-				click : this.onButtonClickInsertPoint
+			"app-main-map-panel gx_geocodercombo#geocoder" : {
+				select : this.onSelectGeocoder
 			},
 			"app-main-map-panel button#insertPolygon" : {
 				click : this.onButtonClickInsertPolygon
@@ -62,8 +65,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	onButtonClickHighlightCtrl : function(button, e, options) {
 		console.log('onButtonClickHighlightCtrl');
 	},
-	onButtonClickInsertPoint : function(button, e, options) {
-		console.log('onButtonClickInsertPoint');
+	onSelectGeocoder : function(combo, records) {
+		console.log('onSelectGeocoder');
+		console.debug(records[0].data);
 	},
 	onButtonClickInsertPolygon : function(button, e, options) {
 		// console.log('onButtonClickInsertPolygon');
@@ -113,6 +117,11 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		// this = instância "DemoExtJs.controller.MainMapPanel"
 		var me = this;
+
+		var userid = -1;
+		if (DemoExtJs.LoggedInUser) {
+			userid = DemoExtJs.LoggedInUser.data.id;
+		}
 
 		var layers = [];
 		map = mapPanel.map;
@@ -175,10 +184,26 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			filter : new OpenLayers.Filter.Comparison({
 				type : OpenLayers.Filter.Comparison.EQUAL_TO,
 				property : "idutilizador",
-				value : DemoExtJs.LoggedInUser.data.id
+				value : userid
 			})
 		});
 		map.addLayer(me.wfs_pretensao);
+
+		var locationLayer = new OpenLayers.Layer.Vector("Location", {
+			projection : new OpenLayers.Projection("EPSG:4326"),
+			styleMap : new OpenLayers.Style({
+				externalGraphic : "http://openlayers.org/api/img/marker.png",
+				graphicYOffset : -25,
+				graphicHeight : 25,
+				graphicTitle : "${name}"
+			})
+		});
+
+		map.addLayer(locationLayer);
+		//
+		me.getGeocoder().layer = locationLayer;
+		me.getGeocoderprocesso().layer = locationLayer;
+
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {
 		// this = instância "DemoExtJs.controller.MainMapPanel"

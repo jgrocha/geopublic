@@ -1,5 +1,6 @@
 Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 	extend : 'GeoExt.panel.Map',
+	requires : ['GeoExt.data.MapfishPrintProvider'], // , 'GeoExt.plugins.PrintExtent'],
 	alias : 'widget.feedback-map-panel',
 	// center : '-940328.71082446, 4949944.6827996', // coordenadas ESPG:900913
 	width : 400,
@@ -35,26 +36,58 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 		this.map.addLayer(layerQuest);
 
 		/*
-		 items.push(Ext.create('Ext.button.Button', Ext.create('GeoExt.Action', {
-		 control : new OpenLayers.Control.ZoomToMaxExtent(),
-		 map : map,
-		 text : "max extent",
-		 tooltip : "zoom to max extent"
-		 })));
+		items.push(Ext.create('Ext.button.Button', Ext.create('GeoExt.Action', {
+		control : new OpenLayers.Control.ZoomToMaxExtent(),
+		map : map,
+		text : "max extent",
+		tooltip : "zoom to max extent"
+		})));
 
-		 Ext.apply(me, {
-		 map : map,
-		 dockedItems : [{
-		 xtype : 'toolbar',
-		 dock : 'top',
-		 items : items,
-		 style : {
-		 border : 0,
-		 padding : 0
-		 }
-		 }]
-		 });
-		 */
+		Ext.apply(me, {
+		map : map,
+		dockedItems : [{
+		xtype : 'toolbar',
+		dock : 'top',
+		items : items,
+		style : {
+		border : 0,
+		padding : 0
+		}
+		}]
+		});
+		*/
+
+		// http://ows.terrestris.de:8080/print/pdf/print.pdf?spec=%7B%22units%22%3A%22degrees%22%2C%22srs%22%3A%22EPSG%3A4326%22%2C%22layout%22%3A%22A4%20portrait%22%2C%22dpi%22%3A75%2C%22mapTitle%22%3A%22Printing%20Demo%22%2C%22comment%22%3A%22This%20is%20a%20map%20printed%20from%20GeoExt.%22%2C%22layers%22%3A%5B%7B%22baseURL%22%3A%22http%3A%2F%2Fows.terrestris.de%2Fosm%2Fservice%3F%22%2C%22opacity%22%3A1%2C%22singleTile%22%3Afalse%2C%22type%22%3A%22WMS%22%2C%22layers%22%3A%5B%22OSM-WMS%22%5D%2C%22format%22%3A%22image%2Fjpeg%22%2C%22styles%22%3A%5B%22%22%5D%7D%5D%2C%22pages%22%3A%5B%7B%22center%22%3A%5B146.56%2C-41.56%5D%2C%22scale%22%3A4000000%2C%22rotation%22%3A0%7D%5D%7D
+		// http://ows.terrestris.de:8080/print/pdf/info.json 
+		// The printProvider that connects us to the print service
+		this.printProvider = Ext.create('GeoExt.data.MapfishPrintProvider', {
+			autoLoad : true,
+			url : "http://development.localhost.lan/geoserver/pdf/",
+			method : "POST", // "GET", // "POST" recommended for production use
+			// capabilities : printCapabilities, // from the info.json script in the html
+			customParams : {
+				mapTitle : "Demostração da Impressão",
+				comment : "Este é um mapa gerado a partir do GeoExt."
+			},
+			layout : "A4",
+			listeners : {
+				"loadcapabilities" : function() {
+					console.log('loadcapabilities'); // http://localhost/geoserver/pdf/info.json
+					console.log(this.capabilities);
+					this.capabilities.printURL = 'http://development.localhost.lan/geoserver/pdf/print.pdf';					
+					this.capabilities.createURL = 'http://development.localhost.lan/geoserver/pdf/create.json';				
+				}
+			}
+		});
+
+		/*
+		var printExtent = Ext.create('GeoExt.plugins.PrintExtent', {
+			printProvider : this.printProvider
+		});
+
+		this.plugins = [printExtent];
+		// printExtent.addPage();
+		*/
 
 		this.callParent(arguments);
 	}
@@ -262,7 +295,7 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 	title : "Confrontações", // vai ser redefinido pelos parâmetros de inicialização da view
 	modal : true,
 	closable : true,
-	closeAction : 'hide', // 'destroy', // 'hide',
+	closeAction : 'destroy', // 'hide',
 	initComponent : function() {
 		// console.debug(this.initialConfig);
 		// console.debug(this.bounds);
@@ -305,6 +338,10 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 		itemId : 'remove',
 		icon : 'resources/images/icons/fam/cross.gif'
 	}, {
+		text : 'Imprimir mapa',
+		itemId : 'imprimemapa',
+		icon : 'resources/images/envelope.png'
+	}, {
 		text : 'Imprimir relatório', // 'Enviar relatório para o email',
 		itemId : 'relatorio',
 		icon : 'resources/images/envelope.png'
@@ -322,7 +359,7 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
  name : 'dominio',
  type : 'string'
  }, {
- name : 'subdominio',
+ name : 'subdominio',printExtent.addPage();
  type : 'string'
  }, {
  name : 'familia',
@@ -349,4 +386,13 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
  name : 'entidade',
  type : 'string'
  }],
+
+ {
+ "scales":[{"name":"1:25.000","value":"25000.0"},{"name":"1:50.000","value":"50000.0"},{"name":"1:100.000","value":"100000.0"},{"name":"1:200.000","value":"200000.0"},{"name":"1:500.000","value":"500000.0"},{"name":"1:1.000.000","value":"1000000.0"},{"name":"1:2.000.000","value":"2000000.0"},{"name":"1:4.000.000","value":"4000000.0"}],
+ "dpis":[{"name":"75","value":"75"},{"name":"150","value":"150"},{"name":"300","value":"300"}],
+ "outputFormats":[{"name":"pdf"}],
+ "layouts":[{"name":"A4 portrait","map":{"width":440,"height":483},"rotation":true},{"name":"Legal","map":{"width":440,"height":483},"rotation":false}],
+ "printURL":"http://localhost:8080/geoserver/pdf/print.pdf","createURL":"http://localhost:8080/geoserver/pdf/create.json"
+ }
+
  */

@@ -73,8 +73,18 @@ insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.espacos_f
 insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.espacos_florestais_producao_tipo2', 'geom');
 insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.espacos_florestais_producao_tipo3', 'geom');
 insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.espacos_naturais', 'geom');
-insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento."espaços_verdes"', 'geom');
+insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.espacos_verdes', 'geom');
 insert into infprevia.camada (tabela, coluna) values ( 'ip_ordenamento.uopg', 'geom');
+
+insert into infprevia.camada (tabela, coluna) values ( 'ip_condicionantes.ran_ip', 'geom');
+
+-- falta espaco_central_urbanizado
+
+alter table ip_condicionantes.ran_ip add column sumario text;
+update ip_condicionantes.ran_ip set sumario = 'A parcela assinalada está dentro da RAN.';
+
+delete from infprevia.camada where tabela ilike '%verdes%'
+select * from infprevia.camada where tabela ilike '%verdes%'
 
 -- Table: infprevia.confrontacao
 CREATE TABLE infprevia.confrontacao
@@ -148,6 +158,8 @@ $BODY$
     BEGIN
 	  EXECUTE infprevia.confronta(NEW.id, NEW.idutilizador);
 	  RETURN NEW;
+
+	  
     END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -164,11 +176,23 @@ CREATE OR REPLACE FUNCTION infprevia.confronta(p integer, utilizador integer)
 $BODY$
 DECLARE
     rec RECORD;
+    t character varying(80); 
+    c character varying(80);
+    geo character varying(80);
 BEGIN
     FOR rec IN SELECT * FROM infprevia.camada LOOP
         RAISE NOTICE 'Vai confrontar: % com %.%', p, rec.tabela, rec.coluna; 
         PERFORM infprevia.intercepta(p, rec.tabela, rec.coluna, utilizador);
     END LOOP;
+   	-- loteamentos 
+    t = 'uso_do_solo.loteamentos';
+    c = 'the_geom';
+    geo = t || '.' || c;      
+    EXECUTE 'INSERT INTO infprevia.confrontacao (idpretensao, camada, the_geom, area, idutilizador, dominio, subdominio, familia, objecto, ident_gene, ident_part, diploma_es, parecer, entidade, sumario, texto) ' ||
+    'select ' || p || ', ''' || t || ''', ST_Intersection(infprevia.pretensao.the_geom,' || geo || '), st_area(ST_Intersection(infprevia.pretensao.the_geom, ' || geo || ')), ' || utilizador || ', ' ||
+    t || '.n_alvara, ' || t || '.n_proc, ' || t || '.n_matriz, ' || t || '.n_conserva, ' || t || '.imgem_alvara, ' || t || '.planta_sintese, ' || t || '.ano, ' || t || '.tipo, ' || t || '.titular, ' || t || '.tipo, ' || t || '.tipo ' ||
+    'from infprevia.pretensao, ' || t || ' '
+    'where infprevia.pretensao.id = ' || p || ' and ST_Intersects(infprevia.pretensao.the_geom, ' || geo || ')';          
     RETURN;
 END;
 $BODY$
@@ -183,16 +207,17 @@ ALTER FUNCTION infprevia.confronta(integer, integer)
 CREATE OR REPLACE FUNCTION infprevia.intercepta(p integer, t character varying, c character varying, u integer)
   RETURNS void AS
 $BODY$
-     DECLARE geo character varying(80);
-     DECLARE sumario text; 
+     DECLARE 
+     	geo character varying(80);
+     	sumario text; 
     BEGIN
-      sumario = '''Para o local assinalado o instrumento de gestão territorial é o Plano Diretor Municipal, publicado no Diário da República, 2.ª série – N.º44 de 1 de março, através do Aviso n.º3341/2012. O terreno insere-se em solo urbano, na categoria de solo urbanizado – Espaços de Atividades Económicas. ''';
-      -- sumario = '''Teste''';
+      -- sumario = '''Para o local assinalado o instrumento de gestão territorial é o Plano Diretor Municipal, publicado no Diário da República, 2.ª série – N.º44 de 1 de março, através do Aviso n.º3341/2012. O terreno insere-se em solo urbano, na categoria de solo urbanizado – Espaços de Atividades Económicas. ''';
+      sumario = '''Teste''';
       geo = t || '.' || c;
       RAISE NOTICE 'Vai interceptar infprevia.pretensao.the_geom com %', geo;
       EXECUTE 'INSERT INTO infprevia.confrontacao (idpretensao, camada, the_geom, area, idutilizador, dominio, subdominio, familia, objecto, ident_gene, ident_part, diploma_es, parecer, entidade, sumario, texto) ' ||
       'select ' || p || ', ''' || t || ''', ST_Intersection(infprevia.pretensao.the_geom,' || geo || '), st_area(ST_Intersection(infprevia.pretensao.the_geom, ' || geo || ')), ' || u || ', ' ||
-      t || '.dominio, ' || t || '.subdominio, ' || t || '.familia, ' || t || '.objecto, ' || t || '.ident_gene, ' || t || '.ident_part, ' || t || '.diploma_es, ' || t || '.parecer, ' || t || '.entidade, ' || sumario || ' , '|| t || '.texto ' ||
+      t || '.dominio, ' || t || '.subdominio, ' || t || '.familia, ' || t || '.objecto, ' || t || '.ident_gene, ' || t || '.ident_part, ' || t || '.diploma_es, ' || t || '.parecer, ' || t || '.entidade, ' || t || '.sumario, ' || t || '.texto ' ||
       'from infprevia.pretensao, ' || t || ' '
       'where infprevia.pretensao.id = ' || p || ' and ST_Intersects(infprevia.pretensao.the_geom, ' || geo || ')';
     END;
@@ -202,6 +227,8 @@ $BODY$
 ALTER FUNCTION infprevia.intercepta(integer, character varying, character varying, integer)
   OWNER TO geobox;
   
+ALTER TABLE infprevia.confrontacao DROP CONSTRAINT confrontacao_camada_fk;
+
 -- Trigger: completa on infprevia.pretensao
 -- DROP TRIGGER completa ON infprevia.pretensao;
 

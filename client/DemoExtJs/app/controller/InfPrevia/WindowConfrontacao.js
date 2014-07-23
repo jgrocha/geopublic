@@ -1,8 +1,13 @@
 Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 	extend : 'Ext.app.Controller',
+	requires : ['GeoExt.data.MapfishPrintProvider'], // , 'GeoExt.plugins.PrintExtent'],
 	// Ext.ComponentQuery.query('windowconfrontacao')
 	stores : ['InfPrevia.ConfrontacaoPretensao'], // getInfPreviaConfrontacaoPretensaoStore()
 	views : ['InfPrevia.WindowConfrontacao'],
+	refs : [{
+		selector : 'windowconfrontacao > feedback-map-panel',
+		ref : 'mapa' // gera um getMapa
+	}],
 	init : function() {
 		var me = this;
 		var map = null;
@@ -25,6 +30,10 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 					console.debug('InfPrevia.WindowConfrontacao close');
 					me.getInfPreviaConfrontacaoPretensaoStore().unbind();
 					me.getInfPreviaConfrontacaoPretensaoStore().removeAll();
+					var num = me.getMapa().map.getNumLayers();
+					for (var i = num - 1; i >= 0; i--) {
+						me.getMapa().map.removeLayer(me.getMapa().map.layers[i]);
+					}
 				}
 			},
 			'feedback-map-panel' : {
@@ -33,6 +42,9 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			},
 			"windowconfrontacao button#remove" : {
 				click : this.onButtonClickRemovePolygon
+			},
+			"windowconfrontacao button#imprimemapa" : {
+				click : this.onButtonClickImprimeMapa
 			},
 			"windowconfrontacao button#relatorio" : {
 				click : this.onButtonClickEnviaRelatorio
@@ -59,8 +71,54 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			}
 		}, this);
 	},
+	onButtonClickImprimeMapa : function(button, e, options) {
+		console.log('onButtonClickImprimeMapa');
+		console.debug(this.getMapa());
+		// this.getMapa().plugins[0].addPage();
+		// this.getMapa().plugins[0].print();
+	},
 	onButtonClickEnviaRelatorio : function(button, e, options) {
 		console.log('onButtonClickEnviaRelatorio');
+		// console.debug(this.getMapa());
+
+		var printProvider = this.getMapa().printProvider;
+
+		console.debug(this.jsonData);
+
+		Ext.Ajax.request({
+			url : printProvider.capabilities.createURL,
+			// timeout : this.timeout,
+			jsonData : this.jsonData,
+			headers : {
+				"Content-Type" : "application/json; charset=" + printProvider.encoding
+			},
+			success : function(response) {
+				// console.debug(response);
+				var url = Ext.decode(response.responseText).getURL;
+				this.download(url);
+			},
+			failure : function(response) {
+				printProvider.fireEvent("printexception", this, response);
+			},
+			params : printProvider.initialConfig.baseParams,
+			scope : printProvider
+		});
+
+		// Download do PDF
+
+	},
+	download : function(url) {
+		if (this.fireEvent("beforedownload", this, url) !== false) {
+			if (Ext.isOpera) {
+				// Make sure that Opera don't replace the content tab with
+				// the pdf
+				window.open(url);
+			} else {
+				// This avoids popup blockers for all other browsers
+				window.location.href = url;
+			}
+		}
+		this.fireEvent("print", this, url);
 	},
 	onButtonClickCentrar : function(button, e, options) {
 		console.log('onButtonClickCentrar');
@@ -73,40 +131,6 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 		var bounds = mapPanel.up('windowconfrontacao').bounds;
 		var idpretensao = mapPanel.up('windowconfrontacao').pretensao;
 		console.log('Vai apresentar a pretensão ' + idpretensao + ' com os limites ' + bounds);
-
-		/*
-		 var layers = [];
-		 map = mapPanel.map;
-		 // OpenLayers object creating
-
-		 var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
-		 layername : 'mapquest/pt_tm_06',
-		 type : 'png',
-		 tileSize : new OpenLayers.Size(256, 256)
-		 });
-
-		 layers.push(layerQuest);
-		 map.addLayers(layers);
-		 */
-
-		/*
-		 var resultado_confrontacao = new OpenLayers.Layer.WMS("geomaster:confrontacao", "http://development.localhost.lan/geoserver/geomaster/wms", {
-		 LAYERS : 'geomaster:confrontacao',
-		 STYLES : '',
-		 format : 'image/png',
-		 transparent : 'true'
-		 // tiled : true,
-		 // tilesOrigin : map.maxExtent.left + ',' + map.maxExtent.bottom
-		 }, {
-		 buffer : 0,
-		 displayOutsideMaxExtent : true,
-		 isBaseLayer : false,
-		 yx : {
-		 'EPSG:3763' : false
-		 }
-		 });
-		 map.addLayer(resultado_confrontacao);
-		 */
 
 		var wfs_confrontacao = new OpenLayers.Layer.Vector('Confrontação', {
 			strategies : [new OpenLayers.Strategy.Fixed()],
@@ -131,28 +155,6 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 		});
 
 		/*
-		wfs_confrontacao.filter = new OpenLayers.Filter.Comparison({
-		type : OpenLayers.Filter.Comparison.EQUAL_TO,
-		property : 'idpretensao',
-		value : idpretensao
-		});
-		*/
-
-		/*
-		wfs_confrontacao.refresh({
-		force : true
-		});
-		*/
-
-		// console.debug(me.getInfPreviaConfrontacaoPretensaoStore());
-		// me.getInfPreviaConfrontacaoPretensaoStore().unbind();
-		// me.getInfPreviaConfrontacaoPretensaoStore().removeAll();
-
-		// me.getInfPreviaConfrontacaoPretensaoStore().bind(wfs_confrontacao);
-
-		mapPanel.map.addLayer(wfs_confrontacao);
-
-		/*
 		* o setCenter funciona muito bem
 		*/
 		// mapPanel.map.setCenter(bounds.getCenterLonLat(), 10);
@@ -164,15 +166,6 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 		// for debug // fica com global, para se usar na consola
 		mapConfrontacao = mapPanel.map;
 
-		// mapPanel.map.setCenter(new OpenLayers.LonLat(-26557, 100814), 10);
-
-		/*
-		 layerQuest.events.register("loadend", layerQuest, function(e) {
-		 console.log('Tiles loaded...');
-		 mapPanel.map.zoomToExtent(bounds);
-		 });
-		 */
-
 		wfs_confrontacao.events.register("loadend", wfs_confrontacao, function(e) {
 			console.log('WFS loaded...');
 			mapPanel.map.zoomToExtent(bounds);
@@ -181,11 +174,115 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			var grid = mapPanel.up('windowconfrontacao').down('tabela-confrontacao');
 			grid.getSelectionModel().bind(wfs_confrontacao);
 			console.log(grid);
+
+			var printProvider = me.getMapa().printProvider;
+			var encodedLayers = [];
+			// ensure that the baseLayer is the first one in the encoded list
+			var layers = me.getMapa().map.layers.concat();
+			Ext.Array.remove(layers, me.getMapa().map.baseLayer);
+			Ext.Array.insert(layers, 0, [me.getMapa().map.baseLayer]);
+			Ext.each(layers, function(layer) {
+				if (layer.getVisibility() === true) {
+					var enc = printProvider.encodeLayer(layer);
+					enc && encodedLayers.push(enc);
+				}
+			}, this);
+
+			me.jsonData = {
+				units : "m",
+				srs : "EPSG:3763",
+				layout : "A4-5",
+				dpi : 150,
+				mapTitle : "Confrontação da pretensão",
+				comment : "Este mapa indicativo.",
+				maps : {
+					"mapa0" : {
+						"layers" : [{
+							"baseURL" : "http://localhost/mapproxy/tms/",
+							"opacity" : 1,
+							"singleTile" : false,
+							"type" : "TMS",
+							"layer" : "mapquest/pt_tm_06",
+							"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+							"tileSize" : [256, 256],
+							"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+							"format" : "png"
+						}],
+						"srs" : "EPSG:3763"
+					}
+				},
+				pages : [{
+					maps : {
+						"mapa0" : {
+							"center" : [-26557, 100814],
+							"rotation" : 0,
+							"dpi" : 75,
+							"scale" : 10000
+						}
+					},
+					"tabela" : {
+						"data" : [{
+							"id" : 1,
+							"area" : 27.5,
+							"sumario" : "Este terreno  para quase nada",
+							"texto" : "Texto muito comprimdo, maior do que a  de Braga"
+						}],
+						"columns" : ["id", "area", "sumario", "texto"]
+					}
+				}]
+			};
+
+			me.jsonData.maps.mapa0.layers = encodedLayers;
+
+			me.jsonData.pages[0].maps["mapa0"].center = [mapPanel.map.getCenter().lon.toFixed(), mapPanel.map.getCenter().lat.toFixed()];
+			var limite = wfs_confrontacao.features.length > 6 ? 6 : wfs_confrontacao.features.length;
+			me.jsonData.layout = "A4-" + limite;
+			for (var i = 0; i < limite; ++i) {
+				var mapa_layers = {
+					"layers" : [{
+						"baseURL" : "http://localhost/mapproxy/tms/",
+						"opacity" : 1,
+						"singleTile" : false,
+						"type" : "TMS",
+						"layer" : "mapquest/pt_tm_06",
+						"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+						"tileSize" : [256, 256],
+						"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+						"format" : "png"
+					}],
+					"srs" : "EPSG:3763"
+				};
+
+				var mapa_layout = {
+					"center" : [-26557, 100814],
+					"rotation" : 0,
+					"dpi" : 75,
+					"scale" : 5000
+				};
+
+				var aux = Ext.clone(encodedLayers);
+				var f = encodedLayers[encodedLayers.length-1].geoJson.features[i];
+				// console.debug(encodedLayers[encodedLayers.length-1].geoJson);
+				// console.debug('f = ', f);
+				aux[aux.length - 1].geoJson.features = [f];
+				// console.log(aux[aux.length-1].geoJson);
+
+				me.jsonData.maps["mapa" + (i + 1)] = {
+					layers : aux,
+					srs : "EPSG:3763"
+				};
+
+				mapa_layout.center = [wfs_confrontacao.features[i].geometry.getCentroid().x.toFixed(0), wfs_confrontacao.features[i].geometry.getCentroid().y.toFixed(0)];
+				me.jsonData.pages[0].maps["mapa" + (i + 1)] = mapa_layout;
+			}
+			// console.debug(me.jsonData);
 		});
 
 		wfs_confrontacao.events.register("loadstart", wfs_confrontacao, function(e) {
 			console.log('WFS started...');
 		});
+
+		mapPanel.map.addLayer(wfs_confrontacao);
 
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {

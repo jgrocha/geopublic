@@ -1,5 +1,6 @@
 Ext.define('DemoExtJs.view.MainMapPanel', {
 	extend : 'GeoExt.panel.Map',
+	requires : ['GeoExt.form.field.GeocoderComboBox'], // , 'GeoExt.plugins.PrintExtent'],
 	// xtype : 'app-main-map-panel',
 	alias : 'widget.app-main-map-panel',
 	title : 'Mapa',
@@ -46,10 +47,33 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		itemId : 'insertPolygon',
 		icon : 'resources/assets/pencil.png',
 		enableToggle : true
-	} /*, {
-		text : 'Remover',
-		itemId : 'removePolygon',
-		icon : 'resources/images/icons/fam/cross.gif',
-		enableToggle : true
-	} */ ]
+	}, {
+		xtype : 'gx_geocodercombo',
+		itemId : 'geocoder',
+		emptyText : 'Procurar por rua',
+		srs : "EPSG:4326",
+		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		width : 400
+
+	}, {
+		xtype : 'gx_geocodercombo',
+		itemId : 'geocoderprocesso',
+		emptyText : 'Procurar por processo',
+		srs : "EPSG:3763",
+		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		url : "search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		width : 200
+	}]
 });
+
+/*
+ select
+ st_xmin(st_transform(st_envelope(wkb_geometry), 4326)),
+ st_ymin(st_transform(st_envelope(wkb_geometry), 4326)),
+ st_xmax(st_transform(st_envelope(wkb_geometry), 4326)),
+ st_ymax(st_transform(st_envelope(wkb_geometry), 4326))
+ from caop2k13.concelho
+ where municipio = 'ÁGUEDA'
+ -8.55898470432682;40.4952659894046;-8.24518232621154;40.6944963001662
+ */
