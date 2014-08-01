@@ -58,6 +58,14 @@ Ext.define('DemoExtJs.Application', {
 		 });
 		 */
 
+		if (document.location.href.split('/')[2].indexOf('localhost') > -1) {
+			DemoExtJs.geoserver = 'http://localhost:8080';
+			DemoExtJs.mapproxy = 'http://localhost/mapproxy/tms/';
+
+		} else {
+			DemoExtJs.geoserver = 'http://cm-agueda.geomaster.pt:8080';
+			DemoExtJs.mapproxy = ['http://a.geomaster.pt/mapproxy/tms/', 'http://b.geomaster.pt/mapproxy/tms/', 'http://c.geomaster.pt/mapproxy/tms/', 'http://d.geomaster.pt/mapproxy/tms/'];
+		}
 	},
 	launch : function() {
 		var me = this;

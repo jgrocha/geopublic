@@ -65,7 +65,7 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 		map = mapPanel.map;
 		// OpenLayers object creating
 
-		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', DemoExtJs.mapproxy, {
 			layername : 'mapquest/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)

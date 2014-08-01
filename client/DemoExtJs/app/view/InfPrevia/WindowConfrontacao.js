@@ -27,8 +27,8 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 		// this.center = new OpenLayers.LonLat(-8.44561, 40.57744).transform(new OpenLayers.Projection("EPSG:4326"), this.map.getProjectionObject());
 
 		// OpenLayers object creating
-
-		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+			
+		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', DemoExtJs.mapproxy, {
 			layername : 'mapquest/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)
@@ -62,7 +62,7 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 		// The printProvider that connects us to the print service
 		this.printProvider = Ext.create('GeoExt.data.MapfishPrintProvider', {
 			autoLoad : true,
-			url : "http://development.localhost.lan/geoserver/pdf/",
+			url : DemoExtJs.geoserver + "/geoserver/pdf/",
 			method : "POST", // "GET", // "POST" recommended for production use
 			// capabilities : printCapabilities, // from the info.json script in the html
 			customParams : {
@@ -74,8 +74,8 @@ Ext.define('DemoExtJs.view.InfPrevia.Feedback', {
 				"loadcapabilities" : function() {
 					console.log('loadcapabilities'); // http://localhost/geoserver/pdf/info.json
 					console.log(this.capabilities);
-					this.capabilities.printURL = 'http://development.localhost.lan/geoserver/pdf/print.pdf';					
-					this.capabilities.createURL = 'http://development.localhost.lan/geoserver/pdf/create.json';				
+					this.capabilities.printURL = DemoExtJs.geoserver + '/geoserver/pdf/print.pdf';					
+					this.capabilities.createURL = DemoExtJs.geoserver + '/geoserver/pdf/create.json';				
 				}
 			}
 		});

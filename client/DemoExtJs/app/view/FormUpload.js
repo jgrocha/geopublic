@@ -10,14 +10,14 @@ Ext.define('DemoExtJs.view.FormUpload', {
 	bodyPadding : 5,
 
 	api : {
-		submit : 'ExtRemote.DXFormTest.filesubmit'
+		submit : 'ExtRemote.DXFormTest.filesubmitshapefile'
 	},
 
 	paramOrder : ['uid'],
 
 	items : [{
 		xtype : 'imagecomponent',
-		src: 'uploaded_images/Wiki.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
+		src : 'uploaded_images/Wiki.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'textfield',
 		fieldLabel : 'Description',
@@ -41,6 +41,7 @@ Ext.define('DemoExtJs.view.FormUpload', {
 	}],
 	tbar : [{
 		text : 'Upload..',
+		disabled : true,
 		handler : function(btn) {
 
 			btn.up('form').getForm().submit({
@@ -58,7 +59,33 @@ Ext.define('DemoExtJs.view.FormUpload', {
 					console.log(arguments);
 					Ext.MessageBox.show({
 						title : 'EXCEPTION',
-						msg : 'Error uploading file',
+						msg : 'Erro ao carregar o arquivo',
+						icon : Ext.MessageBox.ERROR,
+						buttons : Ext.Msg.OK
+					});
+				}
+			});
+		}
+	}, {
+		text : 'Upload shapefile',
+		handler : function(btn) {
+
+			btn.up('form').getForm().submit({
+				waitMsg : 'Uploading your shapefile ...',
+
+				callback : function(fp, o) {
+
+				},
+
+				success : function(fp, o) {
+					Ext.Msg.alert('Success', 'Your shapefile "' + o.result.name + '" has been uploaded.<br> File size:' + o.result.size + ' bytes.');
+				},
+
+				failure : function(form, action) {
+					console.log(arguments);
+					Ext.MessageBox.show({
+						title : 'EXCEPTION',
+						msg : 'Erro ao carregar o arquivo',
 						icon : Ext.MessageBox.ERROR,
 						buttons : Ext.Msg.OK
 					});

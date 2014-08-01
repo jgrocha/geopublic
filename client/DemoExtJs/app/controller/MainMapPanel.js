@@ -51,6 +51,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel button#insertPolygon" : {
 				click : this.onButtonClickInsertPolygon
 			},
+			"app-main-map-panel button#uploadShapefile" : {
+				click : this.onButtonClickUploadShapefile
+			},
 			"app-main-map-panel button#save" : {
 				click : this.onButtonClickSave
 			}
@@ -68,6 +71,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	onSelectGeocoder : function(combo, records) {
 		console.log('onSelectGeocoder');
 		console.debug(records[0].data);
+	},
+	onButtonClickUploadShapefile : function(button, e, options) {
+		console.log('onButtonClickUploadShapefile');
 	},
 	onButtonClickInsertPolygon : function(button, e, options) {
 		// console.log('onButtonClickInsertPolygon');
@@ -127,7 +133,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		map = mapPanel.map;
 		// OpenLayers object creating
 
-		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', '/mapproxy/tms/', {
+		// var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', servidor_de_mapas + '/mapproxy/tms/', {
+		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', DemoExtJs.mapproxy, {
 			layername : 'mapquest/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)
@@ -136,7 +143,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		});
 		layers.push(layerQuest);
 
-		var layerOrtos = new OpenLayers.Layer.TMS('Ortos', '/mapproxy/tms/', {
+		var layerOrtos = new OpenLayers.Layer.TMS('Ortos', DemoExtJs.mapproxy, {
 			layername : 'ortos/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)
@@ -169,14 +176,14 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		me.wfs_pretensao = new OpenLayers.Layer.Vector('Pretensões', {
 			strategies : [new OpenLayers.Strategy.BBOX(), me.saveStrategy],
 			protocol : new OpenLayers.Protocol.WFS({
-				url : 'http://development.localhost.lan/geoserver/wfs', //
+				url : DemoExtJs.geoserver + '/geoserver/wfs', //
 				featureType : 'pretensao',
 				featureNS : 'http://geomaster.pt',
 				srsName : 'EPSG:3763',
 				version : '1.1.0',
 				reportError : true,
 				featurePrefix : 'geomaster',
-				schema : 'http://development.localhost.lan/geoserver/wfs/DescribeFeatureType?version=1.1.0&typename=geomaster:pretensao',
+				schema : DemoExtJs.geoserver + '/geoserver/wfs/DescribeFeatureType?version=1.1.0&typename=geomaster:pretensao',
 				geometryName : 'the_geom'
 			}),
 			visibility : true,
@@ -192,7 +199,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var locationLayer = new OpenLayers.Layer.Vector("Location", {
 			projection : new OpenLayers.Projection("EPSG:4326"),
 			styleMap : new OpenLayers.Style({
-				externalGraphic : "http://openlayers.org/api/img/marker.png",
+				externalGraphic : "resources/images/marker.png",
 				graphicYOffset : -25,
 				graphicHeight : 25,
 				graphicTitle : "${name}"

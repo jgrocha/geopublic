@@ -6,44 +6,117 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 	autoScroll : true,
 	defaultType : 'container',
 	items : [{
-		columnWidth : 1 / 3,
-		padding : '5 0 5 5',
+		columnWidth : 1 / 4,
+		padding : '10 10 10 10',
 		items : [{
-			title : 'A Panel',
-			html : 'Ext.example.shortBogusMarkup'
-		}, {
-			title : 'A Panel',
-			html : 'Ext.example.shortBogusMarkup'
+			title : 'Sobre a Informação Prévia no minuto',
+			// bodyStyle:{ "background-color":"#f5f5eb" },
+			loader : {
+				url : 'resources/guiarapido/sobre.html',
+				autoLoad : true
+			}
 		}]
 	}, {
-		columnWidth : 1 / 3,
-		padding : '5 0 5 5',
+		columnWidth : 1 / 2,
+		padding : '10 10 10 10', // top, right, bottom, left
 		items : [{
-			title : 'Outro Panel',
-			html : 'Ext.example.shortBogusMarkup'
-		}, {
-			xtype : 'combo',
-			itemId : 'promotor-bem-vindo-cbx',
-			width : 240,
-			editable : false,
-			valueField : 'id',
-			displayField : 'designacao',
-			emptyText : 'Escolha um promotor...',
-			forceSelection : true,
-			triggerAction : 'all',
-			store : 'PromotorCombo',
-			queryMode : 'local'
-		}]
+			itemId : 'wizard',
+			height : 400,
+			layout : 'card',
+			items : [{
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/introducao.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/registo.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/navegar.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/procurar.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/desenhar.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/upload.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/consultar.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/imprimir.html',
+					autoLoad : true
+				}
+			}, {
+				title : 'Guia rápido',
+				autoScroll : true,
+				loader : {
+					url : 'resources/guiarapido/terminar.html',
+					autoLoad : true
+				}
+			}],
+			bbar : [{
+				text : 'Saltar o Guia',
+				itemId : 'saltar'
+			}, '->', {
+				text : 'Anterior',
+				itemId : 'previous',
+				disabled : true
+			}, {
+				text : 'Seguinte',
+				itemId : 'next'
+			}]
+		} /*, {
+		 xtype : 'combo',
+		 itemId : 'promotor-bem-vindo-cbx',
+		 width : 240,
+		 editable : false,
+		 valueField : 'id',
+		 displayField : 'designacao',
+		 emptyText : 'Escolha um promotor...',
+		 forceSelection : true,
+		 triggerAction : 'all',
+		 store : 'PromotorCombo',
+		 queryMode : 'local'
+		 } */ ]
 	}, {
-		columnWidth : 1 / 3,
-		padding : 5,
+		columnWidth : 1 / 4,
+		margin : '10 10 10 10',
 		items : [{
-			title : 'A Panel',
-			html : 'Ext.example.shortBogusMarkup'
-		}, {
-			margin : '5 0 0 0',
-			title : 'Another Panel',
-			html : 'Ext.example.shortBogusMarkup'
+			title : 'Notícias sobre a aplicação',
+			html : '<h3>Versão beta</h3><p>2014-07-25 - Foi lançada a versão beta.</p>'
 		}]
 	}]
 });

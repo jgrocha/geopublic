@@ -112,6 +112,10 @@ CREATE TABLE infprevia.confrontacao
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3763)
 );
 
+ALTER TABLE infprevia.confrontacao DROP CONSTRAINT enforce_geotype_the_geom;
+ALTER TABLE infprevia.confrontacao ADD CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text OR geometrytype(the_geom) = 'POINT'::text OR the_geom IS NULL);
+
+
 ALTER TABLE infprevia.confrontacao ADD COLUMN sumario text;
 ALTER TABLE infprevia.camada ADD COLUMN sumario text;
 

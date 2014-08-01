@@ -22,12 +22,16 @@
         "classPath": "/direct",
         "classPrefix": "DX",
         "_server": "localhost",
-        "server": "development.localhost.lan",
-        "port": "80",
-        "_port": "3000",
+        "server": "a.geomaster.pt",
+        "_port": "80",
+        "port": "3000",
         "protocol": "http",
         "relativeUrl": true,      
         "_relativeUrl": true,      
         "appendRequestResponseObjects": true
+    },
+    "Algumas notas": {
+    	"relativeUrl" : "Se for true, não usa sequer o nome do servidor! Que fixe!",
+    	"_relativeUrl" : "Se for true, ... não está a funcionar com o passenger"
     }
 }

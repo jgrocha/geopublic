@@ -5,7 +5,7 @@ Ext.define('DemoExtJs.view.Avatar', {
 	title : 'Avatar',
 	bodyPadding : 5,
 	api : {
-		submit : 'ExtRemote.DXFormTest.filesubmit'
+		submit : 'ExtRemote.DXFormTest.filesubmitphotoprofile'
 	},
 	/*
 	 * The Profile Image dimensions are 160px by 160px!

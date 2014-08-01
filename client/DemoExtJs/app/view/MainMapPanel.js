@@ -64,6 +64,11 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		url : "search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		width : 200
+	}, {
+		text : 'Carregar shapefile', // só vamos deixar desenhar a partir de um dado nível de zoom...
+		itemId : 'uploadShapefile',
+		icon : 'resources/assets/plus-circle.png',
+		enableToggle : false
 	}]
 });
 

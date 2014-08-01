@@ -79,6 +79,17 @@ nodemon server.js
 
 http://blog.nodejitsu.com/keep-a-nodejs-server-up-with-forever/
 
+#### Deploy
+
+cd /home/jgr/git/extdirect.examples/node-server/extdirect-pg
+rm public
+cp -r ../../client/DemoExtJs/build/production/DemoExtJs public
+mkdir public/uploaded_images
+mkdir public/uploaded_images/profiles
+mkdir public/uploaded_images/profiles/32x32
+mkdir public/uploaded_images/profiles/160x160
+mkdir public/uploaded_shapefiles
+
 ### Apache
 
 Aplication: http://development.localhost.lan/ppgis/
@@ -137,6 +148,28 @@ Using Geoserver with Print extension (provided by MapFish)
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d @pedido.json http://localhost:8080/geoserver/pdf/create.json
 wget http://localhost:8080/geoserver/pdf/8548576072996938105.pdf.printout -O teste.pdf
 ```
+
+### Importing shapefiles
+
+#### Using Geoserver REST API
+
+http://docs.geoserver.org/stable/en/user/rest/examples/curl.html
+
+Upload the (first) shapefile
+```
+curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @edificadosec19.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/file.shp
+curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes.xml
+curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes/edificado.xml
+```
+
+Upload the (second) shapefile
+```
+curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @SIGARQ.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/file.shp
+curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes.xml
+curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes/edificado0.xml
+```
+
+
 
 ###Architect 3 sample project
 

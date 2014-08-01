@@ -13,65 +13,65 @@ Ext.define('DemoExtJs.view.TopHeader', {
 	 */
 	items : [{
 		xtype : 'imagecomponent',
-		src : 'resources/images/hands_raised_x44.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
+		alt : 'Câmara Municipal de Águeda',
+		title : 'Câmara Municipal de Águeda',
+		src : 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'label',
-		html : 'Informação Prévia'
-	}, {
-		xtype : 'combo',
-		itemId : 'promotor',
-		width : 240,
-		editable : false,
-		valueField : 'id',
-		displayField : 'designacao',
-		emptyText : 'Escolha um promotor...',
-		forceSelection : true,
-		triggerAction : 'all',
-		store : 'PromotorCombo',
-		queryMode : 'local'
-	}, {
-		xtype : 'combo',
-		itemId : 'plano',
-		width : 240,
-		editable : false,
-		valueField : 'id',
-		displayField : 'designacao',
-		emptyText : 'Escolha o plano...',
-		forceSelection : true,
-		triggerAction : 'all',
-		store : 'PlanoCombo',
-		queryMode : 'local'
-		/*
-		border : 5,
+		html : 'Informação Prévia no minuto',
 		style : {
-			borderColor : 'red',
-			borderStyle : 'solid'
+			'font-size' : '12px', // The javascript constant.
+			'font-weight' : 'bold'
 		}
-		*/
-	}, {
+	}, /* {
+	 xtype : 'combo',
+	 itemId : 'promotor',
+	 width : 240,
+	 editable : false,
+	 valueField : 'id',
+	 displayField : 'designacao',
+	 emptyText : 'Escolha um promotor...',
+	 forceSelection : true,
+	 triggerAction : 'all',
+	 store : 'PromotorCombo',
+	 queryMode : 'local'
+	 }, {
+	 xtype : 'combo',
+	 itemId : 'plano',
+	 width : 240,
+	 editable : false,
+	 valueField : 'id',
+	 displayField : 'designacao',
+	 emptyText : 'Escolha o plano...',
+	 forceSelection : true,
+	 triggerAction : 'all',
+	 store : 'PlanoCombo',
+	 queryMode : 'local'
+	 }, */
+	{
 		xtype : 'tbfill'
 	}, {
 		xtype : 'button',
-		text : 'New user',
+		text : 'Novo utilizador',
 		icon : 'resources/assets/plus-circle.png',
 		itemId : 'botaoRegisto',
 		scale : 'medium'
 	}, {
 		xtype : 'splitbutton',
-		text : 'Log in',
+		text : 'Iniciar sessão',
 		itemId : 'botaoLogin',
 		resizable : true,
 		scale : 'medium',
 		menu : [{
-			text : 'Last access',
+			text : 'Últimos acessos',
 			itemId : 'botaoLastAccess'
 		}, {
-			text : 'Messages'
+			text : 'Mensagens'
 		}, {
-			text : 'Profile',
+			text : 'Dados pessoais',
 			itemId : 'botaoPerfil'
 		}, {
-			text : 'Log out',
+			text : 'Sair',
 			icon : 'resources/assets/logout.png',
 			itemId : 'botaoLogout'
 		}]

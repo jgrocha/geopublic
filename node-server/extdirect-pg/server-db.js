@@ -1,13 +1,20 @@
 var pg = require('pg');
-var conString = "postgres://geobox:geobox@localhost/extdirectnode";
+var conString = "";
+
+if ('production' == process.env.NODE_ENV) {
+	// global.App.mode pode ainda estar a undefined
+	conString = "postgres://geobox:geomaster2k14@localhost/extdirectnode";
+} else {
+	conString = "postgres://geobox:geobox@localhost/extdirectnode";
+}
+
 // user with read only privileges to test operations with database errors
 // var conString = "postgres://readonly:readonly@localhost/extdirectnode";
 
 var myPG = {
-	
 	// cf. https://github.com/brianc/node-postgres
 	// change to client pooling...
-	
+
 	connect : function() {
 		var client = new pg.Client(conString);
 		client.connect(function(err) {
@@ -32,22 +39,22 @@ var myPG = {
 				success : false,
 				message : 'Database error'
 				/*
-				message : {
-					text : 'Database error',
-					debug : error
-				}
-				*/
+				 message : {
+				 text : 'Database error',
+				 debug : error
+				 }
+				 */
 			});
 		} else {
 			fn({
 				success : false,
 				message : 'Unknown error'
 				/*
-				message : {
-					text : 'Unknown error',
-					debug : null
-				}
-				*/
+				 message : {
+				 text : 'Unknown error',
+				 debug : null
+				 }
+				 */
 			});
 		}
 	}

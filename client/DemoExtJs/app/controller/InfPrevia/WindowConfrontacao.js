@@ -132,17 +132,23 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 		var idpretensao = mapPanel.up('windowconfrontacao').pretensao;
 		console.log('Vai apresentar a pretensão ' + idpretensao + ' com os limites ' + bounds);
 
+		var servidor_de_mapas = '';
+		if (document.location.href.split('/')[2].indexOf('3000') > -1)
+			servidor_de_mapas = 'http://development.localhost.lan';
+		else
+			servidor_de_mapas = document.location.href.split('/')[0] + '//' + document.location.href.split('/')[2];
+			
 		var wfs_confrontacao = new OpenLayers.Layer.Vector('Confrontação', {
 			strategies : [new OpenLayers.Strategy.Fixed()],
 			protocol : new OpenLayers.Protocol.WFS({
-				url : 'http://development.localhost.lan/geoserver/wfs', //
+				url : servidor_de_mapas + ':8080' + '/geoserver/wfs', //
 				featureType : 'confrontacao',
 				featureNS : 'http://geomaster.pt',
 				srsName : 'EPSG:3763',
 				version : '1.1.0',
 				reportError : true,
 				featurePrefix : 'geomaster',
-				schema : 'http://development.localhost.lan/geoserver/wfs/DescribeFeatureType?version=1.1.0&typename=geomaster:confrontacao',
+				schema : servidor_de_mapas + ':8080' + '/geoserver/wfs/DescribeFeatureType?version=1.1.0&typename=geomaster:confrontacao',
 				geometryName : 'the_geom'
 			}),
 			visibility : true,

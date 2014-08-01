@@ -29,6 +29,19 @@ var transport = nodemailer.createTransport("SMTP", {
 global.App.transport = transport;
 global.App.templates = templatesDir;
 
+app.configure('development', function() {
+	app.use(express.errorHandler({
+		dumpExceptions : true,
+		showStack : true
+	}));
+	global.App.mode = 'development';
+});
+
+app.configure('production', function() {
+	app.use(express.errorHandler());
+	global.App.mode = 'production';
+});
+
 /*
  * $ redis-cli
  * redis 127.0.0.1:6379> keys *
@@ -146,19 +159,6 @@ app.get(ExtDirectConfig.classPath, function(request, response) {
 // POST request process route and calls class
 app.post(ExtDirectConfig.classPath, function(request, response) {
 	extdirect.processRoute(request, response, ExtDirectConfig);
-});
-
-app.configure('development', function() {
-	app.use(express.errorHandler({
-		dumpExceptions : true,
-		showStack : true
-	}));
-	global.App.mode = 'development';
-});
-
-app.configure('production', function() {
-	app.use(express.errorHandler());
-	global.App.mode = 'production';
 });
 
 http.createServer(app).listen(app.get('port'), function() {

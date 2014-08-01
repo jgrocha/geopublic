@@ -1,8 +1,28 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="pt">
 	<head>
 		<meta charset="UTF-8">
-		<title>Ext.Direct DEMO</title>
+		<title>Informação Prévia no minuto | Câmara Municipal de Águeda</title>
+		<meta name="author" content="Jorge Gustavo Rocha, infprevia@geomaster.pt">
+		<meta name="owner" content="Câmara Municipal de Águeda">
+
+		<!-- Include OpenLayers. It isn't managed by Ext.Loader -->
+		<!-- This lib folder must be copied to production -->
+		<!-- app.resource.paths=${app.dir}/resources,${app.dir}/lib -->
+		<link rel="stylesheet" type="text/css" href="resources/js/OpenLayers-2.13.1/theme/default/style.css" />
+		<script src="resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+		<!-- para converter as coordenadas do geocoder -->
+		<script src="resources/js/proj4js/lib/proj4js.js"></script>
+		<script src="resources/js/proj4js/lib/defs/EPSG3763.js"></script>
+		<script src="resources/js/proj4js/lib/defs/EPSG4326.js"></script>
+		<script src="resources/js/proj4js/lib/defs/EPSG900913.js"></script>
+
+		<!--
+		<script src="lib/proj4js/lib/defs/EPSG20790.js"></script>
+		<script src="lib/proj4js/lib/defs/EPSG27492.js"></script>
+		-->
+
 		<!-- <x-compile> -->
 		<!-- <x-bootstrap> -->
 		<link rel="stylesheet" href="bootstrap.css">
@@ -21,11 +41,16 @@
 			}
 		</style>
 
-		<!-- Para se usar o alternador de estilos do ExtJS, em vez do include seguinte, usam-se os includes que aparecem nos exemplo -->
-		<!-- <script src="ext/ext-dev.js"></script> -->
-		<!-- Includes dos exemplos -->
+		<!-- Sem usar o alternador de estilos do ExtJS. Aparece o Neptune por defeito -->
+		<script src="ext/ext-dev.js"></script>
+		<!-- Usar o estilo gray -->
+		<link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all-gray.css">
+
+		<!-- Includes dos exemplos para se usar o alternador de estilos do ExtJS-->
+		<!--
 		<script type="text/javascript" src="ext/examples/shared/include-ext.js"></script>
 		<script type="text/javascript" src="ext/examples/shared/options-toolbar.js"></script>
+		-->
 
 		<script src="ext/locale/ext-lang-pt_PT.js"></script><!-- ok, tem que ser aqui -->
 
@@ -37,23 +62,6 @@
 		<script src="resources/js/hello.all.min.js"></script>
 		<script src="app.js"></script>
 		<!-- </x-compile> -->
-
-		<!-- Include OpenLayers. It isn't managed by Ext.Loader -->
-		<!-- This lib folder must be copied to production -->
-		<!-- app.resource.paths=${app.dir}/resources,${app.dir}/lib -->
-		<link rel="stylesheet" type="text/css" href="resources/js/OpenLayers-2.13.1/theme/default/style.css" />
-		<script src="resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
-
-		<!-- para converter as coordenadas do geocoder -->
-		<script src="resources/js/proj4js/lib/proj4js.js"></script>
-		<script src="resources/js/proj4js/lib/defs/EPSG3763.js"></script>
-		<script src="resources/js/proj4js/lib/defs/EPSG4326.js"></script>
-		<script src="resources/js/proj4js/lib/defs/EPSG900913.js"></script>
-
-		<!--
-		<script src="lib/proj4js/lib/defs/EPSG20790.js"></script>
-		<script src="lib/proj4js/lib/defs/EPSG27492.js"></script>
-		-->
 
 	</head>
 	<body></body>

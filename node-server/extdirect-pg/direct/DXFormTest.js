@@ -53,16 +53,91 @@ var DXFormTest = {
 		});
 	},
 
-	/*
-	 * Tenho que estar em sessão, com um utilizador bem identificado, para por a fotografia na pasta dele
-	 * (quando se tratar de uma foto de perfil)
-	 */
-	filesubmit : function(params, callback, sessionID, request, response/*formHandler*/) {
+	// http://shapeshed.com/working_with_filesystems_in_nodejs/
+	// http://ogre.adc4gis.com/
+
+	filesubmitshapefile : function(params, callback, sessionID, request, response/*formHandler*/) {
 		var files = request.files;
 		//get files from request object
 		// console.log(params, files)
 		var userid = request.session.userid;
-		console.log('DXFormTest.filesubmit Session ID = ' + sessionID + ' com o utilizador ' + userid);
+		console.log('DXFormTest.filesubmitshapefile Session ID = ' + sessionID + ' com o utilizador ' + userid);
+
+		// Do something with uploaded file, e.g. move to another location
+		var fs = require('fs'), file = files.photo, tmp_path = file.path;
+		console.log(file);
+		var path = require('path');
+
+		var target_path = './public/uploaded_shapefiles';
+		var target_file = target_path + '/' + file.name;
+
+		console.log('Tempory path = ' + tmp_path);
+		console.log('Target path = ' + target_file);
+
+		var successfulUpload = function(cb) {
+
+		};
+
+		var failedUpload = function(cd, error) {
+
+		};
+
+		if (file.size > 0) {
+			try {
+				fs.rename(tmp_path, target_file, function(err) {
+					if (err) {
+						console.log('fs.rename');
+						console.log(err);
+						callback({
+							success : false,
+							msg : "Upload failed - can't rename the file",
+							errors : err.message
+						});
+					}
+					// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+					fs.unlink(tmp_path, function() {
+						callback({
+							success : true,
+							msg : 'Uploaded successfully',
+							size : file.size,
+							name : target_file
+						});
+					});
+				});
+			} catch(e) {
+				console.log('Exception on fs.rename');
+				callback({
+					success : false,
+					msg : "Upload failed - can't rename the file",
+					errors : e.message
+				});
+			}
+
+		} else {
+			console.log('file.size === 0');
+			callback({
+				success : false,
+				msg : "Upload failed - empty file",
+				params : params,
+				errors : {
+					clientCode : "File not found",
+					portOfLoading : "This field must not be null"
+				}
+			});
+		}
+
+	},
+
+	/*
+	 * Tenho que estar em sessão, com um utilizador bem identificado, para por a fotografia na pasta dele
+	 * (quando se tratar de uma foto de perfil)
+	 */
+	filesubmitphotoprofile : function(params, callback, sessionID, request, response/*formHandler*/) {
+		var files = request.files;
+		//get files from request object
+		// console.log(params, files)
+		var userid = request.session.userid;
+		console.log('DXFormTest.filesubmitphotoprofile Session ID = ' + sessionID + ' com o utilizador ' + userid);
 
 		// Do something with uploaded file, e.g. move to another location
 		var fs = require('fs'), file = files.photo, tmp_path = file.path;
