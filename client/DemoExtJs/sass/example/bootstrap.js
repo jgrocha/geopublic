@@ -6,6 +6,7 @@
  */
 Ext.Loader.addClassPathMappings({
   "DemoExtJs": "../../app",
+  "DemoExtJs.CustomReader": "../../app/view/FormUpload.js",
   "DemoExtJs.view.Avatar": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.Home": "../../app/view/Users/Profile.js",
@@ -19,9 +20,11 @@ Ext.Loader.addClassPathMappings({
 });
 Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.Application": [],
+  "DemoExtJs.CustomReader": [],
   "DemoExtJs.DirectAPI": [],
   "DemoExtJs.controller.BemVindoPanel": [],
   "DemoExtJs.controller.InfPrevia.Hierarquia": [],
+  "DemoExtJs.controller.InfPrevia.UploadShapefile": [],
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
@@ -59,6 +62,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.InfPrevia.Feedback": [],
   "DemoExtJs.view.InfPrevia.Hierarquia": [],
   "DemoExtJs.view.InfPrevia.Tabela": [],
+  "DemoExtJs.view.InfPrevia.UploadShapefile": [],
   "DemoExtJs.view.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.view.MainMapPanel": [],
   "DemoExtJs.view.MethodCall": [],
@@ -1045,9 +1049,13 @@ Ext.ClassManager.addNameAlternateMappings({
 });
 Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.Application": [],
+  "DemoExtJs.CustomReader": [
+    "reader.ns-customreader"
+  ],
   "DemoExtJs.DirectAPI": [],
   "DemoExtJs.controller.BemVindoPanel": [],
   "DemoExtJs.controller.InfPrevia.Hierarquia": [],
+  "DemoExtJs.controller.InfPrevia.UploadShapefile": [],
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
@@ -1106,6 +1114,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.InfPrevia.Tabela": [
     "widget.tabela-confrontacao"
+  ],
+  "DemoExtJs.view.InfPrevia.UploadShapefile": [
+    "widget.uploadshapefile"
   ],
   "DemoExtJs.view.InfPrevia.WindowConfrontacao": [
     "widget.windowconfrontacao"

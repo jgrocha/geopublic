@@ -338,13 +338,13 @@ Ext.define('DemoExtJs.view.InfPrevia.WindowConfrontacao', {
 		itemId : 'remove',
 		icon : 'resources/images/icons/fam/cross.gif'
 	}, {
-		text : 'Imprimir mapa',
-		itemId : 'imprimemapa',
-		icon : 'resources/images/envelope.png'
-	}, {
 		text : 'Imprimir relatório', // 'Enviar relatório para o email',
 		itemId : 'relatorio',
 		icon : 'resources/images/envelope.png'
+	}, {
+		text : 'Fechar',
+		itemId : 'cancela'
+		// icon : 'resources/images/envelope.png'
 	}]
 });
 

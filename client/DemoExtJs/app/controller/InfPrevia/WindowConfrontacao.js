@@ -43,8 +43,8 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			"windowconfrontacao button#remove" : {
 				click : this.onButtonClickRemovePolygon
 			},
-			"windowconfrontacao button#imprimemapa" : {
-				click : this.onButtonClickImprimeMapa
+			"windowconfrontacao button#cancela" : {
+				click : this.onButtonClickCancela
 			},
 			"windowconfrontacao button#relatorio" : {
 				click : this.onButtonClickEnviaRelatorio
@@ -70,12 +70,6 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 				button.up('windowconfrontacao').close();
 			}
 		}, this);
-	},
-	onButtonClickImprimeMapa : function(button, e, options) {
-		console.log('onButtonClickImprimeMapa');
-		console.debug(this.getMapa());
-		// this.getMapa().plugins[0].addPage();
-		// this.getMapa().plugins[0].print();
 	},
 	onButtonClickEnviaRelatorio : function(button, e, options) {
 		console.log('onButtonClickEnviaRelatorio');
@@ -137,7 +131,7 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 			servidor_de_mapas = 'http://development.localhost.lan';
 		else
 			servidor_de_mapas = document.location.href.split('/')[0] + '//' + document.location.href.split('/')[2];
-			
+
 		var wfs_confrontacao = new OpenLayers.Layer.Vector('Confrontação', {
 			strategies : [new OpenLayers.Strategy.Fixed()],
 			protocol : new OpenLayers.Protocol.WFS({
@@ -298,6 +292,9 @@ Ext.define('DemoExtJs.controller.InfPrevia.WindowConfrontacao', {
 
 		// console.debug(mapPanel);
 		// mapPanel.map.zoomToExtent(bounds, false);
+	},
+	onButtonClickCancela : function(button, e, options) {
+		button.up('windowconfrontacao').close();
 	}
 });
 

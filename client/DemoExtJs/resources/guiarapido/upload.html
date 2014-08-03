@@ -7,24 +7,18 @@
 </p>
 
 <p>
-	Uma shapefile é constituída por vários ficheiros. 
-	Por isso, antes de carregar uma shapefile, tem que criar um zip com os vários ficheiros que compõem a shapefile.
-	Envie o zip.
+	Uma shapefile é constituída por vários ficheiros. Só precisa de fazer upload de um deles.
+	<b>Faça upload do ficheiro que tem a extensão *.shp</b>.
 </p>
 
-<h4>Exemplo</h4>
-
-<p>
-	Preparámos um zip com uma shapefile com um terreno desenhado. Serve como exemplo de um zip que poderá ser submetido na aplicação.
-É o ficheiro <a href="resources/edificio001.zip" target="_bank">edificio001.zip</a>. 
-</p>
+<h4>Restrições</h4>
+<ul>
+	<li>A shapefile pode conter, eventualmente, mais do que um polígono. Só será importado o primeiro deles.
+	<li>A shapefile não pode ter mais do que 100k aproximadamente. 
+</ul>
 
 <h4>Sistemas de coordenadas</h4>
 
 <p>
-	Tem que existir um ficheiro com o sistema de coordenadas, para que a shapefile possa ser corretamente importada. 
-	Pode enviar a shapefile em qualquer sistema de coordenadas usual (EPSG:4326, EPSG:27492, EPSG:3763, etc). 
-</p>
-<p>
-	No exemplo, existe um ficheiro <i>edificio001.prj</i>, que define o sistema de coordenadas.
+	Só pode carregar uma shapefile no sistemas de coordenadas oficial ETRS89-TM06.
 </p>

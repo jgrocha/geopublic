@@ -26,6 +26,8 @@ var transport = nodemailer.createTransport("SMTP", {
 	}
 });
 
+global.App.url = 'http://cm-agueda.geomaster.pt/infprevia/';
+
 global.App.transport = transport;
 global.App.templates = templatesDir;
 
@@ -91,6 +93,7 @@ app.configure(function() {
 	}
 	app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
 
+	console.log('views: ' + path.join(__dirname, 'views'));
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'jade');
 	// ~/bin/favicon.sh traffic-cone-icon-512.png favicon.ico

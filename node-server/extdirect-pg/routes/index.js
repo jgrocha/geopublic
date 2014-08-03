@@ -266,10 +266,10 @@ exports.registo = function(pg) {
 				pg.disconnect(conn);
 				res.render('registo', {
 					title : 'Registo de utilizadores',
-					site : 'http://' + req.headers.host
+					site : global.App.url // 'http://' + req.headers.host
 				});
 			} else {
-				var sql = "UPDATE utilizador SET datamodificacao = now(), emailconfirmacao = true, token=null ";
+				var sql = "UPDATE utilizador SET datamodificacao = now(), emailconfirmacao = true, ativo = true, token=null ";
 				sql += " where token = '" + req.params.id + "'";
 				conn.query(sql, function(err, updateResult) {
 					console.log(updateResult);
@@ -279,12 +279,12 @@ exports.registo = function(pg) {
 						console.log('UPDATE =' + sql + ' Error: ' + err);
 						res.render('registo', {
 							title : 'Registo de utilizadores',
-							site : 'http://' + req.headers.host
+							site : global.App.url // 'http://' + req.headers.host
 						});
 					} else {
 						res.render('registo', {
 							title : 'Registo de utilizadores',
-							site : 'http://' + req.headers.host,
+							site : global.App.url, // 'http://' + req.headers.host,
 							user : {
 								name : result.rows[0].nome,
 								email : result.rows[0].email
@@ -316,7 +316,7 @@ exports.reset = function(pg) {
 				pg.disconnect(conn);
 				res.render('reset', {
 					title : 'Reposição da senha',
-					site : 'http://' + req.headers.host
+					site : global.App.url // 'http://' + req.headers.host
 				});
 			} else {
 				var newpassword = generatePassword();
@@ -332,7 +332,7 @@ exports.reset = function(pg) {
 						console.log('UPDATE =' + sqlUpdate + ' Error: ' + err);
 						res.render('reset', {
 							title : 'Reposição da senha',
-							site : 'http://' + req.headers.host
+							site : global.App.url // 'http://' + req.headers.host
 						});
 					} else {
 						var locals = {
@@ -340,7 +340,7 @@ exports.reset = function(pg) {
 							name : result.rows[0].nome,
 							email : result.rows[0].email, //  'info@jorge-gustavo-rocha.pt',
 							subject : 'Nova senha de acesso',
-							site : 'http://' + req.headers.host,
+							site : global.App.url, // 'http://' + req.headers.host,
 							password : newpassword,
 							callback : function(err, responseStatus) {
 								if (err) {
@@ -350,7 +350,7 @@ exports.reset = function(pg) {
 								}
 								res.render('reset', {
 									title : 'Registo de utilizadores',
-									site : 'http://' + req.headers.host,
+									site : global.App.url, // 'http://' + req.headers.host,
 									user : {
 										name : result.rows[0].nome,
 										email : result.rows[0].email

@@ -1,0 +1,115 @@
+{
+	"units" : "m",
+	"srs" : "EPSG:3763",
+	"layout" : "A4 portrait",
+	"dpi" : 75,
+	"mapTitle" : "Confronta\u00e7\u00e3o da pretens\u00e3o",
+	"comment" : "Este mapa \u00e9 indicativo.",
+	"layers" : [{
+		"baseURL" : "http://localhost/mapproxy/tms/",
+		"opacity" : 1,
+		"singleTile" : false,
+		"type" : "TMS",
+		"layer" : "mapquest/pt_tm_06",
+		"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+		"tileSize" : [256, 256],
+		"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+		"format" : "png"
+	}],
+	"maps" : {
+		"mapa1" : {
+			"layers" : [{
+				"baseURL" : "http://localhost/mapproxy/tms/",
+				"opacity" : 1,
+				"singleTile" : false,
+				"type" : "TMS",
+				"layer" : "mapquest/pt_tm_06",
+				"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+				"tileSize" : [256, 256],
+				"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+				"format" : "png"
+			}],
+			"srs" : "EPSG:3763"
+		},
+		"mapa2" : {
+			"layers" : [{
+				"baseURL" : "http://localhost/mapproxy/tms/",
+				"opacity" : 1,
+				"singleTile" : false,
+				"type" : "TMS",
+				"layer" : "mapquest/pt_tm_06",
+				"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+				"tileSize" : [256, 256],
+				"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+				"format" : "png"
+			}],
+			"srs" : "EPSG:3763"
+		},
+		"mapa3" : {
+			"layers" : [{
+				"baseURL" : "http://localhost/mapproxy/tms/",
+				"opacity" : 1,
+				"singleTile" : false,
+				"type" : "TMS",
+				"layer" : "mapquest/pt_tm_06",
+				"maxExtent" : [-119191.407499, -300404.803999, 162129.0811, 276083.7674],
+				"tileSize" : [256, 256],
+				"resolutions" : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+				"format" : "png"
+			}],
+			"srs" : "EPSG:3763"
+		}
+	},
+	"pages" : [{
+		"center" : [-26557, 100814],
+		"scale" : 25000,
+		"rotation" : 0,
+		"maps" : {
+			"mapa1" : {
+				"center" : [-26557, 100814],
+				"rotation" : 0,
+				"dpi" : 75,
+				"scale" : 10000
+			},
+			"mapa2" : {
+				"center" : [-23557, 103814],
+				"rotation" : 0,
+				"dpi" : 75,
+				"scale" : 5000
+			},
+			"mapa3" : {
+				"center" : [-21557, 15814],
+				"rotation" : 0,
+				"dpi" : 75,
+				"scale" : 5000
+			}
+		},
+		"tabelamapa1" : {
+			"data" : [{
+				"id" : 1,
+				"area" : 27.5,
+				"sumario" : "Este terreno não dá para quase nada", 
+				"texto" : "Texto muito comprimdo, maior do que a sé de Braga", 
+			}],
+			"columns" : ["id", "area", "sumario", "texto"]
+		},
+		"tabelamapa2" : {
+			"data" : [{
+				"id" : 2,
+				"area" : 27.5,
+				"sumario" : "Este terreno não dá para quase nada", 
+				"texto" : "Texto muito comprimdo, maior do que a sé de Braga", 
+			}],
+			"columns" : ["id", "area", "sumario", "texto"]
+		},
+		"tabelamapa3" : {
+			"data" : [{
+				"id" : 3,
+				"area" : 27.5,
+				"sumario" : "Este terreno não dá para quase nada", 
+				"texto" : "Texto muito comprimdo, maior do que a sé de Braga", 
+			}],
+			"columns" : ["id", "area", "sumario", "texto"]
+		}
+	}]
+}

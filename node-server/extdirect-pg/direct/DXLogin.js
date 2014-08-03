@@ -200,6 +200,8 @@ var DXLogin = {
 		var token = '';
 		var conn = db.connect();
 
+		console.log(request);
+
 		var enviarEmail = function(parametros, callback) {
 			// envio o email!
 			var locals = {
@@ -207,7 +209,8 @@ var DXLogin = {
 				subject : 'Registo',
 				saudacao : 'Caro(a)',
 				name : name,
-				site : 'http://' + request.headers.host,
+				// site : 'http://' + request.headers.host,
+				site : global.App.url,
 				token : token,
 				callback : function(err, responseStatus) {
 					if (err) {
@@ -353,7 +356,8 @@ var DXLogin = {
 									saudacao : result.rows[0].masculino ? 'Caro' : 'Cara',
 									name : result.rows[0].nome,
 									token : token,
-									site : 'http://' + request.headers.host,
+									// site : 'http://' + request.headers.host,
+									site : global.App.url,
 									callback : function(err, responseStatus) {
 										if (err) {
 											callback({

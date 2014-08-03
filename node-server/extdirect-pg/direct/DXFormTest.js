@@ -59,12 +59,12 @@ var DXFormTest = {
 	filesubmitshapefile : function(params, callback, sessionID, request, response/*formHandler*/) {
 		var files = request.files;
 		//get files from request object
-		// console.log(params, files)
+		console.log(files);
 		var userid = request.session.userid;
 		console.log('DXFormTest.filesubmitshapefile Session ID = ' + sessionID + ' com o utilizador ' + userid);
 
 		// Do something with uploaded file, e.g. move to another location
-		var fs = require('fs'), file = files.photo, tmp_path = file.path;
+		var fs = require('fs'), file = files.shapefile, tmp_path = file.path;
 		console.log(file);
 		var path = require('path');
 
@@ -83,41 +83,49 @@ var DXFormTest = {
 		};
 
 		if (file.size > 0) {
-			try {
-				fs.rename(tmp_path, target_file, function(err) {
-					if (err) {
-						console.log('fs.rename');
-						console.log(err);
-						callback({
-							success : false,
-							msg : "Upload failed - can't rename the file",
-							errors : err.message
-						});
-					}
-					// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-					fs.unlink(tmp_path, function() {
-						callback({
-							success : true,
-							msg : 'Uploaded successfully',
-							size : file.size,
-							name : target_file
+			if (file.size < 100000) {
+				try {
+					fs.rename(tmp_path, target_file, function(err) {
+						if (err) {
+							console.log('fs.rename');
+							console.log(err);
+							callback({
+								success : false,
+								msg : "Erro ao copiar da pasta temporária para a pasta dos uploads.",
+								errors : err.message
+							});
+						}
+						// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+						fs.unlink(tmp_path, function() {
+							callback({
+								success : true,
+								msg : 'Carregamento com sucesso.',
+								size : file.size,
+								name : target_file
+							});
 						});
 					});
-				});
-			} catch(e) {
-				console.log('Exception on fs.rename');
+				} catch(e) {
+					console.log('Exception on fs.rename');
+					callback({
+						success : false,
+						msg : "Erro ao copiar da pasta temporária para a pasta dos uploads.",
+						errors : e.message
+					});
+				}
+			} else {
+				console.log('Shapefile demasiado grande');
 				callback({
 					success : false,
-					msg : "Upload failed - can't rename the file",
+					msg : "A shapefile é demasiado grande.",
 					errors : e.message
 				});
 			}
-
 		} else {
 			console.log('file.size === 0');
 			callback({
 				success : false,
-				msg : "Upload failed - empty file",
+				msg : "Ficheiro vazio.",
 				params : params,
 				errors : {
 					clientCode : "File not found",

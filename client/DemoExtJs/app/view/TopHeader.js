@@ -13,12 +13,14 @@ Ext.define('DemoExtJs.view.TopHeader', {
 	 */
 	items : [{
 		xtype : 'imagecomponent',
+		width : 48,
+		height : 48,
 		alt : 'Câmara Municipal de Águeda',
 		title : 'Câmara Municipal de Águeda',
-		src : 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
+		src : 'resources/images/1minuto_48x48.png' // 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'label',
-		html : 'Informação Prévia no minuto',
+		html : 'Informação Prévia no minuto<br/>Câmara Municipal de Águeda',
 		style : {
 			'font-size' : '12px', // The javascript constant.
 			'font-weight' : 'bold'

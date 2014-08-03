@@ -192,21 +192,25 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 					// não preciso de fazer isto quando mudo a password
 					// não sei se preciso de fazer isto quando mudo a fotografia!
 					DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
-					Ext.Msg.alert('Success', Ext.encode(result));
+					Ext.Msg.alert('Successo', 'As alterações foram gravadas com sucesso.');
 				} else {
-					Ext.Msg.alert('No success', Ext.encode(result));
+					Ext.Msg.alert('Erro', 'Ocorreu um erro ao gravar as alterações.');
 				}
 			});
 		}
 	},
 	onButtonGravarHome : function(button, e, options) {
+		//<debug>
 		console.log("onButtonGravarHome", button.itemId);
+		//</debug>
 		switch (button.itemId) {
 			case 'gravar':
 				if (button.up('form').getForm().isValid()) {
 					var params = button.up('form').getForm().getValues();
 					ExtRemote.DXLogin.updateLocation(params, function(result, event) {
+						//<debug>
 						console.debug(result);
+						//</debug>
 						if (result.success) {
 							DemoExtJs.LoggedInUser.data.longitude = params.longitude;
 							DemoExtJs.LoggedInUser.data.latitude = params.latitude;
@@ -224,7 +228,9 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 					latitude : null,
 					longitude : null
 				}, function(result, event) {
+					//<debug>
 					console.debug(result);
+					//</debug>
 					if (result.success) {
 						// limpar o form!
 						button.up('form').getForm().reset();
@@ -240,28 +246,6 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 				});
 				break;
 		}
-		/*
-		 // var params = button.up('form').getForm().getValues(false, true, false, false);
-		 var params = button.up('form').getForm().getValues();
-		 console.log(params);
-		 // getValues( [asString], [dirtyOnly], [includeEmptyText], [useDataValues] )
-		 // cf. http://localhost/extjs/docs/index.html#!/api/Ext.form.Basic-method-getValues
-		 if (this.getSexoCheckbox().isDirty()) {
-		 console.log("Mexeu no sexo");
-		 // params['masculino'] = this.getSexoCheckbox().checked ? "1" : "0";
-		 }
-		 ExtRemote.DXLogin.update(params, function(result, event) {
-		 if (result.success) {
-		 // recrio a cópia dos dados do utilizador no lado do cliente, com as alterações efetuadas
-		 // não preciso de fazer isto quando mudo a password
-		 // não sei se preciso de fazer isto quando mudo a fotografia!
-		 DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
-		 Ext.Msg.alert('Success', Ext.encode(result));
-		 } else {
-		 Ext.Msg.alert('No success', Ext.encode(result));
-		 }
-		 });
-		 */
 	},
 	onButtonChangeEmail : function(button, e, options) {
 		Ext.Msg.alert('Alterar o email', 'Lamentamos, mas esta funcionalidade ainda não está disponível.');

@@ -31,7 +31,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			"topheader button#botaoRegisto" : {
 				click : this.onButtonClickRegisto
 			},
-			"topheader button#botaoLogin" : {
+			"topheader button#botaoLogin" : {// o mesmo que "topheader splitbutton"
 				click : this.onButtonClickLogin
 			},
 			"topheader splitbutton #botaoLastAccess" : {
@@ -42,9 +42,6 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			},
 			"topheader splitbutton #botaoLogout" : {
 				click : this.onButtonClickLogout
-			},
-			"topheader splitbutton" : {
-				click : this.onButtonMenu
 			},
 			"topheader combo#promotor" : {
 				select : this.onComboPromotor
@@ -116,7 +113,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			store.load({
 				id : records[0].data.id
 			});
-		}		
+		}
 	},
 	onSessaoStoreLoad : function(proxy, records, successful, eOpts) {
 		if (!successful) {
@@ -206,9 +203,6 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		var win = Ext.create('DemoExtJs.view.Users.Registo');
 		win.show();
 	},
-	onButtonMenu : function(button, e, options) {
-		console.log('onButtonMenu');
-	},
 	onButtonClickFacebook : function(button, e, options) {
 		console.debug(button.itemId);
 		hello(button.itemId).login({
@@ -246,44 +240,44 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			var win = Ext.create('DemoExtJs.view.Users.Login');
 			win.show();
 		} else {
+			//<debug>
 			console.log('Utilizador atual ' + DemoExtJs.LoggedInUser.data.nome + ' com o email ' + DemoExtJs.LoggedInUser.data.email);
-			ExtRemote.DXFormTest.testMe({
-				test : true
-			}, function(result, event) {
-				// you can grab useful info from event
-				console.log('Invoquei ExtRemote.DXFormTest.testMe');
-			});
 			if (DemoExtJs.LoggedInUser["login"]) {
 				console.log("Fez login por " + DemoExtJs.LoggedInUser["login"]);
 			}
+			//</debug>
 		}
 	},
-
 	onButtonClickLogout : function(button, e, options) {
 		var me = this;
+		//<debug>
 		console.log('logout!');
+		//</debug>
 		if (DemoExtJs.LoggedInUser["login"] && DemoExtJs.LoggedInUser["login"] !== "local") {
 			console.log("Fez login por " + DemoExtJs.LoggedInUser["login"]);
 			// FB.logout();
 			hello(DemoExtJs.LoggedInUser["login"]).logout(function() {
+				//<debug>
 				console.log("Signed out");
+				//</debug>
 			});
 		} else {
 			console.log("Fez login normal");
 			ExtRemote.DXLogin.deauthenticate({}, function(result, event) {
 				if (result.success) {
-					Ext.Msg.alert(result.message);
+					// Ext.Msg.alert(result.message);
 					me.application.fireEvent('logoutComSucesso');
 				} else {
-					Ext.Msg.alert('Something wrong with logout', Ext.encode(result));
+					Ext.Msg.alert('Erro ao terminar a sessão.', Ext.encode(result));
 				}
 			});
 		}
 	},
-
 	onButtonClickSendLostPassword : function(button, e, options) {
 		var me = this;
+		//<debug>
 		console.log('registo submit');
+		//</debug>
 
 		var formPanel = button.up('form'), registo = button.up('lostpassword');
 		var email = formPanel.down('textfield[name=email]').getValue();
@@ -306,26 +300,30 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 
 	onButtonClickRegistar : function(button, e, options) {
 		var me = this;
+		//<debug>
 		console.log('registo submit');
+		//</debug>
 
 		var formPanel = button.up('form'), registo = button.up('registo');
 		var email = formPanel.down('textfield[name=email]').getValue(), name = formPanel.down('textfield[name=name]').getValue(), password = formPanel.down('textfield[name=password]').getValue(), password2x = formPanel.down('textfield[name=password2x]').getValue();
 		var sha1 = CryptoJS.SHA1(password).toString();
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
+			//<debug>
 			console.log('Vai tentar com o registo com ' + email + ' e a password = ' + password + ' codificada = ' + sha1);
+			//</debug>
 			ExtRemote.DXLogin.registration({
 				email : email,
 				name : name,
 				password : sha1
 			}, function(result, event) {
 				// result == event.result
-				console.debug(result);
+				// console.debug(result);
 				// console.debug(event);
 				if (result.success) {
-					Ext.Msg.alert('Successul registered', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
+					Ext.Msg.alert('Processo iniciado', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
 				} else {
-					Ext.Msg.alert('Problems with registration', result.message);
+					Ext.Msg.alert('Problema no registo', result.message);
 				}
 				registo.close();
 			});
@@ -336,19 +334,22 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 
 	onButtonClickEntrar : function(button, e, options) {
 		var me = this;
-		console.log('login submit');
 		var formPanel = button.up('form'), login = button.up('login');
 		var email = formPanel.down('textfield[name=email]').getValue(), pass = formPanel.down('textfield[name=password]').getValue();
 		var remember = formPanel.down('checkbox[name=remember]').checked;
+		//<debug>
 		if (remember) {
 			console.log('Para recordar...');
 		} else {
 			console.log('NÃO recordar NESTE COMPUTADOR...');
 		}
+		//</debug>
 		var sha1 = CryptoJS.SHA1(pass).toString();
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
+			//<debug>
 			console.log('Vai tentar com o login com ' + email + ' e a password = ' + pass + ' codificada = ' + sha1);
+			//</debug>
 			ExtRemote.DXLogin.authenticate({
 				email : email,
 				password : sha1,
