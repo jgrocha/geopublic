@@ -5,18 +5,12 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	extend : 'Ext.app.Controller',
 	requires : ['GeoExt.Action'],
 
-	/*
-	 selectCtrl : {},
-	 highlightCtrl : {},
-	 insertPoint : {},
-	 insertPolygon : {},
-	 */
-
 	wfs_pretensao : {},
 	saveStrategy : {},
 	refs : [
 
-	// ver exemplo: http://geoext.github.io/geoext2/examples/action/mappanel_with_actions.html
+	// ver exemplo:
+	// http://geoext.github.io/geoext2/examples/action/mappanel_with_actions.html
 
 	// Ext.ComponentQuery.query('app-main-map-panel toolbar')
 	{
@@ -36,9 +30,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoderprocesso'
 	}],
 	init : function() {
-		//<debug>
+		// <debug>
 		console.log('O controlador Ppgis.controller.MainMapPanel init...');
-		//</debug>
+		// </debug>
 		this.listen({
             controller: {
                 '*': {
@@ -49,7 +43,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		this.control({
 			'app-main-map-panel' : {
 				'beforerender' : this.onMapPanelBeforeRender,
-				'afterrender' : this.onMapPanelAfterRender
+				'afterrender' : this.onMapPanelAfterRender,
+				'beforeactivate' : this.onMapPanelBeforeActivate
 			},
 			"app-main-map-panel button#highlightCtrl" : {
 				click : this.onButtonClickHighlightCtrl
@@ -60,6 +55,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel button#insertPolygon" : {
 				click : this.onButtonClickInsertPolygon
 			},
+			"app-main-map-panel button#carregarprocesso" : {
+				click : this.onButtonClickCarregarProcesso
+			},
 			"app-main-map-panel button#uploadShapefile" : {
 				click : this.onButtonClickUploadShapefile
 			}
@@ -67,14 +65,14 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	},
 	onUploadSuccessful : function(url) {
 		var mapa = this.getMapa().map;
-		//<debug>
+		// <debug>
 		console.log(url);
-		//</debug>
+		// </debug>
 		// window.location.href = url;
 		var vector = mapa.getLayersByName('Pretensões')[0];
-		//<debug>
+		// <debug>
 		console.log(vector);
-		//</debug>
+		// </debug>
 
 		var parser = new OpenLayers.Format.GeoJSON();
 
@@ -86,9 +84,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			var primeiro = features[0];
 			primeiro.state = OpenLayers.State.INSERT;
 			primeiro.attributes["designacao"] = 'Importado de shp';
-			//<debug>
+			// <debug>
 			console.log(primeiro);
-			//</debug>
+			// </debug>
 
 			vector.addFeatures([primeiro]);
 			map.zoomToExtent(primeiro.geometry.getBounds(), closest = true);
@@ -97,19 +95,58 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	},
 	onButtonClickHighlightCtrl : function(button, e, options) {
-		//<debug>
+		// <debug>
 		console.log('onButtonClickHighlightCtrl');
-		//</debug>
+		// </debug>
 	},
 	onSelectGeocoder : function(combo, records) {
-		//<debug>
+		// <debug>
 		console.log('onSelectGeocoder');
 		console.debug(records[0].data);
-		//</debug>
+		// </debug>
+	},
+	onButtonClickCarregarProcesso : function(button, e, options) {
+		var me = this;
+		Ext.Msg.prompt('Processo', 'Indique o processo/ano (p.e 451/09)', function(btn, text) {
+			if (btn == 'ok') {
+				//<debug>
+				console.log('Vou procurar o processo ' + text);
+				//</debug>
+				ExtRemote.DXConfrontacao.processo({
+					processo : text,
+					limit : 1,
+					start : 0
+				}, function(result, event) {
+					if (result.success) {
+						var msg = '';
+						var titulo = 'Pesquisa do processo';
+						if (result.total == 0) {
+							msg = 'Nenhum processo "' + text + '" encontrado.';
+							Ext.Msg.alert(titulo, msg);
+						} else {
+							if (result.total > 1) {
+								msg = 'Polígono do processo "' + text + '" recuperado com sucesso.<br>Apenas o maior polígono dos ' + result.total + ' encontrados foi importado.';
+							} else {
+								msg = 'Polígono do processo "' + text + '" recuperado com sucesso.';
+							}
+							Ext.Msg.alert(titulo, msg);
+							var mapa = me.getMapa().map;
+							var geojson_format = new OpenLayers.Format.GeoJSON();
+							// var processo_layer = new OpenLayers.Layer.Vector();
+							var processo_layer = mapa.getLayersByName('Processos')[0];
+							processo_layer.addFeatures(geojson_format.read(result.data));
+						}
+					} else {
+						Ext.Msg.alert(titulo, 'Erro ao procurar o processo "' + text + '".', Ext.encode(result));
+					}
+				});
+			}
+		});
 	},
 	onButtonClickUploadShapefile : function(button, e, options) {
 		var view = Ext.widget('uploadshapefile', {
-			// title : 'Área total: ' + Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
+			// title : 'Área total: ' +
+			// Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
 			// bounds : event.feature.geometry.getBounds(),
 			// pretensao : parseInt(event.feature.data.id),
 			// feature : event.feature
@@ -134,21 +171,25 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		}
 	},
 	saveSuccess : function(event) {
-		// só agora tenho o fid atribuído... fixe, que é para ser atribuído à imagem.
-		// console.log('Your mapped field(s) have been successfully saved, em particular ' + ultimoFeatureInserido.fid);
+		// só agora tenho o fid atribuído... fixe, que é para ser atribuído à
+		// imagem.
+		// console.log('Your mapped field(s) have been successfully saved, em
+		// particular ' + ultimoFeatureInserido.fid);
 		// console.log('Atualizar o store JSON com as contribuições...');
 		// storeContribuicoesJson.load();
 		// console.debug(event.response);
-		// console.debug(this);	// OpenLayers.Strategy.Save //se me.saveStrategy.events.register('success', null, this.saveSuccess);
+		// console.debug(this); // OpenLayers.Strategy.Save //se
+		// me.saveStrategy.events.register('success', null, this.saveSuccess);
 		// console.debug(this);
-		// DemoExtJs.controller.MainMapPanel //se me.saveStrategy.events.register('success', this, this.saveSuccess);
+		// DemoExtJs.controller.MainMapPanel //se
+		// me.saveStrategy.events.register('success', this, this.saveSuccess);
 		this.wfs_pretensao.refresh({
 			force : true
 		});
 		// pode ter acontecido um insert ou um remove :-)
 		if (this.getInserir().pressed) {
 			this.getInserir().toggle(false);
-			//-- a ordem é importante...
+			// -- a ordem é importante...
 			this.getMapa().highlightCtrl.activate();
 			this.getMapa().selectCtrl.activate();
 			this.getMapa().insertPoint.deactivate();
@@ -156,16 +197,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		}
 	},
 	saveFail : function(event) {
-		//<debug>
+		// <debug>
 		console.log('Error! Your changes could not be saved. ');
 		console.debug(event.response);
-		//</debug>
+		// </debug>
 		// alert('Error! Your changes could not be saved. ');
 		Ext.Msg.alert('Erro', 'Não foi possível fazer a confrontação do polígono com os instrumentos de gestão do território.<br>O erro ficou registado e será analisado.');
 	},
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		// this = instância "DemoExtJs.controller.MainMapPanel"
 		var me = this;
+		var map = mapPanel.map;
 
 		var userid = -1;
 		if (DemoExtJs.LoggedInUser) {
@@ -173,10 +215,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		}
 
 		var layers = [];
-		map = mapPanel.map;
 		// OpenLayers object creating
 
-		// var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', servidor_de_mapas + '/mapproxy/tms/', {
+		// var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest',
+		// servidor_de_mapas + '/mapproxy/tms/', {
 		var layerQuest = new OpenLayers.Layer.TMS('OpenStreetMap', DemoExtJs.mapproxy, {
 			layername : 'mapquest/pt_tm_06',
 			type : 'png',
@@ -190,7 +232,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			layername : 'ortos/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)
-			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306]
+			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698,
+			// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
+			// 0.0687227930306]
 		}, {
 			isBaseLayer : true
 		});
@@ -200,25 +244,39 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			layername : 'carto10k/pt_tm_06',
 			type : 'png',
 			tileSize : new OpenLayers.Size(256, 256)
-			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306]
+			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698,
+			// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
+			// 0.0687227930306]
 		}, {
 			isBaseLayer : true
 		});
 		layers.push(layerCarto10k);
 
-		// ok     http://localhost:8011/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
-		// ok     http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
-		// not ok http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/2/162/713.png
+		// ok http://localhost:8011/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
+		// ok
+		// http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
+		// not ok
+		// http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/2/162/713.png
 
-		// resolutions : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306], // , 0.0343613965153, 0.0171806982577, 0.00859034912883, 0.00429517456441],
-		// os ortos só dá para resoluções [8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306],
+		// resolutions : [2251.90848203, 1125.95424101, 562.977120507,
+		// 281.488560253, 140.744280127, 70.3721400634, 35.1860700317,
+		// 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698,
+		// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
+		// 0.0687227930306], // , 0.0343613965153, 0.0171806982577,
+		// 0.00859034912883, 0.00429517456441],
+		// os ortos só dá para resoluções [8.79651750792, 4.39825875396,
+		// 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122,
+		// 0.137445586061, 0.0687227930306],
 
 		map.addLayers(layers);
 		map.setCenter(new OpenLayers.LonLat(-26557, 100814), 10);
 		// deve ser 5; em debug pode ser 10
 
+		//<debug>
+		// variáveis globais para debug
 		mapDebug = map;
 		mapPanelDebug = mapPanel;
+		//</debug>
 
 		me.saveStrategy = new OpenLayers.Strategy.Save({
 			auto : 'true'
@@ -266,10 +324,41 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		me.getGeocoder().layer = locationLayer;
 		// me.getGeocoderprocesso().layer = locationLayer;
 
+		// http://www.peterrobins.co.uk/it/olvectors.html
+		var processo_layer = new OpenLayers.Layer.Vector("Processos", {
+			displayInLayerSwitcher : false,
+			style : {
+				fillColor : '#FF0000',
+				fillOpacity : 0.5,
+				strokeColor : '#FF0000',
+				strokeWidth : 2.5
+			},
+			eventListeners : {
+				"featuresadded" : function(event) {
+					// 'this' is layer
+					console.log('featuresadded processo_layer');
+					this.map.zoomToExtent(this.getDataExtent(), closest = true);
+					var pretensoes = map.getLayersByName('Pretensões')[0];
+					var geometria = this.features[0].geometry.clone();
+					var dados = {
+						designacao : this.features[0].attributes["designacao"]
+					};
+					var feature = new OpenLayers.Feature.Vector(geometria, dados, {});
+					feature.state = OpenLayers.State.INSERT;
+					//<debug>
+					console.log('geometria.CLASS_NAME', geometria.CLASS_NAME);
+					console.log('feature.CLASS_NAME', feature.CLASS_NAME);
+					//</debug>
+					pretensoes.addFeatures([feature]);
+				}
+			}
+		});
+		map.addLayer(processo_layer);
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {
 		// this = instância "DemoExtJs.controller.MainMapPanel"
 		var me = this;
+		var map = mapPanel.map;
 
 		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(me.wfs_pretensao, {
 			clickout : true,
@@ -280,13 +369,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 					// console.debug(event.feature.geometry.getBounds().toBBOX());
 					console.debug('Confrontações da pretensão ' + event.feature.data.id);
-					// me.getConfrontacaoStore().proxy.setExtraParam("idpretensao", event.feature.data.id);
+					// me.getConfrontacaoStore().proxy.setExtraParam("idpretensao",
+					// event.feature.data.id);
 					// .proxy não existe no store geoext
-					// me.getConfrontacaoStore().filter("id", parseInt(event.feature.data.id));
+					// me.getConfrontacaoStore().filter("id",
+					// parseInt(event.feature.data.id));
 					// me.getConfrontacaoStore().load();
 					// widget.windowconfrontacao
 					var view = Ext.widget('windowconfrontacao', {
-						// title : 'Área total: ' + parseFloat(event.feature.data.area).toFixed(2) + ' m2',
+						// title : 'Área total: ' +
+						// parseFloat(event.feature.data.area).toFixed(2) + '
+						// m2',
 						title : 'Área total: ' + Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
 						bounds : event.feature.geometry.getBounds(),
 						pretensao : parseInt(event.feature.data.id),
@@ -320,10 +413,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		});
 		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint, mapPanel.insertPolygon]);
 		map.addControl(toolbar);
-
 		me.wfs_pretensao.events.on({
 			beforefeatureadded : function(event) {
-				console.log('beforefeatureadded');
+				console.log('beforefeatureadded WFS');
 				// console.log(arguments);
 				// console.debug(event.feature);
 				// só devia preencher estes campos para os novos features...
@@ -333,16 +425,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
 			}
 		});
-
 		mapPanel.insertPolygon.events.on({
 			featureadded : function(event) {
 				console.log('featureadded');
 			}
 		});
-
-		//-- a ordem destes dois é importante
+		// -- a ordem destes dois é importante
 		mapPanel.highlightCtrl.activate();
 		mapPanel.selectCtrl.activate();
-
-	}
+	},
+	onMapPanelBeforeActivate : function(mapPanel, options) {
+		console.log('onMapPanelBeforeActivate');
+		var map = mapPanel.map;
+	}	
 });

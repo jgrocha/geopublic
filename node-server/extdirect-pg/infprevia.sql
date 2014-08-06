@@ -28,6 +28,10 @@ WITH (
 ALTER TABLE infprevia.pretensao
   OWNER TO geobox;
 
+ALTER TABLE infprevia.pretensao DROP CONSTRAINT enforce_geotype_the_geom;
+ALTER TABLE infprevia.pretensao ADD 
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text OR the_geom IS NULL);
+
 -- Table: infprevia.camada
 CREATE TABLE infprevia.camada
 (
@@ -127,6 +131,10 @@ WITH (
 );
 ALTER TABLE infprevia.confrontacao
   OWNER TO geobox;
+
+ALTER TABLE infprevia.confrontacao DROP CONSTRAINT enforce_geotype_the_geom;
+ALTER TABLE infprevia.confrontacao ADD 
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text OR the_geom IS NULL);
 
 -- Function: completa_pretensao()
 -- DROP FUNCTION completa_pretensao();

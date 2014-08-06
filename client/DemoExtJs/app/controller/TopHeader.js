@@ -360,7 +360,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				// console.debug(event);
 				if (result.success) {
 					// We have a valid user data
-					Ext.Msg.alert('Successul login', Ext.encode(result));
+					// Ext.Msg.alert('Successul login', Ext.encode(result));
 					DemoExtJs.LoggedInUser = Ext.create('DemoExtJs.model.Utilizador', result.data[0]);
 					DemoExtJs.LoggedInUser["login"] = "local";
 					/*
@@ -371,7 +371,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 					me.application.fireEvent('loginComSucesso');
 					// login.close(); // passou para o evento
 				} else {
-					Ext.Msg.alert('Invalid login', Ext.encode(result));
+					Ext.Msg.alert('Erro ao iniciar sessão.', Ext.encode(result));
 				}
 			});
 		}
