@@ -33,47 +33,39 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		this.map = new OpenLayers.Map(options);
 		this.callParent(arguments);
 	},
-	tbar : [/* {
-	 text : 'Mostra',
-	 itemId : 'highlightCtrl',
-	 icon : 'resources/images/icons/fam/grid.png'
-	 }, {
-	 text : 'Ponto',
-	 itemId : 'insertPoint',
-	 icon : 'resources/assets/pencil.png'
-	 },*/
-	{
+	tbar : [{
 		text : 'Desenhar a pretensão', // só vamos deixar desenhar a partir de um dado nível de zoom...
 		itemId : 'insertPolygon',
 		icon : 'resources/assets/pencil.png',
-		enableToggle : true
+		enableToggle : true,
+		tooltip : 'Ativa ou desativa a ferramenta de desenho'		
 	}, {
 		xtype : 'gx_geocodercombo',
 		itemId : 'geocoder',
 		emptyText : 'Procurar por rua',
 		srs : "EPSG:4326",
+		queryDelay : 500,
 		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		width : 400
-
-	}, {
-		xtype : 'gx_geocodercombo',
-		itemId : 'geocoderprocesso',
-		emptyText : 'Procurar por processo',
-		srs : "EPSG:3763",
-		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
-		url : "search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
-		width : 200
 	}, {
 		text : 'Carregar shapefile', // só vamos deixar desenhar a partir de um dado nível de zoom...
 		itemId : 'uploadShapefile',
 		icon : 'resources/assets/plus-circle.png',
-		enableToggle : false
+		enableToggle : false,
+		tooltip : 'Importar o desenho de uma área guardada em shapefile'
 	}, {
 		text : 'Carregar processo',
 		itemId : 'carregarprocesso',
-		icon : 'resources/images/icons/fam/grid.png',
-		enableToggle : false
+		icon : 'resources/assets/plus-circle.png',
+		enableToggle : false,
+		tooltip : 'Importar o polígono de um processo existente'
+	}, {
+		text : 'Atualiza',
+		itemId : 'refresh',
+		icon : 'resources/assets/arrow-circle-double-135.png',
+		enableToggle : false,
+		tooltip : 'Pede novamente ao servidor as pretensões já desenhadas ou importadas'		
 	}]
 });
 

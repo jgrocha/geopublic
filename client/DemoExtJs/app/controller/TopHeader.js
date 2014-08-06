@@ -267,6 +267,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				if (result.success) {
 					// Ext.Msg.alert(result.message);
 					me.application.fireEvent('logoutComSucesso');
+					// me.fireEvent('logout');	// para ser apanhado pelo mapPanel (MainMapPanel controller) 		
 				} else {
 					Ext.Msg.alert('Erro ao terminar a sessão.', Ext.encode(result));
 				}

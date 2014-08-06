@@ -7,6 +7,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	wfs_pretensao : {},
 	saveStrategy : {},
+	zoomLevelEdit : 12,
 	refs : [
 
 	// ver exemplo:
@@ -36,7 +37,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		this.listen({
             controller: {
                 '*': {
-                    uploadSuccessful: this.onUploadSuccessful
+                    uploadSuccessful: this.onUploadSuccessful,
+                    logoutComSucesso: this.onLogoutComSucesso,
+                    loginComSucesso: this.onLoginComSucesso
                 }
             }
         });	
@@ -45,10 +48,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				'beforerender' : this.onMapPanelBeforeRender,
 				'afterrender' : this.onMapPanelAfterRender,
 				'beforeactivate' : this.onMapPanelBeforeActivate
-			},
-			"app-main-map-panel button#highlightCtrl" : {
-				click : this.onButtonClickHighlightCtrl
-			},
+			}, /*
+			 "app-main-map-panel button#highlightCtrl" : {
+			 click : this.onButtonClickHighlightCtrl
+			 }, */
 			"app-main-map-panel gx_geocodercombo#geocoder" : {
 				select : this.onSelectGeocoder
 			},
@@ -60,8 +63,51 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			},
 			"app-main-map-panel button#uploadShapefile" : {
 				click : this.onButtonClickUploadShapefile
+			},
+			"app-main-map-panel button#refresh" : {
+				click : this.onButtonClickRefresh
 			}
 		}, this);
+	},
+	onLoginComSucesso : function() {
+		console.log('onLoginComSucesso', this, console.log(arguments));
+		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
+			var mapa = this.getMapa().map;
+			this.getBarra().enable();
+			var zLevel = mapa.getZoom();
+			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
+				this.getInserir().enable();
+			} else {
+				this.getInserir().disable();
+			}
+			this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
+				type : OpenLayers.Filter.Comparison.EQUAL_TO,
+				property : "idutilizador",
+				value : DemoExtJs.LoggedInUser.data.id
+			});
+			this.wfs_pretensao.refresh({
+				force : true
+			});
+		} else {
+			console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
+		}
+	},
+	onLogoutComSucesso : function() {
+		console.log('onLogoutComSucesso', this, console.log(arguments));
+		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
+			this.getInserir().disable();
+			this.getBarra().disable();
+			this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
+				type : OpenLayers.Filter.Comparison.EQUAL_TO,
+				property : "idutilizador",
+				value : -1
+			});
+			this.wfs_pretensao.refresh({
+				force : true
+			});
+		} else {
+			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
+		}
 	},
 	onUploadSuccessful : function(url) {
 		var mapa = this.getMapa().map;
@@ -89,15 +135,23 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			// </debug>
 
 			vector.addFeatures([primeiro]);
-			map.zoomToExtent(primeiro.geometry.getBounds(), closest = true);
+			mapa.zoomToExtent(primeiro.geometry.getBounds(), closest = true);
 			// console.log("took", new Date - starttime, "milliseconds");
 		});
 
 	},
-	onButtonClickHighlightCtrl : function(button, e, options) {
+	onButtonClickRefresh : function(button, e, options) {
 		// <debug>
-		console.log('onButtonClickHighlightCtrl');
+		console.log('onButtonClickRefresh');
 		// </debug>
+		this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
+			type : OpenLayers.Filter.Comparison.EQUAL_TO,
+			property : "idutilizador",
+			value : DemoExtJs.LoggedInUser.data.id
+		});
+		this.wfs_pretensao.refresh({
+			force : true
+		});
 	},
 	onSelectGeocoder : function(combo, records) {
 		// <debug>
@@ -213,7 +267,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		if (DemoExtJs.LoggedInUser) {
 			userid = DemoExtJs.LoggedInUser.data.id;
 		}
-
+			
 		var layers = [];
 		// OpenLayers object creating
 
@@ -433,9 +487,25 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// -- a ordem destes dois é importante
 		mapPanel.highlightCtrl.activate();
 		mapPanel.selectCtrl.activate();
+
+		map.events.register('zoomend', this, function(event) {
+			var zLevel = map.getZoom();
+			console.log('Zoom level: ', zLevel);
+			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
+				this.getInserir().enable();
+			} else {
+				this.getInserir().disable();
+			}
+		});
+
 	},
 	onMapPanelBeforeActivate : function(mapPanel, options) {
 		console.log('onMapPanelBeforeActivate');
 		var map = mapPanel.map;
-	}	
+		if (DemoExtJs.LoggedInUser) {
+			this.getBarra().enable();
+		} else {
+			this.getBarra().disable();
+		}
+	}
 });

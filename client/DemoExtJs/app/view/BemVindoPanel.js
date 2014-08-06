@@ -10,7 +10,9 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		padding : '10 10 10 10',
 		items : [{
 			title : 'Sobre a Informação Prévia no minuto',
-			// bodyStyle:{ "background-color":"#f5f5eb" },
+			bodyStyle : {
+				'color' : '#666666'
+			},
 			loader : {
 				url : 'resources/guiarapido/sobre.html',
 				autoLoad : true
@@ -21,11 +23,16 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		padding : '10 10 10 10', // top, right, bottom, left
 		items : [{
 			itemId : 'wizard',
-			height : 400,
+			height : 600,
 			layout : 'card',
 			items : [{
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/introducao.html',
 					autoLoad : true
@@ -33,6 +40,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/registo.html',
 					autoLoad : true
@@ -40,6 +52,14 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-color" : "purple"
+				},
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/navegar.html',
 					autoLoad : true
@@ -47,6 +67,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/procurar.html',
 					autoLoad : true
@@ -54,6 +79,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/desenhar.html',
 					autoLoad : true
@@ -61,6 +91,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/upload.html',
 					autoLoad : true
@@ -68,6 +103,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/consultar.html',
 					autoLoad : true
@@ -75,6 +115,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/imprimir.html',
 					autoLoad : true
@@ -82,6 +127,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 			}, {
 				title : 'Guia rápido',
 				autoScroll : true,
+				bodyStyle : {
+					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-repeat" : "no-repeat",
+					"background-position" : "center"
+				},
 				loader : {
 					url : 'resources/guiarapido/terminar.html',
 					autoLoad : true
@@ -98,25 +148,16 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				text : 'Seguinte',
 				itemId : 'next'
 			}]
-		} /*, {
-		 xtype : 'combo',
-		 itemId : 'promotor-bem-vindo-cbx',
-		 width : 240,
-		 editable : false,
-		 valueField : 'id',
-		 displayField : 'designacao',
-		 emptyText : 'Escolha um promotor...',
-		 forceSelection : true,
-		 triggerAction : 'all',
-		 store : 'PromotorCombo',
-		 queryMode : 'local'
-		 } */ ]
+		}]
 	}, {
 		columnWidth : 1 / 4,
 		margin : '10 10 10 10',
 		items : [{
 			title : 'Notícias sobre a aplicação',
-			html : '<h3>Versão beta</h3><p>2014-07-25 - Foi lançada a versão beta.</p>'
+			bodyStyle : {
+				'color' : '#666666'
+			},
+			html : '<h3>Versão beta</h3><p>2014-08-06 - Foi lançada a versão beta.</p>' + '<h3>Versão alfa</h3><p>2014-07-25 - Foi lançada a versão alfa.</p>'
 		}]
 	}]
 });

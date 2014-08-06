@@ -30,10 +30,10 @@ Ext.define('DemoExtJs.controller.InfPrevia.UploadShapefile', {
 				},
 
 				success : function(fp, o) {
-					Ext.Msg.alert('Success', 'Your shapefile "' + o.result.name + '" has been uploaded.<br> File size:' + o.result.size + ' bytes.');
+					Ext.Msg.alert('Sucesso', 'A shapefile "' + o.result.name + '" foi carregada.<br> Tamanho:' + o.result.size + ' (bytes).');
 					// Your shapefile "./public/uploaded_shapefiles/edificosporto.shp" has been uploaded.
 					// File size:1365684 bytes.
-					me.fireEvent('uploadSuccessful', o.result.name.replace('./public', ''));
+					me.fireEvent('uploadSuccessful', o.result.name.replace('./public/', '')); // para ficar um link relativo
 					button.up('uploadshapefile').close();
 				},
 				failure : function(form, action) {
