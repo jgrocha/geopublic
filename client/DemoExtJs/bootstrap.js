@@ -16,7 +16,8 @@ Ext.Loader.addClassPathMappings({
   "Ext.Msg": "ext/src/window/MessageBox.js",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "ext/packages/ext-theme-neptune/overrides",
-  "GeoExt": "geoext2-2.0.2/src/GeoExt"
+  "GeoExt": "geoext2-2.0.2/src/GeoExt",
+  "x": "app/controller/InfPrevia/WindowConfrontacao.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.Application": [],
@@ -1045,7 +1046,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoExt.tree.View": [],
   "GeoExt.window.Popup": [
     "GeoExt.Popup"
-  ]
+  ],
+  "x": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.Application": [],
@@ -2311,7 +2313,8 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoExt.window.Popup": [
     "widget.gx_popup"
-  ]
+  ],
+  "x": []
 });
 Ext.setVersion("ext-theme-base", "4.2.1");
 Ext.setVersion("ext-theme-neptune", "4.2.1");

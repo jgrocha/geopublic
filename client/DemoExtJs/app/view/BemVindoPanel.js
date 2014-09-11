@@ -9,7 +9,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		columnWidth : 1 / 4,
 		padding : '10 10 10 10',
 		items : [{
-			title : 'Sobre a Informação Prévia no minuto',
+			title : 'Sobre a Participação Cívica',
 			bodyStyle : {
 				'color' : '#666666'
 			},
@@ -29,7 +29,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -41,7 +41,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -56,7 +56,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 					"background-color" : "purple"
 				},
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -68,7 +68,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -80,7 +80,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -92,7 +92,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -104,7 +104,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -116,7 +116,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -128,7 +128,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 				title : 'Guia rápido',
 				autoScroll : true,
 				bodyStyle : {
-					"background-image" : "url(resources/images/1minuto_fundo_500x500.png)",
+					"background-image" : "url(resources/images/community_gray_500x500.png)",
 					"background-repeat" : "no-repeat",
 					"background-position" : "center"
 				},
@@ -153,11 +153,11 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		columnWidth : 1 / 4,
 		margin : '10 10 10 10',
 		items : [{
-			title : 'Notícias sobre a aplicação',
+			title : 'Novidades',
 			bodyStyle : {
 				'color' : '#666666'
 			},
-			html : '<h3>Versão beta</h3><p>2014-08-06 - Foi lançada a versão beta.</p>' + '<h3>Versão alfa</h3><p>2014-07-25 - Foi lançada a versão alfa.</p>'
+			html : '<h3>Código disponível</h3><p>O código desta aplicação está disponível no <a href="https://github.com/jgrocha/geopublic">GitHub</a></p>'
 		}]
 	}]
 });

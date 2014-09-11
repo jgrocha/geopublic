@@ -14,7 +14,18 @@ Ext.apply(Ext.form.field.VTypes, {
 Ext.define('DemoExtJs.view.Viewport', {
 	extend : 'Ext.container.Viewport',
 	requires : ['Ext.tab.Panel', 'Ext.layout.container.Border', 'Ext.layout.container.Column'],
-
+	/*
+	 initComponent : function() {
+	 var me = this;
+	 this.callParent();
+	 me.on({
+	 afterrender : function() {
+	 var guia = Ext.widget('guia');
+	 guia.show();
+	 }
+	 });
+	 },
+	 */
 	layout : 'border',
 	items : [{
 		title : 'Node.js + ExtDirect + ExtJS 4',
@@ -23,25 +34,25 @@ Ext.define('DemoExtJs.view.Viewport', {
 	}, {
 		region : 'center',
 		xtype : 'tabpanel',
-		plain: true, // remover o fundo da barra dos panels
-		items : [{
+		plain : true, // remover o fundo da barra dos panels
+		items : [ /*{
 			xtype : 'bem-vindo-panel'
-		}, {
+		}, */ {
 			xtype : 'app-main-map-panel'
-		} /*, {
+		}, {
 			xtype : 'grid-promotor'
-		}, {
-			xtype : 'grid-actions'
-		}, {
-			xtype : 'method-call'
-		}, {
-			xtype : 'form-actions'
-		}, {
-			xtype : 'form-upload'
-		}, {
-			xtype : 'tree-actions'
-		}, {
-			xtype : 'demo-cookies'
-		} */]
+		} /* {
+		 xtype : 'grid-actions'
+		 }, {
+		 xtype : 'method-call'
+		 }, {
+		 xtype : 'form-actions'
+		 }, {
+		 xtype : 'form-upload'
+		 }, {
+		 xtype : 'tree-actions'
+		 }, {
+		 xtype : 'demo-cookies'
+		 } */]
 	}]
 });

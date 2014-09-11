@@ -15,6 +15,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	// Ext.ComponentQuery.query('app-main-map-panel toolbar')
 	{
+		selector : 'viewport > tabpanel',
+		ref : 'painelPrincipal' // gera um getPainelPrincipal
+	}, {
 		ref : 'barra',
 		selector : 'app-main-map-panel toolbar'
 	}, {
@@ -29,20 +32,22 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	}, {
 		ref : 'geocoderprocesso',
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoderprocesso'
+	}, {
+		ref : 'combopromotor', // this.getCombopromotor()
+		selector : 'topheader combo#promotor'
 	}],
 	init : function() {
 		// <debug>
-		console.log('O controlador Ppgis.controller.MainMapPanel init...');
+		console.log('O controlador DemoExtJs.controller.MainMapPanel init...');
 		// </debug>
-		this.listen({
-            controller: {
-                '*': {
-                    uploadSuccessful: this.onUploadSuccessful,
-                    logoutComSucesso: this.onLogoutComSucesso,
-                    loginComSucesso: this.onLoginComSucesso
-                }
-            }
-        });	
+		 this.listen({
+		             controller: {
+		                 '*': {
+		                     logoutComSucesso: this.onLogoutComSucesso,
+		                     loginComSucesso: this.onLoginComSucesso
+		                 }
+		             }
+		         });
 		this.control({
 			'app-main-map-panel' : {
 				'beforerender' : this.onMapPanelBeforeRender,
@@ -58,15 +63,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel button#insertPolygon" : {
 				click : this.onButtonClickInsertPolygon
 			},
-			"app-main-map-panel button#carregarprocesso" : {
-				click : this.onButtonClickCarregarProcesso
+			'topheader combo#plano' : {
+				change : this.onChangePlano
 			},
-			"app-main-map-panel button#uploadShapefile" : {
-				click : this.onButtonClickUploadShapefile
-			},
-			"app-main-map-panel button#refresh" : {
-				click : this.onButtonClickRefresh
-			}
 		}, this);
 	},
 	onLoginComSucesso : function() {
@@ -109,35 +108,19 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
 		}
 	},
-	onUploadSuccessful : function(url) {
-		var mapa = this.getMapa().map;
-		// <debug>
-		console.log(url);
-		// </debug>
-		// window.location.href = url;
-		var vector = mapa.getLayersByName('Pretensões')[0];
-		// <debug>
-		console.log(vector);
-		// </debug>
+	onChangePlano : function(field, newValue, oldValue, eOpts) {
+		console.log('   Plano: ' + newValue);
+		console.log('Promotor: ' + this.getCombopromotor().getValue());
 
-		var parser = new OpenLayers.Format.GeoJSON();
+		var promotor = this.getCombopromotor().getValue();
+		var plano = parseInt(newValue);
 
-		var shapefile = new Shapefile({
-			shp : url
-		}, function(data) {
-			console.log(data);
-			var features = parser.read(data.geojson);
-			var primeiro = features[0];
-			primeiro.state = OpenLayers.State.INSERT;
-			primeiro.attributes["designacao"] = 'Importado de shp';
-			// <debug>
-			console.log(primeiro);
-			// </debug>
+		// Muda para o mapa
 
-			vector.addFeatures([primeiro]);
-			mapa.zoomToExtent(primeiro.geometry.getBounds(), closest = true);
-			// console.log("took", new Date - starttime, "milliseconds");
-		});
+		// this.getPainelPrincipal().setActiveTab(1);
+		
+		// configura o filtro do WFS para só apanhar participações deste plano
+		// configura o estilo dos features, de acordo com o plano
 
 	},
 	onButtonClickRefresh : function(button, e, options) {
@@ -158,54 +141,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		console.log('onSelectGeocoder');
 		console.debug(records[0].data);
 		// </debug>
-	},
-	onButtonClickCarregarProcesso : function(button, e, options) {
-		var me = this;
-		Ext.Msg.prompt('Processo', 'Indique o processo/ano (p.e 451/09)', function(btn, text) {
-			if (btn == 'ok') {
-				//<debug>
-				console.log('Vou procurar o processo ' + text);
-				//</debug>
-				ExtRemote.DXConfrontacao.processo({
-					processo : text,
-					limit : 1,
-					start : 0
-				}, function(result, event) {
-					if (result.success) {
-						var msg = '';
-						var titulo = 'Pesquisa do processo';
-						if (result.total == 0) {
-							msg = 'Nenhum processo "' + text + '" encontrado.';
-							Ext.Msg.alert(titulo, msg);
-						} else {
-							if (result.total > 1) {
-								msg = 'Polígono do processo "' + text + '" recuperado com sucesso.<br>Apenas o maior polígono dos ' + result.total + ' encontrados foi importado.';
-							} else {
-								msg = 'Polígono do processo "' + text + '" recuperado com sucesso.';
-							}
-							Ext.Msg.alert(titulo, msg);
-							var mapa = me.getMapa().map;
-							var geojson_format = new OpenLayers.Format.GeoJSON();
-							// var processo_layer = new OpenLayers.Layer.Vector();
-							var processo_layer = mapa.getLayersByName('Processos')[0];
-							processo_layer.addFeatures(geojson_format.read(result.data));
-						}
-					} else {
-						Ext.Msg.alert(titulo, 'Erro ao procurar o processo "' + text + '".', Ext.encode(result));
-					}
-				});
-			}
-		});
-	},
-	onButtonClickUploadShapefile : function(button, e, options) {
-		var view = Ext.widget('uploadshapefile', {
-			// title : 'Área total: ' +
-			// Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
-			// bounds : event.feature.geometry.getBounds(),
-			// pretensao : parseInt(event.feature.data.id),
-			// feature : event.feature
-		});
-		view.show();
 	},
 	onButtonClickInsertPolygon : function(button, e, options) {
 		// console.log('onButtonClickInsertPolygon');
@@ -259,7 +194,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		Ext.Msg.alert('Erro', 'Não foi possível fazer a confrontação do polígono com os instrumentos de gestão do território.<br>O erro ficou registado e será analisado.');
 	},
 	onMapPanelBeforeRender : function(mapPanel, options) {
-		// this = instância "DemoExtJs.controller.MainMapPanel"
+		console.log('onMapPanelBeforeRender');
 		var me = this;
 		var map = mapPanel.map;
 
@@ -267,64 +202,14 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		if (DemoExtJs.LoggedInUser) {
 			userid = DemoExtJs.LoggedInUser.data.id;
 		}
-			
-		var layers = [];
-		// OpenLayers object creating
 
-		// var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest',
-		// servidor_de_mapas + '/mapproxy/tms/', {
-		var layerQuest = new OpenLayers.Layer.TMS('OpenStreetMap', DemoExtJs.mapproxy, {
-			layername : 'mapquest/pt_tm_06',
-			type : 'png',
-			tileSize : new OpenLayers.Size(256, 256)
-		}, {
-			isBaseLayer : true
-		});
-		layers.push(layerQuest);
+		baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
+		baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
 
-		var layerOrtos = new OpenLayers.Layer.TMS('Ortofotos da DGT', DemoExtJs.mapproxy, {
-			layername : 'ortos/pt_tm_06',
-			type : 'png',
-			tileSize : new OpenLayers.Size(256, 256)
-			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698,
-			// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
-			// 0.0687227930306]
-		}, {
-			isBaseLayer : true
-		});
-		layers.push(layerOrtos);
+		map.addLayers([baseOSM, baseAerial]);
 
-		var layerCarto10k = new OpenLayers.Layer.TMS('Cartografia 1:10.000', DemoExtJs.mapproxy, {
-			layername : 'carto10k/pt_tm_06',
-			type : 'png',
-			tileSize : new OpenLayers.Size(256, 256)
-			// resolutions: [8.79651750792, 4.39825875396, 2.19912937698,
-			// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
-			// 0.0687227930306]
-		}, {
-			isBaseLayer : true
-		});
-		layers.push(layerCarto10k);
-
-		// ok http://localhost:8011/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
-		// ok
-		// http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/11/326/1254.png
-		// not ok
-		// http://development.localhost.lan/mapproxy/tms/1.0.0/ortos/pt_tm_06/2/162/713.png
-
-		// resolutions : [2251.90848203, 1125.95424101, 562.977120507,
-		// 281.488560253, 140.744280127, 70.3721400634, 35.1860700317,
-		// 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698,
-		// 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061,
-		// 0.0687227930306], // , 0.0343613965153, 0.0171806982577,
-		// 0.00859034912883, 0.00429517456441],
-		// os ortos só dá para resoluções [8.79651750792, 4.39825875396,
-		// 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122,
-		// 0.137445586061, 0.0687227930306],
-
-		map.addLayers(layers);
-		map.setCenter(new OpenLayers.LonLat(-26557, 100814), 10);
-		// deve ser 5; em debug pode ser 10
+		// http://www.openstreetmap.org/#map=18/40.57626/-8.44609
+		// map.setCenter(new OpenLayers.LonLat(-8.44609, 40.57626).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()), 18);
 
 		//<debug>
 		// variáveis globais para debug
@@ -338,6 +223,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// me.saveStrategy = new OpenLayers.Strategy.Save();
 		me.saveStrategy.events.register('success', this, this.saveSuccess);
 		me.saveStrategy.events.register('fail', this, this.saveFail);
+
 		me.wfs_pretensao = new OpenLayers.Layer.Vector('Pretensões', {
 			strategies : [new OpenLayers.Strategy.BBOX(), me.saveStrategy],
 			protocol : new OpenLayers.Protocol.WFS({
@@ -372,45 +258,11 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				graphicTitle : "${name}"
 			})
 		});
-
 		map.addLayer(locationLayer);
-		//
 		me.getGeocoder().layer = locationLayer;
-		// me.getGeocoderprocesso().layer = locationLayer;
-
-		// http://www.peterrobins.co.uk/it/olvectors.html
-		var processo_layer = new OpenLayers.Layer.Vector("Processos", {
-			displayInLayerSwitcher : false,
-			style : {
-				fillColor : '#FF0000',
-				fillOpacity : 0.5,
-				strokeColor : '#FF0000',
-				strokeWidth : 2.5
-			},
-			eventListeners : {
-				"featuresadded" : function(event) {
-					// 'this' is layer
-					console.log('featuresadded processo_layer');
-					this.map.zoomToExtent(this.getDataExtent(), closest = true);
-					var pretensoes = map.getLayersByName('Pretensões')[0];
-					var geometria = this.features[0].geometry.clone();
-					var dados = {
-						designacao : this.features[0].attributes["designacao"]
-					};
-					var feature = new OpenLayers.Feature.Vector(geometria, dados, {});
-					feature.state = OpenLayers.State.INSERT;
-					//<debug>
-					console.log('geometria.CLASS_NAME', geometria.CLASS_NAME);
-					console.log('feature.CLASS_NAME', feature.CLASS_NAME);
-					//</debug>
-					pretensoes.addFeatures([feature]);
-				}
-			}
-		});
-		map.addLayer(processo_layer);
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {
-		// this = instância "DemoExtJs.controller.MainMapPanel"
+		console.log('onMapPanelAfterRender');
 		var me = this;
 		var map = mapPanel.map;
 
@@ -419,17 +271,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			eventListeners : {
 				beforefeaturehighlighted : function(event) {
 					console.debug(event.feature);
-					// este feature pode vir a ser removido...
-
-					// console.debug(event.feature.geometry.getBounds().toBBOX());
 					console.debug('Confrontações da pretensão ' + event.feature.data.id);
-					// me.getConfrontacaoStore().proxy.setExtraParam("idpretensao",
-					// event.feature.data.id);
-					// .proxy não existe no store geoext
-					// me.getConfrontacaoStore().filter("id",
-					// parseInt(event.feature.data.id));
-					// me.getConfrontacaoStore().load();
-					// widget.windowconfrontacao
 					var view = Ext.widget('windowconfrontacao', {
 						// title : 'Área total: ' +
 						// parseFloat(event.feature.data.area).toFixed(2) + '
@@ -469,7 +311,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		map.addControl(toolbar);
 		me.wfs_pretensao.events.on({
 			beforefeatureadded : function(event) {
-				console.log('beforefeatureadded WFS');
+				// console.log('beforefeatureadded WFS');
 				// console.log(arguments);
 				// console.debug(event.feature);
 				// só devia preencher estes campos para os novos features...
@@ -498,6 +340,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			}
 		});
 
+		// var guia = Ext.widget('guia');
+		// guia.show();
 	},
 	onMapPanelBeforeActivate : function(mapPanel, options) {
 		console.log('onMapPanelBeforeActivate');

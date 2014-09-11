@@ -1,3 +1,7 @@
+### Icon
+
+The application icon was designed by <a href="http://www.thenounproject.com/Borengasser">Stephen Borengasser</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
+
 ###Code examples
 
 This repository contains example Ext.Direct applications in ExtJs and Sencha Touch for node.js
