@@ -4,8 +4,8 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 	// xtype : 'app-main-map-panel',
 	alias : 'widget.app-main-map-panel',
 	title : 'Mapa',
-	
-	// não funciona...
+
+	// funciona!
 	center : [-940328.71082446, 4949944.6827996], // coordenadas ESPG:900913
 	zoom : 12,
 	stateful : false, // true, // false,
@@ -27,12 +27,7 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 			}), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
 			projection : new OpenLayers.Projection("EPSG:900913"),
 			// displayProjection : new OpenLayers.Projection("EPSG:3763"),
-			// projection : new OpenLayers.Projection('EPSG:3763'),
-			// maxResolution : 2251.90848203,
-			// resolutions : [2251.90848203, 1125.95424101, 562.977120507, 281.488560253, 140.744280127, 70.3721400634, 35.1860700317, 17.5930350158, 8.79651750792, 4.39825875396, 2.19912937698, 1.09956468849, 0.549782344245, 0.274891172122, 0.137445586061, 0.0687227930306], // , 0.0343613965153, 0.0171806982577, 0.00859034912883, 0.00429517456441],
-			units : 'm',
-			// numZoomLevels : 16, // 20,
-			// maxExtent : new OpenLayers.Bounds(-119191.407499, -300404.803999, 162129.0811, 276083.7674)
+			units : 'm'
 		};
 		this.map = new OpenLayers.Map(options);
 		this.callParent(arguments);

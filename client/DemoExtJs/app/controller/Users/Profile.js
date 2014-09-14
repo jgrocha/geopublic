@@ -21,8 +21,8 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 	init : function() {
 		var map = null;
 		this.control({
-			"avatar button#upload" : {
-				click : this.onButtonUpload
+			"avatar filefield#photo" : {
+				change : this.onButtonUpload
 			},
 			"profile form#dados button#gravar" : {
 				click : this.onButtonGravar
@@ -61,18 +61,20 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		var me = this;
 
-		var layers = [];
-		map = mapPanel.map;
+		var map = mapPanel.map;
 		// OpenLayers object creating
 
-		var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', DemoExtJs.mapproxy, {
-			layername : 'mapquest/pt_tm_06',
-			type : 'png',
-			tileSize : new OpenLayers.Size(256, 256)
-		});
+		/*
+		 var layerQuest = new OpenLayers.Layer.TMS('TMS mapquest', DemoExtJs.mapproxy, {
+		 layername : 'mapquest/pt_tm_06',
+		 type : 'png',
+		 tileSize : new OpenLayers.Size(256, 256)
+		 });
+		 layers.push(layerQuest);
+		 */
 
-		layers.push(layerQuest);
-		map.addLayers(layers);
+		var baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
+		map.addLayer(baseOSM);
 
 		var markers = new OpenLayers.Layer.Markers("Markers");
 		map.addLayer(markers);
@@ -100,7 +102,7 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 			console.log(DemoExtJs.LoggedInUser.data.longitude);
 			console.log(Ext.isNumber(DemoExtJs.LoggedInUser.data.longitude));
 			// pode eventualmente pedir a localização ao browser
-			map.setCenter(new OpenLayers.LonLat(-26557, 100814), 4);
+			// map.setCenter(new OpenLayers.LonLat(-26557, 100814), 4);
 		}
 		// for debug // fica com global, para se usar na consola
 		mapLocalizacao = map;

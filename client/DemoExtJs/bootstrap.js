@@ -10,6 +10,7 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.view.Avatar": "app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "app/view/Users/Profile.js",
   "DemoExtJs.view.Home": "app/view/Users/Profile.js",
+  "DemoExtJs.view.Illustrate": "app/view/Participation/Contribution.js",
   "DemoExtJs.view.InfPrevia.Feedback": "app/view/InfPrevia/WindowConfrontacao.js",
   "DemoExtJs.view.InfPrevia.Tabela": "app/view/InfPrevia/WindowConfrontacao.js",
   "Ext": "ext/src",
@@ -17,6 +18,7 @@ Ext.Loader.addClassPathMappings({
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "ext/packages/ext-theme-neptune/overrides",
   "GeoExt": "geoext2-2.0.2/src/GeoExt",
+  "ImageModel": "app/view/Participation/Contribution.js",
   "x": "app/controller/InfPrevia/WindowConfrontacao.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
@@ -52,6 +54,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.store.TipoOcorrencia": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
+  "DemoExtJs.view.Activity": [],
   "DemoExtJs.view.Avatar": [],
   "DemoExtJs.view.BemVindoPanel": [],
   "DemoExtJs.view.ChangePassword": [],
@@ -59,14 +62,18 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.FormActions": [],
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
+  "DemoExtJs.view.Guia": [],
   "DemoExtJs.view.Home": [],
+  "DemoExtJs.view.Illustrate": [],
   "DemoExtJs.view.InfPrevia.Feedback": [],
   "DemoExtJs.view.InfPrevia.Hierarquia": [],
   "DemoExtJs.view.InfPrevia.Tabela": [],
   "DemoExtJs.view.InfPrevia.UploadShapefile": [],
   "DemoExtJs.view.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.view.MainMapPanel": [],
+  "DemoExtJs.view.MapaComProjeto": [],
   "DemoExtJs.view.MethodCall": [],
+  "DemoExtJs.view.Participation.Contribution": [],
   "DemoExtJs.view.Promotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.TreeActions": [],
@@ -836,6 +843,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.TabScrollerMenu": [],
   "Ext.ux.ToolbarDroppable": [],
   "Ext.ux.TreePicker": [],
+  "Ext.ux.Wizard": [],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.ajax.JsonSimlet": [],
   "Ext.ux.ajax.SimManager": [],
@@ -875,6 +883,9 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.ux.StatusBar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.wizard.Card": [],
+  "Ext.ux.wizard.CardLayout": [],
+  "Ext.ux.wizard.Header": [],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
     "Ext.BoundList"
@@ -1047,6 +1058,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoExt.window.Popup": [
     "GeoExt.Popup"
   ],
+  "ImageModel": [],
   "x": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -1084,6 +1096,9 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.store.TipoOcorrencia": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
+  "DemoExtJs.view.Activity": [
+    "widget.activity"
+  ],
   "DemoExtJs.view.Avatar": [
     "widget.avatar"
   ],
@@ -1105,8 +1120,14 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.GridActions": [
     "widget.grid-actions"
   ],
+  "DemoExtJs.view.Guia": [
+    "widget.guia"
+  ],
   "DemoExtJs.view.Home": [
     "widget.home-map-panel"
+  ],
+  "DemoExtJs.view.Illustrate": [
+    "widget.illustrate"
   ],
   "DemoExtJs.view.InfPrevia.Feedback": [
     "widget.feedback-map-panel"
@@ -1126,8 +1147,14 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.MainMapPanel": [
     "widget.app-main-map-panel"
   ],
+  "DemoExtJs.view.MapaComProjeto": [
+    "widget.mapa-com-projeto"
+  ],
   "DemoExtJs.view.MethodCall": [
     "widget.method-call"
+  ],
+  "DemoExtJs.view.Participation.Contribution": [
+    "widget.contribution"
   ],
   "DemoExtJs.view.Promotor": [
     "widget.grid-promotor"
@@ -2048,6 +2075,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.TreePicker": [
     "widget.treepicker"
   ],
+  "Ext.ux.Wizard": [],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.ajax.JsonSimlet": [
     "simlet.json"
@@ -2115,6 +2143,11 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.statusbar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.wizard.Card": [],
+  "Ext.ux.wizard.CardLayout": [],
+  "Ext.ux.wizard.Header": [
+    "widget.wizardheader"
+  ],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
     "widget.boundlist"
@@ -2314,6 +2347,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoExt.window.Popup": [
     "widget.gx_popup"
   ],
+  "ImageModel": [],
   "x": []
 });
 Ext.setVersion("ext-theme-base", "4.2.1");
