@@ -1,5 +1,99 @@
 var db = global.App.database;
 var DXParticipacao = {
+	createComment : function(params, callback, sessionID, request) {
+		/*
+		 {
+		 {idocorrencia: "6", comment: "Quem disse?"}
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		console.log('createComment: ', params);
+		var fields = [], values = [];
+		for (var key in params) {
+			switch (key) {
+				case "id":
+					break;
+				default:
+					fields.push(key);
+					values.push(params[key]);
+					break;
+			}
+		}
+		// temporario
+		fields.push('idestado');
+		values.push(1);
+		// 
+		fields.push('datamodificacao');
+		values.push('now()');
+		fields.push('idutilizador');
+		values.push(request.session.userid);
+		var i = 0, buracos = [];
+		for ( i = 1; i <= fields.length; i++) {
+			buracos.push('$' + i);
+		}
+		var conn = db.connect();
+		conn.query('INSERT INTO ppgis.comentario (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+			db.disconnect(conn);
+			if (err) {
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true,
+					message : 'Comentário registado',
+					data : resultInsert.rows
+					// id : resultInsert.rows[0].id
+				});
+			}
+		});
+	},
+	readComment : function(params, callback, sessionID, request) {
+		console.log('readComment: ');
+		console.log(params);
+		var idocorrencia = params;				
+		var toJson = function(rows, totals) {
+			var obj, i, comentario;
+			obj = {
+				total : totals,
+				comentarios : []
+			};
+			for ( i = 0; i < rows.length; i++) {
+				comentario = {
+					comentario : rows[i].comentario,
+					datacriacao : rows[i].datacriacao,
+					idutilizador : rows[i].idutilizador
+				};
+				obj.comentarios.push(comentario);
+			}
+			return obj;
+		};
+				
+		var conn = db.connect();
+		var sql = 'SELECT * FROM ppgis.comentario where idocorrencia = ' + idocorrencia;
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				console.log('SQL=' + sql + ' Error: ', err);
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals FROM ppgis.comentario where idocorrencia = ' + idocorrencia;
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : toJson(result.rows, resultTotalQuery.rows[0].totals),
+							total : resultTotalQuery.rows[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
 	destroyOcorrencia : function(params, callback, sessionID, request) {
 		console.log('DXParticipacao.destroyOcorrencia');
 		console.log(params);
@@ -38,12 +132,12 @@ var DXParticipacao = {
 			switch (key) {
 				case "id":
 					break;
-					/*
-				case "geojson":
-					fields.push('the_geom');
-					values.push("ST_GeomFromGeoJSON('" + params[key] + "')");
-					break;
-					*/
+				/*
+				 case "geojson":
+				 fields.push('the_geom');
+				 values.push("ST_GeomFromGeoJSON('" + params[key] + "')");
+				 break;
+				 */
 				default:
 					fields.push(key);
 					values.push(params[key]);
@@ -56,7 +150,7 @@ var DXParticipacao = {
 		values.push(request.session.userid);
 		var i = 0, buracos = [];
 		for ( i = 1; i <= fields.length; i++) {
-			if (fields[i-1] === 'the_geom') {
+			if (fields[i - 1] === 'the_geom') {
 				buracos.push('ST_SetSRID(ST_GeomFromGeoJSON($' + i + '), 900913)');
 			} else {
 				buracos.push('$' + i);

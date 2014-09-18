@@ -31,6 +31,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		ref : 'local',
 		selector : 'activity contribution form toolbar button#local'
 	}, {
+		ref : 'todasDiscussoes',
+		selector : 'activity #flow'
+	}, {
 		ref : 'geocoder',
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoder'
 	}, {
@@ -43,6 +46,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		ref : 'comboplano', // this.getComboplano()
 		selector : 'app-main-map-panel combo#plano'
 	}],
+
 	init : function() {
 		// <debug>
 		console.log('O controlador DemoExtJs.controller.MainMapPanel init...');
@@ -142,7 +146,21 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"));
 			f.fid = records[i].data.id;
 			report.addFeatures([f]);
+
+			// criar os paineis de discussao
+			var newDiscussion = new DemoExtJs.view.Participation.Discussion({
+				id_ocorrencia : records[i].data.id,
+				idplano : records[i].data.idplano,
+				idestado : records[i].data.idestado,
+				idtipoocorrencia : records[i].data.idtipoocorrencia,
+				titulo : records[i].data.titulo,
+				participacao : records[i].data.participacao,
+				datacriacao : records[i].data.datacriacao
+			});
+			this.getTodasDiscussoes().add(newDiscussion);
+			this.getTodasDiscussoes().doLayout();
 		}
+		// this.getTodasDiscussoes().doLayout();
 	},
 
 	onChangePlano : function(field, newValue, oldValue, eOpts) {
@@ -299,8 +317,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			eventListeners : {
 				beforefeaturehighlighted : function(event) {
 					console.log('beforefeaturehighlighted');
-					console.debug(event.feature);
-					(event.feature.fid);
+					console.debug(event.feature); (
+						event.feature.fid);
 				},
 				featurehighlighted : function(event) {
 					console.log('featurehighlighted');
@@ -347,7 +365,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				// console.log(f);
 
 				// vou ver se já existia um ponto marcado (mas não gravado)
-				
+
 				me.getFormContribution().getForm().setValues({
 					feature : f.id
 				});

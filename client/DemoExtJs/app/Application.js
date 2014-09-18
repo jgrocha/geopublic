@@ -2,8 +2,8 @@ Ext.define('DemoExtJs.Application', {
 	name : 'DemoExtJs',
 	requires : ['DemoExtJs.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card'],
 	extend : 'Ext.app.Application',
-	views : ['BemVindoPanel', 'MainMapPanel', 'Promotor', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'InfPrevia.WindowConfrontacao', 'InfPrevia.Hierarquia', 'InfPrevia.UploadShapefile', 'Guia', 'MapaComProjeto', 'Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion'],
-	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'InfPrevia.WindowConfrontacao', 'InfPrevia.Hierarquia', 'InfPrevia.UploadShapefile', 'Participation.Contribution'],
+	views : ['BemVindoPanel', 'MainMapPanel', 'Promotor', 'MethodCall', 'FormActions', 'GridActions', 'FormUpload', 'TreeActions', 'Cookies', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'InfPrevia.WindowConfrontacao', 'InfPrevia.Hierarquia', 'InfPrevia.UploadShapefile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion'],
+	controllers : ['Main', 'TopHeader', 'Users.Profile', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'InfPrevia.WindowConfrontacao', 'InfPrevia.Hierarquia', 'InfPrevia.UploadShapefile', 'Participation.Contribution', 'Participation.Discussion'],
 	models : ['TodoItem', 'Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia'],
 	stores : ['Todo', 'Tree', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia'],
 	init : function() {

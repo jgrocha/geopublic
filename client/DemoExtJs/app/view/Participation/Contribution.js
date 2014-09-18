@@ -125,7 +125,7 @@ var store = Ext.create('Ext.data.Store', {
 Ext.define('DemoExtJs.view.Participation.Contribution', {
 	extend : 'Ext.panel.Panel',
 	xtype : 'contribution',
-	// title : 'Participar',
+	title : 'Nova participação',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	bodyPadding : 5,
 	// autoScroll : true,
