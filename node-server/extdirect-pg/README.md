@@ -70,4 +70,15 @@ Is you use Apache proxy to serve the application, you should also configure ExtD
 </VirtualHost>
 ```
 
+##### Geographic scope of each plan under discussion
+
+`mapDebug.getExtent().toGeometry().toString()`
+
+```
+update ppgis.plano
+set the_geom = ST_GeometryFromText('POLYGON((-942201.41801707 4948511.4885196,-937443.21300699 4948511.4885196,-937443.21300699 4952314.2306762,-942201.41801707 4952314.2306762,-942201.41801707 4948511.4885196))', 900913)
+where id = 1
+```
+
+
 

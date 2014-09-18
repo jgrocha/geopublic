@@ -12,6 +12,12 @@ Ext.define('DemoExtJs.model.TipoOcorrencia', {
 	}, {
 		name : 'ativa',
 		type : 'boolean'
+	}, {
+		name : 'classe',
+		type : 'int'
+	}, {
+		name : 'isclass',
+		type : 'boolean'
 	}],
 	// belongsTo : 'DemoExtJs.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct

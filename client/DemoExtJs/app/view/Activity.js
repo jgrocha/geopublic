@@ -1,19 +1,55 @@
 Ext.define('DemoExtJs.view.Activity', {
-	// extend : 'Ext.container.Container',
-	extend : 'Ext.panel.Panel',
+	extend : 'Ext.container.Container',
+	// extend : 'Ext.panel.Panel',
 	xtype : 'activity',
-	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
+	// requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
 	title : 'Participe!',
-	// style : 'padding:5px',
 	items : [{
 		xtype : 'contribution',
 		region : 'north',
-		height : 360,
-		layout: 'fit'
+		// height : 360,
+		collapsible : true,
+		layout : 'fit'
 	}, {
-		title: 'Contribuições',
+		defaultType : 'container',
+		layout : 'fit',
 		region : 'center',
-		html: 'Todas as outras contribuições'
+		autoScroll : true,
+		// http://jsfiddle.net/H4vp7/84/
+		items : [{
+			layout : 'anchor',
+			minWidth : 200,
+			minHeight : 200,
+			defaultType : 'container',
+			items : [{
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}, {
+				xtype : 'discussion'
+			}]
+		}]
+
+	}, {
+		region : 'south',
+		defaultType : 'container',
+		padding : '10 0 10 0',
+		layout : {
+			type : 'hbox',
+			align : 'middle',
+			pack : 'center'
+		},
+		items : [{
+			html : 'Blaaah'
+		}]
 	}]
 });

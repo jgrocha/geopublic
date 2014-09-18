@@ -27,6 +27,12 @@ Ext.define('DemoExtJs.model.Plano', {
 	}, {
 		name : 'fim',
 		type : 'date'
+	}, {
+		name : 'wkt',
+		type : 'string'
+	}, {
+		name : 'geojson',
+		type : 'string'
 	}],
 	// belongsTo : 'DemoExtJs.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct

@@ -1,8 +1,6 @@
-/*
- * http://kb.imakewebsites.ca/2014/01/04/new-node-wishlist/
- */
 Ext.define('DemoExtJs.controller.MainMapPanel', {
 	extend : 'Ext.app.Controller',
+	stores : ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia'], // getPromotorComboStore()
 	requires : ['GeoExt.Action'],
 
 	wfs_pretensao : {},
@@ -15,6 +13,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	// Ext.ComponentQuery.query('app-main-map-panel toolbar')
 	{
+		selector : 'contribution form#detail',
+		ref : 'formContribution' // gera um getFormContribution
+	}, {
 		selector : 'viewport > tabpanel',
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
 	}, {
@@ -25,7 +26,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'app-main-map-panel'
 	}, {
 		ref : 'inserir',
-		selector : 'app-main-map-panel toolbar button#insertPolygon'
+		selector : 'activity contribution form toolbar button#gravar'
+	}, {
+		ref : 'local',
+		selector : 'activity contribution form toolbar button#local'
 	}, {
 		ref : 'geocoder',
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoder'
@@ -34,12 +38,16 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoderprocesso'
 	}, {
 		ref : 'combopromotor', // this.getCombopromotor()
-		selector : 'topheader combo#promotor'
+		selector : 'app-main-map-panel combo#promotor'
+	}, {
+		ref : 'comboplano', // this.getComboplano()
+		selector : 'app-main-map-panel combo#plano'
 	}],
 	init : function() {
 		// <debug>
 		console.log('O controlador DemoExtJs.controller.MainMapPanel init...');
 		// </debug>
+		/*
 		 this.listen({
 		             controller: {
 		                 '*': {
@@ -48,6 +56,16 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		                 }
 		             }
 		         });
+		 */
+		this.application.on({
+			scope : this,
+			loginComSucesso : this.onLoginComSucesso,
+			logoutComSucesso : this.onLogoutComSucesso
+		});
+		this.getOcorrenciaStore().on({
+			scope : this,
+			load : this.onOcorrenciaStoreLoad
+		});
 		this.control({
 			'app-main-map-panel' : {
 				'beforerender' : this.onMapPanelBeforeRender,
@@ -60,11 +78,14 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel gx_geocodercombo#geocoder" : {
 				select : this.onSelectGeocoder
 			},
-			"app-main-map-panel button#insertPolygon" : {
-				click : this.onButtonClickInsertPolygon
-			},
-			'topheader combo#plano' : {
+			'app-main-map-panel combo#plano' : {
 				change : this.onChangePlano
+			},
+			"app-main-map-panel combo#promotor" : {
+				select : this.onComboPromotor
+			},
+			"contribution form#detail toolbar button#local" : {
+				click : this.onButtonLocal
 			}
 		}, this);
 	},
@@ -108,6 +129,22 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
 		}
 	},
+	onOcorrenciaStoreLoad : function(store, records) {
+		console.log('onOcorrenciaStoreLoad');
+		console.debug(store);
+		console.debug(records);
+
+		var report = this.getMapa().map.getLayersByName('Report')[0];
+		report.destroyFeatures();
+		var parser = new OpenLayers.Format.GeoJSON();
+
+		for (var i = 0, len = records.length; i < len; i++) {
+			var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"));
+			f.fid = records[i].data.id;
+			report.addFeatures([f]);
+		}
+	},
+
 	onChangePlano : function(field, newValue, oldValue, eOpts) {
 		console.log('   Plano: ' + newValue);
 		console.log('Promotor: ' + this.getCombopromotor().getValue());
@@ -115,13 +152,44 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var promotor = this.getCombopromotor().getValue();
 		var plano = parseInt(newValue);
 
-		// Muda para o mapa
-
-		// this.getPainelPrincipal().setActiveTab(1);
-		
-		// configura o filtro do WFS para só apanhar participações deste plano
-		// configura o estilo dos features, de acordo com o plano
-
+		if (plano) {
+			// centrar o mapa
+			// sacar o registo no store
+			var rec = this.getPlanoComboStore().findRecord('id', plano);
+			// sacar as coordenadas
+			// console.debug(rec.data);
+			// working with WKT
+			// var polygon = OpenLayers.Geometry.fromWKT(rec.data.wkt);
+			// this.getMapa().map.zoomToExtent(polygon.getBounds(), closest = true);
+			// working with GeoJSON
+			var parser = new OpenLayers.Format.GeoJSON();
+			// “Geometry”, “Feature”, and “FeatureCollection”
+			var polygon = parser.read(rec.data.geojson, "Geometry");
+			this.getMapa().map.zoomToExtent(polygon.getBounds(), closest = true);
+			console.log('Ler os tipo de ocorrência do plano ' + plano + ' do promotor ' + promotor);
+			var tostore = this.getTipoOcorrenciaComboStore();
+			tostore.load({
+				id : plano
+			});
+			console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
+			var ostore = this.getOcorrenciaStore();
+			ostore.load({
+				id : plano
+			});
+		}
+	},
+	onComboPromotor : function(combo, records, eOpts) {
+		console.log('Selecionou: ', records[0].data.id);
+		if (records[0].data.id) {
+			console.log('Ler os planos do promotor ', records[0].data.id);
+			// var store = Ext.StoreManager.lookup('Plano');
+			var store = this.getPlanoComboStore();
+			// var model = this.getPlanoModel();
+			// model.load(selection[0].data.id);
+			store.load({
+				id : records[0].data.id
+			});
+		}
 	},
 	onButtonClickRefresh : function(button, e, options) {
 		// <debug>
@@ -142,21 +210,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		console.debug(records[0].data);
 		// </debug>
 	},
-	onButtonClickInsertPolygon : function(button, e, options) {
-		// console.log('onButtonClickInsertPolygon');
-		// console.debug(button);
+	onButtonLocal : function(button, e, options) {
+		console.log('onButtonLocal');
 		if (button.pressed) {
-			button.up('app-main-map-panel').highlightCtrl.deactivate();
-			button.up('app-main-map-panel').selectCtrl.deactivate();
-			button.up('app-main-map-panel').insertPoint.deactivate();
-			button.up('app-main-map-panel').insertPolygon.activate();
+			this.getMapa().highlightCtrl.deactivate();
+			this.getMapa().selectCtrl.deactivate();
+			this.getMapa().insertPoint.activate();
 		} else {
-			button.up('app-main-map-panel').insertPolygon.cancel();
-
-			button.up('app-main-map-panel').highlightCtrl.activate();
-			button.up('app-main-map-panel').selectCtrl.activate();
-			button.up('app-main-map-panel').insertPoint.deactivate();
-			button.up('app-main-map-panel').insertPolygon.deactivate();
+			this.getMapa().insertPoint.cancel();
+			this.getMapa().highlightCtrl.activate();
+			this.getMapa().selectCtrl.activate();
+			this.getMapa().insertPoint.deactivate();
 		}
 	},
 	saveSuccess : function(event) {
@@ -197,57 +261,20 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		console.log('onMapPanelBeforeRender');
 		var me = this;
 		var map = mapPanel.map;
-
 		var userid = -1;
 		if (DemoExtJs.LoggedInUser) {
 			userid = DemoExtJs.LoggedInUser.data.id;
 		}
-
 		var baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
 		var baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
-
 		map.addLayers([baseOSM, baseAerial]);
-
-		// http://www.openstreetmap.org/#map=18/40.57626/-8.44609
-		// map.setCenter(new OpenLayers.LonLat(-8.44609, 40.57626).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()), 18);
-
+		var report = new OpenLayers.Layer.Vector("Report");
+		map.addLayer(report);
 		//<debug>
 		// variáveis globais para debug
 		mapDebug = map;
 		mapPanelDebug = mapPanel;
 		//</debug>
-
-		me.saveStrategy = new OpenLayers.Strategy.Save({
-			auto : 'true'
-		});
-		// me.saveStrategy = new OpenLayers.Strategy.Save();
-		me.saveStrategy.events.register('success', this, this.saveSuccess);
-		me.saveStrategy.events.register('fail', this, this.saveFail);
-
-		me.wfs_pretensao = new OpenLayers.Layer.Vector('Pretensões', {
-			strategies : [new OpenLayers.Strategy.BBOX(), me.saveStrategy],
-			protocol : new OpenLayers.Protocol.WFS({
-				url : DemoExtJs.geoserver + '/geoserver/wfs', //
-				featureType : 'pretensao',
-				featureNS : 'http://geomaster.pt',
-				srsName : 'EPSG:3763',
-				version : '1.1.0',
-				reportError : true,
-				featurePrefix : 'geomaster',
-				schema : DemoExtJs.geoserver + '/geoserver/wfs/DescribeFeatureType?version=1.1.0&typename=geomaster:pretensao',
-				geometryName : 'the_geom'
-			}),
-			visibility : true,
-			displayInLayerSwitcher : false,
-			projection : new OpenLayers.Projection("EPSG:3763"),
-			filter : new OpenLayers.Filter.Comparison({
-				type : OpenLayers.Filter.Comparison.EQUAL_TO,
-				property : "idutilizador",
-				value : userid
-			})
-		});
-		map.addLayer(me.wfs_pretensao);
-
 		var locationLayer = new OpenLayers.Layer.Vector("Location", {
 			displayInLayerSwitcher : false,
 			projection : new OpenLayers.Projection("EPSG:4326"),
@@ -265,67 +292,78 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		console.log('onMapPanelAfterRender');
 		var me = this;
 		var map = mapPanel.map;
+		var report = map.getLayersByName('Report')[0];
 
-		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(me.wfs_pretensao, {
+		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(report, {
 			clickout : true,
 			eventListeners : {
 				beforefeaturehighlighted : function(event) {
+					console.log('beforefeaturehighlighted');
 					console.debug(event.feature);
-					console.debug('Confrontações da pretensão ' + event.feature.data.id);
-					var view = Ext.widget('windowconfrontacao', {
-						// title : 'Área total: ' +
-						// parseFloat(event.feature.data.area).toFixed(2) + '
-						// m2',
-						title : 'Área total: ' + Ext.util.Format.number(event.feature.data.area, '0.00') + ' m2',
-						bounds : event.feature.geometry.getBounds(),
-						pretensao : parseInt(event.feature.data.id),
-						feature : event.feature
-					});
-					// view.bounds = event.feature.geometry.getBounds();
-					// console.debug(view);
-					view.show();
+					(event.feature.fid);
 				},
 				featurehighlighted : function(event) {
+					console.log('featurehighlighted');
 					this.unselectAll();
 				}
 			}
 		});
 
-		mapPanel.highlightCtrl = new OpenLayers.Control.SelectFeature(me.wfs_pretensao, {
+		mapPanel.highlightCtrl = new OpenLayers.Control.SelectFeature(report, {
 			hover : true,
 			highlightOnly : true,
 			renderIntent : "temporary"
 		});
 
-		mapPanel.insertPoint = new OpenLayers.Control.DrawFeature(me.wfs_pretensao, OpenLayers.Handler.Point, {
+		mapPanel.insertPoint = new OpenLayers.Control.DrawFeature(report, OpenLayers.Handler.Point, {
 			'displayClass' : 'olControlDrawFeaturePoint'
-		});
-		mapPanel.insertPolygon = new OpenLayers.Control.DrawFeature(me.wfs_pretensao, OpenLayers.Handler.Polygon, {
-			'displayClass' : 'olControlDrawFeaturePolygon'
 		});
 
 		var toolbar = new OpenLayers.Control.Panel({
 			displayClass : 'customEditingToolbar'
 		});
-		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint, mapPanel.insertPolygon]);
+		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint]);
 		map.addControl(toolbar);
-		me.wfs_pretensao.events.on({
+
+		report.events.on({
 			beforefeatureadded : function(event) {
-				// console.log('beforefeatureadded WFS');
-				// console.log(arguments);
-				// console.debug(event.feature);
-				// só devia preencher estes campos para os novos features...
-				if (!event.feature.attributes["designacao"]) {
-					event.feature.attributes["designacao"] = 'Desenhado na web';
-				}
-				event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
+				console.log('report.beforefeatureadded');
+				/*
+				 // console.log(arguments);
+				 // console.debug(event.feature);
+				 // só devia preencher estes campos para os novos features...
+				 if (!event.feature.attributes["designacao"]) {
+				 event.feature.attributes["designacao"] = 'Desenhado na web';
+				 }
+				 event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
+				 */
 			}
 		});
-		mapPanel.insertPolygon.events.on({
+		mapPanel.insertPoint.events.on({
 			featureadded : function(event) {
-				console.log('featureadded');
+				console.log('mapPanel.insertPoint.events.on featureadded');
+				// console.log(arguments);
+				var f = event.feature;
+				// console.log(f);
+
+				// vou ver se já existia um ponto marcado (mas não gravado)
+				
+				me.getFormContribution().getForm().setValues({
+					feature : f.id
+				});
+
+				// event.feature
+				// event.feature.state === "Insert"
+				if (me.getLocal().pressed) {
+					me.getLocal().toggle(false);
+					// -- a ordem é importante...
+					me.getMapa().highlightCtrl.activate();
+					me.getMapa().selectCtrl.activate();
+					me.getMapa().insertPoint.deactivate();
+				}
 			}
 		});
+
 		// -- a ordem destes dois é importante
 		mapPanel.highlightCtrl.activate();
 		mapPanel.selectCtrl.activate();

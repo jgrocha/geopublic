@@ -41,19 +41,37 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
 		width : 400
-	}, /* {
-	 text : 'Atualiza',
-	 itemId : 'refresh',
-	 icon : 'resources/assets/arrow-circle-double-135.png',
-	 enableToggle : false,
-	 tooltip : 'Pede novamente ao servidor as pretensões já desenhadas ou importadas'
-	 }, */'->', {
-		text : 'Participar', // só vamos deixar desenhar a partir de um dado nível de zoom...
-		itemId : 'insertPolygon',
-		icon : 'resources/assets/pencil.png',
-		enableToggle : true,
-		tooltip : 'Ativa ou desativa a ferramenta de desenho'
-	}]
+	}, '->', {
+		xtype : 'combo',
+		itemId : 'promotor',
+		width : 240,
+		editable : false,
+		valueField : 'id',
+		displayField : 'designacao',
+		emptyText : 'Escolha um promotor...',
+		forceSelection : true,
+		triggerAction : 'all',
+		store : 'PromotorCombo',
+		queryMode : 'local'
+	}, {
+		xtype : 'combo',
+		itemId : 'plano',
+		width : 240,
+		editable : false,
+		valueField : 'id',
+		displayField : 'designacao',
+		emptyText : 'Escolha o plano...',
+		forceSelection : true,
+		triggerAction : 'all',
+		store : 'PlanoCombo',
+		queryMode : 'local'
+	} /*, {
+	 text : 'Participar', // só vamos deixar desenhar a partir de um dado nível de zoom...
+	 itemId : 'insertPolygon',
+	 icon : 'resources/assets/pencil.png',
+	 enableToggle : true,
+	 tooltip : 'Ativa ou desativa a ferramenta de desenho'
+	 }*/ ]
 });
 
 /*

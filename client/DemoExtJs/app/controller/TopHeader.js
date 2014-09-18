@@ -1,9 +1,6 @@
-/*
- *
- */
 Ext.define('DemoExtJs.controller.TopHeader', {
 	extend : 'Ext.app.Controller',
-	stores : ['Sessao', 'PromotorCombo', 'PlanoCombo'], // getSessaoStore()
+	stores : ['Sessao'], // getSessaoStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
 		// selector : 'topheader splitbutton',
@@ -42,9 +39,6 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			},
 			"topheader splitbutton #botaoLogout" : {
 				click : this.onButtonClickLogout
-			},
-			"topheader combo#promotor" : {
-				select : this.onComboPromotor
 			},
 			"login form button#lost" : {
 				click : this.onButtonClickLostPassword
@@ -101,19 +95,6 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 			// this.getGruposStore().rejectChanges();
 		}, this);
 		this.getSessaoStore().proxy.addListener("load", this.onSessaoStoreLoad, this);
-	},
-	onComboPromotor : function(combo, records, eOpts) {
-		console.log('Selecionou: ', records[0].data.id);
-		if (records[0].data.id) {
-			console.log('Ler os planos do promotor ', records[0].data.id);
-			// var store = Ext.StoreManager.lookup('Plano');
-			var store = this.getPlanoComboStore();
-			// var model = this.getPlanoModel();
-			// model.load(selection[0].data.id);
-			store.load({
-				id : records[0].data.id
-			});
-		}
 	},
 	onSessaoStoreLoad : function(proxy, records, successful, eOpts) {
 		if (!successful) {
@@ -267,7 +248,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				if (result.success) {
 					// Ext.Msg.alert(result.message);
 					me.application.fireEvent('logoutComSucesso');
-					// me.fireEvent('logout');	// para ser apanhado pelo mapPanel (MainMapPanel controller) 		
+					// me.fireEvent('logout');	// para ser apanhado pelo mapPanel (MainMapPanel controller)
 				} else {
 					Ext.Msg.alert('Erro ao terminar a sessão.', Ext.encode(result));
 				}

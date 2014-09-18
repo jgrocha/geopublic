@@ -1,5 +1,6 @@
 Ext.define('DemoExtJs.view.Illustrate', {
 	extend : 'Ext.form.Panel',
+	// stores : ['TipoOcorrenciaCombo'],
 	xtype : 'illustrate',
 	requires : ['Ext.form.field.File', 'Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	title : 'Avatar',
@@ -135,6 +136,9 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 		// title : 'Dados',
 		autoWidth : true,
 		items : [{
+			xtype : 'hiddenfield',
+			name : 'feature'
+		}, {
 			xtype : 'textfield',
 			// fieldLabel : 'titulo',
 			emptyText : 'Título...',
@@ -142,17 +146,18 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 			anchor : '100%'
 		}, {
 			xtype : 'combo',
+			name : 'idtipoocorrencia', // o que é submetido no form...
 			itemId : 'id_tipo_ocorrencia',
 			editable : false,
-			valueField : 'id_tipo_ocorrencia',
-			displayField : 'tipo_ocorrencia',
+			valueField : 'id',
+			displayField : 'designacao',
 			emptyText : 'Escolha um tipo...',
 			forceSelection : true,
 			triggerAction : 'all',
-			// store : 'TipoOcorrenciaCombo',
+			store : 'TipoOcorrenciaCombo',
 			queryMode : 'local',
 			listConfig : {
-				itemTpl : '<tpl for="."><div class="combo-superior-{classe}"><span>{tipo_ocorrencia}</span></div></tpl>'
+				itemTpl : '<tpl for="."><div class="combo-superior-{isclass}"><span>{designacao}</span></div></tpl>'
 			},
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>',
 			anchor : '100%'
@@ -230,8 +235,9 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 			items : [{
 				xtype : 'button',
 				itemId : 'local',
-				formBind : true,
+				// formBind : true,
 				icon : 'resources/images/target.png',
+				enableToggle : true,
 				text : ''
 			}, {
 				xtype : 'filefield',
@@ -261,7 +267,7 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 				formBind : true,
 				icon : 'resources/images/icons/fam/image_remove.png',
 				text : ''
-			},{
+			}, {
 				xtype : 'tbfill'
 			}, {
 				xtype : 'button',

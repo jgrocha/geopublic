@@ -1,6 +1,167 @@
 var db = global.App.database;
 var DXParticipacao = {
+	destroyOcorrencia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.destroyOcorrencia');
+		console.log(params);
+	},
+	updateOcorrencia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.updateOcorrencia');
+		console.log(params);
+		callback({
+			success : true
+		});
 
+	},
+	createOcorrencia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.createOcorrencia');
+		console.log(params);
+		callback({
+			success : true
+		});
+	},
+	createOcorrencia : function(params, callback, sessionID, request) {
+		/*
+		 {
+		 titulo: 'sfkjh',
+		 id_tipo_ocorrencia: 8,
+		 participacao: 'sdfasdfasdf',
+		 idplano: 1,
+		 geojson: '{"type":"Point","coordinates":[-938422.0682167901,4951421.1694373]}'
+		 }
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		console.log('createOcorrencia: ', params);
+		var fields = [], values = [];
+		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
+		// o id vem a 0, quando se insere um registo
+		for (var key in params) {
+			switch (key) {
+				case "id":
+					break;
+					/*
+				case "geojson":
+					fields.push('the_geom');
+					values.push("ST_GeomFromGeoJSON('" + params[key] + "')");
+					break;
+					*/
+				default:
+					fields.push(key);
+					values.push(params[key]);
+					break;
+			}
+		}
+		fields.push('datamodificacao');
+		values.push('now()');
+		fields.push('idutilizador');
+		values.push(request.session.userid);
+		var i = 0, buracos = [];
+		for ( i = 1; i <= fields.length; i++) {
+			if (fields[i-1] === 'the_geom') {
+				buracos.push('ST_SetSRID(ST_GeomFromGeoJSON($' + i + '), 900913)');
+			} else {
+				buracos.push('$' + i);
+			}
+		}
+		var conn = db.connect();
+		conn.query('INSERT INTO ppgis.ocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+			db.disconnect(conn);
+			if (err) {
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true,
+					message : 'Ocorrência inserida',
+					data : resultInsert.rows
+					// id : resultInsert.rows[0].id
+				});
+			}
+		});
+	},
+	readOcorrencia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.readOcorrencia');
+		console.log(params);
+
+		var conn = db.connect();
+		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson FROM ppgis.ocorrencia';
+		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
+		console.log(sql);
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals FROM ppgis.ocorrencia';
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+	readSummitsGeoJSON : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.readSummits');
+		console.log(params);
+		var toGeoJson = function(rows) {
+			var obj, i;
+			obj = {
+				type : "FeatureCollection",
+				features : []
+			};
+			for ( i = 0; i < rows.length; i++) {
+				var id, item, feature, geometry;
+				item = rows[i];
+				id = item.id;
+				geometry = JSON.parse(item.geojson);
+				delete item.geojson;
+				delete item.id;
+				feature = {
+					type : "Feature",
+					properties : item,
+					geometry : geometry,
+					id : id
+				};
+				obj.features.push(feature);
+			}
+			return obj;
+		};
+		var conn = db.connect();
+		var sql = 'SELECT id, elevation, name, ST_AsGeoJSON(the_geom) as geojson FROM amr.summits';
+		console.log(sql);
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals FROM amr.summits';
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						callback({
+							success : true,
+							data : toGeoJson(result.rows),
+							total : resultTotalQuery.rows[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
 	createTipoOcorrencia : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
 		/*
@@ -124,12 +285,18 @@ var DXParticipacao = {
 		// ???
 		var userid = request.session.userid;
 		var conn = db.connect();
-		var sql = 'SELECT * FROM ppgis.tipoocorrencia where idplano = ' + plano;
+		// var sql = 'SELECT * FROM ppgis.tipoocorrencia where idplano = ' + plano;
+
+		var sql = 'select *, CASE WHEN classe IS NULL THEN true ELSE false END as isclass';
+		sql += ' from ppgis.tipoocorrencia where idplano = ' + plano;
+		sql += ' order by CASE WHEN classe IS NULL THEN id ELSE classe END, classe DESC';
+
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);
 				db.debugError(callback, err);
 			} else {
+				console.log('SQL=' + sql + ' Error: ', err);
 				//get totals for paging
 				var totalQuery = 'SELECT count(*) as totals from ppgis.tipoocorrencia where idplano = ' + plano;
 				conn.query(totalQuery, function(err, resultTotalQuery) {
@@ -275,7 +442,7 @@ var DXParticipacao = {
 		// ???
 		var userid = request.session.userid;
 		var conn = db.connect();
-		var sql = 'SELECT * FROM ppgis.plano where idpromotor = ' + promotor;
+		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson FROM ppgis.plano where idpromotor = ' + promotor;
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);

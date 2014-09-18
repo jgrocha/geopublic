@@ -26,30 +26,6 @@ Ext.define('DemoExtJs.view.TopHeader', {
 			'font-weight' : 'bold'
 		}
 	}, {
-		xtype : 'combo',
-		itemId : 'promotor',
-		width : 240,
-		editable : false,
-		valueField : 'id',
-		displayField : 'designacao',
-		emptyText : 'Escolha um promotor...',
-		forceSelection : true,
-		triggerAction : 'all',
-		store : 'PromotorCombo',
-		queryMode : 'local'
-	}, {
-		xtype : 'combo',
-		itemId : 'plano',
-		width : 240,
-		editable : false,
-		valueField : 'id',
-		displayField : 'designacao',
-		emptyText : 'Escolha o plano...',
-		forceSelection : true,
-		triggerAction : 'all',
-		store : 'PlanoCombo',
-		queryMode : 'local'
-	}, {
 		xtype : 'tbfill'
 	}, {
 		xtype : 'button',
