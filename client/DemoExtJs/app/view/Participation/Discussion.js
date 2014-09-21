@@ -59,7 +59,7 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		this.idocorrencia = this.initialConfig.id_ocorrencia;
 
 		var tpl = new Ext.XTemplate(//
-		'<tpl for="comentarios">', //
+		'<tpl for=".">', //
 		'<p>{comentario} por {idutilizador}</p>', //
 		'</tpl></p>' //
 		);
@@ -67,40 +67,46 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		this.items = [{
 			html : this.initialConfig.participacao
 		}, {
+			xtype : 'fotografia',
+			config : {
+				idocorrencia : this.idocorrencia
+			}
+		}, {
+			loaded : false, // carregou os comentários?
+			numcomments : 0,
 			title : 'Comentários',
-			html : 'Lista com todos os comentários existentes',
+			itemId : 'commentlist',
+			collapsible : true,
+			collapsed : true,
+			hideCollapseTool : true,
+			titleCollapse : true,
+			// html : 'Lista com todos os comentários existentes',
 			tpl : tpl,
-			data : {
-				total : 5,
-				comentarios : [{
-					comentario : 'Joshua',
-					idutilizador : 3
-				}, {
-					comentario : 'Matthew',
-					idutilizador : 2
-				}, {
-					comentario : 'Solomon',
-					idutilizador : 0
-				}]
-			},
-			dockedItems : [{
-				xtype : 'toolbar',
-				flex : 1,
-				dock : 'bottom',
-				layout : {
-					pack : 'end',
-					type : 'hbox'
-				},
-				items : [{
-					xtype : 'tbfill'
-				}, {
-					xtype : 'button',
-					itemId : 'refresh',
-					formBind : true,
-					icon : 'resources/assets/arrow-circle-double-135.png',
-					text : 'Refresh'
-				}]
-			}]
+			data : [/*{
+			 "id" : 4,
+			 "comentario" : "Mais um tiro no escuro",
+			 "datacriacao" : "2014-09-18T21:21:23.104Z",
+			 "datamodificacao" : "2014-09-18T21:21:23.104Z",
+			 "idocorrencia" : 1,
+			 "idutilizador" : 31,
+			 "idestado" : 1
+			 }, {
+			 "id" : 5,
+			 "comentario" : "Uau! Leu bem este tiro. Boa pontaria",
+			 "datacriacao" : "2014-09-18T22:14:32.238Z",
+			 "datamodificacao" : "2014-09-18T22:14:32.238Z",
+			 "idocorrencia" : 1,
+			 "idutilizador" : 31,
+			 "idestado" : 1
+			 }, {
+			 "id" : 6,
+			 "comentario" : "Maravilhoso!",
+			 "datacriacao" : "2014-09-18T22:14:44.191Z",
+			 "datamodificacao" : "2014-09-18T22:14:44.191Z",
+			 "idocorrencia" : 1,
+			 "idutilizador" : 31,
+			 "idestado" : 1
+			 }*/ ]
 		}, {
 			xtype : 'comment',
 			config : {
@@ -108,7 +114,7 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 			}
 		}];
 		this.callParent(arguments);
-	},
+	}
 });
 
 /*

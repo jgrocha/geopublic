@@ -1,4 +1,57 @@
 var db = global.App.database;
+var mkdirp = require('mkdirp');
+var smtpTransport = global.App.transport;
+var emailTemplates = require('email-templates');
+
+var enviarEmail = function(destino, parametros, callback) {
+	var email = destino.email;
+	var name = destino.nome;
+	var locals = {
+		email : email,
+		subject : 'Novo plano para discussão',
+		saudacao : 'Caro(a)',
+		name : name,
+		// site : 'http://' + request.headers.host,
+		site : global.App.url,
+		callback : function(err, responseStatus) {
+			if (err) {
+				console.log(responseStatus.message);
+				/*
+				 callback({
+				 success : false,
+				 message : 'Falhou o envio para o endereço ' + email + '.'
+				 });
+				 */
+			} else {
+				console.log(responseStatus.message);
+			}
+			callback(parametros);
+			smtpTransport.close();
+		}
+	};
+	emailTemplates(global.App.templates, function(err, template) {
+		if (err) {
+			console.log(err);
+		} else {
+			template('newplan', locals, function(err, html, text) {
+				if (err) {
+					console.log(err);
+				} else {
+					smtpTransport.sendMail({
+						// from : 'Jorge Gustavo <jorgegustavo@sapo.pt>',
+						to : locals.email,
+						subject : locals.subject,
+						html : html,
+						// generateTextFromHTML: true,
+						text : text
+					}, locals.callback);
+				}
+			});
+		}
+	});
+	callback(parametros);
+};
+
 var DXParticipacao = {
 	createComment : function(params, callback, sessionID, request) {
 		/*
@@ -21,7 +74,7 @@ var DXParticipacao = {
 		// temporario
 		fields.push('idestado');
 		values.push(1);
-		// 
+		//
 		fields.push('datamodificacao');
 		values.push('now()');
 		fields.push('idutilizador');
@@ -32,40 +85,41 @@ var DXParticipacao = {
 		}
 		var conn = db.connect();
 		conn.query('INSERT INTO ppgis.comentario (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
-			db.disconnect(conn);
+			// db.disconnect(conn);
 			if (err) {
 				db.debugError(callback, err);
 			} else {
-				callback({
-					success : true,
-					message : 'Comentário registado',
-					data : resultInsert.rows
-					// id : resultInsert.rows[0].id
+				var sql = 'SELECT * FROM ppgis.comentario where id = ' + resultInsert.rows[0].id;
+				conn.query(sql, function(err, result) {
+					if (err) {
+						console.log('SQL=' + sql + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						callback({
+							success : true,
+							data : result.rows, // toJson(result.rows, resultTotalQuery.rows[0].totals),
+							total : result.rows.length
+						});
+					}
 				});
+
+				/*
+				 callback({
+				 success : true,
+				 message : 'Comentário registado',
+				 data : resultInsert.rows
+				 // id : resultInsert.rows[0].id
+				 });
+				 */
 			}
 		});
 	},
 	readComment : function(params, callback, sessionID, request) {
 		console.log('readComment: ');
 		console.log(params);
-		var idocorrencia = params;				
-		var toJson = function(rows, totals) {
-			var obj, i, comentario;
-			obj = {
-				total : totals,
-				comentarios : []
-			};
-			for ( i = 0; i < rows.length; i++) {
-				comentario = {
-					comentario : rows[i].comentario,
-					datacriacao : rows[i].datacriacao,
-					idutilizador : rows[i].idutilizador
-				};
-				obj.comentarios.push(comentario);
-			}
-			return obj;
-		};
-				
+		var idocorrencia = params;
 		var conn = db.connect();
 		var sql = 'SELECT * FROM ppgis.comentario where idocorrencia = ' + idocorrencia;
 		conn.query(sql, function(err, result) {
@@ -73,7 +127,6 @@ var DXParticipacao = {
 				console.log('SQL=' + sql + ' Error: ', err);
 				db.debugError(callback, err);
 			} else {
-				console.log('SQL=' + sql + ' Error: ', err);
 				//get totals for paging
 				var totalQuery = 'SELECT count(*) as totals FROM ppgis.comentario where idocorrencia = ' + idocorrencia;
 				conn.query(totalQuery, function(err, resultTotalQuery) {
@@ -86,12 +139,64 @@ var DXParticipacao = {
 						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
 						callback({
 							success : true,
-							data : toJson(result.rows, resultTotalQuery.rows[0].totals),
+							data : result.rows, // toJson(result.rows, resultTotalQuery.rows[0].totals),
 							total : resultTotalQuery.rows[0].totals
 						});
 					}
 				});
 			}
+		});
+	},
+	readFotografia : function(params, callback, sessionID, request) {
+		console.log('readFotografia: ');
+		// console.log(arguments);
+		console.log(params);
+		// { idocorrencia: 1, page: 1, start: 0, limit: 25 }
+		var idocorrencia = params.idocorrencia;
+		var conn = db.connect();
+
+		var sql = 'SELECT id, pasta || caminho as url, largura, altura, datacriacao FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+	destroyFotografia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.destroyFotografia');
+		console.log(params);
+	},
+	updateFotografia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.updateFotografia');
+		console.log(params);
+		callback({
+			success : true
+		});
+	},
+	createFotografia : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.createFotografia');
+		console.log(params);
+		callback({
+			success : true
 		});
 	},
 	destroyOcorrencia : function(params, callback, sessionID, request) {
@@ -148,7 +253,7 @@ var DXParticipacao = {
 		values.push('now()');
 		fields.push('idutilizador');
 		values.push(request.session.userid);
-		var i = 0, buracos = [];
+		var i, buracos = [];
 		for ( i = 1; i <= fields.length; i++) {
 			if (fields[i - 1] === 'the_geom') {
 				buracos.push('ST_SetSRID(ST_GeomFromGeoJSON($' + i + '), 900913)');
@@ -275,6 +380,8 @@ var DXParticipacao = {
 		for (var key in params) {
 			switch (key) {
 				case "id":
+					break;
+				case "isclass":
 					break;
 				default:
 					fields.push(key);
@@ -413,63 +520,108 @@ var DXParticipacao = {
 	},
 
 	createPlano : function(params, callback, sessionID, request) {
+		// falta proteger user loginado
 		// falta proteger só para grupo admin
 		/*
-		 createPromotor:
-		 {
-		 id: 0,
-		 designacao: 'Nova entidade',
-		 email: 'info@entidade.pt',
-		 site: 'http://www.entidade.pt',
-		 dataregisto: null }
+		 createPlano:  { id: 0,
+		 idpromotor: 1,
+		 designacao: 'Plano',
+		 descricao: 'Descrição do plano ou projeto',
+		 responsavel: 'Pessoa a contactar',
+		 email: 'pessoa@entidade.pt',
+		 site: 'http://www.entidade.pt/plano',
+		 inicio: '2014-09-21T13:30:59',
+		 fim: '2014-10-21T13:30:59',
+		 wkt: '',
+		 geojson: '' }
 		 */
+
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
-		console.log('createPlano: ', params);
-		var fields = [], values = [];
-		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
-		// o id vem a 0, quando se insere um registo
-		for (var key in params) {
-			switch (key) {
-				case "id":
-					break;
-				default:
+		if (request.session.userid) {
+			console.log('createPlano: ', params);
+			var i = 1, id, fields = [], buracos = [], values = [];
+			// se existir um ID, retira-se da lista
+			id = params.id;
+			delete params.id;
+			for (var key in params) {
+				if (key === 'the_geom') {
 					fields.push(key);
+					buracos.push('ST_SetSRID(ST_GeomFromGeoJSON($' + i + '), 900913)');
+					// select ST_SetSRID(ST_GeomFromGeoJSON(''), 900913) // dá erro
+					// select ST_SetSRID(ST_GeomFromGeoJSON(null), 900913) // não dá erro
+					if (params[key] === '') {
+						values.push(null);
+					} else {
+						values.push(params[key]);
+					}
+				} else {
+					fields.push(key);
+					buracos.push('$' + i);
 					values.push(params[key]);
-					break;
+				}
+				i = i + 1;
 			}
-		}
-		fields.push('datamodificacao');
-		values.push('now()');
-		fields.push('idutilizador');
-		values.push(request.session.userid);
-		var i = 0, buracos = [];
-		for ( i = 1; i <= fields.length; i++) {
+			fields.push('datamodificacao');
 			buracos.push('$' + i);
+			values.push('now()');
+			i = i + 1;
+			fields.push('idutilizador');
+			buracos.push('$' + i);
+			values.push(request.session.userid);
+			var conn = db.connect();
+			conn.query('INSERT INTO ppgis.plano (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+				db.disconnect(conn);
+				if (err) {
+					db.debugError(callback, err);
+				} else {
+					// console.log(resultInsert);
+					// já tenho um id; já posso criar a pasta
+					mkdirp('./public/participation_data/' + params.idpromotor + '/' + resultInsert.rows[0].id, function(err) {
+						enviarEmail({
+							email : params.email.toLowerCase(),
+							nome : params.responsavel
+						}, {
+							success : true,
+							message : 'Dados atualizados',
+							data : resultInsert.rows
+							// id : resultInsert.rows[0].id
+						}, callback);
+					});
+				}
+			});
 		}
-		var conn = db.connect();
-		conn.query('INSERT INTO ppgis.plano (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
-			db.disconnect(conn);
-			if (err) {
-				db.debugError(callback, err);
-			} else {
-				callback({
-					success : true,
-					message : 'Dados atualizados',
-					data : resultInsert.rows
-					// id : resultInsert.rows[0].id
-				});
-			}
-		});
 	},
 	updatePlano : function(params, callback, sessionID, request) {
+		/*
+		 { id: 7,
+		 idpromotor: 12,
+		 designacao: 'Plano B',
+		 descricao: 'Descrição do plano ou projeto',
+		 responsavel: 'Pessoa a contactar',
+		 email: 'pessoa@entidade.pt',
+		 site: 'http://www.entidade.pt/plano',
+		 inicio: '2014-09-21T16:17:09',
+		 fim: '2014-10-21T16:17:09',
+		 geojson: '' }
+
+		 { designacao: 'Plano B', id: 7 }
+		 */
+
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
-		var fields = [], values = [], i = 0, id = 0;
-		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
-		// Está a deixar alterar a dataregisto, mas depois a ideia é não deixar
+		console.log('updatePlano: ', params);
+		var i = 1, id, fields = [], values = [];
+		id = params.id;
+		delete params.id;
 		for (var key in params) {
-			// if (i==0 && key == 'id') {
-			if (i == 0) {
-				id = params[key];
+			if (key === 'the_geom') {
+				fields.push(key + ' = ' + 'ST_SetSRID(ST_GeomFromGeoJSON($' + i + '), 900913)');
+				// select ST_SetSRID(ST_GeomFromGeoJSON(''), 900913) // dá erro
+				// select ST_SetSRID(ST_GeomFromGeoJSON(null), 900913) // não dá erro
+				if (params[key] === '') {
+					values.push(null);
+				} else {
+					values.push(params[key]);
+				}
 			} else {
 				fields.push(key + '= $' + i);
 				values.push(params[key]);
@@ -481,6 +633,7 @@ var DXParticipacao = {
 		i = i + 1;
 		fields.push('idutilizador = $' + i);
 		values.push(request.session.userid);
+
 		if (request.session.userid && request.session.groupid <= 1) {
 			var conn = db.connect();
 			conn.query('UPDATE ppgis.plano SET ' + fields.join() + ' WHERE id = ' + id, values, function(err, result) {
@@ -495,11 +648,24 @@ var DXParticipacao = {
 							console.log('SQL=' + sql + ' Error: ', err);
 							db.debugError(callback, err);
 						} else {
-							callback({
-								success : true,
-								message : 'Dados atualizados',
-								data : resultSelect.rows
-							});
+							if (params.email) {
+								// mudou o email; vamos mandar um email a dizer que o plano ficou a apontar para este novo email
+								console.log('Está na hora de enviar um email para ' + email);
+								enviarEmail({
+									email : params.email.toLowerCase(),
+									nome : resultSelect.rows[0].responsavel
+								}, {
+									success : true,
+									message : 'Dados atualizados',
+									data : resultSelect.rows
+								}, callback);
+							} else {
+								callback({
+									success : true,
+									message : 'Dados atualizados',
+									data : resultSelect.rows
+								});
+							}
 						}
 					});
 				}
@@ -513,6 +679,7 @@ var DXParticipacao = {
 	},
 	destroyPlano : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
+		// falta remover a pasta que foi criada no método createPlano
 		console.log('destroyPlano: ', params.id);
 		var conn = db.connect();
 		var sql = 'delete FROM ppgis.plano where id = ' + params.id;
@@ -536,7 +703,7 @@ var DXParticipacao = {
 		// ???
 		var userid = request.session.userid;
 		var conn = db.connect();
-		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson FROM ppgis.plano where idpromotor = ' + promotor;
+		var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, idutilizador, ST_AsGeoJSON(the_geom) as the_geom FROM ppgis.plano where idpromotor = ' + promotor;
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);
@@ -574,14 +741,17 @@ var DXParticipacao = {
 	createPromotor : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
 		/*
-		 createPromotor:
-		 {
-		 id: 0,
-		 designacao: 'Nova entidade',
-		 email: 'info@entidade.pt',
-		 site: 'http://www.entidade.pt',
-		 dataregisto: null }
-		 */
+		createPromotor:
+		{
+		id: 0,
+		designacao: 'Nova entidade',
+		email: 'info@entidade.pt',
+		site: 'http://www.entidade.pt',
+		dataregisto: null }
+		*/
+
+		// criar uma pasta para os uploads deste promotor
+
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
 		console.log('createPromotor: ', params);
 		var fields = [], values = [];

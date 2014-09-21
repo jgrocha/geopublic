@@ -28,10 +28,7 @@ Ext.define('DemoExtJs.model.Plano', {
 		name : 'fim',
 		type : 'date'
 	}, {
-		name : 'wkt',
-		type : 'string'
-	}, {
-		name : 'geojson',
+		name : 'the_geom',
 		type : 'string'
 	}],
 	// belongsTo : 'DemoExtJs.model.Promotor',
@@ -54,12 +51,12 @@ Ext.define('DemoExtJs.model.Plano', {
 			type : 'json',
 			root : 'data',
 			messageProperty : 'message' // mandatory if you want the framework to set it's content
-		}
+		},
 		// NÃO TESTADO; acrescentei par ver se dava para ir só as partes modificadas do RowEditor
-		/*
-		 writer : {
-		 writeAllFields : false
-		 }
-		 */
+		// Não garante que o paramatro id vá em primero lugar!
+		// Pelo contrário... o id vai sempre em último
+		writer : {
+			writeAllFields : false
+		}
 	}
 });

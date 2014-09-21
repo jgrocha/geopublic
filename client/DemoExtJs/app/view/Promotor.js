@@ -10,7 +10,7 @@ Ext.define('DemoExtJs.view.Promotor', {
 		itemId : 'promotor',
 		region : 'north',
 		height : 140,
-		split : true,		
+		split : true,
 		store : 'Promotor',
 		columns : [{
 			dataIndex : 'id',
@@ -66,9 +66,9 @@ Ext.define('DemoExtJs.view.Promotor', {
 		// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
 		plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
 			saveBtnText : 'Alterar',
-			cancelBtnText : 'Descartar'
+			cancelBtnText : 'Descartar',
 			// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
-			// errorSummary: false //disables display of validation messages if the row is invalid
+			errorSummary : false //disables display of validation messages if the row is invalid
 		})]
 	}, {
 		xtype : 'gridpanel',
@@ -86,7 +86,7 @@ Ext.define('DemoExtJs.view.Promotor', {
 		}, {
 			dataIndex : 'designacao',
 			header : 'Plano ou Projeto',
-			width : 280,
+			width : 240,
 			editor : {
 				xtype : 'textfield',
 				allowBlank : false
@@ -145,6 +145,14 @@ Ext.define('DemoExtJs.view.Promotor', {
 				format : 'Y-m-d H:i:s',
 				submitFormat : 'c'
 			}
+		}, {
+			dataIndex : 'the_geom',
+			header : 'Cobertura geográfica',
+			width : 120,
+			editor : {
+				xtype : 'textfield',
+				allowBlank : true
+			}
 		}],
 		tbar : [{
 			itemId : 'add',
@@ -160,9 +168,9 @@ Ext.define('DemoExtJs.view.Promotor', {
 		// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
 		plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
 			saveBtnText : 'Alterar',
-			cancelBtnText : 'Descartar'
+			cancelBtnText : 'Descartar',
 			// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
-			// errorSummary: false //disables display of validation messages if the row is invalid
+			errorSummary : false //disables display of validation messages if the row is invalid
 		})]
 	}, {
 		xtype : 'gridpanel',

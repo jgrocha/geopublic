@@ -26,7 +26,8 @@ var transport = nodemailer.createTransport("SMTP", {
 	}
 });
 
-global.App.url = 'http://cm-agueda.geomaster.pt/infprevia/';
+// Deployment url
+global.App.url = 'http://cm-agueda.geomaster.pt/ppgis/';
 
 global.App.transport = transport;
 global.App.templates = templatesDir;

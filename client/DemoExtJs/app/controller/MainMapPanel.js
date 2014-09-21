@@ -138,7 +138,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		console.debug(store);
 		console.debug(records);
 
-		var report = this.getMapa().map.getLayersByName('Report')[0];
+		var me = this;
+		var report = me.getMapa().map.getLayersByName('Report')[0];
 		report.destroyFeatures();
 		var parser = new OpenLayers.Format.GeoJSON();
 
@@ -157,12 +158,11 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				participacao : records[i].data.participacao,
 				datacriacao : records[i].data.datacriacao
 			});
-			this.getTodasDiscussoes().add(newDiscussion);
-			this.getTodasDiscussoes().doLayout();
+			me.getTodasDiscussoes().add(newDiscussion);
+			// me.getTodasDiscussoes().doLayout();
 		}
-		// this.getTodasDiscussoes().doLayout();
+		this.getTodasDiscussoes().doLayout();
 	},
-
 	onChangePlano : function(field, newValue, oldValue, eOpts) {
 		console.log('   Plano: ' + newValue);
 		console.log('Promotor: ' + this.getCombopromotor().getValue());
@@ -182,8 +182,13 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			// working with GeoJSON
 			var parser = new OpenLayers.Format.GeoJSON();
 			// “Geometry”, “Feature”, and “FeatureCollection”
-			var polygon = parser.read(rec.data.geojson, "Geometry");
-			this.getMapa().map.zoomToExtent(polygon.getBounds(), closest = true);
+			console.log(rec.data.the_geom);
+
+			if (rec.data.the_geom) {
+				var polygon = parser.read(rec.data.the_geom, "Geometry");
+				this.getMapa().map.zoomToExtent(polygon.getBounds(), closest = true);
+			}
+
 			console.log('Ler os tipo de ocorrência do plano ' + plano + ' do promotor ' + promotor);
 			var tostore = this.getTipoOcorrenciaComboStore();
 			tostore.load({
@@ -317,7 +322,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			eventListeners : {
 				beforefeaturehighlighted : function(event) {
 					console.log('beforefeaturehighlighted');
-					console.debug(event.feature); (
+					console.debug(event.feature);
+					(
 						event.feature.fid);
 				},
 				featurehighlighted : function(event) {

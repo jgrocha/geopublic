@@ -27,11 +27,11 @@ Ext.define('DemoExtJs.controller.Plano', {
 			// observar a grid
 			'grid-promotor gridpanel#plano' : {
 				selectionchange : this.onGridSelect
+				// edit : this.onRowEdit
 			}
 		});
 		this.application.on({
 		});
-		// write( store, operation, eOpts )
 		this.getPlanoStore().addListener("write", function(store, operation, eOpts) {
 			// console.log(operation);
 			// se foi um insert, preciso de por o ID no registo...
@@ -42,7 +42,7 @@ Ext.define('DemoExtJs.controller.Plano', {
 					record.set("id", operation.resultSet.records[0].data.id);
 					// quero mostrar a coluna alterada, com o novo ID...
 					var rowEditing = this.getGrid().plugins[0];
-					rowEditing.startEdit(0, 0);
+					rowEditing.startEdit(record, 3);
 					break;
 				case "update":
 					console.log('Gravou o promotor com o id: ' + operation.resultSet.records[0].data.id);
@@ -55,6 +55,7 @@ Ext.define('DemoExtJs.controller.Plano', {
 		}, this);
 		// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Server-event-exception
 		this.getPlanoStore().proxy.addListener("exception", function(proxy, response, operation, eOpts) {
+			console.log(response.result);
 			console.log(response.result.message);
 			Ext.Msg.show({
 				title : 'Erro',
@@ -66,10 +67,18 @@ Ext.define('DemoExtJs.controller.Plano', {
 		}, this);
 		this.getPlanoStore().proxy.addListener("load", this.onPlanoStoreLoad, this);
 	},
+	// http://localhost/extjs/docs/index.html#!/api/Ext.grid.plugin.RowEditing
+	// not in use
+	onRowEdit : function(editor, context, eOpts) {// editor, context, eOpts
+		console.log('onRowEdit');
+		// console.log(context.record);
+		// if the store does not set autoSync we need to save the record
+		context.record.store.sync();
+	},
 	onGridSelect : function(selModel, selection) {
 		this.getButtonRemove().setDisabled(!selection.length);
 		var store = this.getTipoOcorrenciaStore();
-		if (selection.length == 1) {
+		if ((selection.length == 1) && (selection[0].data.id > 0)) {
 			console.log('Ler os tipos de ocorrências do plano ', selection[0].data.id);
 			// var store = Ext.StoreManager.lookup('Plano');
 			store.load({
@@ -77,13 +86,13 @@ Ext.define('DemoExtJs.controller.Plano', {
 			});
 			//
 			this.getButtonAddTipoOcorrencia().setDisabled(0);
-		}
-		if (selection.length == 0) {
+		} else {
+			// if (selection.length == 0) {
 			console.log('Não tenho plano selecionado. Limpar tipos de ocorrências');
 			// var store = Ext.StoreManager.lookup('Plano');
 			store.loadData([], false);
 			//
-			this.getButtonAddTipoOcorrencia().setDisabled(1);			
+			this.getButtonAddTipoOcorrencia().setDisabled(1);
 		}
 	},
 	onButtonClickAdiciona : function(button, e, options) {
@@ -95,24 +104,34 @@ Ext.define('DemoExtJs.controller.Plano', {
 		var sm = this.getGridPromotor().getSelectionModel();
 		var selection = sm.getSelection();
 		console.log(selection.length);
+
+		var responsavel = '';
+		var email = '';
+		// The user should be authenticated, but just in case...
+		if (DemoExtJs.LoggedInUser) {
+			responsavel = DemoExtJs.LoggedInUser.data.nome;
+			email = DemoExtJs.LoggedInUser.data.email;
+		} else {
+			responsavel = 'Pessoa a contactar';
+			email = 'info@geomaster.pt';
+		}
+
 		if (selection.length == 1) {
 			console.log(selection[0].data.id);
 			var hoje = new Date();
-			var futuro = new Date(new Date().setMonth(hoje.getMonth() + 1));
+			var futuro = new Date(new Date().setMonth(hoje.getMonth() + 3));
 			// Create a model instance
 			var r = Ext.create('DemoExtJs.model.Plano', {
 				idpromotor : selection[0].data.id,
 				designacao : 'Plano',
 				descricao : 'Descrição do plano ou projeto',
-				responsavel : 'Pessoa a contactar',
-				email : 'pessoa@entidade.pt',
-				site : 'http://www.entidade.pt/plano',
+				responsavel : responsavel,
+				email : email,
+				site : 'http://geomaster.pt/plano',
 				inicio : hoje,
 				fim : futuro
 			});
 			this.getPlanoStore().insert(0, r);
-			// passei o startEdit para depois do evento 'write', depois de termos o id deste registo
-			// rowEditing.startEdit(0, 0);
 		}
 	},
 	onButtonClickRemove : function(button, e, options) {

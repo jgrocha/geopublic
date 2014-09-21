@@ -22,6 +22,7 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 		});
 	},
 	onButtonGravar : function(button, e, options) {
+		var me = this;
 		var params = button.up('form').getForm().getValues(false, true, false, false);
 		/*
 		 if (this.getSexoCheckbox().isDirty()) {
@@ -29,10 +30,10 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 		 params['masculino'] = this.getSexoCheckbox().checked ? "1" : "0";
 		 }
 		 */
-		var fid = this.getFormContribution().getForm().findField('feature').getValue();
+		var fid = me.getFormContribution().getForm().findField('feature').getValue();
 		if (fid) {
 
-			var report = this.getMapa().map.getLayersByName('Report')[0];
+			var report = me.getMapa().map.getLayersByName('Report')[0];
 			var f = report.getFeatureById(fid);
 			var ponto = f.geometry;
 
@@ -41,7 +42,7 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 			var parser = new OpenLayers.Format.GeoJSON();
 			var pontoasjson = parser.write(ponto);
 
-			var plano = this.getComboplano().getValue();
+			var plano = me.getComboplano().getValue();
 			// console.log(params);
 			Ext.apply(params, {
 				idplano : plano,
@@ -56,7 +57,7 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 					f.fid = result.data[0].id;
 					f.state = null;
 					// limpar o formulário!
-					this.onButtonLimpar(button, e, options);
+					me.onButtonLimpar(button, e, options);
 				} else {
 					Ext.Msg.alert('Erro', 'Ocorreu um erro ao gravar as alterações.');
 				}
