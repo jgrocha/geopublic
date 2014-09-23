@@ -1,4 +1,5 @@
 var db = global.App.database;
+var io = global.App.io;
 var mkdirp = require('mkdirp');
 var smtpTransport = global.App.transport;
 var emailTemplates = require('email-templates');
@@ -96,6 +97,11 @@ var DXParticipacao = {
 						db.debugError(callback, err);
 					} else {
 						db.disconnect(conn);
+						io.emit('comment', {
+							msg : 'Novo comentário',
+							params : params,
+							idutilizador : request.session.userid
+						});
 						//release connection
 						callback({
 							success : true,
@@ -147,6 +153,82 @@ var DXParticipacao = {
 			}
 		});
 	},
+	readFotografiaTmp : function(params, callback, sessionID, request) {
+		console.log('readFotografiaTmp: ');
+		console.log(params);
+		var conn = db.connect();
+
+		var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//get totals for paging
+				var totalQuery = "SELECT count(*) as totals FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+	destroyFotografiaTmp : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.destroyFotografiaTmp: ', params);
+		//  [ { id: 4 }, { id: 6 }, { id: 5 }, { id: 9 } ]
+		// or
+		// { id: 3 }
+		var where = [];
+		var wherestr = '';
+		if (Array.isArray(params)) {
+			params.forEach(function(entry) {
+				where.push('id = ' + entry.id);
+			});
+			wherestr = where.join(' OR ');
+		} else {
+			console.log('Não é um array!');
+			wherestr = 'id = ' + params.id;
+		}
+		console.log(wherestr);
+		var conn = db.connect();
+		var sql = 'delete FROM ppgis.fotografiatmp where ' + wherestr;
+		conn.query(sql, function(err, result) {
+			db.disconnect(conn);
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true
+				});
+			}
+		});
+	},
+	updateFotografiaTmp : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.updateFotografiaTmp');
+		console.log(params);
+		callback({
+			success : true
+		});
+	},
+	createFotografiaTmp : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.createFotografiaTmp');
+		console.log(params);
+		callback({
+			success : true
+		});
+	},
 	readFotografia : function(params, callback, sessionID, request) {
 		console.log('readFotografia: ');
 		// console.log(arguments);
@@ -155,7 +237,7 @@ var DXParticipacao = {
 		var idocorrencia = params.idocorrencia;
 		var conn = db.connect();
 
-		var sql = 'SELECT id, pasta || caminho as url, largura, altura, datacriacao FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
+		var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);
@@ -209,14 +291,6 @@ var DXParticipacao = {
 		callback({
 			success : true
 		});
-
-	},
-	createOcorrencia : function(params, callback, sessionID, request) {
-		console.log('DXParticipacao.createOcorrencia');
-		console.log(params);
-		callback({
-			success : true
-		});
 	},
 	createOcorrencia : function(params, callback, sessionID, request) {
 		/*
@@ -261,27 +335,83 @@ var DXParticipacao = {
 				buracos.push('$' + i);
 			}
 		}
-		var conn = db.connect();
-		conn.query('INSERT INTO ppgis.ocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
-			db.disconnect(conn);
-			if (err) {
-				db.debugError(callback, err);
-			} else {
-				callback({
-					success : true,
-					message : 'Ocorrência inserida',
-					data : resultInsert.rows
-					// id : resultInsert.rows[0].id
+		var rollback = function(client, fn) {
+			//terminating a client connection will
+			//automatically rollback any uncommitted transactions
+			//so while it's not technically mandatory to call
+			//ROLLBACK it is cleaner and more correct
+			client.query('ROLLBACK', function() {
+				client.end();
+				fn({
+					success : false,
+					message : 'Transação interrompida'
 				});
+			});
+		};
+		var conn = db.connect();
+		// https://github.com/brianc/node-postgres/wiki/Transactions
+		conn.query('BEGIN', function(err, result) {
+			if (err) {
+				console.log('BEGIN', err);
+				rollback(conn, callback);
 			}
+			conn.query('INSERT INTO ppgis.ocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+				if (err) {
+					console.log('INSERT INTO ppgis.ocorrencia', err);
+					rollback(conn, callback);
+				}
+				var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao) ';
+				sql += 'select ' + resultInsert.rows[0].id + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ';
+				sql += 'from ppgis.fotografiatmp ';
+				sql += "where sessionid = '" + sessionID + "'";
+				conn.query(sql, function(err, result2Insert) {
+					if (err) {
+						console.log('insert into ppgis.fotografia', err);
+						rollback(conn, callback);
+					}
+					sql = "delete FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
+					conn.query(sql, function(err, result) {
+						if (err) {
+							console.log('delete FROM ppgis.fotografiatmp', err);
+							rollback(conn, callback);
+						}
+						conn.query('COMMIT', function(err, result) {
+							db.disconnect(conn);
+							io.emit('participation', {
+								msg : 'Nova ocorrência',
+								params : params,
+								idutilizador : request.session.userid
+							});
+							callback({
+								success : true,
+								message : 'Ocorrência inserida',
+								data : resultInsert.rows,
+								dataphoto : result2Insert
+							});
+						});
+					});
+				});
+			});
 		});
 	},
 	readOcorrencia : function(params, callback, sessionID, request) {
 		console.log('DXParticipacao.readOcorrencia');
 		console.log(params);
-
+		// podem-se pedir todas as ocorrências ou só uma
+		// só uma para acrescentar depois de se inserir ou
+		// para se acrecentar quando se recebe uma notificação pelo socket.io
+		var where = '';
+		if (params.id) {
+			where = 'id = ' + params.id;
+		}
+		if (params.idplano) {
+			where = 'idplano = ' + params.idplano;
+		}
 		var conn = db.connect();
-		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson FROM ppgis.ocorrencia';
+		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson ';
+		sql += 'FROM ppgis.ocorrencia ';
+		sql += 'WHERE NOT apagado AND ';
+		sql += where;
 		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
 		console.log(sql);
 		conn.query(sql, function(err, result) {
@@ -518,7 +648,6 @@ var DXParticipacao = {
 			}
 		});
 	},
-
 	createPlano : function(params, callback, sessionID, request) {
 		// falta proteger user loginado
 		// falta proteger só para grupo admin
@@ -576,16 +705,29 @@ var DXParticipacao = {
 				} else {
 					// console.log(resultInsert);
 					// já tenho um id; já posso criar a pasta
-					mkdirp('./public/participation_data/' + params.idpromotor + '/' + resultInsert.rows[0].id, function(err) {
-						enviarEmail({
-							email : params.email.toLowerCase(),
-							nome : params.responsavel
-						}, {
-							success : true,
-							message : 'Dados atualizados',
-							data : resultInsert.rows
-							// id : resultInsert.rows[0].id
-						}, callback);
+					var pasta = './public/participation_data/' + params.idpromotor + '/' + resultInsert.rows[0].id;
+					mkdirp(pasta, function(err) {
+						if (err) {
+							console.error(err);
+							callback({
+								success : false,
+								message : 'Error creating forders',
+								data : resultInsert.rows
+							});
+						} else {
+							// cf. DXFormTest.js, filesubmitinstantaneo
+							mkdirp.sync(pasta + '/80x80');
+							mkdirp.sync(pasta + '/_x600');
+							enviarEmail({
+								email : params.email.toLowerCase(),
+								nome : params.responsavel
+							}, {
+								success : true,
+								message : 'Dados atualizados',
+								data : resultInsert.rows
+								// id : resultInsert.rows[0].id
+							}, callback);
+						}
 					});
 				}
 			});

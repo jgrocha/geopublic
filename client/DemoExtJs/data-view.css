@@ -28,11 +28,11 @@
 }
 .images-view .x-item-over {
 	border:1px solid #dddddd;
-	background:#efefef url(over.gif) repeat-x left top;
+	background:#efefef url(resources/over.gif) repeat-x left top;
 	padding:4px;
 }
 .images-view .x-item-selected {
-	background:#eff5fb url(selected.gif) no-repeat right bottom;
+	background:#eff5fb url(resources/selected.gif) no-repeat right bottom;
 	border:1px solid #99bbe8;
 	padding:4px;
 }
@@ -41,7 +41,7 @@
 }
 .images-view .loading-indicator {
 	font-size:11px;
-	background-image:url('../../resources/themes/images/default/grid/loading.gif');
+	background-image:url('resources/loading.gif');
 	background-repeat:no-repeat;
 	background-position:left;
 	padding-left:20px;

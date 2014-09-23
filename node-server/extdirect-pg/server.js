@@ -165,6 +165,15 @@ app.post(ExtDirectConfig.classPath, function(request, response) {
 	extdirect.processRoute(request, response, ExtDirectConfig);
 });
 
-http.createServer(app).listen(app.get('port'), function() {
+var servidor = http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
+
+var io = require('socket.io').listen(servidor);
+
+io.sockets.on('connection', function (socket) {
+    console.log('A new user connected!');
+    // socket.emit('info', { msg: 'The world is round, there is no up or down.' });
+});
+
+global.App.io = io;

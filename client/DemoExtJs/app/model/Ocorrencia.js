@@ -33,7 +33,7 @@ Ext.define('DemoExtJs.model.Ocorrencia', {
 	}],
 	proxy : {
 		type : 'direct',
-		paramOrder : 'id',
+		// paramOrder : 'id',
 		api : {
 			create : 'ExtRemote.DXParticipacao.createOcorrencia',
 			read : 'ExtRemote.DXParticipacao.readOcorrencia',

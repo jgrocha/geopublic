@@ -57,6 +57,8 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		console.log('Abrir com a discussao ' + this.initialConfig.id_ocorrencia);
 		this.title = this.initialConfig.titulo;
 		this.idocorrencia = this.initialConfig.id_ocorrencia;
+		this.idplano = this.initialConfig.idplano;
+		this.idpromotor = this.initialConfig.idpromotor;
 
 		var tpl = new Ext.XTemplate(//
 		'<tpl for=".">', //
@@ -69,7 +71,9 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		}, {
 			xtype : 'fotografia',
 			config : {
-				idocorrencia : this.idocorrencia
+				idocorrencia : this.idocorrencia,
+				idplano : this.idplano,
+				idpromotor : this.idpromotor				
 			}
 		}, {
 			loaded : false, // carregou os comentários?

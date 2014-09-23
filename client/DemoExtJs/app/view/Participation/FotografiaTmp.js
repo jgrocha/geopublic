@@ -1,11 +1,11 @@
-Ext.define('DemoExtJs.view.Participation.Fotografia', {
+Ext.define('DemoExtJs.view.Participation.FotografiaTmp', {
 	extend : 'Ext.form.Panel',
-	xtype : 'fotografia',
-	requires : ['DemoExtJs.store.Participation.Fotografia'],
+	xtype : 'fotografiatmp',
+	requires : ['DemoExtJs.store.Participation.FotografiaTmp'],
 	// id : 'images-view', //importante por causa do CSS // hum... tem que passar a classe, pois vou ter muitas dataviews
 	cls : 'images-view',
 	// frame : true,
-	autoHeight : true,
+	// autoHeight : true,
 	height : 110,
 	autoScroll : true,
 	// title : 'Simple DataView (0 items selected)',
@@ -13,23 +13,8 @@ Ext.define('DemoExtJs.view.Participation.Fotografia', {
 	// http://honoluluhacker.com/2008/12/15/horizontal-scrollbars-on-extjs-dataview/
 
 	initComponent : function() {
-		this.store = Ext.create(DemoExtJs.store.Participation.Fotografia);
-		if (this.initialConfig.config) {
-			this.idocorrencia = this.initialConfig.config.idocorrencia;
-			this.idplano = this.initialConfig.config.idplano;
-			this.idpromotor = this.initialConfig.config.idpromotor;
-			console.log('A criar componente DemoExtJs.view.Participation.Fotografia para o idocorrencia = ' + this.idocorrencia);
-			this.store.load({
-				params : {
-					idocorrencia : this.idocorrencia
-				},
-				scope : this
-			});
-			// { idocorrencia: 1, page: 1, start: 0, limit: 25 }
-		} else {
-			console.log('A criar componente DemoExtJs.view.Participation.Fotografia SEM idocorrencia');
-			// neste caso, usa-se um store que vá buscar os dados a fotografiatmp
-		}
+		console.log('A criar componente DemoExtJs.view.Participation.FotografiaTmp SEM idocorrencia');
+		this.store = Ext.create(DemoExtJs.store.Participation.FotografiaTmp);
 
 		// com filtros
 		// this.store.filter("idocorrencia", this.idocorrencia);
@@ -74,12 +59,14 @@ Ext.define('DemoExtJs.view.Participation.Fotografia', {
 			 },
 			 */
 
-			listeners : {
-				selectionchange : function(dv, nodes) {
-					var l = nodes.length, s = l !== 1 ? 's' : '';
-					// this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
-				}
-			}
+			/*
+			 listeners : {
+			 selectionchange : function(dv, nodes) {
+			 var l = nodes.length, s = l !== 1 ? 's' : '';
+			 // this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
+			 }
+			 }
+			 */
 		}];
 
 		this.callParent(arguments);

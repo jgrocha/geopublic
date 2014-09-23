@@ -16,6 +16,12 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'contribution form#detail',
 		ref : 'formContribution' // gera um getFormContribution
 	}, {
+		selector : 'contribution form#photos',
+		ref : 'formPhotos' // gera um getFormPhotos
+	}, {
+		selector : 'contribution fotografiatmp',
+		ref : 'fotografiatmp' // gera um getFotografiatmp
+	}, {
 		selector : 'viewport > tabpanel',
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
 	}, {
@@ -26,10 +32,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'app-main-map-panel'
 	}, {
 		ref : 'inserir',
-		selector : 'activity contribution form toolbar button#gravar'
+		selector : 'activity contribution toolbar button#gravar'
 	}, {
 		ref : 'local',
-		selector : 'activity contribution form toolbar button#local'
+		selector : 'activity contribution toolbar button#local'
 	}, {
 		ref : 'todasDiscussoes',
 		selector : 'activity #flow'
@@ -75,10 +81,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				'beforerender' : this.onMapPanelBeforeRender,
 				'afterrender' : this.onMapPanelAfterRender,
 				'beforeactivate' : this.onMapPanelBeforeActivate
-			}, /*
-			 "app-main-map-panel button#highlightCtrl" : {
-			 click : this.onButtonClickHighlightCtrl
-			 }, */
+			},
 			"app-main-map-panel gx_geocodercombo#geocoder" : {
 				select : this.onSelectGeocoder
 			},
@@ -88,7 +91,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			"app-main-map-panel combo#promotor" : {
 				select : this.onComboPromotor
 			},
-			"contribution form#detail toolbar button#local" : {
+			"contribution toolbar button#local" : {
 				click : this.onButtonLocal
 			}
 		}, this);
@@ -152,16 +155,18 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			var newDiscussion = new DemoExtJs.view.Participation.Discussion({
 				id_ocorrencia : records[i].data.id,
 				idplano : records[i].data.idplano,
+				idpromotor : me.getCombopromotor().getValue(),
 				idestado : records[i].data.idestado,
 				idtipoocorrencia : records[i].data.idtipoocorrencia,
 				titulo : records[i].data.titulo,
 				participacao : records[i].data.participacao,
 				datacriacao : records[i].data.datacriacao
 			});
-			me.getTodasDiscussoes().add(newDiscussion);
-			// me.getTodasDiscussoes().doLayout();
+			// me.getTodasDiscussoes().add(newDiscussion);
+			me.getTodasDiscussoes().insert(0, newDiscussion);
+			me.getTodasDiscussoes().doLayout();
 		}
-		this.getTodasDiscussoes().doLayout();
+		// this.getTodasDiscussoes().doLayout();
 	},
 	onChangePlano : function(field, newValue, oldValue, eOpts) {
 		console.log('   Plano: ' + newValue);
@@ -194,11 +199,29 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			tostore.load({
 				id : plano
 			});
+
 			console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
+			// remover discussões eventualmente existentes de um outro plano
+			this.getTodasDiscussoes().removeAll(true);
+
+			// ler o store (e no fim de ler, criar novos paineis)
 			var ostore = this.getOcorrenciaStore();
 			ostore.load({
-				id : plano
+				params : {
+					idplano : plano
+				}
 			});
+			/*
+			 ostore.load({
+			 id : plano
+			 });
+			 */
+			this.getFormPhotos().getForm().setValues({
+				idplano : plano,
+				idpromotor : promotor
+			});
+			// load do store
+			this.getFotografiatmp().store.load();
 		}
 	},
 	onComboPromotor : function(combo, records, eOpts) {

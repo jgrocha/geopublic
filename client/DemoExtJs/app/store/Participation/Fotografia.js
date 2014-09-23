@@ -5,6 +5,6 @@ Ext.define('DemoExtJs.store.Participation.Fotografia', {
 	remoteSort : true, //enable remote filter
 	remoteFilter : true, //enable remote sorting
 	// pageSize: 5,
-	autoSync: true, // if operating on model directly this will make double POSTs!
+	autoSync: false, // preciso de encher o store antes de o gravar...
 	model : 'DemoExtJs.model.Participation.Fotografia'
 }); 

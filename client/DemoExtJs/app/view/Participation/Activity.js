@@ -10,7 +10,7 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 		region : 'north',
 		// height : 360,
 		collapsible : true,
-		layout : 'fit'
+		// layout : 'fit'
 	}, {
 		defaultType : 'container',
 		itemId : 'flow',
