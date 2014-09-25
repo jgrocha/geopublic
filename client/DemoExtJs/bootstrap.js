@@ -9,8 +9,8 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.CustomReader": "app/view/FormUpload.js",
   "DemoExtJs.view.Avatar": "app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "app/view/Users/Profile.js",
+  "DemoExtJs.view.Comment": "app/view/Participation/Discussion.js",
   "DemoExtJs.view.Home": "app/view/Users/Profile.js",
-  "DemoExtJs.view.Illustrate": "app/view/Participation/Contribution.js",
   "DemoExtJs.view.InfPrevia.Feedback": "app/view/InfPrevia/WindowConfrontacao.js",
   "DemoExtJs.view.InfPrevia.Tabela": "app/view/InfPrevia/WindowConfrontacao.js",
   "Ext": "ext/src",
@@ -18,7 +18,6 @@ Ext.Loader.addClassPathMappings({
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "ext/packages/ext-theme-neptune/overrides",
   "GeoExt": "geoext2-2.0.2/src/GeoExt",
-  "ImageModel": "app/view/Participation/Contribution.js",
   "x": "app/controller/InfPrevia/WindowConfrontacao.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
@@ -31,6 +30,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Participation.Activity": [],
+  "DemoExtJs.controller.Participation.Contribution": [],
+  "DemoExtJs.controller.Participation.Discussion": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -38,6 +40,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.Users.Profile": [],
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
+  "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.Fotografia": [],
+  "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
@@ -46,25 +51,28 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.model.Utilizador": [],
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
+  "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.Fotografia": [],
+  "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.PromotorCombo": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.TipoOcorrencia": [],
+  "DemoExtJs.store.TipoOcorrenciaCombo": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
-  "DemoExtJs.view.Activity": [],
   "DemoExtJs.view.Avatar": [],
   "DemoExtJs.view.BemVindoPanel": [],
   "DemoExtJs.view.ChangePassword": [],
+  "DemoExtJs.view.Comment": [],
   "DemoExtJs.view.Cookies": [],
   "DemoExtJs.view.FormActions": [],
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
   "DemoExtJs.view.Guia": [],
   "DemoExtJs.view.Home": [],
-  "DemoExtJs.view.Illustrate": [],
   "DemoExtJs.view.InfPrevia.Feedback": [],
   "DemoExtJs.view.InfPrevia.Hierarquia": [],
   "DemoExtJs.view.InfPrevia.Tabela": [],
@@ -73,7 +81,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.MainMapPanel": [],
   "DemoExtJs.view.MapaComProjeto": [],
   "DemoExtJs.view.MethodCall": [],
+  "DemoExtJs.view.Participation.Activity": [],
   "DemoExtJs.view.Participation.Contribution": [],
+  "DemoExtJs.view.Participation.Discussion": [],
+  "DemoExtJs.view.Participation.Fotografia": [],
+  "DemoExtJs.view.Participation.FotografiaTmp": [],
+  "DemoExtJs.view.Participation.Ocorrencias": [],
   "DemoExtJs.view.Promotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.TreeActions": [],
@@ -1058,7 +1071,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoExt.window.Popup": [
     "GeoExt.Popup"
   ],
-  "ImageModel": [],
   "x": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -1073,6 +1085,9 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Participation.Activity": [],
+  "DemoExtJs.controller.Participation.Contribution": [],
+  "DemoExtJs.controller.Participation.Discussion": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -1080,6 +1095,9 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.Users.Profile": [],
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
+  "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.Fotografia": [],
+  "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
@@ -1088,17 +1106,18 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.model.Utilizador": [],
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
+  "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.Fotografia": [],
+  "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.PromotorCombo": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.TipoOcorrencia": [],
+  "DemoExtJs.store.TipoOcorrenciaCombo": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
-  "DemoExtJs.view.Activity": [
-    "widget.activity"
-  ],
   "DemoExtJs.view.Avatar": [
     "widget.avatar"
   ],
@@ -1107,6 +1126,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.ChangePassword": [
     "widget.xpassword"
+  ],
+  "DemoExtJs.view.Comment": [
+    "widget.comment"
   ],
   "DemoExtJs.view.Cookies": [
     "widget.demo-cookies"
@@ -1125,9 +1147,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.Home": [
     "widget.home-map-panel"
-  ],
-  "DemoExtJs.view.Illustrate": [
-    "widget.illustrate"
   ],
   "DemoExtJs.view.InfPrevia.Feedback": [
     "widget.feedback-map-panel"
@@ -1153,8 +1172,23 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.MethodCall": [
     "widget.method-call"
   ],
+  "DemoExtJs.view.Participation.Activity": [
+    "widget.activity"
+  ],
   "DemoExtJs.view.Participation.Contribution": [
     "widget.contribution"
+  ],
+  "DemoExtJs.view.Participation.Discussion": [
+    "widget.discussion"
+  ],
+  "DemoExtJs.view.Participation.Fotografia": [
+    "widget.fotografia"
+  ],
+  "DemoExtJs.view.Participation.FotografiaTmp": [
+    "widget.fotografiatmp"
+  ],
+  "DemoExtJs.view.Participation.Ocorrencias": [
+    "widget.ocorrencias"
   ],
   "DemoExtJs.view.Promotor": [
     "widget.grid-promotor"
@@ -2347,7 +2381,6 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoExt.window.Popup": [
     "widget.gx_popup"
   ],
-  "ImageModel": [],
   "x": []
 });
 Ext.setVersion("ext-theme-base", "4.2.1");

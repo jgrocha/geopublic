@@ -21,10 +21,12 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 	}, {
 		columnWidth : 1 / 2,
 		padding : '10 10 10 10', // top, right, bottom, left
+		bodyCls: 'guia-panel',
 		items : [{
 			itemId : 'wizard',
 			height : 600,
 			layout : 'card',
+			
 			items : [{
 				title : 'Guia rápido',
 				autoScroll : true,

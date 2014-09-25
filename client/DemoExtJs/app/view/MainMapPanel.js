@@ -3,7 +3,7 @@ Ext.define('DemoExtJs.view.MainMapPanel', {
 	requires : ['GeoExt.form.field.GeocoderComboBox'], // , 'GeoExt.plugins.PrintExtent'],
 	// xtype : 'app-main-map-panel',
 	alias : 'widget.app-main-map-panel',
-	title : 'Mapa',
+	// title : 'Mapa',
 
 	// funciona!
 	center : [-940328.71082446, 4949944.6827996], // coordenadas ESPG:900913

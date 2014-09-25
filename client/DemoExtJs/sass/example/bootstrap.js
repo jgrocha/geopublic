@@ -9,6 +9,7 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.CustomReader": "../../app/view/FormUpload.js",
   "DemoExtJs.view.Avatar": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "../../app/view/Users/Profile.js",
+  "DemoExtJs.view.Comment": "../../app/view/Participation/Discussion.js",
   "DemoExtJs.view.Home": "../../app/view/Users/Profile.js",
   "DemoExtJs.view.InfPrevia.Feedback": "../../app/view/InfPrevia/WindowConfrontacao.js",
   "DemoExtJs.view.InfPrevia.Tabela": "../../app/view/InfPrevia/WindowConfrontacao.js",
@@ -29,6 +30,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Participation.Activity": [],
+  "DemoExtJs.controller.Participation.Contribution": [],
+  "DemoExtJs.controller.Participation.Discussion": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -36,6 +40,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.Users.Profile": [],
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
+  "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.Fotografia": [],
+  "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
@@ -44,21 +51,27 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.model.Utilizador": [],
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
+  "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.Fotografia": [],
+  "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.PromotorCombo": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.TipoOcorrencia": [],
+  "DemoExtJs.store.TipoOcorrenciaCombo": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
   "DemoExtJs.view.Avatar": [],
   "DemoExtJs.view.BemVindoPanel": [],
   "DemoExtJs.view.ChangePassword": [],
+  "DemoExtJs.view.Comment": [],
   "DemoExtJs.view.Cookies": [],
   "DemoExtJs.view.FormActions": [],
   "DemoExtJs.view.FormUpload": [],
   "DemoExtJs.view.GridActions": [],
+  "DemoExtJs.view.Guia": [],
   "DemoExtJs.view.Home": [],
   "DemoExtJs.view.InfPrevia.Feedback": [],
   "DemoExtJs.view.InfPrevia.Hierarquia": [],
@@ -66,7 +79,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.InfPrevia.UploadShapefile": [],
   "DemoExtJs.view.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.view.MainMapPanel": [],
+  "DemoExtJs.view.MapaComProjeto": [],
   "DemoExtJs.view.MethodCall": [],
+  "DemoExtJs.view.Participation.Activity": [],
+  "DemoExtJs.view.Participation.Contribution": [],
+  "DemoExtJs.view.Participation.Discussion": [],
+  "DemoExtJs.view.Participation.Fotografia": [],
+  "DemoExtJs.view.Participation.FotografiaTmp": [],
+  "DemoExtJs.view.Participation.Ocorrencias": [],
   "DemoExtJs.view.Promotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.TreeActions": [],
@@ -836,6 +856,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.TabScrollerMenu": [],
   "Ext.ux.ToolbarDroppable": [],
   "Ext.ux.TreePicker": [],
+  "Ext.ux.Wizard": [],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.ajax.JsonSimlet": [],
   "Ext.ux.ajax.SimManager": [],
@@ -875,6 +896,9 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.ux.StatusBar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.wizard.Card": [],
+  "Ext.ux.wizard.CardLayout": [],
+  "Ext.ux.wizard.Header": [],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
     "Ext.BoundList"
@@ -1061,6 +1085,9 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.InfPrevia.WindowConfrontacao": [],
   "DemoExtJs.controller.Main": [],
   "DemoExtJs.controller.MainMapPanel": [],
+  "DemoExtJs.controller.Participation.Activity": [],
+  "DemoExtJs.controller.Participation.Contribution": [],
+  "DemoExtJs.controller.Participation.Discussion": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -1068,6 +1095,9 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.Users.Profile": [],
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
+  "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.Fotografia": [],
+  "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
   "DemoExtJs.model.Promotor": [],
   "DemoExtJs.model.Sessao": [],
@@ -1076,12 +1106,16 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.model.Utilizador": [],
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
+  "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.Fotografia": [],
+  "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
   "DemoExtJs.store.PlanoCombo": [],
   "DemoExtJs.store.Promotor": [],
   "DemoExtJs.store.PromotorCombo": [],
   "DemoExtJs.store.Sessao": [],
   "DemoExtJs.store.TipoOcorrencia": [],
+  "DemoExtJs.store.TipoOcorrenciaCombo": [],
   "DemoExtJs.store.Todo": [],
   "DemoExtJs.store.Tree": [],
   "DemoExtJs.view.Avatar": [
@@ -1092,6 +1126,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.ChangePassword": [
     "widget.xpassword"
+  ],
+  "DemoExtJs.view.Comment": [
+    "widget.comment"
   ],
   "DemoExtJs.view.Cookies": [
     "widget.demo-cookies"
@@ -1104,6 +1141,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.GridActions": [
     "widget.grid-actions"
+  ],
+  "DemoExtJs.view.Guia": [
+    "widget.guia"
   ],
   "DemoExtJs.view.Home": [
     "widget.home-map-panel"
@@ -1126,8 +1166,29 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.view.MainMapPanel": [
     "widget.app-main-map-panel"
   ],
+  "DemoExtJs.view.MapaComProjeto": [
+    "widget.mapa-com-projeto"
+  ],
   "DemoExtJs.view.MethodCall": [
     "widget.method-call"
+  ],
+  "DemoExtJs.view.Participation.Activity": [
+    "widget.activity"
+  ],
+  "DemoExtJs.view.Participation.Contribution": [
+    "widget.contribution"
+  ],
+  "DemoExtJs.view.Participation.Discussion": [
+    "widget.discussion"
+  ],
+  "DemoExtJs.view.Participation.Fotografia": [
+    "widget.fotografia"
+  ],
+  "DemoExtJs.view.Participation.FotografiaTmp": [
+    "widget.fotografiatmp"
+  ],
+  "DemoExtJs.view.Participation.Ocorrencias": [
+    "widget.ocorrencias"
   ],
   "DemoExtJs.view.Promotor": [
     "widget.grid-promotor"
@@ -2048,6 +2109,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.TreePicker": [
     "widget.treepicker"
   ],
+  "Ext.ux.Wizard": [],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.ajax.JsonSimlet": [
     "simlet.json"
@@ -2115,6 +2177,11 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.statusbar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.wizard.Card": [],
+  "Ext.ux.wizard.CardLayout": [],
+  "Ext.ux.wizard.Header": [
+    "widget.wizardheader"
+  ],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
     "widget.boundlist"

@@ -41,32 +41,7 @@ Ext.define('DemoExtJs.view.Participation.FotografiaTmp', {
 			trackOver : true,
 			overItemCls : 'x-item-over',
 			itemSelector : 'div.thumb-wrap',
-			emptyText : 'No images to display',
-			/*
-			 plugins : [Ext.create('Ext.ux.DataView.DragSelector', {}), Ext.create('Ext.ux.DataView.LabelEditor', {
-			 dataIndex : 'name'
-			 })],
-			 */
-
-			/*
-			 prepareData : function(data) {
-			 Ext.apply(data, {
-			 shortName : Ext.util.Format.ellipsis(data.name, 15),
-			 sizeString : Ext.util.Format.fileSize(data.size),
-			 dateString : Ext.util.Format.date(data.lastmod, "m/d/Y g:i a")
-			 });
-			 return data;
-			 },
-			 */
-
-			/*
-			 listeners : {
-			 selectionchange : function(dv, nodes) {
-			 var l = nodes.length, s = l !== 1 ? 's' : '';
-			 // this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
-			 }
-			 }
-			 */
+			emptyText : 'No images to display'
 		}];
 
 		this.callParent(arguments);

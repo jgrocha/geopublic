@@ -90,7 +90,12 @@ var DXParticipacao = {
 			if (err) {
 				db.debugError(callback, err);
 			} else {
-				var sql = 'SELECT * FROM ppgis.comentario where id = ' + resultInsert.rows[0].id;
+				// var sql = 'SELECT * FROM ppgis.comentario where id = ' + resultInsert.rows[0].id;
+				var sql = '';
+				sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome';
+				sql += ' FROM ppgis.comentario c, public.utilizador u ';
+				sql += ' where c.id = ' + resultInsert.rows[0].id;
+				sql += ' and c.idutilizador = u.id';
 				conn.query(sql, function(err, result) {
 					if (err) {
 						console.log('SQL=' + sql + ' Error: ', err);
@@ -127,7 +132,11 @@ var DXParticipacao = {
 		console.log(params);
 		var idocorrencia = params;
 		var conn = db.connect();
-		var sql = 'SELECT * FROM ppgis.comentario where idocorrencia = ' + idocorrencia;
+		var sql = '';
+		sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome';
+		sql += ' FROM ppgis.comentario c, public.utilizador u ';
+		sql += ' where idocorrencia = ' + idocorrencia;
+		sql += ' and c.idutilizador = u.id';
 		conn.query(sql, function(err, result) {
 			if (err) {
 				console.log('SQL=' + sql + ' Error: ', err);
@@ -408,8 +417,13 @@ var DXParticipacao = {
 			where = 'idplano = ' + params.idplano;
 		}
 		var conn = db.connect();
-		var sql = 'SELECT *, ST_AsText(the_geom) as wkt, ST_AsGeoJSON(the_geom) as geojson ';
-		sql += 'FROM ppgis.ocorrencia ';
+		/*
+		 SELECT o.*, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios
+		 FROM ppgis.ocorrencia o
+		 WHERE NOT apagado AND idplano = 1
+		 */
+		var sql = 'SELECT o.*, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
+		sql += 'FROM ppgis.ocorrencia o ';
 		sql += 'WHERE NOT apagado AND ';
 		sql += where;
 		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
@@ -420,7 +434,8 @@ var DXParticipacao = {
 				db.debugError(callback, err);
 			} else {
 				//get totals for paging
-				var totalQuery = 'SELECT count(*) as totals FROM ppgis.ocorrencia';
+				var totalQuery = 'SELECT count(*) as totals FROM ppgis.ocorrencia WHERE NOT apagado AND ';
+				totalQuery += where;
 				conn.query(totalQuery, function(err, resultTotalQuery) {
 					if (err) {
 						console.log('SQL=' + totalQuery + ' Error: ', err);

@@ -5,12 +5,11 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 	// requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
 	// title : 'Participe!',
+	bodyCls: 'activity-panel',
 	items : [{
 		xtype : 'contribution',
 		region : 'north',
-		// height : 360,
-		collapsible : true,
-		// layout : 'fit'
+		collapsible : true
 	}, {
 		defaultType : 'container',
 		itemId : 'flow',
@@ -23,6 +22,7 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 		*/
 		region : 'center',
 		// autoScroll : true,
+		// bodyPadding: 5, // excelente!
 		overflowY : 'auto',
 		// http://jsfiddle.net/H4vp7/84/
 		items : [{

@@ -35,15 +35,6 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 			});
 		}
 	},
-	y : [{
-		"id" : 27,
-		"comentario" : "Na verdade, há qualquer problema.",
-		"datacriacao" : "2014-09-19T22:00:25.288Z",
-		"datamodificacao" : "2014-09-19T22:00:25.288Z",
-		"idocorrencia" : 3,
-		"idutilizador" : 31,
-		"idestado" : 1
-	}],
 	onButtonGravar : function(button, e, options) {
 		var fc = button.up('form').getForm();
 		var params = fc.getValues(false, false, false, false);

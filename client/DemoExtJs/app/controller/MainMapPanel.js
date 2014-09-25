@@ -160,7 +160,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				idtipoocorrencia : records[i].data.idtipoocorrencia,
 				titulo : records[i].data.titulo,
 				participacao : records[i].data.participacao,
-				datacriacao : records[i].data.datacriacao
+				datacriacao : records[i].data.datacriacao,
+				numcomentarios : records[i].data.numcomentarios
 			});
 			// me.getTodasDiscussoes().add(newDiscussion);
 			me.getTodasDiscussoes().insert(0, newDiscussion);

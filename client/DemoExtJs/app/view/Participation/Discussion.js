@@ -22,7 +22,7 @@ Ext.define('DemoExtJs.view.Comment', {
 	},
 	dockedItems : [{
 		xtype : 'toolbar',
-		flex : 1,
+		// flex : 1,
 		dock : 'bottom',
 		layout : {
 			pack : 'end',
@@ -51,21 +51,25 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 	},
 	*/
 	// layout: 'fit',
-	title : 'Discussao Nº X',
+	frame : true,
+	margin : '5 5 5 5',
+	// title : 'Discussao Nº X',
 	initComponent : function() {
+		var me = this;
 		console.debug(this.initialConfig);
 		console.log('Abrir com a discussao ' + this.initialConfig.id_ocorrencia);
 		this.title = this.initialConfig.titulo;
 		this.idocorrencia = this.initialConfig.id_ocorrencia;
 		this.idplano = this.initialConfig.idplano;
 		this.idpromotor = this.initialConfig.idpromotor;
-
+		this.numcomentarios = this.initialConfig.numcomentarios;
+		
+		// http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
 		var tpl = new Ext.XTemplate(//
 		'<tpl for=".">', //
-		'<p>{comentario} por {idutilizador}</p>', //
-		'</tpl></p>' //
+		'<p><img src="{fotografia}" align="left"><b>{nome}</b> {comentario}<br/>Em {datacriacao}</p>', //
+		'</tpl>' //
 		);
-
 		this.items = [{
 			html : this.initialConfig.participacao
 		}, {
@@ -73,12 +77,15 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 			config : {
 				idocorrencia : this.idocorrencia,
 				idplano : this.idplano,
-				idpromotor : this.idpromotor				
+				idpromotor : this.idpromotor
 			}
 		}, {
 			loaded : false, // carregou os comentários?
-			numcomments : 0,
-			title : 'Comentários',
+			numcomments : me.numcomentarios,			
+			frame : false,
+			title : me.numcomentarios + ' comentários',
+			// bodyCls: 'comment-panel',
+			ui : 'comment-panel', // defined in sass/src/view/Viewport.scss
 			itemId : 'commentlist',
 			collapsible : true,
 			collapsed : true,
@@ -86,31 +93,56 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 			titleCollapse : true,
 			// html : 'Lista com todos os comentários existentes',
 			tpl : tpl,
-			data : [/*{
-			 "id" : 4,
-			 "comentario" : "Mais um tiro no escuro",
-			 "datacriacao" : "2014-09-18T21:21:23.104Z",
-			 "datamodificacao" : "2014-09-18T21:21:23.104Z",
-			 "idocorrencia" : 1,
-			 "idutilizador" : 31,
-			 "idestado" : 1
-			 }, {
-			 "id" : 5,
-			 "comentario" : "Uau! Leu bem este tiro. Boa pontaria",
-			 "datacriacao" : "2014-09-18T22:14:32.238Z",
-			 "datamodificacao" : "2014-09-18T22:14:32.238Z",
-			 "idocorrencia" : 1,
-			 "idutilizador" : 31,
-			 "idestado" : 1
-			 }, {
-			 "id" : 6,
-			 "comentario" : "Maravilhoso!",
-			 "datacriacao" : "2014-09-18T22:14:44.191Z",
-			 "datamodificacao" : "2014-09-18T22:14:44.191Z",
-			 "idocorrencia" : 1,
-			 "idutilizador" : 31,
-			 "idestado" : 1
-			 }*/ ]
+			/*
+			 * Há 38 minutos
+			 * Há 3 hrs
+			 * Ontem, às 20:16:56
+			 * 11 de setembro, às 20:16:56
+			 * var d = new Date('2014-09-23T20:16:56.223Z')
+			 * Ext.util.Format.date('2014-09-23T20:16:56.223Z', "d M H:i")
+			 * Ext.util.Format.date('2014-09-23T20:16:56.223Z', "d M H:i")
+			 * "23 Set 21:16"
+			 */
+            // prepareData: function(data) {} só para dataviews!
+			data : [ /*{
+				"data" : [{
+					"id" : 38,
+					"comentario" : "Sempre tive uma atrção especial pelo Jardim da Enferma. Faço o que estiver ao meu alcance para o recuperar.\nAquele abraço!",
+					"datacriacao" : "2014-09-23T20:16:56.223Z",
+					"haquantotempo" : {
+						"days" : 1,
+						"hours" : 1,
+						"minutes" : 56,
+						"seconds" : 33
+					},
+					"fotografia" : "uploaded_images/profiles/32x32/31_ee201c208a968b4ac27ea7f662e34db2.jpg",
+					"nome" : "Gustavo Bastos"
+				}, {
+					"id" : 39,
+					"comentario" : "Pode-se corrigir um comentário anterior? É que escrivi mal e queria corrigir. Obrigado pela atenção.",
+					"datacriacao" : "2014-09-23T20:26:11.699Z",
+					"haquantotempo" : {
+						"days" : 1,
+						"hours" : 1,
+						"minutes" : 47,
+						"seconds" : 18
+					},
+					"fotografia" : "uploaded_images/profiles/32x32/31_ee201c208a968b4ac27ea7f662e34db2.jpg",
+					"nome" : "Gustavo Bastos"
+				}, {
+					"id" : 40,
+					"comentario" : "Continuo a dar grolhas sem querer e ninguém me ajuda? Preciso de saber se há maneira de alterar os comentário. Obrigado!",
+					"datacriacao" : "2014-09-23T20:42:30.149Z",
+					"haquantotempo" : {
+						"days" : 1,
+						"hours" : 1,
+						"minutes" : 30,
+						"seconds" : 59
+					},
+					"fotografia" : "uploaded_images/profiles/32x32/31_ee201c208a968b4ac27ea7f662e34db2.jpg",
+					"nome" : "Gustavo Bastos"
+				}]
+			} */]
 		}, {
 			xtype : 'comment',
 			config : {

@@ -3,7 +3,9 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 	xtype : 'contribution',
 	title : 'Nova participação',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit', 'DemoExtJs.view.Participation.Fotografia'],
-	bodyPadding : 5,
+	bodyPadding : 5, // o que está dentro
+	frame: true,
+	margin: '5 5 5 5',	
 	autoHeight : true,
 	layout : {
 		type : 'vbox',
@@ -102,7 +104,7 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 	}],
 	dockedItems : [{
 		xtype : 'toolbar',
-		flex : 1,
+		// flex : 1,
 		dock : 'bottom',
 		layout : {
 			pack : 'end',

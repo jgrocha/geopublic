@@ -1,8 +1,6 @@
 {
-	"name":"DemoExtJs",
-	"requires":[
-		
-	],
-
-	"id":"10e238ac-188d-49dc-a154-8faa5e268372"
+	"name": "DemoExtJs",
+	"requires": [],
+	"theme": "ext-theme-neptune",
+	"id": "10e238ac-188d-49dc-a154-8faa5e268372"
 }

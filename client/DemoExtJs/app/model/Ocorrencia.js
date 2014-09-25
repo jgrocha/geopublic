@@ -19,9 +19,6 @@ Ext.define('DemoExtJs.model.Ocorrencia', {
 		name : 'participacao',
 		type : 'string'
 	}, {
-		name : 'wkt',
-		type : 'string'
-	}, {
 		name : 'geojson',
 		type : 'string'
 	}, {
@@ -30,6 +27,9 @@ Ext.define('DemoExtJs.model.Ocorrencia', {
 	}, {
 		name : 'datamodificacao',
 		type : 'date'
+	}, {
+		name : 'numcomentarios',
+		type : 'int'
 	}],
 	proxy : {
 		type : 'direct',
@@ -49,4 +49,4 @@ Ext.define('DemoExtJs.model.Ocorrencia', {
 			writeAllFields : false
 		}
 	}
-});
+}); 
