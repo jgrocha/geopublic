@@ -72,9 +72,6 @@ var DXParticipacao = {
 					break;
 			}
 		}
-		// temporario
-		fields.push('idestado');
-		values.push(1);
 		//
 		fields.push('datamodificacao');
 		values.push('now()');
@@ -198,6 +195,10 @@ var DXParticipacao = {
 		//  [ { id: 4 }, { id: 6 }, { id: 5 }, { id: 9 } ]
 		// or
 		// { id: 3 }
+		//
+		// isto pode ser evitado (ié pode vir sempre um array)
+		// http://localhost/extjs/docs/index.html#!/api/Ext.data.writer.Json
+		// The allowSingle configuration can be set to false to force the records to always be encoded in an array, even if there is only a single record being sent.
 		var where = [];
 		var wherestr = '';
 		if (Array.isArray(params)) {
@@ -418,14 +419,13 @@ var DXParticipacao = {
 		}
 		var conn = db.connect();
 		/*
-		 SELECT o.*, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios
-		 FROM ppgis.ocorrencia o
-		 WHERE NOT apagado AND idplano = 1
+		 SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios
+		 FROM ppgis.ocorrencia o, ppgis.estado e
+		 WHERE NOT o.apagado AND o.idplano = 1 and e.id = o.idestado AND e.idplano = 1
 		 */
-		var sql = 'SELECT o.*, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
-		sql += 'FROM ppgis.ocorrencia o ';
-		sql += 'WHERE NOT apagado AND ';
-		sql += where;
+		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
+		sql += 'FROM ppgis.ocorrencia o, ppgis.estado e ';
+		sql += 'WHERE NOT apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = ' + params.idplano;
 		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
 		console.log(sql);
 		conn.query(sql, function(err, result) {
@@ -506,6 +506,169 @@ var DXParticipacao = {
 			}
 		});
 	},
+	/*
+	 * EstadoOcorrencia
+	 */
+	createEstadoOcorrencia : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		/*
+		 createPromotor:
+		 {
+		 { id: 0,
+		 idplano: 3,
+		 estado: 'Estado',
+		 significado: '',
+		 color: 'gray',
+		 icon: '' }
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		console.log('createEstadoOcorrencia: ');
+		console.log(params);
+		var conn = db.connect();
+		var sql = 'select max(id) as contador from ppgis.estado where idplano = ' + params.idplano;
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				var next = result.rows[0].contador + 1;
+				params.id = next;
+				var fields = [], values = [];
+				for (var key in params) {
+					fields.push(key);
+					values.push(params[key]);
+				}
+				var i, buracos = [];
+				for ( i = 1; i <= fields.length; i++) {
+					buracos.push('$' + i);
+				}
+				conn.query('INSERT INTO ppgis.estado (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+					db.disconnect(conn);
+					if (err) {
+						db.debugError(callback, err);
+					} else {
+						callback({
+							success : true,
+							message : 'Dados atualizados',
+							data : resultInsert.rows
+							// id : resultInsert.rows[0].id
+						});
+					}
+				});
+			}
+		});
+	},
+	updateEstadoOcorrencia : function(params, callback, sessionID, request) {
+		console.log('updateEstadoOcorrencia');
+		console.log(params);
+		/*
+		 { id: 4,
+		 idplano: 1,
+		 estado: 'Fechada',
+		 significado: 'encerrada',
+		 color: '',
+		 icon: 'escuro' }
+		 */
+		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+		var fields = [], values = [], i = 1;
+		var id = params.id;
+		delete params.id;
+		var idplano = params.idplano;
+		delete params.idplano;
+		for (var key in params) {
+			fields.push(key + '= $' + i);
+			values.push(params[key]);
+			i = i + 1;
+		}
+		if (request.session.userid && request.session.groupid <= 1) {
+			var conn = db.connect();
+			conn.query('UPDATE ppgis.estado SET ' + fields.join() + ' WHERE id = ' + id + ' AND idplano = ' + idplano, values, function(err, result) {
+				if (err) {
+					console.log('UPDATE =' + sql + ' Error: ' + err);
+					db.debugError(callback, err);
+				} else {
+					var sql = 'SELECT * FROM ppgis.estado where id = ' + id + ' AND idplano = ' + idplano;
+					conn.query(sql, function(err, resultSelect) {
+						db.disconnect(conn);
+						if (err) {
+							console.log('SQL=' + sql + ' Error: ', err);
+							db.debugError(callback, err);
+						} else {
+							callback({
+								success : true,
+								message : 'Dados atualizados',
+								data : resultSelect.rows
+							});
+						}
+					});
+				}
+			});
+		} else {
+			callback({
+				success : false,
+				message : 'Utilizador sem permissão para alterar os dados.'
+			});
+		}
+	},
+	destroyEstadoOcorrencia : function(params, callback, sessionID, request) {
+		// falta proteger só para grupo admin
+		console.log('destroyEstadoOcorrencia: ');
+		console.log(params);
+		var conn = db.connect();
+		var sql = 'delete FROM ppgis.estado where id = ' + params.id + ' AND idplano = ' + params.idplano;
+		conn.query(sql, function(err, result) {
+			db.disconnect(conn);
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				callback({
+					success : true
+				});
+			}
+		});
+	},
+	readEstadoOcorrencia : function(params, callback, sessionID, request) {
+		console.log('readEstadoOcorrencia: ');
+		console.log(params);
+		var plano = params.idplano;
+		// ???
+		var userid = request.session.userid;
+		var conn = db.connect();
+
+		var sql = 'select * ';
+		sql += ' from ppgis.estado where idplano = ' + plano;
+		sql += ' order by id';
+
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				console.log('SQL=' + sql + ' Error: ', err);
+				//get totals for paging
+				var totalQuery = 'SELECT count(*) as totals from ppgis.estado where idplano = ' + plano;
+				conn.query(totalQuery, function(err, resultTotalQuery) {
+					if (err) {
+						console.log('SQL=' + totalQuery + ' Error: ', err);
+						db.debugError(callback, err);
+					} else {
+						db.disconnect(conn);
+						//release connection
+						console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+						callback({
+							success : true,
+							data : result.rows,
+							total : resultTotalQuery.rows[0].totals // rowsTotal[0].totals
+						});
+					}
+				});
+			}
+		});
+	},
+	/*
+	 * TipoOcorrencia
+	 */
 	createTipoOcorrencia : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
 		/*

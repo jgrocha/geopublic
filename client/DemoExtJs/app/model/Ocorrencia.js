@@ -30,6 +30,12 @@ Ext.define('DemoExtJs.model.Ocorrencia', {
 	}, {
 		name : 'numcomentarios',
 		type : 'int'
+	}, {
+		name : 'color',
+		type : 'string'
+	}, {
+		name : 'icon',
+		type : 'string'
 	}],
 	proxy : {
 		type : 'direct',

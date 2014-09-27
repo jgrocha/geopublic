@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.controller.Plano', {
 	extend : 'Ext.app.Controller',
-	stores : ['Plano', 'TipoOcorrencia'], // getPlanoStore()
+	stores : ['Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia'], // getPlanoStore(), getParticipationEstadoOcorrenciaStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
 		selector : 'grid-promotor gridpanel#plano',
@@ -14,6 +14,9 @@ Ext.define('DemoExtJs.controller.Plano', {
 	}, {
 		selector : 'grid-promotor gridpanel#tipoocorrencia button#add',
 		ref : 'buttonAddTipoOcorrencia' // gera um getButtonAddTipoOcorrencia
+	}, {
+		selector : 'grid-promotor gridpanel#estadoocorrencia button#add',
+		ref : 'buttonAddEstadoOcorrencia' // gera um getButtonAddTipoOcorrencia
 	}],
 	init : function() {
 		console.log('O controlador está a arrancar...');
@@ -77,22 +80,27 @@ Ext.define('DemoExtJs.controller.Plano', {
 	},
 	onGridSelect : function(selModel, selection) {
 		this.getButtonRemove().setDisabled(!selection.length);
-		var store = this.getTipoOcorrenciaStore();
+		var storeTipo = this.getTipoOcorrenciaStore();
+		var storeEstado = this.getParticipationEstadoOcorrenciaStore();
 		if ((selection.length == 1) && (selection[0].data.id > 0)) {
-			console.log('Ler os tipos de ocorrências do plano ', selection[0].data.id);
-			// var store = Ext.StoreManager.lookup('Plano');
-			store.load({
+			console.log('Ler os tipos e estados de ocorrências do plano ', selection[0].data.id);
+			storeTipo.load({
 				id : selection[0].data.id
+			});
+			storeEstado.load({
+				params : {
+					idplano : selection[0].data.id
+				}
 			});
 			//
 			this.getButtonAddTipoOcorrencia().setDisabled(0);
+			this.getButtonAddEstadoOcorrencia().setDisabled(0);
 		} else {
-			// if (selection.length == 0) {
 			console.log('Não tenho plano selecionado. Limpar tipos de ocorrências');
-			// var store = Ext.StoreManager.lookup('Plano');
-			store.loadData([], false);
-			//
+			storeTipo.loadData([], false);
+			storeEstado.loadData([], false);
 			this.getButtonAddTipoOcorrencia().setDisabled(1);
+			this.getButtonAddEstadoOcorrencia().setDisabled(1);
 		}
 	},
 	onButtonClickAdiciona : function(button, e, options) {

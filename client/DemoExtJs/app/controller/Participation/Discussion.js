@@ -1,5 +1,6 @@
 Ext.define('DemoExtJs.controller.Participation.Discussion', {
 	extend : 'Ext.app.Controller',
+	stores : ['Participation.EstadoCombo'], // getParticipationEstadoComboStore()
 	// Ext.ComponentQuery.query('comment toolbar button#gravar')
 	refs : [],
 	init : function() {
@@ -10,7 +11,7 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 			"discussion toolbar button#refresh" : {
 				click : this.onButtonRefresh
 			},
-			"discussion #commentlist" : {
+			"discussion commentlist" : {
 				beforeexpand : this.onOcorrenciaBeforeExpand
 				// expand : this.onOcorrenciaExpand
 			}
@@ -36,8 +37,10 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 		}
 	},
 	onButtonGravar : function(button, e, options) {
+		var me = this;
 		var fc = button.up('form').getForm();
 		var params = fc.getValues(false, false, false, false);
+
 		ExtRemote.DXParticipacao.createComment(params, function(result, event) {
 			if (result.success) {
 				// Ext.Msg.alert('Successo', 'O seu comentário foi registado. Obrigado pela participação.');
@@ -48,7 +51,7 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 				// console.log(JSON.stringify(result.data));
 				// console.log(result.data[0].id);
 
-				var p = button.up('discussion').down('#commentlist');
+				var p = button.up('discussion').down('commentlist');
 				console.debug(p);
 				// junto este aos comentários existentes
 				if (p.numcomments > 0) {
@@ -60,6 +63,17 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 				p.numcomments = p.numcomments + 1;
 				p.setTitle(p.numcomments + ' comentários');
 
+				// alterar a cor do feature em função da alteração do estado
+				// se houve alteração do estado...
+				if (params.idestado) {
+					var novo = params.idestado;
+					var estado = me.getParticipationEstadoComboStore().findRecord('id', novo);
+					var cor = estado.get('color');
+					var d = button.up('discussion');
+					// Qual é a nova cor?
+					d.feature.attributes['color'] = cor;
+					d.feature.layer.drawFeature(d.feature);
+				}
 			} else {
 				Ext.Msg.alert('Erro', 'Ocorreu um erro ao registar o seu comentário.');
 			}

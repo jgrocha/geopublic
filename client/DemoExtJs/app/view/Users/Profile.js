@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.view.Avatar', {
 	extend : 'Ext.form.Panel',
-	xtype : 'avatar',
+	alias : 'widget.avatar',
 	requires : ['Ext.form.field.File', 'Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	title : 'Avatar',
 	bodyPadding : 5,
@@ -43,7 +43,7 @@ Ext.define('DemoExtJs.view.Avatar', {
 
 Ext.define('DemoExtJs.view.ChangePassword', {
 	extend : 'Ext.form.Panel',
-	xtype : 'xpassword',
+	alias : 'widget.xpassword',
 	bodyPadding : 5,
 	defaults : {
 		xtype : 'textfield',
@@ -100,7 +100,7 @@ Ext.define('DemoExtJs.view.ChangePassword', {
 
 Ext.define('DemoExtJs.view.Home', {
 	extend : 'GeoExt.panel.Map',
-	xtype : 'home-map-panel',
+	alias : 'widget.home-map-panel',
 	// center : '-940328.71082446, 4949944.6827996', // coordenadas ESPG:900913
 	width : 256,
 	height : 256,
@@ -129,7 +129,7 @@ Ext.define('DemoExtJs.view.Home', {
 Ext.define('DemoExtJs.view.Users.Profile', {
 	extend : 'Ext.panel.Panel',
 	// com vários forms dentro
-	xtype : 'profile',
+	alias : 'widget.profile',
 	title : 'Profile',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	bodyPadding : 5,

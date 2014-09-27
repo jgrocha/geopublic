@@ -1,8 +1,9 @@
 Ext.define('DemoExtJs.view.BemVindoPanel', {
 	extend : 'Ext.panel.Panel',
-	xtype : 'bem-vindo-panel',
+	alias : 'widget.bem-vindo-panel',
 	title : 'Ajuda',
 	layout : 'column',
+
 	autoScroll : true,
 	defaultType : 'container',
 	items : [{

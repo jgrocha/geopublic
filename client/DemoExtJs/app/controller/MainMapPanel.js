@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.controller.MainMapPanel', {
 	extend : 'Ext.app.Controller',
-	stores : ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia'], // getPromotorComboStore()
+	stores : ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
 	requires : ['GeoExt.Action'],
 
 	wfs_pretensao : {},
@@ -51,6 +51,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	}, {
 		ref : 'comboplano', // this.getComboplano()
 		selector : 'app-main-map-panel combo#plano'
+	}, {
+		ref : 'activityPanel', // this.getActivityPanel()
+		selector : 'mapa-com-projeto activity'
 	}],
 
 	init : function() {
@@ -147,7 +150,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var parser = new OpenLayers.Format.GeoJSON();
 
 		for (var i = 0, len = records.length; i < len; i++) {
-			var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"));
+			// http://docs.openlayers.org/library/feature_styling.html
+			// http://www.codechewing.com/library/add-external-graphic-icon-to-geometry-point-openlayers/
+			// http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Feature/Vector-js.html
+
+			// geometry, attributes, style
+			var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"), {
+				color : records[i].data.color,
+				icon : records[i].data.icon,
+				title : records[i].data.titulo
+			});
+			// f.style.fillColor = records[i].data.color;
 			f.fid = records[i].data.id;
 			report.addFeatures([f]);
 
@@ -161,7 +174,8 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				titulo : records[i].data.titulo,
 				participacao : records[i].data.participacao,
 				datacriacao : records[i].data.datacriacao,
-				numcomentarios : records[i].data.numcomentarios
+				numcomments : records[i].data.numcomentarios,
+				feature : f
 			});
 			// me.getTodasDiscussoes().add(newDiscussion);
 			me.getTodasDiscussoes().insert(0, newDiscussion);
@@ -177,6 +191,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var plano = parseInt(newValue);
 
 		if (plano) {
+
 			// centrar o mapa
 			// sacar o registo no store
 			var rec = this.getPlanoComboStore().findRecord('id', plano);
@@ -212,17 +227,22 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 					idplano : plano
 				}
 			});
-			/*
-			 ostore.load({
-			 id : plano
-			 });
-			 */
+
+			// combobox to change participation state
+			var estore = this.getParticipationEstadoComboStore();
+			estore.load({
+				params : {
+					idplano : plano
+				}
+			});
+
 			this.getFormPhotos().getForm().setValues({
 				idplano : plano,
 				idpromotor : promotor
 			});
 			// load do store
 			this.getFotografiatmp().store.load();
+
 		}
 	},
 	onComboPromotor : function(combo, records, eOpts) {
@@ -315,7 +335,26 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
 		var baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
 		map.addLayers([baseOSM, baseAerial]);
-		var report = new OpenLayers.Layer.Vector("Report");
+
+		var defaultStyle = new OpenLayers.Style({
+			'pointRadius' : 10,
+			'fillColor' : '${color}',
+			'title' : '${title}'
+		});
+
+		var selectStyle = new OpenLayers.Style({
+			'pointRadius' : 10 // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+		});
+
+		var styleMap = new OpenLayers.StyleMap({
+			'default' : defaultStyle
+			// 'select' : selectStyle
+		});
+
+		var report = new OpenLayers.Layer.Vector("Report", {
+			styleMap : styleMap
+		});
+
 		map.addLayer(report);
 		//<debug>
 		// variáveis globais para debug
@@ -347,8 +386,19 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				beforefeaturehighlighted : function(event) {
 					console.log('beforefeaturehighlighted');
 					console.debug(event.feature);
-					(
-						event.feature.fid);
+					// f.fid = records[i].data.id;
+					// this.idocorrencia
+					// me.getTodasDiscussoes().items
+					var p = me.getTodasDiscussoes();
+					console.log(p.items);
+					var d = p.items.findBy(function(cmp) {
+						console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+						return (cmp.idocorrencia == event.feature.fid);
+					});
+					console.log(d);
+					d.setUI('discussion-framed');
+					var pos = d.getOffsetsTo(p)[1];
+					p.body.dom.scrollTop = pos;
 				},
 				featurehighlighted : function(event) {
 					console.log('featurehighlighted');

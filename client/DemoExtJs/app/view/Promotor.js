@@ -1,16 +1,17 @@
 Ext.define('DemoExtJs.view.Promotor', {
 	extend : 'Ext.container.Container',
-	xtype : 'grid-promotor',
+	alias : 'widget.grid-promotor',
 	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
 	title : 'Entidades',
-	style : 'padding:5px',
+	bodyPadding : 10,
 	items : [{
 		xtype : 'gridpanel',
 		itemId : 'promotor',
 		region : 'north',
 		height : 140,
 		split : true,
+		frame : true,
 		store : 'Promotor',
 		columns : [{
 			dataIndex : 'id',
@@ -74,6 +75,7 @@ Ext.define('DemoExtJs.view.Promotor', {
 		xtype : 'gridpanel',
 		itemId : 'plano',
 		region : 'center',
+		frame : true,
 		store : 'Plano',
 		columns : [{
 			dataIndex : 'id',
@@ -173,54 +175,151 @@ Ext.define('DemoExtJs.view.Promotor', {
 			errorSummary : false //disables display of validation messages if the row is invalid
 		})]
 	}, {
-		xtype : 'gridpanel',
-		itemId : 'tipoocorrencia',
 		region : 'south',
-		height : 200,
+		layout : 'column',
+		height : 400,
+		bodyPadding : 10,
+		autoScroll : true,
 		split : true,
-		store : 'TipoOcorrencia',
-		columns : [{
-			dataIndex : 'id',
-			header : 'Id',
-			width : 40
+		items : [{
+			xtype : 'gridpanel',
+			itemId : 'tipoocorrencia',
+			// region : 'center',
+			columnWidth : 0.5,
+			split : true,
+			frame : true,
+			store : 'TipoOcorrencia',
+			columns : [{
+				dataIndex : 'id',
+				header : 'Id',
+				width : 40
+			}, {
+				dataIndex : 'idplano',
+				header : 'Plano',
+				width : 40
+			}, {
+				dataIndex : 'designacao',
+				header : 'Tipo de Ocorrência',
+				flex : 1,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : false
+				}
+			}, {
+				dataIndex : 'ativa',
+				header : 'Em uso',
+				width : 80,
+				editor : {
+					xtype : 'checkbox'
+					// align : 'center' //doesn't seem to work.
+				}
+			}],
+			tbar : [{
+				itemId : 'add',
+				text : 'Adiciona',
+				icon : 'resources/images/icons/fam/add.png'
+			}, {
+				itemId : 'remove',
+				text : 'Apaga',
+				icon : 'resources/images/icons/fam/delete.gif',
+				disabled : true
+			}],
+			selType : 'rowmodel',
+			// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
+			plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
+				saveBtnText : 'Alterar',
+				cancelBtnText : 'Descartar'
+				// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
+				// errorSummary: false //disables display of validation messages if the row is invalid
+			})]
 		}, {
-			dataIndex : 'idplano',
-			header : 'Plano',
-			width : 40
-		}, {
-			dataIndex : 'designacao',
-			header : 'Tipo de Ocorrência',
-			flex : 1,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
+			xtype : 'gridpanel',
+			itemId : 'estadoocorrencia',
+			columnWidth : 0.5,
+			split : true,
+			store : 'Participation.EstadoOcorrencia',
+			frame : true,
+			columns : [{
+				dataIndex : 'id',
+				header : 'Id',
+				width : 40
+			}, {
+				dataIndex : 'idplano',
+				header : 'Plano',
+				width : 40
+			}, {
+				dataIndex : 'estado',
+				header : 'Estado',
+				width : 80,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : false
+				}
+			}, {
+				dataIndex : 'significado',
+				header : 'Significado',
+				flex : 1,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : true
+				}
+			}, {
+				dataIndex : 'color',
+				header : 'Cor',
+				width : 80,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : true
+				}
+			}, {
+				dataIndex : 'icon',
+				header : 'Caminho',
+				width : 80,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : true
+				}
+			}],
+			tbar : [{
+				itemId : 'add',
+				text : 'Adiciona',
+				icon : 'resources/images/icons/fam/add.png'
+			}, {
+				itemId : 'remove',
+				text : 'Apaga',
+				icon : 'resources/images/icons/fam/delete.gif',
+				disabled : true
+			}],
+			selType : 'rowmodel',
+			// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
+			plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
+				saveBtnText : 'Alterar',
+				cancelBtnText : 'Descartar'
+				// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
+				// errorSummary: false //disables display of validation messages if the row is invalid
+			})],
+			viewConfig : {
+				listeners : {
+					refresh : function(view) {
+						// get all grid view nodes
+						var nodes = view.getNodes();
+						for (var i = 0; i < nodes.length; i++) {
+							var node = nodes[i];
+							// get node record
+							var record = view.getRecord(node);
+							// get color from record data
+							var color = record.get('color');
+							// get all td elements
+							var cells = Ext.get(node).query('td');
+							// set background color to all row td elements
+							for (var j = 0; j < cells.length; j++) {
+								// console.log(cells[j]);
+								Ext.fly(cells[j]).setStyle('background-color', color);
+							}
+						}
+					}
+				}
 			}
-		}, {
-			dataIndex : 'ativa',
-			header : 'Em uso',
-			width : 80,
-			editor : {
-				xtype : 'checkbox'
-				// align : 'center' //doesn't seem to work.
-			}
-		}],
-		tbar : [{
-			itemId : 'add',
-			text : 'Adiciona',
-			icon : 'resources/images/icons/fam/add.png'
-		}, {
-			itemId : 'remove',
-			text : 'Apaga',
-			icon : 'resources/images/icons/fam/delete.gif',
-			disabled : true
-		}],
-		selType : 'rowmodel',
-		// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
-		plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
-			saveBtnText : 'Alterar',
-			cancelBtnText : 'Descartar'
-			// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
-			// errorSummary: false //disables display of validation messages if the row is invalid
-		})]
+		}]
 	}]
 });

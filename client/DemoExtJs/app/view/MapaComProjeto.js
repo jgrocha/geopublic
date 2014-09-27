@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.view.MapaComProjeto', {
 	extend : 'Ext.container.Container',
-	xtype : 'mapa-com-projeto',
+	alias : 'widget.mapa-com-projeto',
 	// requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
 	title : 'Mapa e Dados',

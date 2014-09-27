@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.view.Participation.Contribution', {
 	extend : 'Ext.panel.Panel',
-	xtype : 'contribution',
+	alias : 'widget.contribution',
 	title : 'Nova participação',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit', 'DemoExtJs.view.Participation.Fotografia'],
 	bodyPadding : 5, // o que está dentro

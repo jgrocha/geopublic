@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.view.Users.GridSessao', {
 	extend : 'Ext.container.Container',
-	xtype : 'grid-sessao',
+	alias : 'widget.grid-sessao',
 	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action'],
 	title : 'Login history',
 	layout : 'border',

@@ -41,18 +41,18 @@ Ext.define('DemoExtJs.view.Viewport', {
 			xtype : 'grid-promotor'
 		}, {
 			xtype : 'bem-vindo-panel'
-		} /* {
-		 xtype : 'grid-actions'
-		 }, {
-		 xtype : 'method-call'
-		 }, {
-		 xtype : 'form-actions'
-		 }, {
-		 xtype : 'form-upload'
-		 }, {
-		 xtype : 'tree-actions'
-		 }, {
-		 xtype : 'demo-cookies'
-		 } */]
+		}, {
+			xtype : 'grid-actions'
+		}, {
+			xtype : 'method-call'
+		}, {
+			xtype : 'form-actions'
+		}, {
+			xtype : 'form-upload'
+		}, {
+			xtype : 'tree-actions'
+		}, {
+			xtype : 'demo-cookies'
+		}]
 	}]
 });

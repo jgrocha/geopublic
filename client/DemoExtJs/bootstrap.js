@@ -9,7 +9,6 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.CustomReader": "app/view/FormUpload.js",
   "DemoExtJs.view.Avatar": "app/view/Users/Profile.js",
   "DemoExtJs.view.ChangePassword": "app/view/Users/Profile.js",
-  "DemoExtJs.view.Comment": "app/view/Participation/Discussion.js",
   "DemoExtJs.view.Home": "app/view/Users/Profile.js",
   "DemoExtJs.view.InfPrevia.Feedback": "app/view/InfPrevia/WindowConfrontacao.js",
   "DemoExtJs.view.InfPrevia.Tabela": "app/view/InfPrevia/WindowConfrontacao.js",
@@ -33,6 +32,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.Participation.Activity": [],
   "DemoExtJs.controller.Participation.Contribution": [],
   "DemoExtJs.controller.Participation.Discussion": [],
+  "DemoExtJs.controller.Participation.EstadoOcorrencia": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -41,6 +41,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
   "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.EstadoOcorrencia": [],
   "DemoExtJs.model.Participation.Fotografia": [],
   "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
@@ -52,6 +53,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
   "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.EstadoCombo": [],
+  "DemoExtJs.store.Participation.EstadoOcorrencia": [],
   "DemoExtJs.store.Participation.Fotografia": [],
   "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
@@ -66,7 +69,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.Avatar": [],
   "DemoExtJs.view.BemVindoPanel": [],
   "DemoExtJs.view.ChangePassword": [],
-  "DemoExtJs.view.Comment": [],
   "DemoExtJs.view.Cookies": [],
   "DemoExtJs.view.FormActions": [],
   "DemoExtJs.view.FormUpload": [],
@@ -82,6 +84,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.MapaComProjeto": [],
   "DemoExtJs.view.MethodCall": [],
   "DemoExtJs.view.Participation.Activity": [],
+  "DemoExtJs.view.Participation.CommentForm": [],
+  "DemoExtJs.view.Participation.CommentList": [],
   "DemoExtJs.view.Participation.Contribution": [],
   "DemoExtJs.view.Participation.Discussion": [],
   "DemoExtJs.view.Participation.Fotografia": [],
@@ -1088,6 +1092,7 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.Participation.Activity": [],
   "DemoExtJs.controller.Participation.Contribution": [],
   "DemoExtJs.controller.Participation.Discussion": [],
+  "DemoExtJs.controller.Participation.EstadoOcorrencia": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
@@ -1096,6 +1101,7 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.model.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.model.InfPrevia.Hierarquia": [],
   "DemoExtJs.model.Ocorrencia": [],
+  "DemoExtJs.model.Participation.EstadoOcorrencia": [],
   "DemoExtJs.model.Participation.Fotografia": [],
   "DemoExtJs.model.Participation.FotografiaTmp": [],
   "DemoExtJs.model.Plano": [],
@@ -1107,6 +1113,8 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.store.InfPrevia.ConfrontacaoPretensao": [],
   "DemoExtJs.store.InfPrevia.Hierarquia": [],
   "DemoExtJs.store.Ocorrencia": [],
+  "DemoExtJs.store.Participation.EstadoCombo": [],
+  "DemoExtJs.store.Participation.EstadoOcorrencia": [],
   "DemoExtJs.store.Participation.Fotografia": [],
   "DemoExtJs.store.Participation.FotografiaTmp": [],
   "DemoExtJs.store.Plano": [],
@@ -1126,9 +1134,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.ChangePassword": [
     "widget.xpassword"
-  ],
-  "DemoExtJs.view.Comment": [
-    "widget.comment"
   ],
   "DemoExtJs.view.Cookies": [
     "widget.demo-cookies"
@@ -1174,6 +1179,12 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.Participation.Activity": [
     "widget.activity"
+  ],
+  "DemoExtJs.view.Participation.CommentForm": [
+    "widget.commentform"
+  ],
+  "DemoExtJs.view.Participation.CommentList": [
+    "widget.commentlist"
   ],
   "DemoExtJs.view.Participation.Contribution": [
     "widget.contribution"

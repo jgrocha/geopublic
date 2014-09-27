@@ -1,6 +1,6 @@
 Ext.define('DemoExtJs.view.Participation.Fotografia', {
 	extend : 'Ext.form.Panel',
-	xtype : 'fotografia',
+	alias : 'widget.fotografia',
 	requires : ['DemoExtJs.store.Participation.Fotografia'],
 	// id : 'images-view', //importante por causa do CSS // hum... tem que passar a classe, pois vou ter muitas dataviews
 	cls : 'images-view',

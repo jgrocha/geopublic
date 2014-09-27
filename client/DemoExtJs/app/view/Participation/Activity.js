@@ -1,7 +1,7 @@
 Ext.define('DemoExtJs.view.Participation.Activity', {
 	extend : 'Ext.container.Container',
 	// extend : 'Ext.panel.Panel',
-	xtype : 'activity',
+	alias : 'widget.activity',
 	// requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
 	// title : 'Participe!',
@@ -9,7 +9,8 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 	items : [{
 		xtype : 'contribution',
 		region : 'north',
-		collapsible : true
+		collapsible : true,
+		collapsed : true
 	}, {
 		defaultType : 'container',
 		itemId : 'flow',
@@ -47,7 +48,7 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 			 } */ ]
 		}]
 
-	}, {
+	} /*, {
 		region : 'south',
 		defaultType : 'container',
 		padding : '10 0 10 0',
@@ -59,5 +60,5 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 		items : [{
 			html : 'Carregar mais comentários'
 		}]
-	}]
+	} */]
 });
