@@ -6,6 +6,7 @@ Ext.define('DemoExtJs.view.Participation.Activity', {
 	layout : 'border',
 	// title : 'Participe!',
 	bodyCls: 'activity-panel',
+	title : 'Atividade',
 	items : [{
 		xtype : 'contribution',
 		region : 'north',

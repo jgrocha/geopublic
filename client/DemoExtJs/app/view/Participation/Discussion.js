@@ -32,6 +32,11 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		 );
 		 */
 
+		this.tools = [{
+			type : 'search',
+			tooltip : 'Localização da participação'
+		}];
+
 		this.items = [{
 			html : this.initialConfig.participacao
 		}, {

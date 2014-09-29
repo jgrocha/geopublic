@@ -2,7 +2,10 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 	extend : 'Ext.app.Controller',
 	stores : ['Participation.EstadoCombo'], // getParticipationEstadoComboStore()
 	// Ext.ComponentQuery.query('comment toolbar button#gravar')
-	refs : [],
+	refs : [{
+		ref : 'mapa',
+		selector : 'app-main-map-panel'
+	}],
 	init : function() {
 		this.control({
 			"comment toolbar button#gravar" : {
@@ -10,6 +13,9 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 			},
 			"discussion toolbar button#refresh" : {
 				click : this.onButtonRefresh
+			},
+			"discussion tool" : {
+				click : this.onCenterFeature
 			},
 			"discussion commentlist" : {
 				beforeexpand : this.onOcorrenciaBeforeExpand
@@ -35,6 +41,25 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 				}
 			});
 		}
+	},
+	onCenterFeature : function(tool, e) {
+		console.log(arguments);
+		var ocorrencia = tool.up('panel').idocorrencia;
+		console.log('Vai centrar na ocorrência ' + ocorrencia);
+		// f.fid = records[i].data.id;
+		// procurar o feature no OpenLayers
+		var mapa = this.getMapa().map;
+		var layer = mapa.getLayersByName('Report')[0];
+
+		this.getMapa().selectCtrl.unselectAll();
+		for (var f = 0; f < layer.features.length; f++) {
+			if (layer.features[f].fid == ocorrencia) {
+				this.getMapa().selectCtrl.select(layer.features[f]);
+				mapa.zoomToExtent(layer.features[f].geometry.getBounds(), closest = true);
+				break;
+			}
+		}
+
 	},
 	onButtonGravar : function(button, e, options) {
 		var me = this;

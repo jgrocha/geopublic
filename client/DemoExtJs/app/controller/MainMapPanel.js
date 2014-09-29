@@ -100,7 +100,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		}, this);
 	},
 	onLoginComSucesso : function() {
+		// <debug>
 		console.log('onLoginComSucesso', this, console.log(arguments));
+		// </debug>
 		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
 			var mapa = this.getMapa().map;
 			this.getBarra().enable();
@@ -119,11 +121,15 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				force : true
 			});
 		} else {
+			// <debug>
 			console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
+			// </debug>
 		}
 	},
 	onLogoutComSucesso : function() {
+		// <debug>
 		console.log('onLogoutComSucesso', this, console.log(arguments));
+		// </debug>
 		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
 			this.getInserir().disable();
 			this.getBarra().disable();
@@ -136,13 +142,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				force : true
 			});
 		} else {
+			// <debug>
 			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
+			// </debug>
 		}
 	},
 	onOcorrenciaStoreLoad : function(store, records) {
+		// <debug>
 		console.log('onOcorrenciaStoreLoad');
-		console.debug(store);
+		// console.debug(store);
 		console.debug(records);
+		// </debug>
 
 		var me = this;
 		var report = me.getMapa().map.getLayersByName('Report')[0];
@@ -184,8 +194,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// this.getTodasDiscussoes().doLayout();
 	},
 	onChangePlano : function(field, newValue, oldValue, eOpts) {
+		// <debug>
 		console.log('   Plano: ' + newValue);
 		console.log('Promotor: ' + this.getCombopromotor().getValue());
+		// </debug>
 
 		var promotor = this.getCombopromotor().getValue();
 		var plano = parseInt(newValue);
@@ -203,20 +215,20 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			// working with GeoJSON
 			var parser = new OpenLayers.Format.GeoJSON();
 			// “Geometry”, “Feature”, and “FeatureCollection”
-			console.log(rec.data.the_geom);
+			// console.log(rec.data.the_geom);
 
 			if (rec.data.the_geom) {
 				var polygon = parser.read(rec.data.the_geom, "Geometry");
 				this.getMapa().map.zoomToExtent(polygon.getBounds(), closest = true);
 			}
 
-			console.log('Ler os tipo de ocorrência do plano ' + plano + ' do promotor ' + promotor);
+			// console.log('Ler os tipo de ocorrência do plano ' + plano + ' do promotor ' + promotor);
 			var tostore = this.getTipoOcorrenciaComboStore();
 			tostore.load({
 				id : plano
 			});
 
-			console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
+			// console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
 			// remover discussões eventualmente existentes de um outro plano
 			this.getTodasDiscussoes().removeAll(true);
 
@@ -246,9 +258,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		}
 	},
 	onComboPromotor : function(combo, records, eOpts) {
-		console.log('Selecionou: ', records[0].data.id);
+		// console.log('Selecionou: ', records[0].data.id);
 		if (records[0].data.id) {
-			console.log('Ler os planos do promotor ', records[0].data.id);
+			// console.log('Ler os planos do promotor ', records[0].data.id);
 			// var store = Ext.StoreManager.lookup('Plano');
 			var store = this.getPlanoComboStore();
 			// var model = this.getPlanoModel();
@@ -342,13 +354,20 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			'title' : '${title}'
 		});
 
+		var highlightStyle = new OpenLayers.Style({
+			'pointRadius' : 12 // {Number} Pixel point radius.  Default is 6.
+		});
+
 		var selectStyle = new OpenLayers.Style({
-			'pointRadius' : 10 // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+			'pointRadius' : 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+			'strokeColor' : '#FFBB09',
+			'strokeWidth' : 2 // dafault 1
 		});
 
 		var styleMap = new OpenLayers.StyleMap({
-			'default' : defaultStyle
-			// 'select' : selectStyle
+			'default' : defaultStyle,
+			'temporary' : highlightStyle,
+			'select' : selectStyle
 		});
 
 		var report = new OpenLayers.Layer.Vector("Report", {
@@ -389,21 +408,48 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 					// f.fid = records[i].data.id;
 					// this.idocorrencia
 					// me.getTodasDiscussoes().items
-					var p = me.getTodasDiscussoes();
-					console.log(p.items);
-					var d = p.items.findBy(function(cmp) {
-						console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
-						return (cmp.idocorrencia == event.feature.fid);
-					});
-					console.log(d);
-					d.setUI('discussion-framed');
-					var pos = d.getOffsetsTo(p)[1];
-					p.body.dom.scrollTop = pos;
+					/*
+					 var p = me.getTodasDiscussoes();
+					 // console.log(p.items);
+					 var d = p.items.findBy(function(cmp) {
+					 // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+					 return (cmp.idocorrencia == event.feature.fid);
+					 });
+					 // console.log(d);
+					 d.setUI('discussion-framed');
+					 var pos = d.getOffsetsTo(p)[1];
+					 p.body.dom.scrollTop = pos;
+					 */
 				},
 				featurehighlighted : function(event) {
 					console.log('featurehighlighted');
-					this.unselectAll();
+					// this.unselectAll();
 				}
+			},
+			onSelect : function(f) {
+				console.log('o feature ' + f.fid + ' foi selecionado');
+				var p = me.getTodasDiscussoes();
+				// console.log(p.items);
+				var d = p.items.findBy(function(cmp) {
+					// console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+					return (cmp.idocorrencia == f.fid);
+				});
+				// console.log(d);
+				d.setUI('discussion-framed');
+				console.log(d);
+				var pos = d.getOffsetsTo(p)[1];
+				p.body.scroll('top', pos, true);
+			},
+			onUnselect : function(f) {
+				console.log('o feature ' + f.fid + ' foi deselecionado');
+				var p = me.getTodasDiscussoes();
+				// console.log(p.items);
+				var d = p.items.findBy(function(cmp) {
+					// console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+					return (cmp.idocorrencia == f.fid);
+				});
+				// console.log(d);
+				d.setUI('default-framed');
 			}
 		});
 

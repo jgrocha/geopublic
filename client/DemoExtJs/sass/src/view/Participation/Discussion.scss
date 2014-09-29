@@ -1,0 +1,19 @@
+@include extjs-panel-ui(
+        $ui-label: 'discussion'
+);
+    
+@include extjs-panel-ui(
+        $ui-label: 'discussion-framed',           
+        $ui-border-color: $base-discussion-color,
+        $ui-border-width: 1px,
+        $ui-border-radius: 4px,
+        $ui-padding: 4px,
+        $ui-header-background-color: $base-discussion-color,
+        $ui-header-border-color: $base-discussion-color,
+        $ui-header-border-width: 1px,
+        $ui-header-inner-border-color: $base-discussion-color,
+        $ui-header-inner-border-width: 0,
+        $ui-header-padding: 4px 5px,
+        $ui-body-border-width: 1px,
+        $ui-body-background-color: $base-discussion-color
+);

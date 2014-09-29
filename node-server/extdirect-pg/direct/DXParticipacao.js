@@ -425,7 +425,7 @@ var DXParticipacao = {
 		 */
 		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
 		sql += 'FROM ppgis.ocorrencia o, ppgis.estado e ';
-		sql += 'WHERE NOT apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = ' + params.idplano;
+		sql += 'WHERE NOT apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';
 		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
 		console.log(sql);
 		conn.query(sql, function(err, result) {
