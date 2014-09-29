@@ -303,7 +303,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 				// console.debug(result);
 				// console.debug(event);
 				if (result.success) {
-					Ext.Msg.alert('Processo iniciado', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
+					Ext.Msg.alert('Processo de registo iniciado', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
 				} else {
 					Ext.Msg.alert('Problema no registo', result.message);
 				}

@@ -3,7 +3,7 @@ Ext.define('DemoExtJs.view.MapaComProjeto', {
 	alias : 'widget.mapa-com-projeto',
 	// requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
 	layout : 'border',
-	title : 'Mapa e Dados',
+	title : 'Mapa',
 	// style : 'padding:5px',
 	items : [{
 		xtype : 'app-main-map-panel',

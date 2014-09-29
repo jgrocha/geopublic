@@ -28,7 +28,7 @@ Ext.define('DemoExtJs.view.Participation.CommentList', {
         return this.numcomments;
     },
 	setNumComments: function(x) {
-		this.this.numcomments = x;
+		this.numcomments = x;
         return this.numcomments;
     }
 });

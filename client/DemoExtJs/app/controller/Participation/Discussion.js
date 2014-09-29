@@ -11,9 +11,6 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 			"comment toolbar button#gravar" : {
 				click : this.onButtonGravar
 			},
-			"discussion toolbar button#refresh" : {
-				click : this.onButtonRefresh
-			},
 			"discussion tool" : {
 				click : this.onCenterFeature
 			},
@@ -37,15 +34,15 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 					p.setTitle(p.numcomments + ' comentários');
 					p.loaded = true;
 				} else {
-					console.log('Problemas no refresh');
+					console.log('Problemas na recuperação dos comentários');
 				}
 			});
 		}
 	},
 	onCenterFeature : function(tool, e) {
-		console.log(arguments);
+		// console.log(arguments);
 		var ocorrencia = tool.up('panel').idocorrencia;
-		console.log('Vai centrar na ocorrência ' + ocorrencia);
+		// console.log('Vai centrar na ocorrência ' + ocorrencia);
 		// f.fid = records[i].data.id;
 		// procurar o feature no OpenLayers
 		var mapa = this.getMapa().map;
@@ -103,23 +100,5 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 				Ext.Msg.alert('Erro', 'Ocorreu um erro ao registar o seu comentário.');
 			}
 		});
-	},
-	onButtonRefresh : function(button, e, options) {
-		var o = button.up('discussion').idocorrencia;
-		var p = button.up('panel');
-		// console.log(p);
-
-		ExtRemote.DXParticipacao.readComment(o, function(result, event) {
-			if (result.success) {
-				console.log(JSON.stringify(result.data));
-				console.log(result.total);
-
-				p.update(result.data);
-
-			} else {
-				console.log('Problemas no refresh');
-			}
-		});
-
 	}
 });

@@ -3,8 +3,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	stores : ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
 	requires : ['GeoExt.Action'],
 
-	wfs_pretensao : {},
-	saveStrategy : {},
 	zoomLevelEdit : 12,
 	refs : [
 
@@ -42,9 +40,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	}, {
 		ref : 'geocoder',
 		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoder'
-	}, {
-		ref : 'geocoderprocesso',
-		selector : 'app-main-map-panel toolbar gx_geocodercombo#geocoderprocesso'
 	}, {
 		ref : 'combopromotor', // this.getCombopromotor()
 		selector : 'app-main-map-panel combo#promotor'
@@ -101,25 +96,16 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	},
 	onLoginComSucesso : function() {
 		// <debug>
-		console.log('onLoginComSucesso', this, console.log(arguments));
+		// console.log('onLoginComSucesso', this);
 		// </debug>
 		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
 			var mapa = this.getMapa().map;
-			this.getBarra().enable();
 			var zLevel = mapa.getZoom();
 			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
 				this.getInserir().enable();
 			} else {
 				this.getInserir().disable();
 			}
-			this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
-				type : OpenLayers.Filter.Comparison.EQUAL_TO,
-				property : "idutilizador",
-				value : DemoExtJs.LoggedInUser.data.id
-			});
-			this.wfs_pretensao.refresh({
-				force : true
-			});
 		} else {
 			// <debug>
 			console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
@@ -133,14 +119,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
 			this.getInserir().disable();
 			this.getBarra().disable();
-			this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
-				type : OpenLayers.Filter.Comparison.EQUAL_TO,
-				property : "idutilizador",
-				value : -1
-			});
-			this.wfs_pretensao.refresh({
-				force : true
-			});
 		} else {
 			// <debug>
 			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
@@ -270,19 +248,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			});
 		}
 	},
-	onButtonClickRefresh : function(button, e, options) {
-		// <debug>
-		console.log('onButtonClickRefresh');
-		// </debug>
-		this.wfs_pretensao.filter = new OpenLayers.Filter.Comparison({
-			type : OpenLayers.Filter.Comparison.EQUAL_TO,
-			property : "idutilizador",
-			value : DemoExtJs.LoggedInUser.data.id
-		});
-		this.wfs_pretensao.refresh({
-			force : true
-		});
-	},
 	onSelectGeocoder : function(combo, records) {
 		// <debug>
 		console.log('onSelectGeocoder');
@@ -302,40 +267,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			this.getMapa().insertPoint.deactivate();
 		}
 	},
-	saveSuccess : function(event) {
-		// só agora tenho o fid atribuído... fixe, que é para ser atribuído à
-		// imagem.
-		// console.log('Your mapped field(s) have been successfully saved, em
-		// particular ' + ultimoFeatureInserido.fid);
-		// console.log('Atualizar o store JSON com as contribuições...');
-		// storeContribuicoesJson.load();
-		// console.debug(event.response);
-		// console.debug(this); // OpenLayers.Strategy.Save //se
-		// me.saveStrategy.events.register('success', null, this.saveSuccess);
-		// console.debug(this);
-		// DemoExtJs.controller.MainMapPanel //se
-		// me.saveStrategy.events.register('success', this, this.saveSuccess);
-		this.wfs_pretensao.refresh({
-			force : true
-		});
-		// pode ter acontecido um insert ou um remove :-)
-		if (this.getInserir().pressed) {
-			this.getInserir().toggle(false);
-			// -- a ordem é importante...
-			this.getMapa().highlightCtrl.activate();
-			this.getMapa().selectCtrl.activate();
-			this.getMapa().insertPoint.deactivate();
-			this.getMapa().insertPolygon.deactivate();
-		}
-	},
-	saveFail : function(event) {
-		// <debug>
-		console.log('Error! Your changes could not be saved. ');
-		console.debug(event.response);
-		// </debug>
-		// alert('Error! Your changes could not be saved. ');
-		Ext.Msg.alert('Erro', 'Não foi possível fazer a confrontação do polígono com os instrumentos de gestão do território.<br>O erro ficou registado e será analisado.');
-	},
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		console.log('onMapPanelBeforeRender');
 		var me = this;
@@ -351,7 +282,10 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var defaultStyle = new OpenLayers.Style({
 			'pointRadius' : 10,
 			'fillColor' : '${color}',
-			'title' : '${title}'
+			'title' : '${title}',
+			'externalGraphic' : 'resources/images/transport_lighthouse.svg',
+			'graphicWidth' : 32,
+			'graphicHeight' : 32
 		});
 
 		var highlightStyle = new OpenLayers.Style({
@@ -401,31 +335,18 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(report, {
 			clickout : true,
-			eventListeners : {
-				beforefeaturehighlighted : function(event) {
-					console.log('beforefeaturehighlighted');
-					console.debug(event.feature);
-					// f.fid = records[i].data.id;
-					// this.idocorrencia
-					// me.getTodasDiscussoes().items
-					/*
-					 var p = me.getTodasDiscussoes();
-					 // console.log(p.items);
-					 var d = p.items.findBy(function(cmp) {
-					 // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
-					 return (cmp.idocorrencia == event.feature.fid);
-					 });
-					 // console.log(d);
-					 d.setUI('discussion-framed');
-					 var pos = d.getOffsetsTo(p)[1];
-					 p.body.dom.scrollTop = pos;
-					 */
-				},
-				featurehighlighted : function(event) {
-					console.log('featurehighlighted');
-					// this.unselectAll();
-				}
-			},
+			/*
+			 eventListeners : {
+			 beforefeaturehighlighted : function(event) {
+			 console.log('beforefeaturehighlighted');
+			 console.debug(event.feature);
+			 },
+			 featurehighlighted : function(event) {
+			 console.log('featurehighlighted');
+			 // this.unselectAll();
+			 }
+			 },
+			 */
 			onSelect : function(f) {
 				console.log('o feature ' + f.fid + ' foi selecionado');
 				var p = me.getTodasDiscussoes();
@@ -469,20 +390,23 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint]);
 		map.addControl(toolbar);
 
-		report.events.on({
-			beforefeatureadded : function(event) {
-				console.log('report.beforefeatureadded');
-				/*
-				 // console.log(arguments);
-				 // console.debug(event.feature);
-				 // só devia preencher estes campos para os novos features...
-				 if (!event.feature.attributes["designacao"]) {
-				 event.feature.attributes["designacao"] = 'Desenhado na web';
-				 }
-				 event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
-				 */
-			}
-		});
+		/*
+		 report.events.on({
+		 beforefeatureadded : function(event) {
+		 console.log('report.beforefeatureadded');
+
+		 // console.log(arguments);
+		 // console.debug(event.feature);
+		 // só devia preencher estes campos para os novos features...
+		 // if (!event.feature.attributes["designacao"]) {
+		 // event.feature.attributes["designacao"] = 'Desenhado na web';
+		 // }
+		 // event.feature.attributes["idutilizador"] = DemoExtJs.LoggedInUser.data.id;
+
+		 }
+		 });
+		 */
+
 		mapPanel.insertPoint.events.on({
 			featureadded : function(event) {
 				console.log('mapPanel.insertPoint.events.on featureadded');
