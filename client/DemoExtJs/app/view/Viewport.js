@@ -36,6 +36,8 @@ Ext.define('DemoExtJs.view.Viewport', {
 		xtype : 'tabpanel',
 		plain : true, // remover o fundo da barra dos panels
 		items : [{
+			xtype : 'startpanel'
+		}, {
 			xtype : 'mapa-com-projeto'
 		}, {
 			xtype : 'grid-promotor'

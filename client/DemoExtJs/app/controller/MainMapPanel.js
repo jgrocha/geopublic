@@ -87,7 +87,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				change : this.onChangePlano
 			},
 			"app-main-map-panel combo#promotor" : {
-				select : this.onComboPromotor
+				change : this.onChangePromotor
 			},
 			"contribution toolbar button#local" : {
 				click : this.onButtonLocal
@@ -235,6 +235,17 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 		}
 	},
+	onChangePromotor : function(combo, newValue, oldValue, eOpts) {
+		console.log('Selecionou: ', newValue);
+		if (newValue) {
+			// console.log('Ler os planos do promotor ', newValue);
+			var store = this.getPlanoComboStore();
+			store.load({
+				id : newValue
+			});
+		}
+	},
+	/*
 	onComboPromotor : function(combo, records, eOpts) {
 		// console.log('Selecionou: ', records[0].data.id);
 		if (records[0].data.id) {
@@ -248,6 +259,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			});
 		}
 	},
+	*/
 	onSelectGeocoder : function(combo, records) {
 		// <debug>
 		console.log('onSelectGeocoder');
@@ -282,10 +294,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var defaultStyle = new OpenLayers.Style({
 			'pointRadius' : 10,
 			'fillColor' : '${color}',
-			'title' : '${title}',
-			'externalGraphic' : 'resources/images/transport_lighthouse.svg',
-			'graphicWidth' : 32,
-			'graphicHeight' : 32
+			'title' : '${title}'
 		});
 
 		var highlightStyle = new OpenLayers.Style({
@@ -293,10 +302,37 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		});
 
 		var selectStyle = new OpenLayers.Style({
-			'pointRadius' : 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+			'pointRadius' : 10, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
 			'strokeColor' : '#FFBB09',
 			'strokeWidth' : 2 // dafault 1
 		});
+
+		/*
+		 var defaultStyle = new OpenLayers.Style({
+		 'pointRadius' : 10,
+		 'fillColor' : '${color}',
+		 'title' : '${title}',
+		 'externalGraphic' : 'resources/images/traffic-cone-icon-gray-32.png',
+		 'graphicWidth' : 32,
+		 'graphicHeight' : 32
+		 });
+
+		 var highlightStyle = new OpenLayers.Style({
+		 'pointRadius' : 12, // {Number} Pixel point radius.  Default is 6.
+		 //
+		 'graphicWidth' : 48,
+		 'graphicHeight' : 48
+		 });
+
+		 var selectStyle = new OpenLayers.Style({
+		 'pointRadius' : 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+		 'strokeColor' : '#FFBB09',
+		 'strokeWidth' : 2, // dafault 1
+		 'externalGraphic' : 'resources/images/traffic-cone-icon-yellow-32.png',
+		 'graphicWidth' : 32,
+		 'graphicHeight' : 32
+		 });
+		 */
 
 		var styleMap = new OpenLayers.StyleMap({
 			'default' : defaultStyle,

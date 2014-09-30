@@ -38,17 +38,59 @@
 				font-weight:bold;
 			}
 			.combo-superior-false {
-				padding-left: 4pt;
+				padding-left:4pt;
+			}
+			.circle {
+				width:150px;
+				height:150px;
+				border-radius:75px;
+				color:#fff;
+				line-height:150px;
+				text-align:center;
+				background:#4679BD;
+				
+				-webkit-transition-duration:0.8s;
+				-moz-transition-duration:0.8s;
+				-o-transition-duration:0.8s;
+				transition-duration:0.8s;
+				-webkit-transition-property:-webkit-transform;
+				-moz-transition-property:-moz-transform;
+				-o-transition-property:-o-transform;
+				transition-property:transform;
+				overflow:hidden;
+				
+				cursor: pointer;
+			}
+			.circle:hover {
+				-webkit-transform:rotate(360deg);
+				-moz-transform:rotate(360deg);
+				-o-transform:rotate(360deg);
+			}
+			.rotate {
+				-webkit-transition-duration:0.8s;
+				-moz-transition-duration:0.8s;
+				-o-transition-duration:0.8s;
+				transition-duration:0.8s;
+				-webkit-transition-property:-webkit-transform;
+				-moz-transition-property:-moz-transform;
+				-o-transition-property:-o-transform;
+				transition-property:transform;
+				overflow:hidden;
+			}
+			.rotate:hover {
+				-webkit-transform:rotate(360deg);
+				-moz-transform:rotate(360deg);
+				-o-transform:rotate(360deg);
 			}
 		</style>
 		<link rel="stylesheet" type="text/css" href="data-view.css">
 
 		<!-- http://localhost:3000/?theme=gray -->
-		
+
 		<!-- <x-compile> -->
 		<!-- <x-bootstrap> -->
 		<link rel="stylesheet" href="bootstrap.css">
-		
+
 		<!-- Sem usar o alternador de estilos do ExtJS. Aparece o Neptune por defeito, excepto se se alterar app.json-->
 		<script src="ext/ext-dev.js"></script>
 		<!-- Usar o estilo gray -->
@@ -72,7 +114,7 @@
 		<script src="resources/js/sha1.js"></script>
 		<script src="resources/js/hello.min.js"></script>
 		<script src="resources/js/socket.io.js"></script>
-		
+
 		<script src="app.js"></script>
 		<!-- </x-compile> -->
 
