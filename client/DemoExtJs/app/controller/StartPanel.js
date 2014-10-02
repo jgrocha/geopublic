@@ -1,12 +1,13 @@
 Ext.define('DemoExtJs.controller.StartPanel', {
 	extend : 'Ext.app.Controller',
-	stores : ['Promotor'], // getPromotorStore()
+	requires : ['DemoExtJs.view.StartPlano', 'DemoExtJs.view.StartPlanoDescricao'],
+	stores : ['PromotorCombo', 'PlanoCombo'], // getPromotorComboStore(), getPlanoComboStore()
 	refs : [{
 		selector : 'viewport > tabpanel',
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
 	}, {
 		selector : 'viewport > tabpanel > startpanel',
-		ref : 'startPanel' // gera um getStartPainel
+		ref : 'startPanel' // gera um getStartPanel
 	}, {
 		selector : 'viewport > tabpanel > startpanel #promotorbar',
 		ref : 'promotorBar' // gera um getPromotorBar
@@ -14,7 +15,10 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		selector : 'viewport > tabpanel > startpanel #planbar',
 		ref : 'planBar' // gera um getPlanBar
 	}, {
-		selector : 'viewport > tabpanel > startpanel #planpresentationbar',
+		selector : 'viewport > tabpanel > startpanel #readybar',
+		ref : 'readyBar' // gera um getReadyBar
+	}, {
+		selector : 'viewport > tabpanel > startpanel tabpanel#planpresentationbar',
 		ref : 'planPresentationBar' // gera um getPlanPresentationBar
 	}, {
 		ref : 'combopromotor', // this.getCombopromotor()
@@ -25,6 +29,10 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 	}],
 	init : function() {
 		console.log('O controlador DemoExtJs.controller.BemVindoPanel init...');
+		this.getPlanoComboStore().on({
+			scope : this,
+			load : this.showPlanos
+		});
 		this.control({
 			'startpanel' : {
 				// 'beforerender' : this.onBemVindoPanelBeforeRender,
@@ -34,62 +42,175 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 			'startpanel startpromotor button' : {
 				'click' : this.onPromotorClick
 			},
-			'startpanel button#planplpa' : {
-				'click' : this.onButtonPlpaClick
+			'startpanel startplano button' : {
+				'click' : this.onPlanDetailsClick
 			}
 		}, this);
+		this.listen({
+			controller : {
+				'*' : {
+					showPromotores : this.showPlanos, // this.fireEvent('showPromotores'); in DemoExtJs.controller.MainMapPanel
+					showPlanDetails : this.onPlanSelectMapPanel // this.fireEvent('showPlanDetails'); in DemoExtJs.controller.MainMapPanel
+				}
+			}
+		});
 	},
-	onButtonPlpaClick : function(button, e, options) {
-		var p = button.up('startpanel').down('#planpresentationbar');
-		p.setVisible(true);
-		
-		// estatisticas
-		var p = button.up('startpanel').down('#estatisticas');
-		p.setVisible(true);
-		// readybar
-		var p = button.up('startpanel').down('#readybar');
-		p.setVisible(true);
-		
-		// seleciona este plano na ComboBox do mapa...
-		this.getComboplano().setValue(1);
+	onPlanSelectMapPanel : function() {
+		var plano = this.getComboplano().getValue();
+		if (plano) {
+			var rec = this.getPlanoComboStore().findRecord('id', plano);
+			if (rec) {
+				var designacao = rec.get('designacao');
+				var descricao = rec.get('descricao');
+			}
+			console.log('Tudo ok para mudar!');
+			this.showPlanDetails(plano, designacao, descricao);
+		}
+	},
+	showPlanDetails : function(idplano, designacao, descricao) {
+		var tp = this.getPlanPresentationBar();
 
-		// scroll! ah! boa! funciona (mas vai para o último p...)
-		var pos = p.getOffsetsTo(button.up('startpanel'))[1];
-		button.up('startpanel').body.scroll('top', pos, true);
+		if (tp.idplano != idplano) {
+			tp.idplano = idplano;
+
+			tp.removeAll(true);
+
+			var newDescricao = new DemoExtJs.view.StartPlanoDescricao({
+				descricao : descricao,
+				designacao : designacao
+			});
+			tp.add(newDescricao);
+
+			var newEstatisticas = new DemoExtJs.view.StartPlanoEstatisticas({
+				descricao : descricao,
+				designacao : designacao
+			});
+			tp.add(newEstatisticas);
+
+			tp.doLayout();
+			tp.setActiveTab(0);
+
+			tp.setVisible(true);
+
+			// readybar
+			var p = this.getReadyBar();
+			p.setVisible(true);
+
+			// seleciona este plano na ComboBox do mapa...
+			console.log('Mudar a combo do mapa para o plano ' + idplano);
+			// para não entrar em ciclo...
+			if (this.getComboplano().getValue() != idplano) {
+				this.getComboplano().setValue(idplano);
+			}
+		}
+		// scroll!
+		var pos = tp.getOffsetsTo(this.getStartPanel())[1];
+		this.getStartPanel().body.scroll('top', pos, true);
 	},
+	onPlanDetailsClick : function(button, e, options) {
+		var startplano = button.up('startplano');
+		this.showPlanDetails(startplano.idplano, startplano.title, startplano.descricao);
+	},
+
 	onPromotorClick : function(button, e, options) {
+		// Calma!
+		// Tem que sincronizar com as combos do MapPanel
+		// Aqui é o memso que escolher um valor na combo (e vice versa)
+
 		var p = button.up('startpanel').down('#planbar');
 		p.setVisible(true);
 		// seleciona este promotor na ComboBox do mapa...
 		var escolhido = button.up('startpromotor').idpromotor;
+
+		// setting the combo will call showPlanos
 		this.getCombopromotor().setValue(escolhido);
+
 	},
-	showPromotores : function(panel) {
+	showPlanos : function() {
 		var me = this;
-		console.log(me.getPromotorBar());
+		console.log('showPlanos');
+
+		var bar = me.getPlanBar();
+		var tab = bar.up('tabpanel');
+
+		bar.removeAll(true);
+
+		/*
+		 * 		name : 'id',		type : 'int'
+		 }, {
+		 name : 'idpromotor',		type : 'int'
+		 }, {
+		 name : 'designacao',		type : 'string'
+		 }, {
+		 name : 'descricao',		type : 'string'
+		 }, {
+		 name : 'responsavel',		type : 'string'
+		 }, {
+		 name : 'email',		type : 'string'
+		 }, {
+		 name : 'site',		type : 'string'
+		 }, {
+		 name : 'inicio',		type : 'date'
+		 }, {
+		 name : 'fim',		type : 'date'
+		 }, {
+		 name : 'the_geom',		type : 'string'
+		 */
+
+		this.getPlanoComboStore().each(function(rec) {
+
+			// rec.id is dangerous, because the new object DemoExtJs.view.StartPlano gets this id
+			var plano = Ext.apply({}, rec.data, {
+				idplano : rec.data.id
+			});
+			delete plano.id;
+			console.log(plano);
+
+			var newPlano = new DemoExtJs.view.StartPlano(plano);
+			bar.add(newPlano);
+			bar.doLayout();
+
+		});
+
+		// mostrar o tabpainel (superior) // tabplanbar
+		if (!tab.isVisible()) {
+			tab.setVisible(true);
+		}
+
+		var pos = tab.getOffsetsTo(tab.up('startpanel'))[1];
+		tab.up('startpanel').body.scroll('top', pos, true);
+
+		// volta a esconder os detalhes do plano, se entretanto ficaram visíveis
+		var p = this.getPlanPresentationBar();
+		p.setVisible(false);
+		p.idplano = null;
+
+		// readybar
+		var p = this.getReadyBar();
+		p.setVisible(false);
+	},
+	showPromotores : function() {
+		var me = this;
+		console.log('showPromotores');
 		// Calma!
 		// Antes de mostrar os promotores, tem que os carregar né?
-		// Tenho um getPromotorStore()
+		// Tenho um getPromotorComboStore()
 		/*
 		 * 	fields : [{
-		 name : 'id',
-		 type : 'int'
+		 name : 'id', type : 'int'
 		 }, {
-		 name : 'designacao',
-		 type : 'string'
+		 name : 'designacao',		 type : 'string'
 		 }, {
-		 name : 'email',
-		 type : 'string'
+		 name : 'email',		 type : 'string'
 		 }, {
-		 name : 'site',
-		 type : 'string'
+		 name : 'site',		 type : 'string'
 		 }, {
-		 name : 'dataregisto',
-		 type : 'date'
+		 name : 'dataregisto',		 type : 'date'
 		 }],
 		 */
-		if (me.getPromotorBar().items.length == 0) {
-			this.getPromotorStore().each(function(rec) {
+		var bar = me.getPromotorBar();
+		if (bar.items.length == 0) {
+			this.getPromotorComboStore().each(function(rec) {
 				console.log(rec.get('designacao'));
 				// criar os paineis de discussao
 				var newPromotor = new DemoExtJs.view.StartPromotor({
@@ -97,22 +218,24 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 					designacao : rec.get('designacao'),
 					site : rec.get('site')
 				});
-				me.getPromotorBar().add(newPromotor);
+				bar.add(newPromotor);
 				// this.getTodasDiscussoes().insert(0, newPromotor);
-				me.getPromotorBar().doLayout();
+				bar.doLayout();
 			});
 		}
 		// mostrar o painel :-)
-		var p = panel.down('#promotorbar');
-		if (!p.isVisible()) {
-			p.setVisible(true);
+		if (!bar.isVisible()) {
+			bar.setVisible(true);
 		}
+
+		// limpar os detalhes...
+
 	},
 	onStartPanelRender : function(panel) {
 		var me = this;
 		var pc = panel.down('#circlebar container#promotorescircle');
 		pc.getEl().on('click', function() {
-			me.showPromotores(panel);
+			me.showPromotores();
 		});
 		var pc = panel.down('#readybar container#participecircle');
 		pc.getEl().on('click', function() {

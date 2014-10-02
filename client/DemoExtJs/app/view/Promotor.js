@@ -1,7 +1,7 @@
 Ext.define('DemoExtJs.view.Promotor', {
 	extend : 'Ext.container.Container',
 	alias : 'widget.grid-promotor',
-	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
+	requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor'],
 	layout : 'border',
 	title : 'Entidades',
 	bodyPadding : 10,
@@ -72,108 +72,139 @@ Ext.define('DemoExtJs.view.Promotor', {
 			errorSummary : false //disables display of validation messages if the row is invalid
 		})]
 	}, {
-		xtype : 'gridpanel',
-		itemId : 'plano',
+		title : 'Planos para discussão',
 		region : 'center',
-		frame : true,
-		store : 'Plano',
-		columns : [{
-			dataIndex : 'id',
-			header : 'Id',
-			width : 40
-		}, {
-			dataIndex : 'idpromotor',
-			header : 'IdP',
-			width : 40
-		}, {
-			dataIndex : 'designacao',
-			header : 'Plano ou Projeto',
-			width : 240,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			dataIndex : 'descricao',
-			header : 'Descrição do plano ou projeto',
-			flex : 1,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			dataIndex : 'responsavel',
-			header : 'Responsável',
-			width : 120,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			dataIndex : 'email',
-			header : 'Email',
-			width : 120,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			dataIndex : 'site',
-			header : 'Site',
-			width : 120,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : true
-			}
-		}, {
-			dataIndex : 'inicio',
-			xtype : 'datecolumn', // fundamental :-)
-			header : 'De',
-			width : 140,
-			format : 'Y-m-d H:i:s',
-			editor : {
-				xtype : 'datefield',
+		layout : 'column',
+		items : [{
+			xtype : 'gridpanel',
+			itemId : 'plano',
+			columnWidth : 0.5,
+			frame : true,
+			store : 'Plano',
+			columns : [{
+				dataIndex : 'id',
+				header : 'Id',
+				width : 40
+			}, {
+				dataIndex : 'idpromotor',
+				header : 'IdP',
+				width : 40
+			}, {
+				dataIndex : 'designacao',
+				header : 'Plano ou Projeto',
+				width : 240,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : false
+				}
+			}, /* {
+			 dataIndex : 'descricao',
+			 header : 'Descrição do plano ou projeto',
+			 flex : 1,
+			 editor : {
+			 xtype : 'textfield',
+			 allowBlank : false
+			 }
+			 },*/
+			{
+				dataIndex : 'responsavel',
+				header : 'Responsável',
+				width : 120,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : false
+				}
+			}, {
+				dataIndex : 'email',
+				header : 'Email',
+				width : 120,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : false
+				}
+			}, {
+				dataIndex : 'site',
+				header : 'Site',
+				width : 120,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : true
+				}
+			}, {
+				dataIndex : 'inicio',
+				xtype : 'datecolumn', // fundamental :-)
+				header : 'De',
+				width : 140,
 				format : 'Y-m-d H:i:s',
-				submitFormat : 'c'
-			}
-		}, {
-			dataIndex : 'fim',
-			xtype : 'datecolumn', // fundamental :-)
-			header : 'Até',
-			width : 140,
-			format : 'Y-m-d H:i:s',
-			editor : {
-				xtype : 'datefield',
+				editor : {
+					xtype : 'datefield',
+					format : 'Y-m-d H:i:s',
+					submitFormat : 'c'
+				}
+			}, {
+				dataIndex : 'fim',
+				xtype : 'datecolumn', // fundamental :-)
+				header : 'Até',
+				width : 140,
 				format : 'Y-m-d H:i:s',
-				submitFormat : 'c'
-			}
+				editor : {
+					xtype : 'datefield',
+					format : 'Y-m-d H:i:s',
+					submitFormat : 'c'
+				}
+			}, {
+				dataIndex : 'the_geom',
+				header : 'Cobertura geográfica',
+				width : 120,
+				editor : {
+					xtype : 'textfield',
+					allowBlank : true
+				}
+			}],
+			tbar : [{
+				itemId : 'add',
+				text : 'Adiciona',
+				icon : 'resources/images/icons/fam/add.png'
+			}, {
+				itemId : 'remove',
+				text : 'Apaga',
+				icon : 'resources/images/icons/fam/delete.gif',
+				disabled : true
+			}],
+			selType : 'rowmodel',
+			// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
+			plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
+				saveBtnText : 'Alterar',
+				cancelBtnText : 'Descartar',
+				// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
+				errorSummary : false //disables display of validation messages if the row is invalid
+			})]
 		}, {
-			dataIndex : 'the_geom',
-			header : 'Cobertura geográfica',
-			width : 120,
-			editor : {
-				xtype : 'textfield',
-				allowBlank : true
-			}
-		}],
-		tbar : [{
-			itemId : 'add',
-			text : 'Adiciona',
-			icon : 'resources/images/icons/fam/add.png'
-		}, {
-			itemId : 'remove',
-			text : 'Apaga',
-			icon : 'resources/images/icons/fam/delete.gif',
-			disabled : true
-		}],
-		selType : 'rowmodel',
-		// http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
-		plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
-			saveBtnText : 'Alterar',
-			cancelBtnText : 'Descartar',
-			// clicksToEdit: 1, //this changes from the default double-click activation to single click activation
-			errorSummary : false //disables display of validation messages if the row is invalid
-		})]
+			xtype : 'form',
+			columnWidth : 0.5,
+			split : true,
+			disabled : true,
+			width : 400,
+			itemId : 'planoForm',
+			bodyPadding : 10,
+			title : 'Descrição do plano',
+			items : [{
+				xtype : 'htmleditor',
+				anchor : '100%',
+				name : 'descricao'
+			}],
+			dockedItems : [{
+				xtype : 'toolbar',
+				dock : 'bottom',
+				items : [{
+					xtype : 'button',
+					itemId : 'updateDescricaoPlano',
+					icon : 'resources/assets/pencil.png',
+					text : 'Atualizar'
+				}]
+
+			}]
+		}]
 	}, {
 		region : 'south',
 		layout : 'column',

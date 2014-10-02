@@ -4,6 +4,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	requires : ['GeoExt.Action'],
 
 	zoomLevelEdit : 12,
+	firsttime : 0,
 	refs : [
 
 	// ver exemplo:
@@ -55,16 +56,6 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// <debug>
 		console.log('O controlador DemoExtJs.controller.MainMapPanel init...');
 		// </debug>
-		/*
-		 this.listen({
-		             controller: {
-		                 '*': {
-		                     logoutComSucesso: this.onLogoutComSucesso,
-		                     loginComSucesso: this.onLoginComSucesso
-		                 }
-		             }
-		         });
-		 */
 		this.application.on({
 			scope : this,
 			loginComSucesso : this.onLoginComSucesso,
@@ -93,6 +84,14 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				click : this.onButtonLocal
 			}
 		}, this);
+		this.listen({
+			controller : {
+				'*' : {
+					logoutComSucesso : this.onLogoutComSucesso, // this.fireEvent('showPromotores'); in DemoExtJs.controller.MainMapPanel
+					loginComSucesso : this.onLoginComSucesso
+				}
+			}
+		});
 	},
 	onLoginComSucesso : function() {
 		// <debug>
@@ -233,6 +232,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			// load do store
 			this.getFotografiatmp().store.load();
 
+			// Abrir a barra do StartPanel e mostrar todos os promotores...
+			// controller StartPanel showPromotores(null);
+			this.fireEvent('showPlanDetails');
 		}
 	},
 	onChangePromotor : function(combo, newValue, oldValue, eOpts) {
@@ -244,22 +246,34 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				id : newValue
 			});
 		}
+
+		// destroi algum plano que estive a ser visualizado
+		var me = this;
+		var report = me.getMapa().map.getLayersByName('Report')[0];
+		report.destroyFeatures();
+		this.getTodasDiscussoes().removeAll(true);
+		
+		// Abrir a barra do StartPanel e mostrar todos os promotores...
+		// controller StartPanel showPromotores(null);
+		this.fireEvent('showPromotores');
+		
+		
 	},
 	/*
-	onComboPromotor : function(combo, records, eOpts) {
-		// console.log('Selecionou: ', records[0].data.id);
-		if (records[0].data.id) {
-			// console.log('Ler os planos do promotor ', records[0].data.id);
-			// var store = Ext.StoreManager.lookup('Plano');
-			var store = this.getPlanoComboStore();
-			// var model = this.getPlanoModel();
-			// model.load(selection[0].data.id);
-			store.load({
-				id : records[0].data.id
-			});
-		}
-	},
-	*/
+	 onComboPromotor : function(combo, records, eOpts) {
+	 // console.log('Selecionou: ', records[0].data.id);
+	 if (records[0].data.id) {
+	 // console.log('Ler os planos do promotor ', records[0].data.id);
+	 // var store = Ext.StoreManager.lookup('Plano');
+	 var store = this.getPlanoComboStore();
+	 // var model = this.getPlanoModel();
+	 // model.load(selection[0].data.id);
+	 store.load({
+	 id : records[0].data.id
+	 });
+	 }
+	 },
+	 */
 	onSelectGeocoder : function(combo, records) {
 		// <debug>
 		console.log('onSelectGeocoder');
@@ -281,75 +295,56 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 	},
 	onMapPanelBeforeRender : function(mapPanel, options) {
 		console.log('onMapPanelBeforeRender');
+
 		var me = this;
 		var map = mapPanel.map;
+
+		/*
+
 		var userid = -1;
 		if (DemoExtJs.LoggedInUser) {
-			userid = DemoExtJs.LoggedInUser.data.id;
+		userid = DemoExtJs.LoggedInUser.data.id;
 		}
 		var baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
 		var baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
 		map.addLayers([baseOSM, baseAerial]);
 
 		var defaultStyle = new OpenLayers.Style({
-			'pointRadius' : 10,
-			'fillColor' : '${color}',
-			'title' : '${title}'
+		'pointRadius' : 10,
+		'fillColor' : '${color}',
+		'title' : '${title}'
 		});
 
 		var highlightStyle = new OpenLayers.Style({
-			'pointRadius' : 12 // {Number} Pixel point radius.  Default is 6.
+		'pointRadius' : 12 // {Number} Pixel point radius.  Default is 6.
 		});
 
 		var selectStyle = new OpenLayers.Style({
-			'pointRadius' : 10, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
-			'strokeColor' : '#FFBB09',
-			'strokeWidth' : 2 // dafault 1
+		'pointRadius' : 10, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+		'strokeColor' : '#FFBB09',
+		'strokeWidth' : 2 // dafault 1
 		});
 
-		/*
-		 var defaultStyle = new OpenLayers.Style({
-		 'pointRadius' : 10,
-		 'fillColor' : '${color}',
-		 'title' : '${title}',
-		 'externalGraphic' : 'resources/images/traffic-cone-icon-gray-32.png',
-		 'graphicWidth' : 32,
-		 'graphicHeight' : 32
-		 });
-
-		 var highlightStyle = new OpenLayers.Style({
-		 'pointRadius' : 12, // {Number} Pixel point radius.  Default is 6.
-		 //
-		 'graphicWidth' : 48,
-		 'graphicHeight' : 48
-		 });
-
-		 var selectStyle = new OpenLayers.Style({
-		 'pointRadius' : 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
-		 'strokeColor' : '#FFBB09',
-		 'strokeWidth' : 2, // dafault 1
-		 'externalGraphic' : 'resources/images/traffic-cone-icon-yellow-32.png',
-		 'graphicWidth' : 32,
-		 'graphicHeight' : 32
-		 });
-		 */
-
 		var styleMap = new OpenLayers.StyleMap({
-			'default' : defaultStyle,
-			'temporary' : highlightStyle,
-			'select' : selectStyle
+		'default' : defaultStyle,
+		'temporary' : highlightStyle,
+		'select' : selectStyle
 		});
 
 		var report = new OpenLayers.Layer.Vector("Report", {
-			styleMap : styleMap
+		styleMap : styleMap
 		});
 
 		map.addLayer(report);
+
+		*/
+
 		//<debug>
 		// variáveis globais para debug
 		mapDebug = map;
 		mapPanelDebug = mapPanel;
 		//</debug>
+
 		var locationLayer = new OpenLayers.Layer.Vector("Location", {
 			displayInLayerSwitcher : false,
 			projection : new OpenLayers.Projection("EPSG:4326"),
@@ -362,12 +357,15 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		});
 		map.addLayer(locationLayer);
 		me.getGeocoder().layer = locationLayer;
+
 	},
 	onMapPanelAfterRender : function(mapPanel, options) {
 		console.log('onMapPanelAfterRender');
 		var me = this;
 		var map = mapPanel.map;
 		var report = map.getLayersByName('Report')[0];
+
+		this.firsttime = 1;
 
 		mapPanel.selectCtrl = new OpenLayers.Control.SelectFeature(report, {
 			clickout : true,
@@ -475,6 +473,25 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		map.events.register('zoomend', this, function(event) {
 			var zLevel = map.getZoom();
 			console.log('Zoom level: ', zLevel);
+
+			if (this.firsttime) {
+				this.firsttime = 0;
+				// this is only necessary if a plan is selected in the startpanel and the map was never rendered before
+				var plano = this.getComboplano().getValue();
+				console.log('Faço zoom ao plano ' + plano);
+				if (plano) {
+					var rec = this.getPlanoComboStore().findRecord('id', plano);
+					if (rec) {
+						var parser = new OpenLayers.Format.GeoJSON();
+						if (rec.data.the_geom) {
+							var polygon = parser.read(rec.data.the_geom, "Geometry");
+							console.log('Vou fazer zoom ao plano ');
+							console.log(polygon.getBounds());
+							map.zoomToExtent(polygon.getBounds(), true);
+						}
+					}
+				}
+			}
 			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
 				this.getInserir().enable();
 			} else {
@@ -484,6 +501,7 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 		// var guia = Ext.widget('guia');
 		// guia.show();
+
 	},
 	onMapPanelBeforeActivate : function(mapPanel, options) {
 		console.log('onMapPanelBeforeActivate');

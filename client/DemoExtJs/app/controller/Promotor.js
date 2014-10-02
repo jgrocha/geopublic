@@ -7,8 +7,14 @@ Ext.define('DemoExtJs.controller.Promotor', {
 		selector : 'grid-promotor gridpanel#promotor',
 		ref : 'grid' // gera um getGrid
 	}, {
+		selector : 'grid-promotor gridpanel#plano',
+		ref : 'gridPlano' // gera um getGridPlano
+	}, {
 		selector : 'grid-promotor gridpanel#promotor button#remove',
 		ref : 'buttonRemove' // gera um getButtonRemove
+	}, {
+		ref : 'editor',
+		selector : 'grid-promotor #planoForm'
 	}],
 	init : function() {
 		console.log('O controlador está a arrancar...');
@@ -19,10 +25,17 @@ Ext.define('DemoExtJs.controller.Promotor', {
 			"grid-promotor gridpanel#promotor button#remove" : {
 				click : this.onButtonClickRemove
 			},
+
+			"grid-promotor form#planoForm button#updateDescricaoPlano" : {
+				click : this.onUpdateDescricaoPlano
+			},
 			// observar a grid
 			'grid-promotor gridpanel#promotor' : {
 				selectionchange : this.onGridSelect
-			}
+			},
+			"grid-promotor gridpanel#plano" : {
+				itemclick : this.onPlanoGridItemClick
+			},
 		});
 		this.application.on({
 		});
@@ -61,6 +74,12 @@ Ext.define('DemoExtJs.controller.Promotor', {
 		}, this);
 		this.getPromotorStore().proxy.addListener("load", this.onPromotorStoreLoad, this);
 	},
+	onPlanoGridItemClick : function(dataview, record, item, index, e, eOpts) {
+		console.log('onPlanoGridItemClick');
+		var form = this.getEditor();
+		form.getForm().loadRecord(record);
+		form.enable();
+	},
 	onGridSelect : function(selModel, selection) {
 		this.getButtonRemove().setDisabled(!selection.length);
 		if (selection.length == 1) {
@@ -73,6 +92,21 @@ Ext.define('DemoExtJs.controller.Promotor', {
 				id : selection[0].data.id
 			});
 		}
+	},
+	missingSelection : function() {
+		return this.getGridPlano().getSelectionModel().getSelection().length === 0;
+	},
+	onUpdateDescricaoPlano : function(button, e, options) {
+		console.log('onUpdateDescricaoPlano');
+		if (this.missingSelection()) {
+			return false;
+		}
+		var form = this.getEditor();
+		// var params = form.getForm().getValues(false, true, false, false);
+		// console.log(params);
+		var record = form.getRecord();
+		// console.log(record);
+		form.updateRecord(record);
 	},
 	onButtonClickAdiciona : function(button, e, options) {
 		console.log('onButtonClickAdiciona');

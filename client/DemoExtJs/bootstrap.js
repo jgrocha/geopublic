@@ -11,6 +11,7 @@ Ext.Loader.addClassPathMappings({
   "DemoExtJs.view.Home": "app/view/Users/Profile.js",
   "Ext": "ext/src",
   "Ext.Msg": "ext/src/window/MessageBox.js",
+  "Ext.chart.theme.CustomBlue": "app/view/StartPanelChartByType.js",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "ext/packages/ext-theme-neptune/overrides",
   "GeoExt": "geoext2-2.0.2/src/GeoExt"
@@ -27,6 +28,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.controller.Participation.Fotografia": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
+  "DemoExtJs.controller.StartPanel": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
@@ -67,6 +69,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.Participation.FotografiaTmp": [],
   "DemoExtJs.view.Participation.Ocorrencias": [],
   "DemoExtJs.view.Promotor": [],
+  "DemoExtJs.view.StartPanel": [],
+  "DemoExtJs.view.StartPanelChartByState": [],
+  "DemoExtJs.view.StartPanelChartByType": [],
+  "DemoExtJs.view.StartPlano": [],
+  "DemoExtJs.view.StartPromotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.Users.GridSessao": [],
   "DemoExtJs.view.Users.Login": [],
@@ -181,6 +188,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.chart.series.Scatter": [],
   "Ext.chart.series.Series": [],
   "Ext.chart.theme.Base": [],
+  "Ext.chart.theme.CustomBlue": [],
   "Ext.chart.theme.Theme": [],
   "Ext.container.AbstractContainer": [],
   "Ext.container.ButtonGroup": [
@@ -1062,6 +1070,7 @@ Ext.ClassManager.addNameAliasMappings({
   "DemoExtJs.controller.Participation.Fotografia": [],
   "DemoExtJs.controller.Plano": [],
   "DemoExtJs.controller.Promotor": [],
+  "DemoExtJs.controller.StartPanel": [],
   "DemoExtJs.controller.TipoOcorrencia": [],
   "DemoExtJs.controller.TopHeader": [],
   "DemoExtJs.controller.Users.Profile": [],
@@ -1133,6 +1142,21 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.Promotor": [
     "widget.grid-promotor"
+  ],
+  "DemoExtJs.view.StartPanel": [
+    "widget.startpanel"
+  ],
+  "DemoExtJs.view.StartPanelChartByState": [
+    "widget.startpanelchartbystate"
+  ],
+  "DemoExtJs.view.StartPanelChartByType": [
+    "widget.startpanelchartbytype"
+  ],
+  "DemoExtJs.view.StartPlano": [
+    "widget.startplano"
+  ],
+  "DemoExtJs.view.StartPromotor": [
+    "widget.startpromotor"
   ],
   "DemoExtJs.view.TopHeader": [
     "widget.topheader"
@@ -1263,6 +1287,7 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.chart.series.Series": [],
   "Ext.chart.theme.Base": [],
+  "Ext.chart.theme.CustomBlue": [],
   "Ext.chart.theme.Theme": [],
   "Ext.container.AbstractContainer": [],
   "Ext.container.ButtonGroup": [

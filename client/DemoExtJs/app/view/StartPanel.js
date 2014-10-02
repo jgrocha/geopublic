@@ -81,12 +81,13 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		items : []
 	}, {
 		xtype : 'tabpanel',
-		itemId : 'planbar',
+		itemId : 'tabplanbar',
 		hidden : true,
 		plain : true, // remover o fundo da barra dos panels
 		items : [{
 			title : 'Planos em discussão',
 			width : 900,
+			itemId : 'planbar',
 			layout : {
 				type : 'hbox',
 				padding : '5',
@@ -97,74 +98,26 @@ Ext.define('DemoExtJs.view.StartPanel', {
 				margin : '0 10 0 0'
 			},
 			items : [{
-				title : 'Plano Local de Promoção das Acessibilidades',
-				width : 280,
-				frame : true,
-				ui : 'light',
-				layout : {
-					type : 'vbox',
-					padding : '5',
-					align : 'center'
-				},
-				items : [{
-					xtype : 'image',
-					src : 'resources/images/startpanel/plpa.jpg',
-					shrinkWrap : 0,
-					width : 200,
-					height : 200
-				}, {
-					html : 'De: 2014-07-01'
-				}, {
-					html : 'Até: 2014-10-31'
-				}, {
-					html : 'Responsável: Gil Nadais'
-				}, {
-					html : 'Contacto: <a href="mailto:apoio@cm-agueda.pt">apoio@cm-agueda.pt</a>'
-				}, {
-					xtype : 'button',
-					itemId : 'planplpa',
-					text : 'O plano em números'
-				}]
+				xtype : 'startplano'
+			}, {
+				xtype : 'startplano'
+			}, {
+				xtype : 'startplano'
 			}]
 		}, {
 			title : 'Planos já discutidos',
 			disabled : true
 		}]
 	}, {
-		title : 'Plano Local de Promoção das Acessibilidades',
+		xtype : 'tabpanel',
 		itemId : 'planpresentationbar',
-		hidden : true,
 		width : 900,
-		autoScroll : true,
-		loader : {
-			url : 'resources/guiarapido/plpa.html',
-			autoLoad : true
-		}
-	}, {
-		// title : 'Gráficos',
-		itemId : 'estatisticas',
-		hidden : true,
-		width : 900,
-		layout : {
-			type : 'hbox',
-			padding : '5',
-			pack : 'left', // 'center',
-			align : 'middle'
-		},
-		defaults : {
-			margin : '0 10 0 0'
-		},
-		items : [{
-			xtype : 'startpanelchartbytype',
-			layout : 'fit',
-			width : 560,
-			height : 280
-		}, {
-			xtype : 'startpanelchartbystate',
-			layout : 'fit',
-			width : 280,
-			height : 280
-		}]
+		// hidden : true,
+		plain : true, // remover o fundo da barra dos panels
+		idplano : null,
+		items : [ /*
+		           * to be added later
+		           */]
 	}, {
 		width : 900,
 		itemId : 'readybar',
