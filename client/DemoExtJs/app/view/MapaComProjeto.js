@@ -12,7 +12,7 @@ Ext.define('DemoExtJs.view.MapaComProjeto', {
 	}, {
 		xtype : 'activity',
 		region : 'east',
-		collapsible : false,
+		// collapsible : false,
 		split : true,
 		width : 400
 	}]

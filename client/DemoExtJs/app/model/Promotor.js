@@ -16,6 +16,9 @@ Ext.define('DemoExtJs.model.Promotor', {
 	}, {
 		name : 'dataregisto',
 		type : 'date'
+	}, {
+		name : 'logotipo',
+		type : 'string'
 	}],
 	// http://extjs-tutorials.blogspot.co.uk/2012/05/extjs-hasmany-relationships-rules.html
 	/*

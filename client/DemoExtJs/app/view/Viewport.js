@@ -41,8 +41,8 @@ Ext.define('DemoExtJs.view.Viewport', {
 			xtype : 'mapa-com-projeto'
 		}, {
 			xtype : 'grid-promotor'
-		}, {
+		} /*, {
 			xtype : 'bem-vindo-panel'
-		}]
+		}*/ ]
 	}]
 });

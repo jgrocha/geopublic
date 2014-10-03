@@ -15,7 +15,6 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 		xtype : 'form',
 		itemId : 'detail',
 		trackResetOnLoad : true, // saber que fields estão dirty
-		// title : 'Dados',
 		autoWidth : true,
 		items : [{
 			xtype : 'hiddenfield',

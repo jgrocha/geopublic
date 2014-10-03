@@ -1,14 +1,14 @@
 Ext.define('DemoExtJs.controller.Participation.Discussion', {
 	extend : 'Ext.app.Controller',
 	stores : ['Participation.EstadoCombo'], // getParticipationEstadoComboStore()
-	// Ext.ComponentQuery.query('comment toolbar button#gravar')
+	// Ext.ComponentQuery.query('commentform toolbar button#gravar')
 	refs : [{
 		ref : 'mapa',
 		selector : 'app-main-map-panel'
 	}],
 	init : function() {
 		this.control({
-			"comment toolbar button#gravar" : {
+			"commentform toolbar button#gravar" : {
 				click : this.onButtonGravar
 			},
 			"discussion tool" : {
@@ -59,6 +59,7 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 
 	},
 	onButtonGravar : function(button, e, options) {
+		console.log('Gravar comentário');
 		var me = this;
 		var fc = button.up('form').getForm();
 		var params = fc.getValues(false, false, false, false);

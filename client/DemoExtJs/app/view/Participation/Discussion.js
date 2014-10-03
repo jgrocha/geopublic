@@ -23,6 +23,11 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		this.idpromotor = this.initialConfig.idpromotor;
 		this.numcomments = this.initialConfig.numcomments;
 
+		var showComments = false;
+		if (DemoExtJs.LoggedInUser) {
+			showComments = true;			
+		}
+		
 		/*
 		 // http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
 		 var tpl = new Ext.XTemplate(//
@@ -56,6 +61,7 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 			}
 		}, {
 			xtype : 'commentform',
+			hidden : !showComments,
 			config : {
 				idocorrencia : this.idocorrencia
 			}

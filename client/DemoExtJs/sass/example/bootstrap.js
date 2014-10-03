@@ -73,6 +73,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "DemoExtJs.view.StartPanelChartByState": [],
   "DemoExtJs.view.StartPanelChartByType": [],
   "DemoExtJs.view.StartPlano": [],
+  "DemoExtJs.view.StartPlanoDescricao": [],
+  "DemoExtJs.view.StartPlanoEstatisticas": [],
   "DemoExtJs.view.StartPromotor": [],
   "DemoExtJs.view.TopHeader": [],
   "DemoExtJs.view.Users.GridSessao": [],
@@ -1154,6 +1156,12 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "DemoExtJs.view.StartPlano": [
     "widget.startplano"
+  ],
+  "DemoExtJs.view.StartPlanoDescricao": [
+    "widget.startplanodescricao"
+  ],
+  "DemoExtJs.view.StartPlanoEstatisticas": [
+    "widget.startplanoestatisticas"
   ],
   "DemoExtJs.view.StartPromotor": [
     "widget.startpromotor"

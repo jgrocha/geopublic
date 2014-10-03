@@ -35,7 +35,7 @@ Ext.define('DemoExtJs.controller.Promotor', {
 			},
 			"grid-promotor gridpanel#plano" : {
 				itemclick : this.onPlanoGridItemClick
-			},
+			}
 		});
 		this.application.on({
 		});

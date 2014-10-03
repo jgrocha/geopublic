@@ -29,6 +29,9 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 			"contribution toolbar button#gravar" : {
 				click : this.onButtonGravar
 			},
+			"contribution" : {
+				beforeexpand : this.onContributionBeforeExpand
+			},
 			"contribution toolbar button#limpar" : {
 				click : this.onButtonLimpar
 			},
@@ -39,6 +42,21 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 				click : this.onButtonRemoverInstantaneo
 			}
 		});
+	},
+	onContributionBeforeExpand : function(p, animate, eOpts) {
+		console.log("onContributionBeforeExpand: só abre se o utilizador estiver logginado");
+		if (DemoExtJs.LoggedInUser) {
+			var plano = this.getComboplano().getValue();
+			if (plano) {
+				return true;
+			} else {
+				Ext.example.msg('Participar', 'Para participar, tem que ter um plano selecionado.');
+				return false;
+			}
+		} else {
+			Ext.example.msg('Participar', 'Para participar, tem que se autenticar.');
+			return false;
+		}
 	},
 	onButtonRemoverInstantaneo : function(button, e, options) {
 		console.log("onButtonRemoverInstantaneo");
@@ -72,7 +90,7 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 		var me = this;
 		// this getValues get all values of the form#detail
 		var params = me.getFormContribution().getForm().getValues(false, true, false, false);
-		console.log(params);
+		// console.log(params);
 		var fid = me.getFormContribution().getForm().findField('feature').getValue();
 		if (fid) {
 			var report = me.getMapa().map.getLayersByName('Report')[0];
@@ -91,8 +109,8 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 			ExtRemote.DXParticipacao.createOcorrencia(params, function(result, event) {
 				if (result.success) {
 					Ext.Msg.alert('Successo', 'As alterações foram gravadas com sucesso.');
-					console.log(result.data[0].id);
-					console.log(result.dataphoto);
+					// console.log(result.data[0].id);
+					// console.log(result.dataphoto);
 					// associar o id ao fid do novo feature inserido no openlayers
 					f.fid = result.data[0].id;
 					f.state = null;

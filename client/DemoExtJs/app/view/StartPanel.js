@@ -13,17 +13,18 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		align : 'center'
 	},
 	defaults : {
-		margin : '0 0 5 0'
+		margin : '0 0 50 0'
 	},
 	items : [{
 		title : 'Participação cívica',
 		itemId : 'participationbar',
 		width : 900,
 		autoScroll : true,
+		bodyPadding : 10,
 		loader : {
-			url : 'resources/guiarapido/introducao.html',
+			url : 'resources/guiarapido/participacaocivica.html',
 			autoLoad : true
-		},
+		}
 	}, {
 		width : 900,
 		itemId : 'circlebar',
@@ -42,14 +43,14 @@ Ext.define('DemoExtJs.view.StartPanel', {
 			cls : 'circle',
 			width : 150,
 			height : 150,
-			html : '1 Promotores'
+			html : '2 Promotores'
 		}, {
 			xtype : 'container',
 			itemId : 'planoscircle',
 			cls : 'circle',
 			width : 150,
 			height : 150,
-			html : '1 Planos'
+			html : '3 Planos'
 		}, {
 			xtype : 'container',
 			cls : 'circle',
@@ -67,11 +68,12 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		title : 'Promotores',
 		width : 900,
 		autoScroll : true,
+		bodyPadding : 10,
 		itemId : 'promotorbar',
 		hidden : true,
 		layout : {
 			type : 'hbox',
-			padding : '5',
+			padding : '0 0 20 0',
 			pack : 'left', // 'center',
 			align : 'left' // 'middle'
 		},
@@ -115,13 +117,13 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		// hidden : true,
 		plain : true, // remover o fundo da barra dos panels
 		idplano : null,
-		items : [ /*
-		           * to be added later
-		           */]
+		items : [/*
+		 * to be added later
+		 */]
 	}, {
 		width : 900,
 		itemId : 'readybar',
-		title : 'Preparado?',
+		title : 'Participar',
 		hidden : true,
 		layout : {
 			type : 'hbox',
@@ -138,7 +140,7 @@ Ext.define('DemoExtJs.view.StartPanel', {
 			loader : {
 				url : 'resources/guiarapido/participar.html',
 				autoLoad : true
-			},
+			}
 		}, {
 			xtype : 'container',
 			itemId : 'participecircle',

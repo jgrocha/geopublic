@@ -23,64 +23,90 @@
 			 * garantir que o thumbnail do utilizador é redimensionado para o tamanho do botão de login
 			 */
 			.x-btn-icon-el {
-				background-size:cover;
+				background-size: cover;
 			}
 			/*
 			 * para alargar as linhas com o sumário da confrontação, na Inf. Prévia
 			 */
 			td.grid-cell-wrap-text div {
-				white-space:normal;
+				white-space: normal;
 			}
 			.upload-icon {
-				background:url('resources/images/icons/fam/image_add.png') no-repeat 0 0 !important;
+				background: url('resources/images/icons/fam/image_add.png') no-repeat 0 0 !important;
 			}
 			.combo-superior-true {
-				font-weight:bold;
+				font-weight: bold;
 			}
 			.combo-superior-false {
-				padding-left:4pt;
+				padding-left: 4pt;
 			}
 			.circle {
-				width:150px;
-				height:150px;
-				border-radius:75px;
-				color:#fff;
-				line-height:150px;
-				text-align:center;
-				background:#4679BD;
-				
-				-webkit-transition-duration:0.8s;
-				-moz-transition-duration:0.8s;
-				-o-transition-duration:0.8s;
-				transition-duration:0.8s;
-				-webkit-transition-property:-webkit-transform;
-				-moz-transition-property:-moz-transform;
-				-o-transition-property:-o-transform;
-				transition-property:transform;
-				overflow:hidden;
-				
+				width: 150px;
+				height: 150px;
+				border-radius: 75px;
+				color: #fff;
+				line-height: 150px;
+				text-align: center;
+				background: #4679BD;
+				-webkit-transition-duration: 0.8s;
+				-moz-transition-duration: 0.8s;
+				-o-transition-duration: 0.8s;
+				transition-duration: 0.8s;
+				-webkit-transition-property: -webkit-transform;
+				-moz-transition-property: -moz-transform;
+				-o-transition-property: -o-transform;
+				transition-property: transform;
+				overflow: hidden;
 				cursor: pointer;
 			}
 			.circle:hover {
-				-webkit-transform:rotate(360deg);
-				-moz-transform:rotate(360deg);
-				-o-transform:rotate(360deg);
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
 			}
 			.rotate {
-				-webkit-transition-duration:0.8s;
-				-moz-transition-duration:0.8s;
-				-o-transition-duration:0.8s;
-				transition-duration:0.8s;
-				-webkit-transition-property:-webkit-transform;
-				-moz-transition-property:-moz-transform;
-				-o-transition-property:-o-transform;
-				transition-property:transform;
-				overflow:hidden;
+				-webkit-transition-duration: 0.8s;
+				-moz-transition-duration: 0.8s;
+				-o-transition-duration: 0.8s;
+				transition-duration: 0.8s;
+				-webkit-transition-property: -webkit-transform;
+				-moz-transition-property: -moz-transform;
+				-o-transition-property: -o-transform;
+				transition-property: transform;
+				overflow: hidden;
 			}
 			.rotate:hover {
-				-webkit-transform:rotate(360deg);
-				-moz-transform:rotate(360deg);
-				-o-transform:rotate(360deg);
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+			}
+			.msg .x-box-mc {
+				font-size: 14px;
+			}
+			#msg-div {
+				position: absolute;
+				left: 50%;
+				top: 10px;
+				width: 400px;
+				margin-left: -200px;
+				z-index: 20000;
+			}
+			#msg-div .msg {
+				border-radius: 8px;
+				-moz-border-radius: 8px;
+				background: #F6F6F6;
+				border: 2px solid #ccc;
+				margin-top: 2px;
+				padding: 10px 15px;
+				color: #555;
+			}
+			#msg-div .msg h3 {
+				margin: 0 0 8px;
+				font-weight: bold;
+				font-size: 15px;
+			}
+			#msg-div .msg p {
+				margin: 0;
 			}
 		</style>
 		<link rel="stylesheet" type="text/css" href="data-view.css">

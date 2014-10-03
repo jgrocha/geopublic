@@ -29,7 +29,7 @@ Ext.define('DemoExtJs.view.StartPromotor', {
 			},
 			items : [{
 				xtype : 'image',
-				src : 'resources/images/logo_dOrfeu.jpg',
+				src : this.initialConfig.logotipo, // 'resources/images/MSQUITO1-02.png',
 				style : {
 					'display' : 'block',
 					'margin' : 'auto'

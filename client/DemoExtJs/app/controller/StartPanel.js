@@ -160,11 +160,12 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		this.getPlanoComboStore().each(function(rec) {
 
 			// rec.id is dangerous, because the new object DemoExtJs.view.StartPlano gets this id
+			// copy of the object, without id, using idplano instead
 			var plano = Ext.apply({}, rec.data, {
 				idplano : rec.data.id
 			});
 			delete plano.id;
-			console.log(plano);
+			// console.log(plano);
 
 			var newPlano = new DemoExtJs.view.StartPlano(plano);
 			bar.add(newPlano);
@@ -211,25 +212,28 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		var bar = me.getPromotorBar();
 		if (bar.items.length == 0) {
 			this.getPromotorComboStore().each(function(rec) {
-				console.log(rec.get('designacao'));
-				// criar os paineis de discussao
-				var newPromotor = new DemoExtJs.view.StartPromotor({
-					idpromotor : rec.get('id'),
-					designacao : rec.get('designacao'),
-					site : rec.get('site')
+				// console.log(rec.get('designacao'));
+				var promotor = Ext.apply({}, rec.data, {
+					idpromotor : rec.data.id
 				});
+				delete promotor.id;
+				var newPromotor = new DemoExtJs.view.StartPromotor(promotor);
 				bar.add(newPromotor);
-				// this.getTodasDiscussoes().insert(0, newPromotor);
 				bar.doLayout();
 			});
 		}
 		// mostrar o painel :-)
 		if (!bar.isVisible()) {
 			bar.setVisible(true);
+			/*
+			 bar.getEl().fadeIn({
+			 opacity : 1, //can be any value between 0 and 1 (e.g. .5)
+			 easing : 'easeOut',
+			 duration : 500
+			 });
+			 */
 		}
-
 		// limpar os detalhes...
-
 	},
 	onStartPanelRender : function(panel) {
 		var me = this;

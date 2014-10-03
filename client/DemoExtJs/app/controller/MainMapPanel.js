@@ -12,6 +12,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 
 	// Ext.ComponentQuery.query('app-main-map-panel toolbar')
 	{
+		selector : 'contribution',
+		ref : 'contribution' // gera um getContribution
+	}, {
 		selector : 'contribution form#detail',
 		ref : 'formContribution' // gera um getFormContribution
 	}, {
@@ -97,6 +100,12 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		// <debug>
 		// console.log('onLoginComSucesso', this);
 		// </debug>
+
+		this.getTodasDiscussoes().query('discussion commentform').forEach(function(c) {
+			c.setVisible(true);
+		});
+				
+		/*
 		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
 			var mapa = this.getMapa().map;
 			var zLevel = mapa.getZoom();
@@ -110,19 +119,33 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
 			// </debug>
 		}
+		*/
 	},
 	onLogoutComSucesso : function() {
 		// <debug>
 		console.log('onLogoutComSucesso', this, console.log(arguments));
 		// </debug>
-		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
-			this.getInserir().disable();
-			this.getBarra().disable();
-		} else {
-			// <debug>
-			console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
-			// </debug>
-		}
+
+		// Posso colapsar o form, que depois já não abre...
+		this.getContribution().collapse();
+		// Se há paineis em discussão...
+		// - devo fazer setVisible(false) aos form dos comentários
+
+		this.getTodasDiscussoes().query('discussion commentform').forEach(function(c) {
+			c.setVisible(false);
+		});
+
+		/*
+		 if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
+		 // this.getInserir().disable();
+		 // this.getBarra().disable();
+
+		 } else {
+		 // <debug>
+		 console.log('Não faço nada onLogoutComSucesso no DemoExtJs.controller.MainMapPanel');
+		 // </debug>
+		 }
+		 */
 	},
 	onOcorrenciaStoreLoad : function(store, records) {
 		// <debug>
@@ -252,12 +275,11 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		var report = me.getMapa().map.getLayersByName('Report')[0];
 		report.destroyFeatures();
 		this.getTodasDiscussoes().removeAll(true);
-		
+
 		// Abrir a barra do StartPanel e mostrar todos os promotores...
 		// controller StartPanel showPromotores(null);
 		this.fireEvent('showPromotores');
-		
-		
+
 	},
 	/*
 	 onComboPromotor : function(combo, records, eOpts) {
@@ -492,11 +514,13 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 					}
 				}
 			}
+			/*
 			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
 				this.getInserir().enable();
 			} else {
 				this.getInserir().disable();
 			}
+			*/
 		});
 
 		// var guia = Ext.widget('guia');

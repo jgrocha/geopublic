@@ -79,5 +79,5 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 			y : 10 //the sprite y position
 		}];
 		this.callParent(arguments);
-	},
+	}
 });
