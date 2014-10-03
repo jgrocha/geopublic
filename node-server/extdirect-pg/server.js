@@ -169,7 +169,12 @@ var servidor = http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
 
-var io = require('socket.io').listen(servidor);
+// http://stackoverflow.com/questions/12824612/change-socket-io-static-file-serving-path
+if ('production' == process.env.NODE_ENV) {
+	var io = require('socket.io').listen(servidor); // , { path: '/ppgis/socket.io'});
+} else {
+	var io = require('socket.io').listen(servidor); // , { path: '/ppgis/socket.io'});
+}
 
 io.sockets.on('connection', function (socket) {
     console.log('A new user connected!');

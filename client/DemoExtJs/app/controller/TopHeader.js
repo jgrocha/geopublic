@@ -289,6 +289,8 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		var formPanel = button.up('form'), registo = button.up('registo');
 		var email = formPanel.down('textfield[name=email]').getValue(), name = formPanel.down('textfield[name=name]').getValue(), password = formPanel.down('textfield[name=password]').getValue(), password2x = formPanel.down('textfield[name=password2x]').getValue();
 		var sha1 = CryptoJS.SHA1(password).toString();
+		// var sha1 = hex_sha1(password).toLowerCase();
+
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
 			//<debug>
@@ -327,6 +329,7 @@ Ext.define('DemoExtJs.controller.TopHeader', {
 		}
 		//</debug>
 		var sha1 = CryptoJS.SHA1(pass).toString();
+		// var sha1 = hex_sha1(pass).toLowerCase();
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
 			//<debug>

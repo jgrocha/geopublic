@@ -49,6 +49,10 @@ Please note that node.js server must be run at the same time, otherwise you will
 Production build can be found inside client/[DemoExtJs|DemoTouch]/build/production
 For more information, please refer to Sencha CMD reference http://docs.sencha.com/cmd/4.0.0/#!/guide
 
+Folders:
+
+uploads
+participation_data
 
 ###Provided examples
 

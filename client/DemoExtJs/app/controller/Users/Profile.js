@@ -153,6 +153,7 @@ Ext.define('DemoExtJs.controller.Users.Profile', {
 		var password = params.password;
 		var password2x = params.password2x;
 		var sha1 = CryptoJS.SHA1(password).toString();
+		// var sha1 = hex_sha1(password).toLowerCase();
 		if (button.up('form').getForm().isValid()) {
 			ExtRemote.DXLogin.update({
 				password : sha1
