@@ -27,9 +27,46 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 		if (!p.loaded) {
 			ExtRemote.DXParticipacao.readComment(o, function(result, event) {
 				if (result.success) {
-					// console.log(JSON.stringify(result.data));
-					// console.log(result.total);
-					p.update(result.data);
+					console.log(result.data);
+					// console.log(result.data.haquantotempo);
+					// result.data é um array...
+					// tenho que mudar cada componente do array...
+
+					var aux = [];
+					Ext.Array.each(result.data, function(rec, index, comments) {
+						console.log(rec);
+						var datacriacao = Ext.Date.parse(rec.datacriacao,'c');
+						var tempo = 'Há ';
+						if (!rec.haquantotempo.days) {
+							rec.haquantotempo.days = 0;
+						}
+						if (!rec.haquantotempo.hours) {
+							rec.haquantotempo.hours = 0;
+						}
+						if (!rec.haquantotempo.minutes) {
+							rec.haquantotempo.minutes = 0;
+						}
+						if (rec.haquantotempo.days > 0) {
+							tempo += rec.haquantotempo.days + ' dias (' + Ext.Date.format(datacriacao, 'l') + '), às ' + Ext.Date.format(datacriacao, 'H:i');
+						} else {
+							if (rec.haquantotempo.hours > 0) {
+								tempo += rec.haquantotempo.hours + ':' + rec.haquantotempo.minutes;
+							} else {
+								if (rec.haquantotempo.minutes > 0) {
+									tempo += rec.haquantotempo.minutes + ' minutos';
+									// tempo += rec.haquantotempo.seconds + ' segundos';
+								} else {
+									tempo += 'menos de 1 minuto';
+								}
+							}
+						}
+						aux.push(Ext.apply(rec, {
+							tempo : tempo
+						}));
+					});
+					// {"hours":2,"minutes":41,"seconds":59}
+					console.log(result.total);
+					p.update(aux);
 					p.numcomments = parseInt(result.total);
 					p.setTitle(p.numcomments + ' comentários');
 					p.loaded = true;

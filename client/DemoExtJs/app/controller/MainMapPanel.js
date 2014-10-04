@@ -104,22 +104,22 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		this.getTodasDiscussoes().query('discussion commentform').forEach(function(c) {
 			c.setVisible(true);
 		});
-				
+
 		/*
-		if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
-			var mapa = this.getMapa().map;
-			var zLevel = mapa.getZoom();
-			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
-				this.getInserir().enable();
-			} else {
-				this.getInserir().disable();
-			}
-		} else {
-			// <debug>
-			console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
-			// </debug>
-		}
-		*/
+		 if (this.getMapa().up('tabpanel').getActiveTab().title == "Mapa") {
+		 var mapa = this.getMapa().map;
+		 var zLevel = mapa.getZoom();
+		 if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
+		 this.getInserir().enable();
+		 } else {
+		 this.getInserir().disable();
+		 }
+		 } else {
+		 // <debug>
+		 console.log('Não faço nada onLoginComSucesso no DemoExtJs.controller.MainMapPanel');
+		 // </debug>
+		 }
+		 */
 	},
 	onLogoutComSucesso : function() {
 		// <debug>
@@ -185,6 +185,12 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				participacao : records[i].data.participacao,
 				datacriacao : records[i].data.datacriacao,
 				numcomments : records[i].data.numcomentarios,
+				fotografia : records[i].data.fotografia,
+				days : records[i].data.days,
+				hours : records[i].data.hours,
+				minutes : records[i].data.minutes,
+				seconds : records[i].data.seconds,
+				nome : records[i].data.nome,
 				feature : f
 			});
 			// me.getTodasDiscussoes().add(newDiscussion);
@@ -515,12 +521,12 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				}
 			}
 			/*
-			if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
-				this.getInserir().enable();
-			} else {
-				this.getInserir().disable();
-			}
-			*/
+			 if (DemoExtJs.LoggedInUser && zLevel >= this.zoomLevelEdit) {
+			 this.getInserir().enable();
+			 } else {
+			 this.getInserir().disable();
+			 }
+			 */
 		});
 
 		// var guia = Ext.widget('guia');

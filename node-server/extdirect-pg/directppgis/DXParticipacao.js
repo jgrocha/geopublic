@@ -56,11 +56,18 @@ var enviarEmail = function(destino, parametros, callback) {
 var DXParticipacao = {
 	createComment : function(params, callback, sessionID, request) {
 		/*
-		 {
-		 {idocorrencia: "6", comment: "Quem disse?"}
+		 { idocorrencia: '19',  comentario: 'Se já estás a dormir, bom proveito',  idestado: '' }
 		 */
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
 		console.log('createComment: ', params);
+		
+		// special case: the idestado can be empty
+		// we remove it from the params
+		// an additional trigger will fill it with the previous idestado of the ocorrencia
+		if (!(params.idestado && parseInt(params.idestado))) {
+			delete params.idestado;
+			console.log('params.idestado: ' + params.idestado + ' - deleted');
+		}
 		var fields = [], values = [];
 		for (var key in params) {
 			switch (key) {
@@ -421,11 +428,19 @@ var DXParticipacao = {
 		/*
 		 SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios
 		 FROM ppgis.ocorrencia o, ppgis.estado e
-		 WHERE NOT o.apagado AND o.idplano = 1 and e.id = o.idestado AND e.idplano = 1
-		 */
+		 WHERE NOT o.apagado AND o.idplano = 1 and e.id = o.idestado AND e.idplano = o.idplano
+
 		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
 		sql += 'FROM ppgis.ocorrencia o, ppgis.estado e ';
 		sql += 'WHERE NOT apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';
+			 */	
+		
+		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
+		sql += ' now()-o.datacriacao as haquantotempo, u.fotografia, u.nome';
+		sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
+		sql += ' WHERE NOT o.apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';
+		sql += ' AND o.idutilizador = u.id';
+
 		// OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
 		console.log(sql);
 		conn.query(sql, function(err, result) {

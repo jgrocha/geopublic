@@ -17,7 +17,7 @@ Ext.define('DemoExtJs.view.Participation.CommentList', {
 		// http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
 		var commenttpl = new Ext.XTemplate(//
 		'<tpl for=".">', //
-		'<p><img src="{fotografia}" align="left"><b>{nome}</b> {comentario}<br/>Em {datacriacao}</p>', //
+		'<p><img src="{fotografia}" align="left"><b>{nome}</b> {comentario}<br/>{tempo}</p>', //
 		'</tpl>' //
 		);
 		this.tpl = commenttpl;
