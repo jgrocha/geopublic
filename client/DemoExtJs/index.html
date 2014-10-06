@@ -2,9 +2,11 @@
 <html lang="pt">
 	<head>
 		<meta charset="UTF-8">
-		<title>Participação Cívica | Câmara Municipal de Águeda</title>
+		<title>Participação Pública | Câmara Municipal de Águeda</title>
 		<meta name="author" content="Jorge Gustavo Rocha, geopublic@geomaster.pt">
 		<meta name="owner" content="Câmara Municipal de Águeda">
+
+		<link rel="icon" href="resources/images/favicon.ico" type="image/vnd.microsoft.icon" />
 
 		<!-- Include OpenLayers. It isn't managed by Ext.Loader -->
 		<!-- This lib folder must be copied to production -->
@@ -40,6 +42,28 @@
 			.combo-superior-false {
 				padding-left: 4pt;
 			}
+			/*
+			 * 265C00 verde
+			 * AA1E00 vermelho
+			 */
+			.circle-gray {
+				width: 150px;
+				height: 150px;
+				border-radius: 75px;
+				color: #fff;
+				line-height: 150px;
+				text-align: center;
+				background: #b7b7b7;
+				-webkit-transition-duration: 0.8s;
+				-moz-transition-duration: 0.8s;
+				-o-transition-duration: 0.8s;
+				transition-duration: 0.8s;
+				-webkit-transition-property: -webkit-transform;
+				-moz-transition-property: -moz-transform;
+				-o-transition-property: -o-transform;
+				transition-property: transform;
+				overflow: hidden;
+			}
 			.circle {
 				width: 150px;
 				height: 150px;
@@ -64,6 +88,31 @@
 				-moz-transform: rotate(360deg);
 				-o-transform: rotate(360deg);
 			}
+			.circle-go {
+				width: 150px;
+				height: 150px;
+				border-radius: 75px;
+				color: #fff;
+				line-height: 150px;
+				text-align: center;
+				font-weight: bold;
+				background: #265C00;
+				-webkit-transition-duration: 0.8s;
+				-moz-transition-duration: 0.8s;
+				-o-transition-duration: 0.8s;
+				transition-duration: 0.8s;
+				-webkit-transition-property: -webkit-transform;
+				-moz-transition-property: -moz-transform;
+				-o-transition-property: -o-transform;
+				transition-property: transform;
+				overflow: hidden;
+				cursor: pointer;
+			}
+			.circle-go:hover {
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+			}			
 			.rotate {
 				-webkit-transition-duration: 0.8s;
 				-moz-transition-duration: 0.8s;

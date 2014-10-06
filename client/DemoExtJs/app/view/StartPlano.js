@@ -2,6 +2,7 @@ Ext.define('DemoExtJs.view.StartPlano', {
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.startplano',
 	width : 280,
+	height: 380,
 	frame : true,
 	ui : 'light',
 	layout : {
@@ -9,7 +10,7 @@ Ext.define('DemoExtJs.view.StartPlano', {
 		padding : '0 0 10 0', // not working...
 		align : 'stretch'
 	},
-	bodyPadding: 10,
+	bodyPadding : 10,
 	initComponent : function() {
 		var me = this;
 		// console.debug(this.initialConfig);
@@ -41,10 +42,35 @@ Ext.define('DemoExtJs.view.StartPlano', {
 		}, {
 			html : 'Contacto: <a href="' + this.initialConfig.email + '">' + this.initialConfig.email + '</a>',
 			padding : '0 0 20 0'
-		}, {
-			xtype : 'button',
-			// itemId : 'planplpa',
-			text : 'Apresentação do plano'
+		}, /* {
+		 xtype : 'button',
+		 // itemId : 'planplpa',
+		 text : 'Apresentação do plano'
+		 } */
+		{
+			xtype : 'container',
+			layout : {
+				type : 'hbox',
+				// padding : '5',
+				pack : 'center',
+				align : 'middle'
+			},
+			items : [{
+				// itemId : 'promotorescircle',
+				xtype : 'container',
+				cls : 'circle',
+				width : 150,
+				// maxWidth : 150,
+				height : 150,
+				html : 'Apresentação',
+				listeners : {
+					render : function(c) {
+						c.el.on('click', function() {
+							c.up('startplano').fireEvent('clickApresentacao', c.up('startplano'));
+						});
+					}
+				}
+			}]
 		}];
 		this.callParent(arguments);
 	}

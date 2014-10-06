@@ -10,13 +10,16 @@ Ext.define('DemoExtJs.Application', {
 		var me = this;
 		hello.init({
 			// home facebook, menu lateral esq, no fundo; apps
-			facebook : '267632140104504',
+			// https://developers.facebook.com/apps/1425420377699726/dashboard/
+			facebook : '1425420377699726',
 			// https://console.developers.google.com/project
-			// https://console.developers.google.com/project/apps~root-fort-660/apiui/credential
-			google : '1035320322765-nbhs2lnsb3abgp31s3o9jf1mb5llfhn0.apps.googleusercontent.com',
+			// https://console.developers.google.com/project/driven-crane-540
+			google : '171807226739-pl2lsvoh70jeqqtkcdrqpo9j8urfdcij.apps.googleusercontent.com',
 			// https://account.live.com/developers/applications/index
-			// https://account.live.com/developers/applications/ApiSettings?id=0000000044124A09
-			windows : '0000000044124A09' // '0000000048117A44'
+			// https://account.live.com/developers/applications/ApiSettings?id=0000000048117A44
+			// We can get only one application per domain :-(	
+			// windows live authentication is disabled in the login form		
+			windows : '0000000048117A44'
 		});
 		var sessionstart = function(auth) {
 			//<debug>

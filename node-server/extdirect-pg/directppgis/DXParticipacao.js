@@ -466,6 +466,54 @@ var DXParticipacao = {
 			}
 		});
 	},
+	numeros : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.numeros');
+		console.log(params);
+
+		var obj = {
+			promoters : 9,
+			plans : 18,
+			participations : 27,
+			comments : 36,
+			images : 45
+		};
+
+		/*
+		 callback({
+		 success : true,
+		 data : obj
+		 });
+		 */
+
+		var conn = db.connect();
+		var sql = "select 'promoters' as table, count(*) from ppgis.promotor UNION ";
+		sql += "select 'plans' as table, count(*) from ppgis.plano UNION ";
+		sql += "select 'participations' as table, count(*) from ppgis.ocorrencia where NOT apagado UNION ";
+		sql += "select 'comments' as table, count(*) from ppgis.comentario UNION ";
+		sql += "select 'images' as table, count(*) from ppgis.fotografia";
+		console.log(sql);
+
+		conn.query(sql, function(err, result) {
+			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
+				db.debugError(callback, err);
+			} else {
+				//release connection
+				db.disconnect(conn);
+				// return just one object, instead of an array of objects (array of rows)
+				// less processing on the client side :-)
+				var aux = {};
+				result.rows.forEach(function(element, index, array) {
+					aux[element.table] = element.count;
+				});
+				console.log(aux);
+				callback({
+					success : true,
+					data : aux
+				});
+			}
+		});
+	},
 	readSummitsGeoJSON : function(params, callback, sessionID, request) {
 		console.log('DXParticipacao.readSummits');
 		console.log(params);
@@ -795,7 +843,7 @@ var DXParticipacao = {
 		// falta proteger só para grupo admin
 		console.log('destroyTipoOcorrencia: ', params);
 		var conn = db.connect();
-		var sql = 'delete FROM ppgis.tipoocorrencia where id = ' + params.id + ' AND idplano = ' + params.idplano;		
+		var sql = 'delete FROM ppgis.tipoocorrencia where id = ' + params.id + ' AND idplano = ' + params.idplano;
 		conn.query(sql, function(err, result) {
 			db.disconnect(conn);
 			if (err) {

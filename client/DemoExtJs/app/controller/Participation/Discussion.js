@@ -33,7 +33,7 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 					// "haquantotempo": {"hours":2,"minutes":41,"seconds":59}
 					var aux = [];
 					Ext.Array.each(result.data, function(rec, index, comments) {
-						console.log(rec);
+						// console.log(rec);
 						var datacriacao = Ext.Date.parse(rec.datacriacao, 'c');
 						var tempo = 'Há ';
 						if (!rec.haquantotempo.days) {

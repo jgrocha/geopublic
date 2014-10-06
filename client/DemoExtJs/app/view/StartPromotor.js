@@ -22,7 +22,7 @@ Ext.define('DemoExtJs.view.StartPromotor', {
 			html : '<a href="' + this.initialConfig.site + '" target="_blank">' + this.initialConfig.designacao + '</a>'
 		}, {
 			width : 260,
-			height : 260,
+			height : 160,
 			style : {
 				'display' : 'table-cell',
 				'vertical-align' : 'middle'
@@ -35,10 +35,25 @@ Ext.define('DemoExtJs.view.StartPromotor', {
 					'margin' : 'auto'
 				}
 			}]
-		}, {
-			xtype : 'button',
-			// itemId : 'planosorfeu',
-			text : 'Planos para discussão'
+		}, /*{
+		 xtype : 'button',
+		 // itemId : 'planosorfeu',
+		 text : 'Planos para discussão'
+		 },*/
+		{
+			xtype : 'container',
+			// itemId : 'promotorescircle',
+			cls : 'circle',
+			width : 150,
+			height : 150,
+			html : 'Planos',
+			listeners : {
+				render : function(c) {
+					c.el.on('click', function() {
+						c.up('startpromotor').fireEvent('clickPlano', c.up('startpromotor'));
+					});
+				}
+			}
 		}];
 		this.callParent(arguments);
 	}

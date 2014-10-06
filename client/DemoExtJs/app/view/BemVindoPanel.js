@@ -10,7 +10,7 @@ Ext.define('DemoExtJs.view.BemVindoPanel', {
 		columnWidth : 1 / 4,
 		padding : '10 10 10 10',
 		items : [{
-			title : 'Sobre a Participação Cívica',
+			title : 'Sobre a Participação Pública',
 			bodyStyle : {
 				'color' : '#666666'
 			},

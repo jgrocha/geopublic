@@ -53,7 +53,7 @@ Ext.define('DemoExtJs.view.Users.Login', {
 					scale : 'medium', // small 16x16, medium 24x24, large 32x32
 					style : 'background-size: cover;',
 					disabled : false
-				}, {
+				} /*, {
 					xtype : 'button',
 					text : 'Microsoft',
 					itemId : 'windows',
@@ -61,7 +61,7 @@ Ext.define('DemoExtJs.view.Users.Login', {
 					scale : 'medium',
 					style : 'background-size: cover;',
 					disabled : false
-				}]
+				} */]
 			}, {
 				xtype : 'label',
 				html : '<b>Nada será publicado na rede social em seu nome.</b>',

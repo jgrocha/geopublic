@@ -13,7 +13,8 @@
         "AccessControlAllowMethods": "GET,PUT,POST,DELETE,OPTIONS",
         "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
         "AccessControlAllowCredentials": true,
-        "AccessControlMaxAge": 3600
+        "AccessControlMaxAge": 3600,
+        "url": "http://cm-agueda.geomaster.pt/ppgis/"
     },
     "ExtDirectConfig": {
         "namespace": "ExtRemote",

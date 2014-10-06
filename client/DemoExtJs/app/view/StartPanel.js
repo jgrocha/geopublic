@@ -16,7 +16,7 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		margin : '0 0 50 0'
 	},
 	items : [{
-		title : 'Participação cívica',
+		title : 'Participação Pública',
 		itemId : 'participationbar',
 		width : 900,
 		autoScroll : true,
@@ -43,26 +43,28 @@ Ext.define('DemoExtJs.view.StartPanel', {
 			cls : 'circle',
 			width : 150,
 			height : 150,
-			html : '2 Promotores'
+			html : '0 Promotores'
 		}, {
 			xtype : 'container',
 			itemId : 'planoscircle',
-			cls : 'circle',
+			cls : 'circle-gray',
 			width : 150,
 			height : 150,
-			html : '3 Planos'
+			html : '0 Planos'
 		}, {
 			xtype : 'container',
-			cls : 'circle',
+			itemId : 'participationscircle',
+			cls : 'circle-gray',
 			width : 150,
 			height : 150,
-			html : '156 Participações'
+			html : '0 Participações'
 		}, {
 			xtype : 'container',
-			cls : 'circle',
+			itemId : 'commentscircle',
+			cls : 'circle-gray',
 			width : 150,
 			height : 150,
-			html : '120 Comentários'
+			html : '0 Comentários'
 		}]
 	}, {
 		title : 'Promotores',
@@ -114,6 +116,7 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		xtype : 'tabpanel',
 		itemId : 'planpresentationbar',
 		width : 900,
+		bodyPadding : 10,
 		// hidden : true,
 		plain : true, // remover o fundo da barra dos panels
 		idplano : null,
@@ -144,7 +147,7 @@ Ext.define('DemoExtJs.view.StartPanel', {
 		}, {
 			xtype : 'container',
 			itemId : 'participecircle',
-			cls : 'circle',
+			cls : 'circle-go',
 			width : 150,
 			height : 150,
 			html : 'Participar'
