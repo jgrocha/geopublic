@@ -342,11 +342,17 @@ Ext.define('DemoExtJs.view.Promotor', {
 							var color = record.get('color');
 							// get all td elements
 							var cells = Ext.get(node).query('td');
+							
+							/*
 							// set background color to all row td elements
 							for (var j = 0; j < cells.length; j++) {
 								// console.log(cells[j]);
 								Ext.fly(cells[j]).setStyle('background-color', color);
 							}
+							*/
+							
+							// Só da coluna 4
+							Ext.fly(cells[4]).setStyle('background-color', color);
 						}
 					}
 				}

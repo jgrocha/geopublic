@@ -35,11 +35,11 @@ Ext.define('DemoExtJs.controller.TipoOcorrencia', {
 			switch (operation.action) {
 				case "create":
 					console.log('Gravou um novo tipoocorrencia que ficou com o id: ' + operation.resultSet.records[0].data.id);
-					var record = this.getTipoOcorrenciaStore().getAt(0);
-					record.set("id", operation.resultSet.records[0].data.id);
+					// var record = this.getTipoOcorrenciaStore().getAt(0);
+					// record.set("id", operation.resultSet.records[0].data.id);
 					// quero mostrar a coluna alterada, com o novo ID...
-					var rowEditing = this.getGrid().plugins[0];
-					rowEditing.startEdit(0, 0);
+					// var rowEditing = this.getGrid().plugins[0];
+					// rowEditing.startEdit(0, 0);
 					break;
 				case "update":
 					console.log('Gravou o tipoocorrencia com o id: ' + operation.resultSet.records[0].data.id);
@@ -67,7 +67,7 @@ Ext.define('DemoExtJs.controller.TipoOcorrencia', {
 		this.getButtonRemove().setDisabled(!selection.length);
 	},
 	onButtonClickAdiciona : function(button, e, options) {
-		console.log('onButtonClickAdiciona');
+		console.log('onButtonClickAdiciona TipoOcorrencia');
 		var rowEditing = this.getGrid().plugins[0];
 		// console.log(rowEditing);
 		rowEditing.cancelEdit();
@@ -76,14 +76,20 @@ Ext.define('DemoExtJs.controller.TipoOcorrencia', {
 		var selection = sm.getSelection();
 		console.log(selection.length);
 		if (selection.length == 1) {
-			console.log(selection[0].data.id);
+			console.log('Novo TipoOcorrencia para o plano ' + selection[0].data.id);
+
 			// Create a model instance
 			var r = Ext.create('DemoExtJs.model.TipoOcorrencia', {
+				// The id will be assigned by PostgreSQL
 				idplano : selection[0].data.id,
-				designacao : 'Ocorrência',
+				designacao : 'Tipo de ocorrência',
 				ativa : 1
 			});
-			this.getTipoOcorrenciaStore().insert(0, r);
+
+			var store = this.getTipoOcorrenciaStore();
+			var proximo = store.count();
+			store.insert(proximo, r);
+			
 			// passei o startEdit para depois do evento 'write', depois de termos o id deste registo
 			// rowEditing.startEdit(0, 0);
 		}
@@ -113,4 +119,4 @@ Ext.define('DemoExtJs.controller.TipoOcorrencia', {
 		var me = this;
 		console.log('...O controlador DemoExtJs.controller.TipoOcorrencia arrancou.');
 	}
-}); 
+});

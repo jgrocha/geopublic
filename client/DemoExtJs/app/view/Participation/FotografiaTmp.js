@@ -41,7 +41,7 @@ Ext.define('DemoExtJs.view.Participation.FotografiaTmp', {
 			trackOver : true,
 			overItemCls : 'x-item-over',
 			itemSelector : 'div.thumb-wrap',
-			emptyText : 'No images to display'
+			emptyText : 'Acrescente fotografias...'
 		}];
 
 		this.callParent(arguments);

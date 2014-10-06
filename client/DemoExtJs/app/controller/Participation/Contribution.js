@@ -6,6 +6,12 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 		selector : 'contribution form#detail',
 		ref : 'formContribution' // gera um getFormContribution
 	}, {
+		selector : 'contribution toolbar#contributiontb tbtext',
+		ref : 'contributionCoordinates' // gera um getContributionCoordinates()
+	}, {
+		selector : 'contribution toolbar button#gravar',
+		ref : 'buttonGravar' // gera um getButtonGravar()
+	}, {
 		selector : 'contribution form#photos',
 		ref : 'formPhotos' // gera um getFormPhotos
 	}, {
@@ -26,6 +32,9 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 	}],
 	init : function() {
 		this.control({
+			"contribution form#detail" : {
+				fieldvaliditychange : this.updateErrorState
+			},
 			"contribution toolbar button#gravar" : {
 				click : this.onButtonGravar
 			},
@@ -42,6 +51,37 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 				click : this.onButtonRemoverInstantaneo
 			}
 		});
+		this.listen({
+			controller : {
+				'*' : {
+					changePlan : this.onButtonLimpar, // this.fireEvent('changePlan'); in DemoExtJs.controller.MainMapPanel
+					featureAdded : this.onFeatureAdded // this.fireEvent('showPlanDetails'); in DemoExtJs.controller.MainMapPanel
+				}
+			}
+		});
+	},
+	onFeatureAdded : function() {
+		console.log("onFeatureAdded ");
+		var form = this.getFormContribution();
+		console.log(form.getForm().isValid() ? 'sim' : 'nao');
+		if (form.getForm().isValid()) {
+			this.getButtonGravar().enable();
+		} else {
+			this.getButtonGravar().disable();
+		}
+	},
+	updateErrorState : function(form, field, valid) {
+		console.log("updateErrorState ");
+		// manually bind button to form
+		// console.log(arguments);
+		var fid = form.getForm().findField('feature').getValue();
+		console.log('fid = ' + fid);
+		console.log(form.getForm().isValid() ? 'sim' : 'nao');
+		if (fid && form.getForm().isValid()) {
+			this.getButtonGravar().enable();
+		} else {
+			this.getButtonGravar().disable();
+		}
 	},
 	onContributionBeforeExpand : function(p, animate, eOpts) {
 		console.log("onContributionBeforeExpand: só abre se o utilizador estiver logginado");
@@ -116,6 +156,10 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 					f.state = null;
 					// limpar o formulário!
 					me.onButtonLimpar(button, e, options);
+
+					// ao alterar os campos, o updateErrorState desactiva o form
+					// this.getButtonGravar().disable();
+
 					// acrescentar esta ocorrência
 					// o ponto já está no mapa :-)
 					// pode-se remover que vai ser acrescentado outro quando se ler o store
@@ -139,7 +183,12 @@ Ext.define('DemoExtJs.controller.Participation.Contribution', {
 		Ext.each(this.getFormContribution().getForm().getFields().items, function(field) {
 			field.setValue('');
 		});
+
+		this.getFormContribution().getForm().clearInvalid();
+
 		this.getFotografiatmp().store.removeAll();
+		this.getContributionCoordinates().setText('Sem localização');
+
 		/*
 		 * Mesmo que limpe o form, quero manter estes valores
 		 * Só mudam, quando se escolher outro promotor ou plano

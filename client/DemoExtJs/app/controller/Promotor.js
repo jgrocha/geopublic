@@ -2,7 +2,7 @@ Ext.define('DemoExtJs.controller.Promotor', {
 	extend : 'Ext.app.Controller',
 	stores : ['Promotor', 'Plano'], // getPromotorStore(), getPlanoStore()
 	// models : ['Plano'],
-	// Ext.ComponentQuery.query('topheader button#botaoLogin')
+	// Ext.ComponentQuery.query('grid-promotor gridpanel#promotor button#remove')
 	refs : [{
 		selector : 'grid-promotor gridpanel#promotor',
 		ref : 'grid' // gera um getGrid

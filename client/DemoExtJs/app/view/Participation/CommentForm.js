@@ -18,6 +18,9 @@ Ext.define('DemoExtJs.view.Participation.CommentForm', {
 			emptyText : 'O seu comentário...',
 			anchor : '100%',
 			height : 60,
+			allowBlank: false,
+			minLength: 5,
+			allowOnlyWhitespace: false,
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>'
 		}];
 		this.callParent(arguments);

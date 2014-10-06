@@ -60,7 +60,7 @@ var DXParticipacao = {
 		 */
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
 		console.log('createComment: ', params);
-		
+
 		// special case: the idestado can be empty
 		// we remove it from the params
 		// an additional trigger will fill it with the previous idestado of the ocorrencia
@@ -426,15 +426,13 @@ var DXParticipacao = {
 		}
 		var conn = db.connect();
 		/*
-		 SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios
-		 FROM ppgis.ocorrencia o, ppgis.estado e
-		 WHERE NOT o.apagado AND o.idplano = 1 and e.id = o.idestado AND e.idplano = o.idplano
+		 SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,
+		 now()-o.datacriacao as haquantotempo, u.fotografia, u.nome
+		 FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u
+		 WHERE NOT o.apagado AND o.idplano = 2 and e.id = o.idestado AND e.idplano = o.idplano
+		 AND o.idutilizador = u.id
+		 */
 
-		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios ';
-		sql += 'FROM ppgis.ocorrencia o, ppgis.estado e ';
-		sql += 'WHERE NOT apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';
-			 */	
-		
 		var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
 		sql += ' now()-o.datacriacao as haquantotempo, u.fotografia, u.nome';
 		sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
@@ -660,7 +658,6 @@ var DXParticipacao = {
 				console.log('SQL=' + sql + ' Error: ', err);
 				db.debugError(callback, err);
 			} else {
-				console.log('SQL=' + sql + ' Error: ', err);
 				//get totals for paging
 				var totalQuery = 'SELECT count(*) as totals from ppgis.estado where idplano = ' + plano;
 				conn.query(totalQuery, function(err, resultTotalQuery) {
@@ -687,7 +684,7 @@ var DXParticipacao = {
 	createTipoOcorrencia : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
 		/*
-		 createPromotor:
+		 createTipoOcorrencia:
 		 {
 		 id: 0,
 		 designacao: 'Nova entidade',
@@ -697,57 +694,66 @@ var DXParticipacao = {
 		 */
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
 		console.log('createTipoOcorrencia: ', params);
-		var fields = [], values = [];
-		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
-		// o id vem a 0, quando se insere um registo
-		for (var key in params) {
-			switch (key) {
-				case "id":
-					break;
-				case "isclass":
-					break;
-				default:
-					fields.push(key);
-					values.push(params[key]);
-					break;
-			}
-		}
-		fields.push('datamodificacao');
-		values.push('now()');
-		fields.push('idutilizador');
-		values.push(request.session.userid);
-		var i = 0, buracos = [];
-		for ( i = 1; i <= fields.length; i++) {
-			buracos.push('$' + i);
-		}
 		var conn = db.connect();
-		conn.query('INSERT INTO ppgis.tipoocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
-			db.disconnect(conn);
+		var sql = 'select max(id) as contador from ppgis.tipoocorrencia where idplano = ' + params.idplano;
+		conn.query(sql, function(err, result) {
 			if (err) {
+				console.log('SQL=' + sql + ' Error: ', err);
 				db.debugError(callback, err);
 			} else {
-				callback({
-					success : true,
-					message : 'Dados atualizados',
-					data : resultInsert.rows
-					// id : resultInsert.rows[0].id
+				var next = result.rows[0].contador + 1;
+				params.id = next;
+				// isclass exists in Model, but not on DB
+				delete params.isclass;
+				var fields = [], values = [];
+				for (var key in params) {
+					fields.push(key);
+					values.push(params[key]);
+				}
+				fields.push('datamodificacao');
+				values.push('now()');
+				fields.push('idutilizador');
+				values.push(request.session.userid);
+				var i, buracos = [];
+				for ( i = 1; i <= fields.length; i++) {
+					buracos.push('$' + i);
+				}
+				conn.query('INSERT INTO ppgis.tipoocorrencia (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function(err, resultInsert) {
+					db.disconnect(conn);
+					if (err) {
+						db.debugError(callback, err);
+					} else {
+						callback({
+							success : true,
+							message : 'Dados atualizados',
+							data : resultInsert.rows
+							// id : resultInsert.rows[0].id
+						});
+					}
 				});
 			}
 		});
 	},
 	updateTipoOcorrencia : function(params, callback, sessionID, request) {
 		console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
-		var fields = [], values = [], i = 0, id = 0;
-		// o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
-		// Está a deixar alterar a dataregisto, mas depois a ideia é não deixar
+		console.log('updateTipoOcorrencia: ', params);
+		/*
+		 { id: 5,
+		 idplano: 2,
+		 designacao: 'Acidente grave sem feridos',
+		 ativa: true,
+		 classe: 0,
+		 isclass: false }
+		 */
+		var fields = [], values = [], i = 1;
+		var id = params.id;
+		delete params.id;
+		var idplano = params.idplano;
+		delete params.idplano;
+		delete params.isclass;
 		for (var key in params) {
-			// if (i==0 && key == 'id') {
-			if (i == 0) {
-				id = params[key];
-			} else {
-				fields.push(key + '= $' + i);
-				values.push(params[key]);
-			}
+			fields.push(key + '= $' + i);
+			values.push(params[key]);
 			i = i + 1;
 		}
 		fields.push('datamodificacao = $' + i);
@@ -757,12 +763,12 @@ var DXParticipacao = {
 		values.push(request.session.userid);
 		if (request.session.userid && request.session.groupid <= 1) {
 			var conn = db.connect();
-			conn.query('UPDATE ppgis.tipoocorrencia SET ' + fields.join() + ' WHERE id = ' + id, values, function(err, result) {
+			conn.query('UPDATE ppgis.tipoocorrencia SET ' + fields.join() + ' WHERE id = ' + id + ' AND idplano = ' + idplano, values, function(err, result) {
 				if (err) {
-					console.log('UPDATE =' + sql + ' Error: ' + err);
+					console.log('UPDATE Error: ' + err);
 					db.debugError(callback, err);
 				} else {
-					var sql = 'SELECT * FROM ppgis.tipoocorrencia where id = ' + id;
+					var sql = 'SELECT * FROM ppgis.tipoocorrencia where id = ' + id + ' AND idplano = ' + idplano;
 					conn.query(sql, function(err, resultSelect) {
 						db.disconnect(conn);
 						if (err) {
@@ -787,9 +793,9 @@ var DXParticipacao = {
 	},
 	destroyTipoOcorrencia : function(params, callback, sessionID, request) {
 		// falta proteger só para grupo admin
-		console.log('destroyTipoOcorrencia: ', params.id);
+		console.log('destroyTipoOcorrencia: ', params);
 		var conn = db.connect();
-		var sql = 'delete FROM ppgis.tipoocorrencia where id = ' + params.id;
+		var sql = 'delete FROM ppgis.tipoocorrencia where id = ' + params.id + ' AND idplano = ' + params.idplano;		
 		conn.query(sql, function(err, result) {
 			db.disconnect(conn);
 			if (err) {
@@ -805,7 +811,7 @@ var DXParticipacao = {
 	readTipoOcorrencia : function(params, callback, sessionID, request) {
 		console.log('readTipoOcorrencia: ');
 		console.log(params);
-		var plano = params;
+		var plano = params.idplano;
 		// ???
 		var userid = request.session.userid;
 		var conn = db.connect();
@@ -820,7 +826,6 @@ var DXParticipacao = {
 				console.log('SQL=' + sql + ' Error: ', err);
 				db.debugError(callback, err);
 			} else {
-				console.log('SQL=' + sql + ' Error: ', err);
 				//get totals for paging
 				var totalQuery = 'SELECT count(*) as totals from ppgis.tipoocorrencia where idplano = ' + plano;
 				conn.query(totalQuery, function(err, resultTotalQuery) {

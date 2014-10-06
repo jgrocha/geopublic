@@ -29,8 +29,6 @@ Ext.define('DemoExtJs.controller.Participation.EstadoOcorrencia', {
 				// edit : this.onEdit
 			}
 		});
-		this.application.on({
-		});
 		this.getParticipationEstadoOcorrenciaStore().addListener("write", function(store, operation, eOpts) {
 			switch (operation.action) {
 				case "create":

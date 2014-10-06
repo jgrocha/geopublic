@@ -85,7 +85,9 @@ Ext.define('DemoExtJs.controller.Plano', {
 		if ((selection.length == 1) && (selection[0].data.id > 0)) {
 			console.log('Ler os tipos e estados de ocorrências do plano ', selection[0].data.id);
 			storeTipo.load({
-				id : selection[0].data.id
+				params : {
+					idplano : selection[0].data.id
+				}
 			});
 			storeEstado.load({
 				params : {

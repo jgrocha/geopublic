@@ -4,8 +4,8 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 	title : 'Nova participação',
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit', 'DemoExtJs.view.Participation.Fotografia'],
 	bodyPadding : 5, // o que está dentro
-	frame: true,
-	margin: '5 5 5 5',	
+	frame : true,
+	margin : '5 5 5 5',
 	autoHeight : true,
 	layout : {
 		type : 'vbox',
@@ -18,12 +18,16 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 		autoWidth : true,
 		items : [{
 			xtype : 'hiddenfield',
-			name : 'feature'
+			name : 'feature',
+			allowBlank : false
 		}, {
 			xtype : 'textfield',
 			// fieldLabel : 'titulo',
 			emptyText : 'Título...',
 			name : 'titulo',
+			allowBlank : false,
+			minLength : 5,
+			allowOnlyWhitespace : false,
 			anchor : '100%'
 		}, {
 			xtype : 'combo',
@@ -50,6 +54,9 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 			emptyText : 'Descreva a sua participação...',
 			anchor : '100%',
 			height : 80,
+			allowBlank : false,
+			minLength : 5,
+			allowOnlyWhitespace : false,
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>'
 		}, {
 			xtype : 'fotografiatmp' // serve para mostrar as fotografias a partir do store
@@ -103,7 +110,7 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 	}],
 	dockedItems : [{
 		xtype : 'toolbar',
-		// flex : 1,
+		itemId : 'contributiontb',
 		dock : 'bottom',
 		layout : {
 			pack : 'end',
@@ -117,6 +124,9 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 			enableToggle : true,
 			text : ''
 		}, {
+			xtype : 'tbtext',
+			text : 'Sem localização'
+		}, {
 			xtype : 'tbfill'
 		}, {
 			xtype : 'button',
@@ -126,9 +136,10 @@ Ext.define('DemoExtJs.view.Participation.Contribution', {
 		}, {
 			xtype : 'button',
 			itemId : 'gravar',
-			// formBind : true,
+			formBind : true, // mas já está fora do form#detail
 			icon : 'resources/assets/pencil.png',
-			text : 'Participar'
+			text : 'Participar',
+			disabled : true
 		}]
 	}]
 });

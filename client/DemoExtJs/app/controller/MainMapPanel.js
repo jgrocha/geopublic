@@ -18,6 +18,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 		selector : 'contribution form#detail',
 		ref : 'formContribution' // gera um getFormContribution
 	}, {
+		selector : 'contribution toolbar#contributiontb tbtext',
+		ref : 'contributionCoordinates' // gera um getContributionCoordinates()
+	}, {
 		selector : 'contribution form#photos',
 		ref : 'formPhotos' // gera um getFormPhotos
 	}, {
@@ -231,7 +234,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			// console.log('Ler os tipo de ocorrência do plano ' + plano + ' do promotor ' + promotor);
 			var tostore = this.getTipoOcorrenciaComboStore();
 			tostore.load({
-				id : plano
+				params : {
+					idplano : plano
+				}
 			});
 
 			// console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
@@ -260,6 +265,9 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 			});
 			// load do store
 			this.getFotografiatmp().store.load();
+
+
+			this.fireEvent('changePlan');
 
 			// Abrir a barra do StartPanel e mostrar todos os promotores...
 			// controller StartPanel showPromotores(null);
@@ -477,11 +485,24 @@ Ext.define('DemoExtJs.controller.MainMapPanel', {
 				// console.log(f);
 
 				// vou ver se já existia um ponto marcado (mas não gravado)
+				// FALTA!
 
 				me.getFormContribution().getForm().setValues({
 					feature : f.id
 				});
 
+				// Mostrar as coordenadas no form
+				// console.log('Mudar as coordenadas' + f.geometry.toString());
+				// console.log(me.getContributionCoordinates());
+				// converter coordenadas e formatar...
+				// console.log(f);
+				var novo = new OpenLayers.LonLat(f.geometry.x, f.geometry.y).transform(f.layer.map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
+				// console.log(novo);
+				me.getContributionCoordinates().setText(novo.lon.toFixed(5) + ' ' + novo.lat.toFixed(5));
+
+				// check if the Save button can be enabled
+				me.fireEvent('featureAdded');
+			
 				// event.feature
 				// event.feature.state === "Insert"
 				if (me.getLocal().pressed) {

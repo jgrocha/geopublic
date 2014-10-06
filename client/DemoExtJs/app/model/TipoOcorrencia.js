@@ -1,6 +1,13 @@
 Ext.define('DemoExtJs.model.TipoOcorrencia', {
 	extend : 'Ext.data.Model',
-	fields : [{
+	fields : [/*{
+	 name : 'id',
+	 type : 'string',
+	 convert : function(value, record) {
+	 return record.get('id') + '-' + record.get('idplano');
+	 }
+	 }, */
+	{
 		name : 'id',
 		type : 'int'
 	}, {
@@ -23,7 +30,7 @@ Ext.define('DemoExtJs.model.TipoOcorrencia', {
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct
 	proxy : {
 		type : 'direct',
-		paramOrder : 'id', // Tells the proxy to pass the id as the first parameter to the remoting method.
+		// paramOrder : 'id', // Tells the proxy to pass the id as the first parameter to the remoting method.
 		api : {
 			create : 'ExtRemote.DXParticipacao.createTipoOcorrencia',
 			read : 'ExtRemote.DXParticipacao.readTipoOcorrencia',
@@ -34,12 +41,9 @@ Ext.define('DemoExtJs.model.TipoOcorrencia', {
 			type : 'json',
 			root : 'data',
 			messageProperty : 'message' // mandatory if you want the framework to set it's content
+		},
+		writer : {
+			writeAllFields : true
 		}
-		// NÃO TESTADO; acrescentei par ver se dava para ir só as partes modificadas do RowEditor
-		/*
-		 writer : {
-		 writeAllFields : false
-		 }
-		 */
 	}
 });

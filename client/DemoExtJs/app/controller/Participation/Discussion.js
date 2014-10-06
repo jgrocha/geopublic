@@ -27,15 +27,14 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 		if (!p.loaded) {
 			ExtRemote.DXParticipacao.readComment(o, function(result, event) {
 				if (result.success) {
-					console.log(result.data);
-					// console.log(result.data.haquantotempo);
+					// console.log(result.data);
 					// result.data é um array...
 					// tenho que mudar cada componente do array...
-
+					// "haquantotempo": {"hours":2,"minutes":41,"seconds":59}
 					var aux = [];
 					Ext.Array.each(result.data, function(rec, index, comments) {
 						console.log(rec);
-						var datacriacao = Ext.Date.parse(rec.datacriacao,'c');
+						var datacriacao = Ext.Date.parse(rec.datacriacao, 'c');
 						var tempo = 'Há ';
 						if (!rec.haquantotempo.days) {
 							rec.haquantotempo.days = 0;
@@ -64,8 +63,7 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 							tempo : tempo
 						}));
 					});
-					// {"hours":2,"minutes":41,"seconds":59}
-					console.log(result.total);
+					// console.log(result.total);
 					p.update(aux);
 					p.numcomments = parseInt(result.total);
 					p.setTitle(p.numcomments + ' comentários');
@@ -113,15 +111,24 @@ Ext.define('DemoExtJs.controller.Participation.Discussion', {
 
 				var p = button.up('discussion').down('commentlist');
 				console.debug(p);
-				// junto este aos comentários existentes
-				if (p.numcomments > 0) {
-					p.data.push(result.data[0]);
+
+				if (p.loaded) {
+					// junto este aos comentários existentes
+					var tempo = 'Há menos de 1 minuto';
+					// if (p.numcomments > 0) {
+					p.data.push(Ext.apply(result.data[0], {
+						tempo : tempo
+					}));
 					p.update(p.data);
+					// } else {
+					// 	p.update(result.data[0]);
+					// }
+					p.numcomments = p.numcomments + 1;
+					p.setTitle(p.numcomments + ' comentários');
 				} else {
-					p.update(result.data[0]);
+					// Abre os comentários
+					p.expand(true);
 				}
-				p.numcomments = p.numcomments + 1;
-				p.setTitle(p.numcomments + ' comentários');
 
 				// alterar a cor do feature em função da alteração do estado
 				// se houve alteração do estado...

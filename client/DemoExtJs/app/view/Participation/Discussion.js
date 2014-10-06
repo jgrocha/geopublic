@@ -60,7 +60,7 @@ Ext.define('DemoExtJs.view.Participation.Discussion', {
 		}
 
 		this.items = [{
-			html : this.initialConfig.participacao + '<p><img src="' + this.initialConfig.fotografia + '" align="left">Por <b>' + this.initialConfig.nome + '</b><br/>' + tempo + '</p>'
+			html : this.initialConfig.participacao + '<p><img src="' + this.initialConfig.fotografia + '" align="left" height="32" width="32">Por <b>' + this.initialConfig.nome + '</b><br/>' + tempo + '</p>'
 		}, {
 			xtype : 'fotografia',
 			config : {
