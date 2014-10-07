@@ -1,39 +1,20 @@
-#### Sample application that shows different scenarios when connecting ExtJs 4.2+ application to backend via Ext.Direct:
+#### GeoPublic application
 
-  * Direct method call
+This application is written in Javascript, using the ExtJS 4, GeoExt and Opnelayers.
+
+  * Install [Sencha Cmd](http://www.sencha.com/products/sencha-cmd/download)
+
+  * Install node
   
-  * Form load / submit
+  * Get (ExtJS)[https://www.sencha.com/products/extjs/download/ext-js-4.2.1/2281]
+  
+  * Import git project in Eclipse, from (GitHub)[https://github.com/jgrocha/geopublic]
 
-  * Grid CRUD operations
-
-  * Form file upload
-
-  * Tree root / child dynamic load
-
-  * Cookie (Session data)
-
-Note: Adjust your server path in file DirectAPI.js to match deployment environment.
-By default it's pointing to 'http://localhost:3000/directapi'
-
-Important! If you are using mongodb as your backend, you have to add mapping for id field!
-
-Example:
-
-```js
-fields: [
-    {
-        name: 'id',
-        mapping: '_id' // <- this is important
-    },
-    {
-        name: 'text'
-    },
-    {
-        name: 'complete',
-        type: 'boolean'
-    }
-],
-```
+  * Copy Ext to ...
+  
+  * Copy OpenLayers to ...
+  
+  * Copy GeoExt2 to ...
  
 ### GeoExt 2
 
@@ -64,9 +45,3 @@ Not managed by sencha app
 ### MapProxy
 
 Está a ser utilizado o MapProxy para servir tiles do OpenStreetMap reprojetados no EPSG:3763.
-
-### MapFish Print ou GeoServer Print Module
-
-Ver qual é melhor
-
-

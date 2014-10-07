@@ -17,8 +17,8 @@ Ext.define('DemoExtJs.Application', {
 			google : '171807226739-pl2lsvoh70jeqqtkcdrqpo9j8urfdcij.apps.googleusercontent.com',
 			// https://account.live.com/developers/applications/index
 			// https://account.live.com/developers/applications/ApiSettings?id=0000000048117A44
-			// We can get only one application per domain :-(	
-			// windows live authentication is disabled in the login form		
+			// We can get only one application per domain :-(
+			// windows live authentication is disabled in the login form
 			windows : '0000000048117A44'
 		});
 		var sessionstart = function(auth) {
@@ -81,7 +81,9 @@ Ext.define('DemoExtJs.Application', {
 		} else {
 			DemoExtJs.geoserver = 'http://cm-agueda.geomaster.pt:8080';
 			DemoExtJs.mapproxy = ['http://a.geomaster.pt/mapproxy/tms/', 'http://b.geomaster.pt/mapproxy/tms/', 'http://c.geomaster.pt/mapproxy/tms/', 'http://d.geomaster.pt/mapproxy/tms/'];
-			socket = io.connect({ path: '/ppgis/socket.io'});
+			socket = io.connect({
+				path : '/ppgis/socket.io'
+			});
 		}
 
 		// var socket = io.connect();
@@ -93,9 +95,13 @@ Ext.define('DemoExtJs.Application', {
 
 		socket.on('comment', function(data) {
 			console.log('Novo comentário: ', data);
+			// Recebe novas estatísticas
+			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
 		});
 		socket.on('participation', function(data) {
 			console.log('Nova ocorrência: ', data);
+			// Recebe novas estatísticas
+			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
 		});
 	},
 	launch : function() {

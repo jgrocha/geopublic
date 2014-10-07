@@ -234,7 +234,7 @@ var DXLogin = {
 							console.log(err);
 						} else {
 							smtpTransport.sendMail({
-								// from : 'Jorge Gustavo <jorgegustavo@sapo.pt>',
+								from : global.App.from, // 'Jorge Gustavo <jorgegustavo@sapo.pt>',
 								to : locals.email,
 								subject : locals.subject,
 								html : html,
@@ -383,7 +383,7 @@ var DXLogin = {
 												console.log(err);
 											} else {
 												smtpTransport.sendMail({
-													// from : 'Jorge Gustavo <jorgegustavo@sapo.pt>',
+													from : global.App.from, // 'Jorge Gustavo <jorgegustavo@sapo.pt>',
 													to : locals.email,
 													subject : locals.subject,
 													html : html,

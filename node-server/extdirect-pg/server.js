@@ -19,16 +19,13 @@ var RedisStore = require('connect-redis')(express);
 var redis = require("redis").createClient();
 
 var transport = nodemailer.createTransport("SMTP", {
-	service : "Gmail",
-	auth : {
-		user : "estibordo@gmail.com",
-		pass : "79colemil"
-	}
+    host: 'localhost',
+    port: 25
 });
 
 // Deployment url
 global.App.url = ServerConfig.url; // 'http://cm-agueda.geomaster.pt/ppgis/';
-
+global.App.from = 'ppgis@geomaster.pt';
 global.App.transport = transport;
 global.App.templates = templatesDir;
 
@@ -146,8 +143,6 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 
 app.get('/registo/:id', routes.registo(global.App.database));
 app.get('/reset/:id', routes.reset(global.App.database));
-
-app.get('/search', routes.searchProcesso(global.App.database));
 
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function(request, response) {

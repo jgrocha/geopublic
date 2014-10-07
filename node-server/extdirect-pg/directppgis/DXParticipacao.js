@@ -106,28 +106,30 @@ var DXParticipacao = {
 						db.debugError(callback, err);
 					} else {
 						db.disconnect(conn);
-						io.emit('comment', {
-							msg : 'Novo comentário',
-							params : params,
-							idutilizador : request.session.userid
-						});
-						//release connection
 						callback({
 							success : true,
 							data : result.rows, // toJson(result.rows, resultTotalQuery.rows[0].totals),
 							total : result.rows.length
 						});
+						/*
+						 * Atualizar as estatísticas...
+						 */
+						DXParticipacao.numeros({}, function(res) {
+							console.log('Novas estatísticas calculadas: ');
+							// console.log(res.data);
+							if (res.success) {
+								io.emit('comment', {
+									msg : 'Novo comentário',
+									params : params,
+									idutilizador : request.session.userid,
+									numeros : res.data
+								});
+							} else {
+								console.log('Problema GRAVE ao calcular as novas estatísticas. O mundo está perdido.');
+							}
+						});
 					}
 				});
-
-				/*
-				 callback({
-				 success : true,
-				 message : 'Comentário registado',
-				 data : resultInsert.rows
-				 // id : resultInsert.rows[0].id
-				 });
-				 */
 			}
 		});
 	},
@@ -394,16 +396,29 @@ var DXParticipacao = {
 						}
 						conn.query('COMMIT', function(err, result) {
 							db.disconnect(conn);
-							io.emit('participation', {
-								msg : 'Nova ocorrência',
-								params : params,
-								idutilizador : request.session.userid
-							});
 							callback({
 								success : true,
 								message : 'Ocorrência inserida',
 								data : resultInsert.rows,
 								dataphoto : result2Insert
+							});
+							/*
+							 * Atualizar as estatísticas...
+							 */
+							DXParticipacao.numeros({}, function(res) {
+								console.log('Novas estatísticas calculadas: ');
+								// console.log(res.data);
+								if (res.success) {
+									io.emit('participation', {
+										msg : 'Nova ocorrência',
+										params : params,
+										idutilizador : request.session.userid,
+										numeros : res.data
+									});
+
+								} else {
+									console.log('Problema GRAVE ao calcular as novas estatísticas. O mundo está perdido.');
+								}
 							});
 						});
 					});
