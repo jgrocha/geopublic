@@ -494,10 +494,11 @@ var DXParticipacao = {
 		};
 
 		/*
-		 callback({
-		 success : true,
-		 data : obj
-		 });
+		 select 'promoters' as table, count(*) from ppgis.promotor UNION
+		 select 'plans' as table, count(*) from ppgis.plano UNION
+		 select 'participations' as table, count(*) from ppgis.ocorrencia where NOT apagado UNION
+		 select 'comments' as table, count(*) from ppgis.comentario UNION
+		 select 'images' as table, count(*) from ppgis.fotografia
 		 */
 
 		var conn = db.connect();

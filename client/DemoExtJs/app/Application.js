@@ -96,12 +96,14 @@ Ext.define('DemoExtJs.Application', {
 		socket.on('comment', function(data) {
 			console.log('Novo comentário: ', data);
 			// Recebe novas estatísticas
-			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel				
+			me.fireEvent('newComment', data);
 		});
 		socket.on('participation', function(data) {
 			console.log('Nova ocorrência: ', data);
 			// Recebe novas estatísticas
 			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+			me.fireEvent('newParticipation', data);
 		});
 	},
 	launch : function() {

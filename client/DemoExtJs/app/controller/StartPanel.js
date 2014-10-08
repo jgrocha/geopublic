@@ -12,6 +12,9 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		selector : 'viewport > tabpanel > startpanel #promotorbar',
 		ref : 'promotorBar' // gera um getPromotorBar
 	}, {
+		selector : 'viewport > tabpanel > startpanel #circlebar',
+		ref : 'circleBar' // gera um getCircleBar
+	}, {
 		selector : 'viewport > tabpanel > startpanel #planbar',
 		ref : 'planBar' // gera um getPlanBar
 	}, {
@@ -32,6 +35,11 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		this.getPlanoComboStore().on({
 			scope : this,
 			load : this.showPlanos
+		});
+		this.application.on({
+			scope : this,
+			newComment : this.onNewComment,
+			newParticipation : this.onNewParticipation
 		});
 		this.control({
 			'startpanel' : {
@@ -61,6 +69,18 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 			}
 		});
 	},
+	onNewComment : function(data) {
+		console.log('onNewComment');
+		console.log(arguments);
+		var pcomments = this.getCircleBar().down('container#commentscircle');
+		pcomments.update(data.numeros.comments + ' Comentários');
+	},
+	onNewParticipation : function(data) {
+		console.log('onNewParticipation');
+		console.log(arguments);
+		var pparticipations = this.getCircleBar().down('container#participationscircle');
+		pparticipations.update(data.numeros.participations + ' Participações');
+	},
 	onPlanSelectMapPanel : function() {
 		var plano = this.getComboplano().getValue();
 		if (plano) {
@@ -82,12 +102,14 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 			tp.removeAll(true);
 
 			var newDescricao = new DemoExtJs.view.StartPlanoDescricao({
+				idplano : idplano,
 				descricao : descricao,
 				designacao : designacao
 			});
 			tp.add(newDescricao);
 
 			var newEstatisticas = new DemoExtJs.view.StartPlanoEstatisticas({
+				idplano : idplano,
 				descricao : descricao,
 				designacao : designacao
 			});
@@ -134,7 +156,7 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		// var escolhido = button.up('startpromotor').idpromotor;
 		var escolhido = promoterPanel.idpromotor;
 		// setting the combo will call showPlanos
-		this.getCombopromotor().setValue(escolhido);		
+		this.getCombopromotor().setValue(escolhido);
 	},
 	/* deprecated :-) */
 	onPromotorClick : function(button, e, options) {
@@ -148,7 +170,7 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 		// setting the combo will call showPlanos
 		this.getCombopromotor().setValue(escolhido);
 	},
-	
+
 	showPlanos : function() {
 		var me = this;
 		console.log('showPlanos');

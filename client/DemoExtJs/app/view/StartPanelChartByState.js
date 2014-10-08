@@ -12,38 +12,29 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 	insetPadding : 60,
 	theme : 'Base:gradients',
 	initComponent : function() {
-		var generateData = function(n, floor) {
-			var estados = ["Aberta", "Em resolução", "Encaminhada", "Fechada"];
-			var data = [], p = (Math.random() * 11) + 1, i;
-			floor = (!floor && floor !== 0) ? 20 : floor;
-			for ( i = 0; i < (n || 12); i++) {
-				data.push({
-					name : estados[i],
-					data1 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data2 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data3 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data4 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data5 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data6 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data7 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data8 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data9 : Math.floor(Math.max((Math.random() * 100), floor))
-				});
-			}
-			return data;
-		};
+		/*
+		 * SELECT e.id, e.estado, COUNT(o.idestado)
+		 FROM ppgis.estado e
+		 LEFT JOIN ppgis.ocorrencia o ON (e.id = o.idestado AND e.idplano = o.idplano)
+		 WHERE e.idplano = 2
+		 GROUP BY e.id, e.estado;
+		 */
+
 		// global!
 		this.store = Ext.create('Ext.data.JsonStore', {
-			fields : ['name', 'data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data9', 'data9']
+			fields : ['state', 'count']
 		});
-		this.store.loadData(generateData(4, 20));
+		var data = [{state: 'Aberta', count: 20}, {state: 'Fechada', count: 10} ];
+		this.store.loadData(data); //generateData(4, 20));
+	
 		console.log('this.store');
 		console.log(this.store);
 		this.series = [{
 			type : 'pie',
-			field : 'data1',
+			field : 'count',
 			showInLegend : true,
 			donut : 35,
+			/*
 			tips : {
 				trackMouse : true,
 				width : 140,
@@ -52,18 +43,19 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 					//calculate percentage.
 					var total = 0;
 					this.store.each(function(rec) {
-						total += rec.get('data1');
+						total += rec.get('count');
 					});
-					this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data1') / total * 100) + '%');
+					this.setTitle(storeItem.get('state') + ': ' + Math.round(storeItem.get('count') / total * 100) + '%');
 				}
 			},
+			*/
 			highlight : {
 				segment : {
 					margin : 20
 				}
 			},
 			label : {
-				field : 'name',
+				field : 'state',
 				display : 'rotate',
 				contrast : true,
 				font : '12px Arial'

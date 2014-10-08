@@ -2,7 +2,7 @@ Ext.define('DemoExtJs.view.StartPlanoEstatisticas', {
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.startplanoestatisticas',
 	title : 'Gráficos',
-	minHeight: 290,
+	minHeight : 290,
 	// itemId : 'estatisticas',
 	layout : {
 		type : 'hbox',
@@ -25,12 +25,18 @@ Ext.define('DemoExtJs.view.StartPlanoEstatisticas', {
 			xtype : 'startpanelchartbytype',
 			layout : 'fit',
 			width : 560,
-			height : 280
+			height : 280,
+			config : {
+				idplano : this.idplano
+			}
 		}, {
 			xtype : 'startpanelchartbystate',
 			layout : 'fit',
 			width : 280,
-			height : 280
+			height : 280,
+			config : {
+				idplano : this.idplano
+			}
 		}];
 		this.callParent(arguments);
 	}
