@@ -1,7 +1,8 @@
 Ext.define('DemoExtJs.controller.StartPanel', {
 	extend : 'Ext.app.Controller',
 	requires : ['DemoExtJs.view.StartPlano', 'DemoExtJs.view.StartPlanoDescricao'],
-	stores : ['PromotorCombo', 'PlanoCombo'], // getPromotorComboStore(), getPlanoComboStore()
+	stores : ['PromotorCombo', 'PlanoCombo', 'Participation.ChartByState', 'Participation.ChartByType'], 
+	// getPromotorComboStore(), getPlanoComboStore(), getParticipationChartByStateStore(), getParticipationChartByTypeStore()
 	refs : [{
 		selector : 'viewport > tabpanel',
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
@@ -108,6 +109,21 @@ Ext.define('DemoExtJs.controller.StartPanel', {
 			});
 			tp.add(newDescricao);
 
+			/*
+			 * Abre o store...
+			 */
+			this.getParticipationChartByTypeStore().load({
+				params : {
+					idplano : idplano
+				}
+			});
+			
+			this.getParticipationChartByStateStore().load({
+				params : {
+					idplano : idplano
+				}
+			});
+			
 			var newEstatisticas = new DemoExtJs.view.StartPlanoEstatisticas({
 				idplano : idplano,
 				descricao : descricao,

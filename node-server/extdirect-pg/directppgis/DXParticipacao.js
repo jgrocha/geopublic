@@ -481,6 +481,94 @@ var DXParticipacao = {
 			}
 		});
 	},
+	statsByType : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.statsByType');
+		console.log(params);
+		var where = '';
+		if (params.idplano) {
+			where = 'idplano = ' + params.idplano;
+			var sql = "SELECT t.id, t.designacao AS type, COUNT(o.idtipoocorrencia) ";
+			sql += "FROM ppgis.tipoocorrencia t ";
+			sql += "LEFT JOIN ppgis.ocorrencia o ON (t.id = o.idtipoocorrencia AND t.idplano = o.idplano) ";
+			sql += "WHERE t." + where + " ";
+			sql += "GROUP BY t.id, t.designacao ";
+			sql += "ORDER BY t.id";
+			console.log(sql);
+			var conn = db.connect();
+			conn.query(sql, function(err, result) {
+				if (err) {
+					console.log('SQL=' + sql + ' Error: ', err);
+					db.debugError(callback, err);
+				} else {
+					//release connection
+					db.disconnect(conn);
+					callback({
+						success : true,
+						data : result.rows,
+						total : result.rows.length
+					});
+				}
+			});
+		} else {
+			console.log('statsByType: idplano parameter missing');
+			callback({
+				success : false
+			});
+		}
+		/*
+		 SELECT t.id, t.designacao, COUNT(o.idtipoocorrencia)
+		 FROM ppgis.tipoocorrencia t
+		 LEFT JOIN ppgis.ocorrencia o ON (t.id = o.idtipoocorrencia AND t.idplano = o.idplano)
+		 WHERE t.idplano = 1
+		 GROUP BY t.id, t.designacao
+		 ORDER BY t.id
+		 */
+	},
+	statsByState : function(params, callback, sessionID, request) {
+		console.log('DXParticipacao.statsByState');
+		console.log(params);
+		var where = '';
+		if (params.idplano) {
+			where = 'idplano = ' + params.idplano;
+			var sql = "SELECT e.id, e.estado as state, COUNT(o.idestado) ";
+			sql += "FROM ppgis.estado e ";
+			sql += "LEFT JOIN ppgis.ocorrencia o ON (e.id = o.idestado AND e.idplano = o.idplano) ";
+			sql += "WHERE e." + where + " ";
+			sql += "GROUP BY e.id, e.estado ";
+			sql += "ORDER BY e.id";
+			console.log(sql);
+
+			var conn = db.connect();
+			conn.query(sql, function(err, result) {
+				if (err) {
+					console.log('SQL=' + sql + ' Error: ', err);
+					db.debugError(callback, err);
+				} else {
+					//release connection
+					db.disconnect(conn);
+					callback({
+						success : true,
+						data : result.rows,
+						total : result.rows.length
+					});
+				}
+			});
+		} else {
+			console.log('statsByState: idplano parameter missing');
+			callback({
+				success : false
+			});
+
+		}
+		/*
+		 SELECT e.id, e.estado, COUNT(o.idestado)
+		 FROM ppgis.estado e
+		 LEFT JOIN ppgis.ocorrencia o ON (e.id = o.idestado AND e.idplano = o.idplano)
+		 WHERE e.idplano = 2
+		 GROUP BY e.id, e.estado
+		 ORDER BY e.id;
+		 */
+	},
 	numeros : function(params, callback, sessionID, request) {
 		console.log('DXParticipacao.numeros');
 		console.log(params);

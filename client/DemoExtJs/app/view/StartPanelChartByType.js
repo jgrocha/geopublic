@@ -31,7 +31,7 @@ Ext.define('DemoExtJs.view.StartPanelChartByType', {
 	axes : [{
 		type : 'Numeric',
 		position : 'top', // 'bottom',
-		fields : ['data1'],
+		fields : ['count'],
 		label : {
 			renderer : Ext.util.Format.numberRenderer('0,0')
 		},
@@ -41,7 +41,7 @@ Ext.define('DemoExtJs.view.StartPanelChartByType', {
 	}, {
 		type : 'Category',
 		position : 'left',
-		fields : ['name']
+		fields : ['type']
 		// title : 'Tipo de Ocorrência'
 	}],
 	// theme : 'CustomBlue',
@@ -60,34 +60,32 @@ Ext.define('DemoExtJs.view.StartPanelChartByType', {
 			}
 		}
 	},
+	store: 'Participation.ChartByType',
 	initComponent : function() {
-		var generateData = function(n, floor) {
-			var tipos = ["Rampeamento e rebaixamento", "Passeios", "Mobiliário Urbano", "Elementos da vegetação", "Outras situações"];
-			var data = [], p = (Math.random() * 11) + 1, i;
-			floor = (!floor && floor !== 0) ? 20 : floor;
-			for ( i = 0; i < (n || 12); i++) {
-				data.push({
-					name : tipos[i],
-					data1 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data2 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data3 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data4 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data5 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data6 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data7 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data8 : Math.floor(Math.max((Math.random() * 100), floor)),
-					data9 : Math.floor(Math.max((Math.random() * 100), floor))
-				});
-			}
-			return data;
-		};
+		/*
 		// global!
 		this.store = Ext.create('Ext.data.JsonStore', {
-			fields : ['name', 'data1', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data9', 'data9']
+			fields : ['type', 'count']
 		});
-		this.store.loadData(generateData(5, 20));
+		var data = [{
+			type : 'Rampeamento',
+			count : 20
+		}, {
+			type : 'Passeios',
+			count : 10
+		}, {
+			type : 'Cocó',
+			count : 12
+		}, {
+			type : 'Begetação',
+			count : 8
+		}];
+		this.store.loadData(data);
+		//generateData(4, 20));
+		// this.store.loadData(generateData(5, 20));
 		console.log('this.store');
 		console.log(this.store);
+		*/
 		this.series = [{
 			type : 'bar',
 			axis : 'bottom',
@@ -97,19 +95,19 @@ Ext.define('DemoExtJs.view.StartPanelChartByType', {
 				width : 140,
 				height : 28,
 				renderer : function(storeItem, item) {
-					this.setTitle(storeItem.get('name') + ': ' + storeItem.get('data1') + ' participações');
+					this.setTitle(storeItem.get('type') + ': ' + storeItem.get('count') + ' participações');
 				}
 			},
 			label : {
 				display : 'insideEnd',
-				field : 'data1',
+				field : 'count',
 				renderer : Ext.util.Format.numberRenderer('0'),
 				orientation : 'horizontal',
 				color : '#333',
 				'text-anchor' : 'middle'
 			},
-			xField : 'name',
-			yField : ['data1']
+			xField : 'type',
+			yField : ['count']
 		}];
 		this.callParent(arguments);
 	}

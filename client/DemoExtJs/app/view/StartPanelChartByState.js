@@ -11,6 +11,7 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 	 */
 	insetPadding : 60,
 	theme : 'Base:gradients',
+	store: 'Participation.ChartByState',
 	initComponent : function() {
 		/*
 		 * SELECT e.id, e.estado, COUNT(o.idestado)
@@ -21,6 +22,7 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 		 */
 
 		// global!
+		/*
 		this.store = Ext.create('Ext.data.JsonStore', {
 			fields : ['state', 'count']
 		});
@@ -29,6 +31,8 @@ Ext.define('DemoExtJs.view.StartPanelChartByState', {
 	
 		console.log('this.store');
 		console.log(this.store);
+		*/
+		
 		this.series = [{
 			type : 'pie',
 			field : 'count',

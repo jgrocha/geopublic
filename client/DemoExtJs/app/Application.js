@@ -1,11 +1,11 @@
 Ext.define('DemoExtJs.Application', {
 	name : 'DemoExtJs',
-	requires : ['DemoExtJs.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'DemoExtJs.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart'],
+	requires : ['DemoExtJs.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'DemoExtJs.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
 	extend : 'Ext.app.Application',
 	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'StartPlanoEstatisticas', 'BemVindoPanel', 'MainMapPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'StartPanelChartByType', 'StartPanelChartByState'],
 	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia'],
-	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia'],
-	stores : ['Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo'],
+	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Participation.ChartByState', 'Participation.ChartByType'],
+	stores : ['Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
 	init : function() {
 		var me = this;
 		hello.init({
