@@ -95,7 +95,7 @@ app.configure(function() {
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'jade');
 	// ~/bin/favicon.sh traffic-cone-icon-512.png favicon.ico
-	// cp favicon.ico ~/git/extdirect.examples/client/DemoExtJs
+	// cp favicon.ico ~/git/extdirect.examples/client/GeoPublic
 	// app.use(express.favicon());
 	app.use(express.favicon(path.join(__dirname, 'public/resources/images/favicon.ico')));
 });

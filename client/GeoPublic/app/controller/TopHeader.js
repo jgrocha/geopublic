@@ -1,0 +1,375 @@
+Ext.define('GeoPublic.controller.TopHeader', {
+	extend : 'Ext.app.Controller',
+	stores : ['Sessao'], // getSessaoStore()
+	// Ext.ComponentQuery.query('topheader button#botaoLogin')
+	refs : [{
+		// selector : 'topheader splitbutton',
+		selector : 'topheader button#botaoLogin',
+		ref : 'botaoLogin' // gera um getBotaoLogin
+	}, {
+		selector : 'topheader button#botaoLogout',
+		ref : 'botaoLogout' // gera um getBotaoLogout
+	}, {
+		selector : 'topheader button#botaoRegisto',
+		ref : 'botaoRegisto' // gera um getBotaoRegisto
+	}, {
+		selector : 'topheader splitbutton menu',
+		ref : 'loginMenu' // gera um getLoginMenu
+	}, {
+		selector : 'login',
+		ref : 'loginPanel' // gera um getLoginPanel
+	}, {
+		selector : 'viewport > tabpanel',
+		ref : 'painelPrincipal' // gera um getPainelPrincipal
+	}],
+	init : function() {
+		console.log('O controlador está a arrancar...');
+		this.control({
+			"topheader button#botaoRegisto" : {
+				click : this.onButtonClickRegisto
+			},
+			"topheader button#botaoLogin" : {// o mesmo que "topheader splitbutton"
+				click : this.onButtonClickLogin
+			},
+			"topheader splitbutton #botaoLastAccess" : {
+				click : this.onButtonLastAccess
+			},
+			"topheader splitbutton #botaoPerfil" : {
+				click : this.onButtonClickPerfil
+			},
+			"topheader splitbutton #botaoLogout" : {
+				click : this.onButtonClickLogout
+			},
+			"login form button#lost" : {
+				click : this.onButtonClickLostPassword
+			},
+			"login form button#entrar" : {
+				click : this.onButtonClickEntrar
+			},
+			"login form button#google" : {
+				click : this.onButtonClickFacebook
+			},
+			"login form button#facebook" : {
+				click : this.onButtonClickFacebook
+			},
+			"login form button#windows" : {
+				click : this.onButtonClickFacebook
+			},
+			"login form button#cancelar" : {
+				click : this.onButtonClickCancelar
+			},
+			"registo form button#entrar" : {
+				click : this.onButtonClickRegistar
+			},
+			"registo form button#cancelar" : {
+				click : this.onButtonClickCancelar
+			},
+			"lostpassword form button#entrar" : {
+				click : this.onButtonClickSendLostPassword
+			},
+			"lostpassword form button#cancelar" : {
+				click : this.onButtonClickCancelar
+			},
+			"login form textfield" : {
+				// é disparado tanto em field.name = "user" como em field.name = "password"
+				specialkey : this.onTextfieldSpecialKey
+			} /* ,
+			 "demo-cookies toolbar button" : {
+			 click : this.onButtonClickAuthentificate
+			 } */
+		});
+		this.application.on({
+			scope : this,
+			loginComSucesso : this.onLogin,
+			logoutComSucesso : this.onLogout
+		});
+		// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Server-event-exception
+		this.getSessaoStore().proxy.addListener("exception", function(proxy, response, operation, eOpts) {
+			var resultado = Ext.JSON.decode(response.responseText);
+			Ext.Msg.show({
+				title : 'Erro',
+				msg : resultado.errors.reason,
+				icon : Ext.Msg.ERROR,
+				buttons : Ext.Msg.OK
+			});
+			// this.getGruposStore().rejectChanges();
+		}, this);
+		this.getSessaoStore().proxy.addListener("load", this.onSessaoStoreLoad, this);
+	},
+	onSessaoStoreLoad : function(proxy, records, successful, eOpts) {
+		if (!successful) {
+			Ext.MessageBox.show({
+				title : 'Data Load Error',
+				msg : 'The data encountered a load error, please try again in a few minutes.'
+			});
+		} else {
+			console.log(records.length + ' registos foram devolvidos');
+		}
+	},
+	onLaunch : function() {
+		var me = this;
+		console.log('...O controlador arrancou.');
+		this.getBotaoLogin().menu.disable();
+	},
+	onLogout : function() {
+		console.log('Vamos reagir ao evento logoutComSucesso');
+		this.getBotaoRegisto().setDisabled(false);
+		this.getBotaoLogin().setText('Iniciar sessão');
+		// Tirar alguma fotografia que haja
+		this.getBotaoLogin().setIcon('');
+		this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
+		this.getBotaoLogin().menu.disable();
+		// eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
+		if (GeoPublic.LoggedInUser) {
+			GeoPublic.LoggedInUser = null;
+		}
+	},
+	onLogin : function() {
+		console.log('Vamos reagir ao evento loginComSucesso');
+		this.getBotaoRegisto().setDisabled(true);
+		if (GeoPublic.LoggedInUser) {
+			this.getBotaoLogin().setText(GeoPublic.LoggedInUser.data.nome);
+			this.getBotaoLogin().menu.enable();
+			this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
+		}
+		// Mostra o menu, só por curiosidade...
+		// this.getBotaoLogin().showMenu();
+		var login = this.getLoginPanel();
+		if (login) {
+			login.close();
+		}
+		// Se foi login pelo facebook, devíamos mudar o botão/ação de logout
+
+		// por a fotografia
+		// http://localhost/extjs/docs/index.html#!/api/Ext.button.Button-method-setIcon
+		if (GeoPublic.LoggedInUser.data.fotografia && GeoPublic.LoggedInUser.data.fotografia.trim() !== '') {
+			this.getBotaoLogin().setIcon(GeoPublic.LoggedInUser.data.fotografia);
+			this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
+		}
+	},
+	onButtonLastAccess : function(button, e, options) {
+		/*
+		 Ext.Msg.show({
+		 title : 'Registo de entradas',
+		 msg : 'Falta abrir o store, que tem o auo a off.',
+		 icon : Ext.Msg.INFO,
+		 buttons : Ext.Msg.OK
+		 });
+		 */
+		var mainPanel = this.getPainelPrincipal();
+		var newTab = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Last access';
+		});
+		if (!newTab) {
+			if (Ext.ClassManager.getNameByAlias('widget.grid-sessao') != "") {
+				newTab = mainPanel.add({
+					xtype : 'grid-sessao',
+					closable : true,
+					title : 'Last access'
+				});
+				// perfeito! Não serve para nada, pois no servidor uso o userid da sessão
+				this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
+				this.getSessaoStore().load();
+			} else {
+				console.log("Erro! The class " + 'widget.grid-sessao' + " does not exist!");
+			}
+		}
+		mainPanel.setActiveTab(newTab);
+	},
+	onButtonClickLostPassword : function(button, e, options) {
+		button.up('login').close();
+		Ext.create('GeoPublic.view.Users.LostPassword').show();
+	},
+	onButtonClickRegisto : function(button, e, options) {
+		var win = Ext.create('GeoPublic.view.Users.Registo');
+		win.show();
+	},
+	onButtonClickFacebook : function(button, e, options) {
+		console.debug(button.itemId);
+		hello(button.itemId).login({
+			scope : "email"
+		}, function() {
+			console.log('hello("' + button.itemId + '").login');
+		});
+	},
+	onButtonClickPerfil : function(button, e, options) {
+		console.log('Vamos mostrar e permitir atualizar o perfil do utilizador');
+		var mainPanel = this.getPainelPrincipal();
+		var newTab = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Profile';
+		});
+		if (!newTab) {
+			if (Ext.ClassManager.getNameByAlias('widget.profile') != "") {
+				newTab = mainPanel.add({
+					xtype : 'profile',
+					closable : true,
+					title : 'Profile'
+				});
+			} else {
+				console.log("Erro! The class " + 'widget.profile' + " does not exist!");
+			}
+		}
+		mainPanel.setActiveTab(newTab);
+	},
+	onButtonClickLogin : function(button, e, options) {
+		console.log('Vamos autenticar um utilizador, se não estiver já loginado');
+		// passar a verificar o objeto global GeoPublic.LoggedInUser
+		// se fechar o browser sem sair (e se tinha o recordar clicado) pode recuperar a sessão antiga
+		// ao entrar, verifico no servidor que é uma sessão conhecida e devoldo os dados do utilizador para este objeto
+		// var user = Ext.state.Manager.get("utilizador");
+		if (GeoPublic.LoggedInUser == null) {
+			var win = Ext.create('GeoPublic.view.Users.Login');
+			win.show();
+		} else {
+			//<debug>
+			console.log('Utilizador atual ' + GeoPublic.LoggedInUser.data.nome + ' com o email ' + GeoPublic.LoggedInUser.data.email);
+			if (GeoPublic.LoggedInUser["login"]) {
+				console.log("Fez login por " + GeoPublic.LoggedInUser["login"]);
+			}
+			//</debug>
+		}
+	},
+	onButtonClickLogout : function(button, e, options) {
+		var me = this;
+		//<debug>
+		console.log('logout!');
+		//</debug>
+		if (GeoPublic.LoggedInUser["login"] && GeoPublic.LoggedInUser["login"] !== "local") {
+			console.log("Fez login por " + GeoPublic.LoggedInUser["login"]);
+			// FB.logout();
+			hello(GeoPublic.LoggedInUser["login"]).logout(function() {
+				//<debug>
+				console.log("Signed out");
+				//</debug>
+			});
+		} else {
+			console.log("Fez login normal");
+			ExtRemote.DXLogin.deauthenticate({}, function(result, event) {
+				if (result.success) {
+					// Ext.Msg.alert(result.message);
+					me.application.fireEvent('logoutComSucesso');
+					// me.fireEvent('logout');	// para ser apanhado pelo mapPanel (MainMapPanel controller)
+				} else {
+					Ext.Msg.alert('Erro ao terminar a sessão.', Ext.encode(result));
+				}
+			});
+		}
+	},
+	onButtonClickSendLostPassword : function(button, e, options) {
+		var me = this;
+		//<debug>
+		console.log('registo submit');
+		//</debug>
+
+		var formPanel = button.up('form'), registo = button.up('lostpassword');
+		var email = formPanel.down('textfield[name=email]').getValue();
+
+		if (formPanel.getForm().isValid()) {
+			ExtRemote.DXLogin.reset({
+				email : email
+			}, function(result, event) {
+				if (result.success) {
+					Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
+				} else {
+					Ext.Msg.alert('Problems with password', result.message);
+				}
+				registo.close();
+			});
+		} else {
+			Ext.Msg.alert('Preenchimento incorreto', 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos.');
+		}
+	},
+
+	onButtonClickRegistar : function(button, e, options) {
+		var me = this;
+		//<debug>
+		console.log('registo submit');
+		//</debug>
+
+		var formPanel = button.up('form'), registo = button.up('registo');
+		var email = formPanel.down('textfield[name=email]').getValue(), name = formPanel.down('textfield[name=name]').getValue(), password = formPanel.down('textfield[name=password]').getValue(), password2x = formPanel.down('textfield[name=password2x]').getValue();
+		var sha1 = CryptoJS.SHA1(password).toString();
+		// var sha1 = hex_sha1(password).toLowerCase();
+
+		if (formPanel.getForm().isValid()) {
+			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
+			//<debug>
+			console.log('Vai tentar com o registo com ' + email + ' e a password = ' + password + ' codificada = ' + sha1);
+			//</debug>
+			ExtRemote.DXLogin.registration({
+				email : email,
+				name : name,
+				password : sha1
+			}, function(result, event) {
+				// result == event.result
+				// console.debug(result);
+				// console.debug(event);
+				if (result.success) {
+					Ext.Msg.alert('Processo de registo iniciado', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
+				} else {
+					Ext.Msg.alert('Problema no registo', result.message);
+				}
+				registo.close();
+			});
+		} else {
+			Ext.Msg.alert('Preenchimento incorreto', 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos.');
+		}
+	},
+
+	onButtonClickEntrar : function(button, e, options) {
+		var me = this;
+		var formPanel = button.up('form'), login = button.up('login');
+		var email = formPanel.down('textfield[name=email]').getValue(), pass = formPanel.down('textfield[name=password]').getValue();
+		var remember = formPanel.down('checkbox[name=remember]').checked;
+		//<debug>
+		if (remember) {
+			console.log('Para recordar...');
+		} else {
+			console.log('NÃO recordar NESTE COMPUTADOR...');
+		}
+		//</debug>
+		var sha1 = CryptoJS.SHA1(pass).toString();
+		// var sha1 = hex_sha1(pass).toLowerCase();
+		if (formPanel.getForm().isValid()) {
+			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
+			//<debug>
+			console.log('Vai tentar com o login com ' + email + ' e a password = ' + pass + ' codificada = ' + sha1);
+			//</debug>
+			ExtRemote.DXLogin.authenticate({
+				email : email,
+				password : sha1,
+				remember : remember
+			}, function(result, event) {
+				// result == event.result
+				console.debug(result);
+				// console.debug(event);
+				if (result.success) {
+					// We have a valid user data
+					// Ext.Msg.alert('Successul login', Ext.encode(result));
+					GeoPublic.LoggedInUser = Ext.create('GeoPublic.model.Utilizador', result.data[0]);
+					GeoPublic.LoggedInUser["login"] = "local";
+					/*
+					 * se remember, altero o cookie para sobreviver mais tempo
+					 * se o cookie sobreviver, ele será loginado na próxima vez
+					 * não preciso de usar o local storage ou qualquer outro cookie
+					 */
+					me.application.fireEvent('loginComSucesso');
+					// login.close(); // passou para o evento
+				} else {
+					Ext.Msg.alert('Erro ao iniciar sessão.', Ext.encode(result));
+				}
+			});
+		}
+	},
+	onButtonClickCancelar : function(button, e, options) {
+		button.up('form').getForm().reset();
+		button.up('window').close();
+	},
+	onTextfieldSpecialKey : function(field, e, options) {
+		if (e.getKey() == e.ENTER) {
+			console.log('Carregou no ENTER');
+			var entrar = field.up('form').down('button#entrar');
+			entrar.fireEvent('click', entrar, e, options);
+		}
+	}
+});
