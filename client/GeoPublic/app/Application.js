@@ -1,12 +1,31 @@
+// http://alvinalexander.com/sencha/how-to-sencha-extjs-splash-screen-loading
+
+String.prototype.translate = function() {
+	var s = this.valueOf();
+	console.log('TRANSLATE: ' + s);
+	var t = {}, i = 0, n = GeoPublic.Translation.length;
+	while (i < n) {
+		t = GeoPublic.Translation[i];
+		// console.log(t);
+		if (t.id == s) {
+			return t.translation;
+		}
+		i++;
+	}
+	return s;
+};
+
 Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
-	requires : ['GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
+	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
 	extend : 'Ext.app.Application',
 	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'StartPlanoEstatisticas', 'BemVindoPanel', 'MainMapPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'StartPanelChartByType', 'StartPanelChartByState'],
 	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia'],
 	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Participation.ChartByState', 'Participation.ChartByType'],
 	stores : ['Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
+	splashscreen : {},
 	init : function() {
+		splashscreen = Ext.getBody().mask('Loading PPGIS, please stand by ...', 'splashscreen');
 		var me = this;
 		hello.init({
 			// home facebook, menu lateral esq, no fundo; apps
@@ -96,7 +115,7 @@ Ext.define('GeoPublic.Application', {
 		socket.on('comment', function(data) {
 			console.log('Novo comentário: ', data);
 			// Recebe novas estatísticas
-			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel				
+			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
 			me.fireEvent('newComment', data);
 		});
 		socket.on('participation', function(data) {
@@ -110,6 +129,21 @@ Ext.define('GeoPublic.Application', {
 		var me = this;
 		// Ext.tip.QuickTipManager.init();
 		Ext.QuickTips.init();
+
+		var task = new Ext.util.DelayedTask(function() {
+			// fade out the body mask
+			splashscreen.fadeOut({
+				duration : 750,
+				remove : true
+			});
+			// fade out the message
+			splashscreen.next().fadeOut({
+				duration : 500,
+				remove : true
+			});
+		});
+		task.delay(1000);
+
 		//<debug>
 		console.log('... tudo carregado e pronto a funcionar (app/Application.js).');
 		//</debug>

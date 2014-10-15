@@ -3,9 +3,17 @@
 if (!global['App']) {
 	global.App = {};
 }
-var express = require('express'), nconf = require('nconf'), http = require('http'), path = require('path'), extdirect = require('extdirect'), db = require('./server-db');
+var express = require('express'), //
+nconf = require('nconf'), //
+http = require('http'), //
+path = require('path'), //
+extdirect = require('extdirect'), //
+db = require('./server-db'), //
+fs = require('fs');
 
-var templatesDir = path.resolve(__dirname, 'templates'), emailTemplates = require('email-templates'), nodemailer = require('nodemailer');
+var templatesDir = path.resolve(__dirname, 'templates'), //
+emailTemplates = require('email-templates'), //
+nodemailer = require('nodemailer');
 
 var routes = require('./routes');
 
@@ -19,12 +27,13 @@ var RedisStore = require('connect-redis')(express);
 var redis = require("redis").createClient();
 
 var transport = nodemailer.createTransport("SMTP", {
-    host: 'localhost',
-    port: 25
+	host : 'localhost',
+	port : 25
 });
 
 // Deployment url
-global.App.url = ServerConfig.url; // 'http://cm-agueda.geomaster.pt/ppgis/';
+global.App.url = ServerConfig.url;
+// 'http://cm-agueda.geomaster.pt/ppgis/';
 global.App.from = 'ppgis@geomaster.pt';
 global.App.transport = transport;
 global.App.templates = templatesDir;
@@ -136,6 +145,34 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 	}
 });
 
+app.get('/translation', function(request, response) {
+	console.log(request.acceptedLanguages);
+	// [ 'pt-PT', 'pt', 'en-US', 'en', 'es', 'fr', 'it' ]
+	// testar se existem os ficheiros...
+	var exist = 0, i = 0, n = request.acceptedLanguages.length;
+	var buf = '';
+	while (!exist && (i < n)) {
+		try {
+			buf = fs.readFileSync('./public/resources/languages/' + request.acceptedLanguages[i] + '.js', 'utf8');
+			response.writeHead(200, {
+				'Content-Type' : 'application/json'
+			});
+			response.end(buf);
+			exist = 1;
+		} catch(err) {
+			console.log('Language ' + request.acceptedLanguages[i] + ' not supported');
+		}
+		i++;
+	}
+	if (!exist) {
+		console.log('None of the accepted languages is supported');
+		response.writeHead(200, {
+			'Content-Type' : 'application/json'
+		});
+		response.end('GeoPublic.Translation = [];');
+	}
+});
+
 /*
  * To give some feedback to the user, we can redirect him to a feedback page (light), with will redirect him to the application
  * Using this strategy, the user does not see/uses the parameters in the application URL
@@ -166,14 +203,16 @@ var servidor = http.createServer(app).listen(app.get('port'), function() {
 
 // http://stackoverflow.com/questions/12824612/change-socket-io-static-file-serving-path
 if ('production' == process.env.NODE_ENV) {
-	var io = require('socket.io').listen(servidor); // , { path: '/ppgis/socket.io'});
+	var io = require('socket.io').listen(servidor);
+	// , { path: '/ppgis/socket.io'});
 } else {
-	var io = require('socket.io').listen(servidor); // , { path: '/ppgis/socket.io'});
+	var io = require('socket.io').listen(servidor);
+	// , { path: '/ppgis/socket.io'});
 }
 
-io.sockets.on('connection', function (socket) {
-    console.log('A new user connected!');
-    // socket.emit('info', { msg: 'The world is round, there is no up or down.' });
+io.sockets.on('connection', function(socket) {
+	console.log('A new user connected!');
+	// socket.emit('info', { msg: 'The world is round, there is no up or down.' });
 });
 
 global.App.io = io;
