@@ -55,7 +55,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 			controller : {
 				'*' : {
 					changePlan : this.onButtonLimpar, // this.fireEvent('changePlan'); in GeoPublic.controller.MainMapPanel
-					featureAdded : this.onFeatureAdded // this.fireEvent('showPlanDetails'); in GeoPublic.controller.MainMapPanel
+					featureAdded : this.onFeatureAdded // me.fireEvent('featureAdded') in GeoPublic.controller.MainMapPanel
 				}
 			}
 		});
@@ -108,7 +108,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 		var me = this;
 		console.log("onButtonUpload");
 		me.getFormPhotos().getForm().submit({
-			waitMsg : 'Uploading your photo...',
+			waitMsg : 'Uploading your photo...'.translate(),
 			success : function(fp, o) {
 				console.log(o.result);
 				// Ext.Msg.alert('Success', 'Your photo has been uploaded.<br> File size:' + o.result.size + ' bytes.');
@@ -119,7 +119,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 				console.log(arguments);
 				Ext.MessageBox.show({
 					title : 'EXCEPTION',
-					msg : 'Error uploading file',
+					msg : 'Error uploading file'.translate(),
 					icon : Ext.MessageBox.ERROR,
 					buttons : Ext.Msg.OK
 				});

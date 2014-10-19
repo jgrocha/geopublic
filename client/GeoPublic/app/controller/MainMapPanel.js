@@ -151,6 +151,9 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 		 */
 	},
 	onOcorrenciaStoreLoad : function(store, records) {
+		// this store is loaded when:
+		// first time the plan is loaded (n records [0-n]))
+		// for each new participation added (1 record)
 		// <debug>
 		console.log('onOcorrenciaStoreLoad');
 		// console.debug(store);
@@ -159,10 +162,11 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 
 		var me = this;
 		var report = me.getMapa().map.getLayersByName('Report')[0];
-		report.destroyFeatures();
+		// report.destroyFeatures();
 		var parser = new OpenLayers.Format.GeoJSON();
 
-		for (var i = 0, len = records.length; i < len; i++) {
+		for (var i = 0,
+		    len = records.length; i < len; i++) {
 			// http://docs.openlayers.org/library/feature_styling.html
 			// http://www.codechewing.com/library/add-external-graphic-icon-to-geometry-point-openlayers/
 			// http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Feature/Vector-js.html
@@ -242,6 +246,8 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 			// console.log('Ler as ocorrências do plano ' + plano + ' do promotor ' + promotor);
 			// remover discussões eventualmente existentes de um outro plano
 			this.getTodasDiscussoes().removeAll(true);
+			var report = this.getMapa().map.getLayersByName('Report')[0];
+			report.destroyFeatures();
 
 			// ler o store (e no fim de ler, criar novos paineis)
 			var ostore = this.getOcorrenciaStore();
@@ -265,7 +271,6 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 			});
 			// load do store
 			this.getFotografiatmp().store.load();
-
 
 			this.fireEvent('changePlan');
 
@@ -426,10 +431,12 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 					return (cmp.idocorrencia == f.fid);
 				});
 				// console.log(d);
-				d.setUI('discussion-framed');
-				console.log(d);
-				var pos = d.getOffsetsTo(p)[1];
-				p.body.scroll('top', pos, true);
+				if (d) {
+					d.setUI('discussion-framed');
+					console.log(d);
+					var pos = d.getOffsetsTo(p)[1];
+					p.body.scroll('top', pos, true);
+				}
 			},
 			onUnselect : function(f) {
 				console.log('o feature ' + f.fid + ' foi deselecionado');
@@ -440,7 +447,9 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 					return (cmp.idocorrencia == f.fid);
 				});
 				// console.log(d);
-				d.setUI('default-framed');
+				if (d) {
+					d.setUI('default-framed');
+				}
 			}
 		});
 
@@ -460,23 +469,22 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 		toolbar.addControls([mapPanel.selectCtrl, mapPanel.highlightCtrl, mapPanel.insertPoint]);
 		map.addControl(toolbar);
 
+		report.events.on({
+			beforefeatureadded : function(event) {
+				console.log('report.beforefeatureadded');
+				// console.log(arguments);
+				// console.debug(event.feature);
+				if (!event.feature.attributes["title"]) {
+					event.feature.attributes["title"] = 'Nova participação'.translate();
+				}
+			}
+		});
+
 		/*
-		 report.events.on({
-		 beforefeatureadded : function(event) {
-		 console.log('report.beforefeatureadded');
-
-		 // console.log(arguments);
-		 // console.debug(event.feature);
-		 // só devia preencher estes campos para os novos features...
-		 // if (!event.feature.attributes["designacao"]) {
-		 // event.feature.attributes["designacao"] = 'Desenhado na web';
-		 // }
-		 // event.feature.attributes["idutilizador"] = GeoPublic.LoggedInUser.data.id;
-
-		 }
-		 });
+		 * 		color : records[i].data.color,
+		 *		icon : records[i].data.icon,
+		 *		title : records[i].data.titulo
 		 */
-
 		mapPanel.insertPoint.events.on({
 			featureadded : function(event) {
 				console.log('mapPanel.insertPoint.events.on featureadded');
@@ -485,8 +493,22 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 				// console.log(f);
 
 				// vou ver se já existia um ponto marcado (mas não gravado)
-				// FALTA!
+				// Percorrer TODOS os features
+				var n = f.layer.features.length;
+				var toremove = [];
+				console.log('Limpar os features temporarios. Percorrer ' + n + ' features existentes.');
+				// Excepto este acabado de inserir!
+				for (var i = 0; i < n; i++) {
+					console.log(f.layer.features[i].id, f.layer.features[i].fid);
+					// remover dentro deste ciclo?
+					if ((f.layer.features[i].fid == null) && (f.layer.features[i].id != f.id)) {
+						console.log('Remove: ', f.layer.features[i].id, f.layer.features[i].fid);
+						toremove.push(f.layer.features[i]);
+					}
+				}
+				f.layer.removeFeatures(toremove);
 
+				//
 				me.getFormContribution().getForm().setValues({
 					feature : f.id
 				});
@@ -502,7 +524,7 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 
 				// check if the Save button can be enabled
 				me.fireEvent('featureAdded');
-			
+
 				// event.feature
 				// event.feature.state === "Insert"
 				if (me.getLocal().pressed) {
