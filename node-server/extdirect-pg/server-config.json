@@ -1,6 +1,7 @@
 {
     "ServerConfig": {
-        "port": 3003,
+        "port": 80,
+        "_port": 3003,
         "logger": "dev",
         "enableUpload": true,
         "enableCompression": true,
@@ -26,8 +27,8 @@
         "classPrefix": "DX",
         "_server": "localhost",
         "server": "cm-agueda.geomaster.pt",
-        "_port": "80",
-        "port": "3003",
+        "port": "80",
+        "_port": "3003",
         "protocol": "http",
         "relativeUrl": true,      
         "_relativeUrl": true,      

@@ -9,7 +9,7 @@ The following instructions were used to deploy the application on a dedicated Ub
 #### Update Ubuntu
 
 ```bash
-ssh -i ~/.ssh/agueda-openssh.ppk ubuntu@10.15.5.233
+ssh -i ~/.ssh/agueda-openssh.ppk -X ubuntu@10.15.5.233
 ```
 
 ```bash
@@ -17,40 +17,23 @@ echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
 sudo apt-get install language-pack-pt
 sudo apt-get update
 sudo apt-get upgrade
+sudo apt-get install redis-server
+sudo apt-get install build-essential
 ```
 
 #### Installing PostgreSQL database server
 
 ```bash
-sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-client-9.3 postgresql-client-common postgresql-contrib
-sudo apt-get install postgresql-server-dev-9.3
+sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-contrib
+sudo apt-get install postgresql-server-dev-9.3 postgresql-client-common postgresql-client-9.3
 ```
 
 ```bash
 sudo su postgres
-psql postgres
-```
-
-```sql
-CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
-\q
-```
-
-```bash
+psql postgres -c "CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;"
 createdb -O geobox geopublic
-```
-
-```bash
-postgres@ppgis:/home/ubuntu$ psql geopublic
-psql (9.3.5)
-Type "help" for help.
-
-geopublic=# CREATE EXTENSION adminpack;
-CREATE EXTENSION
-geopublic=# CREATE EXTENSION postgis;
-CREATE EXTENSION
-geopublic=# \q
-
+psql geopublic -c "CREATE EXTENSION adminpack;"
+psql geopublic -c "CREATE EXTENSION postgis;"
 exit
 ```
 
@@ -60,57 +43,40 @@ exit
 sudo apt-add-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
+sudo npm install -g forever
 ```
 
-#### Installing the PPG aaplication
-
+#### Installing the PPGIS application
 
 ```bash
 mkdir public_html
 cd public_html/
 wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-beta.tgz
+tar xvzf geopublic-beta.tgz
 wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
 pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141014.backup
-```
-
-#### Notes
-
-```bash
-Creating new cluster 9.3/main ...
-  config /etc/postgresql/9.3/main
-  data   /var/lib/postgresql/9.3/main
-  locale en_US.UTF-8
-  port   5432
-```
-
-### Production build
-
-Folders:
-
-uploads
-participation_data
-
-### Serving both client and server
-
-```bash
-cd node-server/extdirect-mysql
-rm -rf public
-ln -s ../../client/DemoExtJs public
-mkdir public/uploaded_images
-npm install
-nodemon server.js
-```
-
-http://blog.nodejitsu.com/keep-a-nodejs-server-up-with-forever/
-
-#### Deploy
-
-cd /home/jgr/git/extdirect.examples/node-server/extdirect-pg
-rm public
-cp -r ../../client/DemoExtJs/build/production/DemoExtJs public
+npm update
+mkdir public/uploads
+mkdir public/participation_data
 mkdir public/uploaded_images
 mkdir public/uploaded_images/profiles
 mkdir public/uploaded_images/profiles/32x32
 mkdir public/uploaded_images/profiles/160x160
 mkdir public/uploaded_shapefiles
+sudo NODE_ENV=production forever start server.js
+```
 
+#### Monitoring the application
+
+```bash
+cd public_html
+sudo forever logs
+tail -f <log file>
+```
+
+#### Stop the application
+
+```bash
+cd public_html
+sudo forever stop server.js
+```

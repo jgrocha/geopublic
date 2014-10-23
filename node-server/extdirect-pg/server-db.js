@@ -3,7 +3,8 @@ var conString = "";
 
 if ('production' == process.env.NODE_ENV) {
 	// global.App.mode pode ainda estar a undefined
-	conString = "postgres://geobox:geomaster2k14@localhost/extdirectnode";
+	// conString = "postgres://geobox:geomaster2k14@localhost/extdirectnode";
+	conString = "postgres://geobox:geobox@localhost/geopublic";
 } else {
 	conString = "postgres://geobox:geobox@localhost/extdirectnode";
 }
