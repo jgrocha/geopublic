@@ -2,77 +2,78 @@
 
 The application icon was designed by <a href="http://www.thenounproject.com/Borengasser">Stephen Borengasser</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
 
-###Code examples
+### Deploy on the cloud 
 
-This repository contains example Ext.Direct applications in ExtJs and Sencha Touch for node.js
-Please navigate down to source tree to find the one you are interested.
+The following instructions were used to deploy the application on a dedicated Ubuntu server, with 14.04 installed.
 
-Prerequisites after checking out:
+#### Update Ubuntu
 
-    * node.js servers require to run 'npm install' to retrieve dependent modules.
-    * make changes to db-config.json to match your database user/password
-    * import schema (mysql only)
-    * run server: 'node server.js'
+```bash
+ssh ubuntu@10.15.5.233
+
+sudo apt-get update
+sudo apt-get upgrade
+```
+
+#### Installing PostgreSQL database server
+
+sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-client-9.3 postgresql-client-common postgresql-contrib
+sudo apt-get install postgresql-server-dev-9.3
+```
+
+```bash
+sudo su postgres
+psql postgres
+```
+
+```sql
+CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
+\q
+```
+
+```bash
+createdb -O geobox geopublic
+```
+```bash
+postgres@ppgis:/home/ubuntu$ psql geopublic
+psql (9.3.5)
+Type "help" for help.
+
+geopublic=# CREATE EXTENSION adminpack;
+CREATE EXTENSION
+geopublic=# CREATE EXTENSION postgis;
+CREATE EXTENSION
+geopublic=# \q
+
+exit
+```
+
+#### Installing node.js
+
+$ sudo apt-get install python-software-properties
+$ sudo apt-add-repository ppa:chris-lea/node.js
+$ sudo apt-get update
+
+$ sudo apt-get install nodejs
 
 
-For single server application copy client subfolders (e.g. DemoExtJs) to folder named 'public'
-For test setup that demonstrates CORS support you will need second server of your choice (Apache- MAMP, WAMP, e.t.c.). In this case you serve from matching client folder.
 
+#### Notes
 
-###Frameworks
+```bash
+Creating new cluster 9.3/main ...
+  config /etc/postgresql/9.3/main
+  data   /var/lib/postgresql/9.3/main
+  locale en_US.UTF-8
+  port   5432
+```
 
-Important: Sample project you are downloading does not have framework!
-You have to download it and place inside sample folders.
-
-For ExtJs it will be:  client/DemoExtJs/ext (Expects version 4.2.1.883 +)
-
-For Sencha Touch :  client/DemoTouch/touch (Expects version 2.3.1+)
-
-###Sencha CMD
-
-Sencha Cmd v4.0.1.45 must be installed on development machine.
-
-###Building
-
-Before you can run any of examples you should use Sencha CMD.
-From commandline (must be in client/DemoExtJS or client/DemoTouch folder depending on which project are you building):
-
-    * 'sencha app refresh'
-    * 'sencha app build'
-
-Point your webserver to client workspace folder.
-Please note that node.js server must be run at the same time, otherwise you will end up receiving 404 errors.
-
-
-###Production build
-
-Production build can be found inside client/[DemoExtJs|DemoTouch]/build/production
-For more information, please refer to Sencha CMD reference http://docs.sencha.com/cmd/4.0.0/#!/guide
+### Production build
 
 Folders:
 
 uploads
 participation_data
-
-###Provided examples
-
-ExtJs:
-
-    * Application structure with API provider
-    * Grid CRUD Master-detail
-    * Cookie / Session
-    * Direct method call, shows regular call and onw that has hard exception (syntax error)
-    * Form Load / Submit
-    * Form file upload (Cross domain upload is not supported!)
-    * Tree root / child dynamic load
-
-Sencha Touch:
-
-    * Application structure with API provider
-    * List read using directFn
-    * Form load / submit
-
-    Note: It contains an override for form load/submit. That fix will be provided as part of Sencha Touch 2.3.2
 
 ### Serving both client and server
 
@@ -98,94 +99,3 @@ mkdir public/uploaded_images/profiles/32x32
 mkdir public/uploaded_images/profiles/160x160
 mkdir public/uploaded_shapefiles
 
-### Apache
-
-Aplication: http://development.localhost.lan/ppgis/
-Ext Direct API: http://development.localhost.lan/node/directapi
-Ext Direct calls: http://development.localhost.lan/direct
-
-Maps: http://development.localhost.lan/mapproxy/tms
-
-```
-<VirtualHost *:80>
-	ServerAdmin jorge@di.uminho.pt
-	ServerName development.localhost.lan
-	CustomLog "|/usr/sbin/rotatelogs /home/jgr/etc/logs/access_log 2592000" combined
-	ErrorLog  "|/usr/sbin/rotatelogs /home/jgr/etc/errors/error_log 2592000"
-
-    # LoadModule wsgi_module modules/mod_wsgi.so
-    WSGIScriptAlias /mapproxy /home/jgr/mymapproxy/config.py
-    <Directory /home/jgr/mymapproxy/>
-      Order deny,allow
-      Allow from all
-    </Directory>
-    
-	ProxyRequests Off
-	# ProxyPreserveHost On
-	<Proxy *>
-		Order deny,allow
-		Allow from all
-	</Proxy>
-	<Location /ppgis>
-		ProxyPass http://localhost:3000
-		ProxyPassReverse http://localhost:3000
-	</Location>
-	<Location /direct>
-		ProxyPass http://localhost:3000/direct
-		ProxyPassReverse http://localhost:3000/direct
-	</Location>
-#	<Location />
-#		ProxyPass http://localhost:3000/
-#		ProxyPassReverse http://localhost:3000/
-#	</Location>
-        AddHandler cgi-script .cgi 
-	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-	<Directory "/usr/lib/cgi-bin">
-		AllowOverride None
-		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-		Order allow,deny
-		Allow from all
-	</Directory>
-</VirtualHost>
-```
-### Printing maps
-
-Using Geoserver with Print extension (provided by MapFish)
-
-```
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d @pedido.json http://localhost:8080/geoserver/pdf/create.json
-wget http://localhost:8080/geoserver/pdf/8548576072996938105.pdf.printout -O teste.pdf
-```
-
-### Importing shapefiles
-
-#### Using Geoserver REST API
-
-http://docs.geoserver.org/stable/en/user/rest/examples/curl.html
-
-Upload the (first) shapefile
-```
-curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @edificadosec19.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/file.shp
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes.xml
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes/edificado.xml
-```
-
-Upload the (second) shapefile
-```
-curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @SIGARQ.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/file.shp
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes.xml
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes/edificado0.xml
-```
-
-
-
-###Architect 3 sample project
-
-    * check out example from the repository
-    * Ensure that node.js server is running
-    * In Resources/directapi adjust url property if different from http://localhost:3000/directapi
-    * Run build for the project
-
-    * Preview development version from specified Publish path, or for production/testing files inside project/build/[production|testing]
-
-Note: Some unrelated files are stripped out from ext folder to reduce download size!

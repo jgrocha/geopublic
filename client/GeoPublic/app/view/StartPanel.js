@@ -72,7 +72,8 @@ Ext.define('GeoPublic.view.StartPanel', {
 		autoScroll : true,
 		bodyPadding : 10,
 		itemId : 'promotorbar',
-		hidden : true,
+		// hidden : true,
+		style: 'opacity: 0;', // para usar o FadeIn
 		layout : {
 			type : 'hbox',
 			padding : '0 0 20 0',
@@ -86,7 +87,8 @@ Ext.define('GeoPublic.view.StartPanel', {
 	}, {
 		xtype : 'tabpanel',
 		itemId : 'tabplanbar',
-		hidden : true,
+		// hidden : true,
+		style: 'opacity: 0;', // para usar o FadeIn
 		plain : true, // remover o fundo da barra dos panels
 		items : [{
 			title : 'Planos em discussão',
