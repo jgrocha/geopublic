@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.controller.StartPanel', {
 	extend : 'Ext.app.Controller',
 	requires : ['GeoPublic.view.StartPlano', 'GeoPublic.view.StartPlanoDescricao'],
-	stores : ['PromotorCombo', 'PlanoCombo', 'Participation.ChartByState', 'Participation.ChartByType'], 
+	stores : ['PromotorCombo', 'PlanoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
 	// getPromotorComboStore(), getPlanoComboStore(), getParticipationChartByStateStore(), getParticipationChartByTypeStore()
 	refs : [{
 		selector : 'viewport > tabpanel',
@@ -64,7 +64,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
 		this.listen({
 			controller : {
 				'*' : {
-					showPromotores : this.showPlanos, // this.fireEvent('showPromotores'); in GeoPublic.controller.MainMapPanel
+					showPromotores : this.showPromotores, // this.showPlanos, // this.fireEvent('showPromotores'); in GeoPublic.controller.MainMapPanel
 					showPlanDetails : this.onPlanSelectMapPanel // this.fireEvent('showPlanDetails'); in GeoPublic.controller.MainMapPanel
 				}
 			}
@@ -117,13 +117,13 @@ Ext.define('GeoPublic.controller.StartPanel', {
 					idplano : idplano
 				}
 			});
-			
+
 			this.getParticipationChartByStateStore().load({
 				params : {
 					idplano : idplano
 				}
 			});
-			
+
 			var newEstatisticas = new GeoPublic.view.StartPlanoEstatisticas({
 				idplano : idplano,
 				descricao : descricao,
@@ -189,7 +189,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
 
 	showPlanos : function() {
 		var me = this;
-		console.log('showPlanos');
+		console.log('showPlanos @ GeoPublic.controller.StartPanel');
 
 		var bar = me.getPlanBar();
 		var tab = bar.up('tabpanel');
@@ -213,9 +213,16 @@ Ext.define('GeoPublic.controller.StartPanel', {
 		});
 
 		// mostrar o tabpainel (superior) // tabplanbar
+		/*
 		if (!tab.isVisible()) {
 			tab.setVisible(true);
 		}
+		*/
+		tab.getEl().fadeIn({
+			opacity : 1, //can be any value between 0 and 1 (e.g. .5)
+			easing : 'easeIn', // 'easeOut',
+			duration : 1500
+		});
 
 		var pos = tab.getOffsetsTo(tab.up('startpanel'))[1];
 		tab.up('startpanel').body.scroll('top', pos, true);
@@ -249,6 +256,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
 		 }],
 		 */
 		var bar = me.getPromotorBar();
+		var newPromotor = {};
+
 		if (bar.items.length == 0) {
 			this.getPromotorComboStore().each(function(rec) {
 				// console.log(rec.get('designacao'));
@@ -256,23 +265,27 @@ Ext.define('GeoPublic.controller.StartPanel', {
 					idpromotor : rec.data.id
 				});
 				delete promotor.id;
-				var newPromotor = new GeoPublic.view.StartPromotor(promotor);
+				newPromotor = new GeoPublic.view.StartPromotor(promotor);
 				bar.add(newPromotor);
 				bar.doLayout();
 			});
 		}
 		// mostrar o painel :-)
-		if (!bar.isVisible()) {
-			bar.setVisible(true);
-			/*
-			 bar.getEl().fadeIn({
-			 opacity : 1, //can be any value between 0 and 1 (e.g. .5)
-			 easing : 'easeOut',
-			 duration : 500
-			 });
-			 */
-		}
-		// limpar os detalhes...
+		// tinha que consultar a opacidade!
+		// if (!bar.isVisible()) {
+		// bar.setVisible(true);
+
+		bar.getEl().fadeIn({
+			opacity : 1, //can be any value between 0 and 1 (e.g. .5)
+			easing : 'easeIn', // 'easeOut',
+			duration : 1500
+		});
+
+		// }
+		var pos = bar.getOffsetsTo(this.getStartPanel())[1];
+		this.getStartPanel().body.scroll('top', pos, true);
+
+		// limpar os detalhes?
 	},
 	onStartPanelRender : function(panel) {
 		var me = this;

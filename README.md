@@ -2,190 +2,81 @@
 
 The application icon was designed by <a href="http://www.thenounproject.com/Borengasser">Stephen Borengasser</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
 
-###Code examples
+### Deploy on the cloud 
 
-This repository contains example Ext.Direct applications in ExtJs and Sencha Touch for node.js
-Please navigate down to source tree to find the one you are interested.
+The following instructions were used to deploy the application on a dedicated Ubuntu server, with 14.04 installed.
 
-Prerequisites after checking out:
-
-    * node.js servers require to run 'npm install' to retrieve dependent modules.
-    * make changes to db-config.json to match your database user/password
-    * import schema (mysql only)
-    * run server: 'node server.js'
-
-
-For single server application copy client subfolders (e.g. DemoExtJs) to folder named 'public'
-For test setup that demonstrates CORS support you will need second server of your choice (Apache- MAMP, WAMP, e.t.c.). In this case you serve from matching client folder.
-
-
-###Frameworks
-
-Important: Sample project you are downloading does not have framework!
-You have to download it and place inside sample folders.
-
-For ExtJs it will be:  client/DemoExtJs/ext (Expects version 4.2.1.883 +)
-
-For Sencha Touch :  client/DemoTouch/touch (Expects version 2.3.1+)
-
-###Sencha CMD
-
-Sencha Cmd v4.0.1.45 must be installed on development machine.
-
-###Building
-
-Before you can run any of examples you should use Sencha CMD.
-From commandline (must be in client/DemoExtJS or client/DemoTouch folder depending on which project are you building):
-
-    * 'sencha app refresh'
-    * 'sencha app build'
-
-Point your webserver to client workspace folder.
-Please note that node.js server must be run at the same time, otherwise you will end up receiving 404 errors.
-
-
-###Production build
-
-Production build can be found inside client/[DemoExtJs|DemoTouch]/build/production
-For more information, please refer to Sencha CMD reference http://docs.sencha.com/cmd/4.0.0/#!/guide
-
-Folders:
-
-uploads
-participation_data
-
-###Provided examples
-
-ExtJs:
-
-    * Application structure with API provider
-    * Grid CRUD Master-detail
-    * Cookie / Session
-    * Direct method call, shows regular call and onw that has hard exception (syntax error)
-    * Form Load / Submit
-    * Form file upload (Cross domain upload is not supported!)
-    * Tree root / child dynamic load
-
-Sencha Touch:
-
-    * Application structure with API provider
-    * List read using directFn
-    * Form load / submit
-
-    Note: It contains an override for form load/submit. That fix will be provided as part of Sencha Touch 2.3.2
-
-### Serving both client and server
+#### Update Ubuntu
 
 ```bash
-cd node-server/extdirect-mysql
-rm -rf public
-ln -s ../../client/DemoExtJs public
-mkdir public/uploaded_images
-npm install
-nodemon server.js
+ssh -i ~/.ssh/agueda-openssh.ppk -X ubuntu@10.15.5.233
 ```
 
-http://blog.nodejitsu.com/keep-a-nodejs-server-up-with-forever/
+```bash
+echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
+sudo apt-get install language-pack-pt
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install redis-server
+sudo apt-get install build-essential
+```
 
-#### Deploy
+#### Installing PostgreSQL database server
 
-cd /home/jgr/git/extdirect.examples/node-server/extdirect-pg
-rm public
-cp -r ../../client/DemoExtJs/build/production/DemoExtJs public
+```bash
+sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-contrib
+sudo apt-get install postgresql-server-dev-9.3 postgresql-client-common postgresql-client-9.3
+```
+
+```bash
+sudo su postgres
+psql postgres -c "CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;"
+createdb -O geobox geopublic
+psql geopublic -c "CREATE EXTENSION adminpack;"
+psql geopublic -c "CREATE EXTENSION postgis;"
+exit
+```
+
+#### Installing node.js
+
+```bash
+sudo apt-add-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+sudo npm install -g forever
+```
+
+#### Installing the PPGIS application
+
+```bash
+mkdir public_html
+cd public_html/
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-beta.tgz
+tar xvzf geopublic-beta.tgz
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
+pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141014.backup
+npm update
+mkdir public/uploads
+mkdir public/participation_data
 mkdir public/uploaded_images
 mkdir public/uploaded_images/profiles
 mkdir public/uploaded_images/profiles/32x32
 mkdir public/uploaded_images/profiles/160x160
 mkdir public/uploaded_shapefiles
-
-### Apache
-
-Aplication: http://development.localhost.lan/ppgis/
-Ext Direct API: http://development.localhost.lan/node/directapi
-Ext Direct calls: http://development.localhost.lan/direct
-
-Maps: http://development.localhost.lan/mapproxy/tms
-
-```
-<VirtualHost *:80>
-	ServerAdmin jorge@di.uminho.pt
-	ServerName development.localhost.lan
-	CustomLog "|/usr/sbin/rotatelogs /home/jgr/etc/logs/access_log 2592000" combined
-	ErrorLog  "|/usr/sbin/rotatelogs /home/jgr/etc/errors/error_log 2592000"
-
-    # LoadModule wsgi_module modules/mod_wsgi.so
-    WSGIScriptAlias /mapproxy /home/jgr/mymapproxy/config.py
-    <Directory /home/jgr/mymapproxy/>
-      Order deny,allow
-      Allow from all
-    </Directory>
-    
-	ProxyRequests Off
-	# ProxyPreserveHost On
-	<Proxy *>
-		Order deny,allow
-		Allow from all
-	</Proxy>
-	<Location /ppgis>
-		ProxyPass http://localhost:3000
-		ProxyPassReverse http://localhost:3000
-	</Location>
-	<Location /direct>
-		ProxyPass http://localhost:3000/direct
-		ProxyPassReverse http://localhost:3000/direct
-	</Location>
-#	<Location />
-#		ProxyPass http://localhost:3000/
-#		ProxyPassReverse http://localhost:3000/
-#	</Location>
-        AddHandler cgi-script .cgi 
-	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-	<Directory "/usr/lib/cgi-bin">
-		AllowOverride None
-		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-		Order allow,deny
-		Allow from all
-	</Directory>
-</VirtualHost>
-```
-### Printing maps
-
-Using Geoserver with Print extension (provided by MapFish)
-
-```
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d @pedido.json http://localhost:8080/geoserver/pdf/create.json
-wget http://localhost:8080/geoserver/pdf/8548576072996938105.pdf.printout -O teste.pdf
+sudo NODE_ENV=production forever start server.js
 ```
 
-### Importing shapefiles
+#### Monitoring the application
 
-#### Using Geoserver REST API
-
-http://docs.geoserver.org/stable/en/user/rest/examples/curl.html
-
-Upload the (first) shapefile
-```
-curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @edificadosec19.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/file.shp
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes.xml
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/roads/featuretypes/edificado.xml
+```bash
+cd public_html
+sudo forever logs
+tail -f <log file>
 ```
 
-Upload the (second) shapefile
+#### Stop the application
+
+```bash
+cd public_html
+sudo forever stop server.js
 ```
-curl -v -u admin:geoserver -XPUT -H "Content-type: application/zip" --data-binary @SIGARQ.zip http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/file.shp
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes.xml
-curl -v -u admin:geoserver -XGET http://localhost:8080/geoserver/rest/workspaces/geomaster/datastores/upload21/featuretypes/edificado0.xml
-```
-
-
-
-###Architect 3 sample project
-
-    * check out example from the repository
-    * Ensure that node.js server is running
-    * In Resources/directapi adjust url property if different from http://localhost:3000/directapi
-    * Run build for the project
-
-    * Preview development version from specified Publish path, or for production/testing files inside project/build/[production|testing]
-
-Note: Some unrelated files are stripped out from ext folder to reduce download size!
