@@ -9,14 +9,19 @@ The following instructions were used to deploy the application on a dedicated Ub
 #### Update Ubuntu
 
 ```bash
-ssh ubuntu@10.15.5.233
+ssh -i ~/.ssh/agueda-openssh.ppk ubuntu@10.15.5.233
+```
 
+```bash
+echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
+sudo apt-get install language-pack-pt
 sudo apt-get update
 sudo apt-get upgrade
 ```
 
 #### Installing PostgreSQL database server
 
+```bash
 sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-client-9.3 postgresql-client-common postgresql-contrib
 sudo apt-get install postgresql-server-dev-9.3
 ```
@@ -34,6 +39,7 @@ CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE
 ```bash
 createdb -O geobox geopublic
 ```
+
 ```bash
 postgres@ppgis:/home/ubuntu$ psql geopublic
 psql (9.3.5)
@@ -50,13 +56,22 @@ exit
 
 #### Installing node.js
 
-$ sudo apt-get install python-software-properties
-$ sudo apt-add-repository ppa:chris-lea/node.js
-$ sudo apt-get update
+```bash
+sudo apt-add-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+```
 
-$ sudo apt-get install nodejs
+#### Installing the PPG aaplication
 
 
+```bash
+mkdir public_html
+cd public_html/
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-beta.tgz
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
+pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141014.backup
+```
 
 #### Notes
 
