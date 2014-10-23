@@ -4,30 +4,16 @@
 	<comment></comment>
 	<projects>
 	</projects>
-	<!--
 	<buildSpec>
-<<<<<<< HEAD
-=======
 		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>full,incremental,</triggers>
+			<name>tern.eclipse.ide.core.ternBuilder</name>
 			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/com.aptana.ide.core.unifiedBuilder.launch</value>
-				</dictionary>
 			</arguments>
 		</buildCommand>
->>>>>>> refs/remotes/origin/master
 	</buildSpec>
-	-->
 	<natures>
-<<<<<<< HEAD
 		<nature>org.nodeclipse.ui.NodeNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>tern.eclipse.ide.core.ternnature</nature>
-=======
-		<nature>com.aptana.projects.webnature</nature>
->>>>>>> refs/remotes/origin/master
 	</natures>
 </projectDescription>

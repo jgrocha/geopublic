@@ -1,7 +1,3 @@
-### Icon
-
-The application icon was designed by <a href="http://www.thenounproject.com/Borengasser">Stephen Borengasser</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
-
 ### Deploy on the cloud 
 
 The following instructions were used to deploy the application on a dedicated Ubuntu server, with 14.04 installed.
