@@ -2,11 +2,19 @@
 
 The following instructions were used to deploy the application on a dedicated Ubuntu server, with 14.04 installed.
 
-#### Update Ubuntu
+#### Create and power up an instance on openStack
+
+Instructions in `STORM_Accessing Storm Clouds Platform %40 HP IIC.docx` document.
+
+#### Connect to the instance using its IP
+
+After connecting to the VPN, you can connect to the server.
 
 ```bash
 ssh -i ~/.ssh/agueda-openssh.ppk -X ubuntu@10.15.5.233
 ```
+
+#### Preparation
 
 ```bash
 echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
@@ -14,15 +22,17 @@ sudo apt-get install language-pack-pt
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install redis-server
-sudo apt-get install build-essential
+sudo apt-get install build-essential subversion
 ```
 
-#### Installing PostgreSQL database server
+#### Installing PostgreSQL database server and create new database
 
 ```bash
 sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-contrib
 sudo apt-get install postgresql-server-dev-9.3 postgresql-client-common postgresql-client-9.3
 ```
+
+#### Create new database
 
 ```bash
 sudo su postgres
@@ -31,6 +41,13 @@ createdb -O geobox geopublic
 psql geopublic -c "CREATE EXTENSION adminpack;"
 psql geopublic -c "CREATE EXTENSION postgis;"
 exit
+```
+
+#### Load initial database contents
+
+```bash
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
+pg_restore -h localhost -d geopublic -C -U geobox -W geobox geopublic-ppgis-all-20141014.backup
 ```
 
 #### Installing node.js
@@ -47,20 +64,22 @@ sudo npm install -g forever
 ```bash
 mkdir public_html
 cd public_html/
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-beta.tgz
-tar xvzf geopublic-beta.tgz
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
-pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141014.backup
+svn checkout https://github.com/jgrocha/geopublic/trunk/node-server/extdirect-pg .
 npm update
-mkdir public/uploads
-mkdir public/participation_data
-mkdir public/uploaded_images
-mkdir public/uploaded_images/profiles
-mkdir public/uploaded_images/profiles/32x32
-mkdir public/uploaded_images/profiles/160x160
-mkdir public/uploaded_shapefiles
+mkdir -p public/uploads
+mkdir -p public/participation_data
+mkdir -p public/uploaded_images/profiles/32x32
+mkdir -p public/uploaded_images/profiles/160x160
+svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic public
+```
+
+#### Start the application
+
+```bash
+cd ~/public_html/
 sudo NODE_ENV=production forever start server.js
 ```
+sudo is necessary to run the application on port 80.
 
 #### Monitoring the application
 

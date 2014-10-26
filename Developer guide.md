@@ -66,7 +66,6 @@ What about ext/src/ux ?
 ##### Creating the database
 
 
-
 ### Running the application on localhost
 
 ```bash
