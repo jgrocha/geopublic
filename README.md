@@ -2,6 +2,8 @@
 
 The following instructions were used to deploy the application on a dedicated Ubuntu server, with 14.04 installed.
 
+After deploying, the application should be available at (http://10.15.5.233:3003)
+
 #### Create and power up an instance on openStack
 
 Instructions in `STORM_Accessing Storm Clouds Platform %40 HP IIC.docx` document.
@@ -47,8 +49,8 @@ exit
 #### Load initial database contents
 
 ```bash
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141027.backup
-export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141027.backup
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-20141027.backup
+export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-20141027.backup
 ```
 
 #### Installing node.js
@@ -78,7 +80,7 @@ svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/p
 
 ```bash
 cd ~/public_html/
-sudo NODE_ENV=production forever start server.js
+NODE_ENV=production forever start server.js
 ```
 
 sudo is necessary to run the application on port 80.
@@ -87,7 +89,7 @@ sudo is necessary to run the application on port 80.
 
 ```bash
 cd public_html
-sudo forever logs
+forever logs
 tail -f <log file>
 ```
 
@@ -95,5 +97,5 @@ tail -f <log file>
 
 ```bash
 cd public_html
-sudo forever stop server.js
+forever stop server.js
 ```
