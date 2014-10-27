@@ -40,14 +40,15 @@ psql postgres -c "CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT C
 createdb -O geobox geopublic
 psql geopublic -c "CREATE EXTENSION adminpack;"
 psql geopublic -c "CREATE EXTENSION postgis;"
+psql geopublic -c "CREATE EXTENSION hstore;"
 exit
 ```
 
 #### Load initial database contents
 
 ```bash
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141014.backup
-pg_restore -h localhost -d geopublic -C -U geobox -W geobox geopublic-ppgis-all-20141014.backup
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-ppgis-all-20141027.backup
+export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-ppgis-all-20141027.backup
 ```
 
 #### Installing node.js
@@ -70,7 +71,7 @@ mkdir -p public/uploads
 mkdir -p public/participation_data
 mkdir -p public/uploaded_images/profiles/32x32
 mkdir -p public/uploaded_images/profiles/160x160
-svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic public
+svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 ```
 
 #### Start the application
@@ -79,6 +80,7 @@ svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic public
 cd ~/public_html/
 sudo NODE_ENV=production forever start server.js
 ```
+
 sudo is necessary to run the application on port 80.
 
 #### Monitoring the application
