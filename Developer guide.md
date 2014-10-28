@@ -48,9 +48,22 @@ sudo make install
 
 ##### Download source code
 
-Goto to 
+[git](http://git-scm.com/) is used to download and manage the source code. You can download the source code directly from the repository, with:
 
-In Eclipse
+```bash
+git clone https://github.com/jgrocha/geopublic.git
+```
+
+If you want to contribute with code to the project, the suggested workflow is:
+* clone the repository on GitHub
+* download your cloned version
+* make improvements on your code
+* if you want to share your changes, issue a pull request
+
+
+##### 
+
+In Eclipse with eGit installed, to download the source code, copy the following url to the clipboad: https://github.com/jgrocha/geopublic.git
 
 ##### Adding libraries (not included on source)
 

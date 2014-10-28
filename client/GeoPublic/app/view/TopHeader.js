@@ -17,7 +17,7 @@ Ext.define('GeoPublic.view.TopHeader', {
 		height : 48,
 		alt : 'INSTITUTION'.translate(),
 		title : 'INSTITUTION'.translate(),
-		src : 'resources/images/community_blue_48x48.png' // 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
+		src : 'resources/images/community_blue_48x48.png'.translate() // 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'label',
 		html : 'Participação Pública<br/>Câmara Municipal de Águeda'.translate(),

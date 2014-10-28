@@ -22,7 +22,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 		autoScroll : true,
 		bodyPadding : 10,
 		loader : {
-			url : 'resources/guiarapido/participacaocivica.html',
+			url : 'resources/guiarapido/participacaocivica.html'.translate(),
 			autoLoad : true
 		}
 	}, {
