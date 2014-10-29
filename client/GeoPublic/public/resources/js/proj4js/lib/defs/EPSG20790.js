@@ -1,1 +1,0 @@
-Proj4js.defs["EPSG:20790"] = "+title=Hayford-Gauss dt Lisboa (militar) +proj=tmerc +lat_0=39.66666666666666 +lon_0=-8.131906111111112 +k=1 +x_0=200000 +y_0=300000 +ellps=intl +pm=lisbon +units=m +towgs84=-283.088,-70.693,117.445,-1.157,0.059,-0.652,-4.058 +no_defs"

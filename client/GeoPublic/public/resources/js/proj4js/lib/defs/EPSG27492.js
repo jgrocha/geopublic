@@ -1,1 +1,0 @@
-Proj4js.defs["EPSG:27492"] = "+title=Hayford-Gauss dt 73 (IGP) +proj=tmerc +lat_0=39.66666666666666 +lon_0=-8.131906111111112 +k=1 +x_0=180.598 +y_0=-86.98999999999999 +ellps=intl +units=m +towgs84=-230.994,102.591,25.199,0.633,-0.239,0.900,1.950 +no_defs"

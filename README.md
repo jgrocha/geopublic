@@ -20,7 +20,6 @@ ssh -i ~/.ssh/agueda-openssh.ppk -X ubuntu@10.15.5.233
 
 ```bash
 echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
-sudo apt-get install language-pack-pt
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install redis-server
@@ -49,8 +48,8 @@ exit
 #### Load initial database contents
 
 ```bash
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-20141027.backup
-export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-20141027.backup
+wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-demo.backup
+export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-demo.backup
 ```
 
 #### Installing node.js
@@ -70,7 +69,8 @@ cd public_html/
 svn checkout https://github.com/jgrocha/geopublic/trunk/node-server/extdirect-pg .
 npm update
 mkdir -p public/uploads
-mkdir -p public/participation_data
+mkdir -p public/participation_data/1/1/80x80
+mkdir -p public/participation_data/1/1/_x600
 mkdir -p public/uploaded_images/profiles/32x32
 mkdir -p public/uploaded_images/profiles/160x160
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
