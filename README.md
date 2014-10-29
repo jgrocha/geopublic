@@ -22,8 +22,16 @@ ssh -i ~/.ssh/agueda-openssh.ppk -X ubuntu@10.15.5.233
 echo "127.0.0.1 ppgis" | sudo tee -a /etc/hosts
 sudo apt-get update
 sudo apt-get upgrade
+
 sudo apt-get install redis-server
 sudo apt-get install build-essential subversion
+```
+
+One language package should be installed. PostgreSQL will not create the initial database cluster without any language installed.
+Install this packege or others for different languages.
+
+```bash
+sudo apt-get install language-pack-pt
 ```
 
 #### Installing PostgreSQL database server and create new database
@@ -59,6 +67,7 @@ sudo apt-add-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
 sudo npm install -g forever
+sudo chown -R ubuntu:ubuntu .npm
 ```
 
 #### Installing the PPGIS application
@@ -68,12 +77,8 @@ mkdir public_html
 cd public_html/
 svn checkout https://github.com/jgrocha/geopublic/trunk/node-server/extdirect-pg .
 npm update
-mkdir -p public/uploads
-mkdir -p public/participation_data/1/1/80x80
-mkdir -p public/participation_data/1/1/_x600
-mkdir -p public/uploaded_images/profiles/32x32
-mkdir -p public/uploaded_images/profiles/160x160
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
+mkdir -p public/uploads
 ```
 
 #### Start the application
@@ -88,7 +93,7 @@ sudo is necessary to run the application on port 80.
 #### Monitoring the application
 
 ```bash
-cd public_html
+cd ~/public_html
 forever logs
 tail -f <log file>
 ```
@@ -99,3 +104,14 @@ tail -f <log file>
 cd public_html
 forever stop server.js
 ```
+
+#### Configuring SMTP
+
+The server should provide the SMTP service.
+
+Install postfix and select Internet Site from the available options.
+
+```bash
+sudo apt-get install postfix
+```
+
