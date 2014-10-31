@@ -19,6 +19,8 @@ sudo apt-add-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
 sudo npm install -g forever
+sudo npm install -g nodemon
+sudo chown -R $USER:$USER ~/.npm
 ```
 
 ##### Installing Sencha ExtJS tools
@@ -60,6 +62,9 @@ If you want to contribute with code to the project, the suggested workflow is:
 * make improvements on your code
 * if you want to share your changes, issue a pull request
 
+```bash
+npm update
+```
 
 ##### 
 

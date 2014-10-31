@@ -28,7 +28,7 @@ sudo apt-get install build-essential subversion
 ```
 
 One language package should be installed. PostgreSQL will not create the initial database cluster without any language installed.
-Install this packege or others for different languages.
+Install this package or others for different languages.
 
 ```bash
 sudo apt-get install language-pack-pt
@@ -67,7 +67,7 @@ sudo apt-add-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
 sudo npm install -g forever
-sudo chown -R ubuntu:ubuntu .npm
+sudo chown -R $USER:$USER ~/.npm
 ```
 
 #### Installing the PPGIS application
