@@ -7,13 +7,19 @@ var emailTemplates = require('email-templates');
 var enviarEmail = function(destino, parametros, callback) {
 	var email = destino.email;
 	var name = destino.nome;
+	var siteStr = '';
+	if (global.App.url) {
+		siteStr = global.App.url;
+	} else {
+		siteStr = 'http://' + request.headers.host;
+	}
 	var locals = {
 		email : email,
 		subject : 'Novo plano para discussão',
 		saudacao : 'Caro(a)',
 		name : name,
 		// site : 'http://' + request.headers.host,
-		site : global.App.url,
+		site : siteStr,
 		callback : function(err, responseStatus) {
 			if (err) {
 				console.log(responseStatus.message);

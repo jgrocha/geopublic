@@ -32,7 +32,9 @@ var transport = nodemailer.createTransport("SMTP", {
 });
 
 // Deployment url
-global.App.url = ServerConfig.url;
+if (ServerConfig.url) {
+	global.App.url = ServerConfig.url;
+}
 // 'http://cm-agueda.geomaster.pt/ppgis/';
 global.App.from = 'ppgis@geomaster.pt';
 global.App.transport = transport;
@@ -147,6 +149,7 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 
 app.get('/translation', function(request, response) {
 	console.log(request.acceptedLanguages);
+	console.log(request.session);
 	// [ 'pt-PT', 'pt', 'en-US', 'en', 'es', 'fr', 'it' ]
 	// testar se existem os ficheiros...
 	var exist = 0, i = 0, n = request.acceptedLanguages.length;
@@ -157,6 +160,8 @@ app.get('/translation', function(request, response) {
 			response.writeHead(200, {
 				'Content-Type' : 'application/json'
 			});
+			request.session.lang = request.acceptedLanguages[i];
+			console.log('Language ' + request.session.lang + ' added to request.session.lang');
 			response.end(buf);
 			exist = 1;
 		} catch(err) {
@@ -165,6 +170,7 @@ app.get('/translation', function(request, response) {
 		i++;
 	}
 	if (!exist) {
+		request.session.lang = null;
 		console.log('None of the accepted languages is supported');
 		response.writeHead(200, {
 			'Content-Type' : 'application/json'

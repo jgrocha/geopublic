@@ -200,17 +200,25 @@ var DXLogin = {
 		var token = '';
 		var conn = db.connect();
 
-		console.log(request);
+		// console.log(request);
+		console.log('registration: request.session.userid = ' + request.session.userid);
+		console.log('registration: request.session.lang = ' + request.session.lang);
 
 		var enviarEmail = function(parametros, callback) {
 			// envio o email!
+			var siteStr = '';
+			if (global.App.url) {
+				siteStr = global.App.url;
+			} else {
+				siteStr = 'http://' + request.headers.host;
+			}
 			var locals = {
 				email : email,
 				subject : 'Registo',
 				saudacao : 'Caro(a)',
 				name : name,
 				// site : 'http://' + request.headers.host,
-				site : global.App.url,
+				site : siteStr,
 				token : token,
 				callback : function(err, responseStatus) {
 					if (err) {
@@ -350,6 +358,12 @@ var DXLogin = {
 								db.debugError(callback, err);
 							} else {
 								// envio o email!
+								var siteStr = '';
+								if (global.App.url) {
+									siteStr = global.App.url;
+								} else {
+									siteStr = 'http://' + request.headers.host;
+								}
 								var locals = {
 									email : email,
 									subject : 'Pedido de nova senha',
@@ -357,7 +371,7 @@ var DXLogin = {
 									name : result.rows[0].nome,
 									token : token,
 									// site : 'http://' + request.headers.host,
-									site : global.App.url,
+									site : siteStr,
 									callback : function(err, responseStatus) {
 										if (err) {
 											callback({
