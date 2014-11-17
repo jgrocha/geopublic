@@ -82,7 +82,8 @@ Ext.define('GeoPublic.view.MainMapPanel', {
 		srs : "EPSG:4326",
 		queryDelay : 500,
 		// url : "http://nominatim.openstreetmap.org/search?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
-		url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		// url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
+		url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1",
 		width : 400
 	}, '->', {
 		xtype : 'combo',

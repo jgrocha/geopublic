@@ -119,9 +119,28 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		this.getBotaoLogin().setIcon('');
 		this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
 		this.getBotaoLogin().menu.disable();
-		// eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
 		if (GeoPublic.LoggedInUser) {
 			GeoPublic.LoggedInUser = null;
+		}
+		// eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
+		var mainPanel = this.getPainelPrincipal();
+		var lastPanel = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Last access';
+		});
+		if (lastPanel) {
+			mainPanel.remove(lastPanel);
+		}
+		var promotoresPanel = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Entidades';
+		});
+		if (promotoresPanel) {
+			mainPanel.remove(promotoresPanel);
+		}
+		var profilePanel = mainPanel.items.findBy(function(tab) {
+			return tab.title === 'Profile';
+		});
+		if (profilePanel) {
+			mainPanel.remove(profilePanel);
 		}
 	},
 	onLogin : function() {
@@ -315,7 +334,6 @@ Ext.define('GeoPublic.controller.TopHeader', {
 			Ext.Msg.alert('Preenchimento incorreto', 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos.');
 		}
 	},
-
 	onButtonClickEntrar : function(button, e, options) {
 		var me = this;
 		var formPanel = button.up('form'), login = button.up('login');
@@ -356,7 +374,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
 					me.application.fireEvent('loginComSucesso');
 					// login.close(); // passou para o evento
 				} else {
-					Ext.Msg.alert('Erro ao iniciar sessão.', Ext.encode(result));
+					Ext.Msg.alert('Error starting session', 'Invalid user or password' ); // Ext.encode(result)
 				}
 			});
 		}

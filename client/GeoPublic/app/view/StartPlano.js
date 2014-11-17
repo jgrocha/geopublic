@@ -12,7 +12,6 @@ Ext.define('GeoPublic.view.StartPlano', {
 	},
 	bodyPadding : 10,
 	initComponent : function() {
-		var me = this;
 		// console.debug(this.initialConfig);
 		// console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao);
 		this.idplano = this.initialConfig.idplano;
@@ -40,7 +39,7 @@ Ext.define('GeoPublic.view.StartPlano', {
 			html : 'Responsável: ' + this.initialConfig.responsavel,
 			padding : '0 0 10 0'
 		}, {
-			html : 'Contacto: <a href="' + this.initialConfig.email + '">' + this.initialConfig.email + '</a>',
+			html : 'Contacto: <a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
 			padding : '0 0 20 0'
 		}, /* {
 		 xtype : 'button',

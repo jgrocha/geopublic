@@ -5,6 +5,7 @@ You can grab the source code and add improvements to it.
 #### Dependencies
 
 You need:
+* sudo apt-get install graphicsmagick
 * node.js
 * ExtJS library (v. 4.2.1 GPL)
 * OpenLayers (v 2.13.1)

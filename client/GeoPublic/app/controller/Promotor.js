@@ -12,9 +12,6 @@ Ext.define('GeoPublic.controller.Promotor', {
 	}, {
 		selector : 'grid-promotor gridpanel#promotor button#remove',
 		ref : 'buttonRemove' // gera um getButtonRemove
-	}, {
-		ref : 'editor',
-		selector : 'grid-promotor #planoForm'
 	}],
 	init : function() {
 		console.log('O controlador está a arrancar...');
@@ -24,10 +21,6 @@ Ext.define('GeoPublic.controller.Promotor', {
 			},
 			"grid-promotor gridpanel#promotor button#remove" : {
 				click : this.onButtonClickRemove
-			},
-
-			"grid-promotor form#planoForm button#updateDescricaoPlano" : {
-				click : this.onUpdateDescricaoPlano
 			},
 			// observar a grid
 			'grid-promotor gridpanel#promotor' : {
@@ -93,21 +86,6 @@ Ext.define('GeoPublic.controller.Promotor', {
 			});
 		}
 	},
-	missingSelection : function() {
-		return this.getGridPlano().getSelectionModel().getSelection().length === 0;
-	},
-	onUpdateDescricaoPlano : function(button, e, options) {
-		console.log('onUpdateDescricaoPlano');
-		if (this.missingSelection()) {
-			return false;
-		}
-		var form = this.getEditor();
-		// var params = form.getForm().getValues(false, true, false, false);
-		// console.log(params);
-		var record = form.getRecord();
-		// console.log(record);
-		form.updateRecord(record);
-	},
 	onButtonClickAdiciona : function(button, e, options) {
 		console.log('onButtonClickAdiciona');
 		var rowEditing = this.getGrid().plugins[0];
@@ -131,9 +109,15 @@ Ext.define('GeoPublic.controller.Promotor', {
 		var sm = this.getGrid().getSelectionModel();
 		var store = this.getPromotorStore();
 		rowEditing.cancelEdit();
-		store.remove(sm.getSelection());
-		if (store.getCount() > 0) {
-			sm.select(0);
+		var selection = sm.getSelection();
+		console.log(GeoPublic.LoggedInUser.data.id + ' === ' + selection[0].data.idutilizador);
+		if (GeoPublic.LoggedInUser.data.id === selection[0].data.idutilizador) {
+			store.remove(sm.getSelection());
+			if (store.getCount() > 0) {
+				sm.select(0);
+			}
+		} else {
+			Ext.example.msg('Remover promotor', 'Não pode remover um promotor criado por outro utilizador.');
 		}
 	},
 	onPromotorStoreLoad : function(proxy, records, successful, eOpts) {

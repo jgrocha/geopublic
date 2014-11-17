@@ -19,6 +19,10 @@ Ext.define('GeoPublic.model.Promotor', {
 	}, {
 		name : 'logotipo',
 		type : 'string'
+	}, {
+		name : 'idutilizador',
+		type : 'int',
+		persist: false
 	}],
 	// http://extjs-tutorials.blogspot.co.uk/2012/05/extjs-hasmany-relationships-rules.html
 	/*

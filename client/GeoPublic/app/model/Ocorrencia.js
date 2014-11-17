@@ -54,6 +54,10 @@ Ext.define('GeoPublic.model.Ocorrencia', {
 	}, {
 		name : 'nome',
 		type : 'string'
+	}, {
+		name : 'idutilizador',
+		type : 'int',
+		persist: false
 	}],
 	proxy : {
 		type : 'direct',

@@ -74,11 +74,15 @@ Ext.define('GeoPublic.view.Promotor', {
 	}, {
 		title : 'Planos para discussão',
 		region : 'center',
-		layout : 'column',
+		layout: {
+			type: 'hbox',
+			pack: 'start',
+			align: 'stretch'
+		},
 		items : [{
 			xtype : 'gridpanel',
 			itemId : 'plano',
-			columnWidth : 0.5,
+			flex:1,
 			frame : true,
 			store : 'Plano',
 			columns : [{
@@ -155,7 +159,7 @@ Ext.define('GeoPublic.view.Promotor', {
 			}, {
 				dataIndex : 'the_geom',
 				header : 'Cobertura geográfica',
-				width : 120,
+				flex : 1,
 				editor : {
 					xtype : 'textfield',
 					allowBlank : true
@@ -181,10 +185,9 @@ Ext.define('GeoPublic.view.Promotor', {
 			})]
 		}, {
 			xtype : 'form',
-			columnWidth : 0.5,
 			split : true,
 			disabled : true,
-			width : 400,
+			width : 600,
 			itemId : 'planoForm',
 			bodyPadding : 10,
 			title : 'Descrição do plano',
@@ -207,7 +210,11 @@ Ext.define('GeoPublic.view.Promotor', {
 		}]
 	}, {
 		region : 'south',
-		layout : 'column',
+		layout: {
+			type: 'hbox',
+			pack: 'start',
+			align: 'stretch'
+		},
 		height : 400,
 		bodyPadding : 10,
 		autoScroll : true,
@@ -216,7 +223,7 @@ Ext.define('GeoPublic.view.Promotor', {
 			xtype : 'gridpanel',
 			itemId : 'tipoocorrencia',
 			// region : 'center',
-			columnWidth : 0.5,
+			width : 600,
 			split : true,
 			frame : true,
 			store : 'TipoOcorrencia',
@@ -266,7 +273,7 @@ Ext.define('GeoPublic.view.Promotor', {
 		}, {
 			xtype : 'gridpanel',
 			itemId : 'estadoocorrencia',
-			columnWidth : 0.5,
+			flex: 1,
 			split : true,
 			store : 'Participation.EstadoOcorrencia',
 			frame : true,

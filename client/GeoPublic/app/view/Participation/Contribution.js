@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.view.Participation.Contribution', {
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.contribution',
-	title : 'Nova participação',
+	title : 'New participation'.translate(),
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit', 'GeoPublic.view.Participation.Fotografia'],
 	bodyPadding : 5, // o que está dentro
 	frame : true,
@@ -17,6 +17,9 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
 		trackResetOnLoad : true, // saber que fields estão dirty
 		autoWidth : true,
 		items : [{
+			xtype : 'hiddenfield',
+			name : 'idocorrencia'
+		}, {
 			xtype : 'hiddenfield',
 			name : 'feature',
 			allowBlank : false

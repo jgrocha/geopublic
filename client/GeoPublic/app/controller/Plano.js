@@ -17,6 +17,9 @@ Ext.define('GeoPublic.controller.Plano', {
 	}, {
 		selector : 'grid-promotor gridpanel#estadoocorrencia button#add',
 		ref : 'buttonAddEstadoOcorrencia' // gera um getButtonAddTipoOcorrencia
+	}, {
+		ref : 'editor',
+		selector : 'grid-promotor #planoForm'
 	}],
 	init : function() {
 		console.log('O controlador está a arrancar...');
@@ -26,6 +29,9 @@ Ext.define('GeoPublic.controller.Plano', {
 			},
 			"grid-promotor gridpanel#plano button#remove" : {
 				click : this.onButtonClickRemove
+			},
+			"grid-promotor form#planoForm button#updateDescricaoPlano" : {
+				click : this.onUpdateDescricaoPlano
 			},
 			// observar a grid
 			'grid-promotor gridpanel#plano' : {
@@ -69,6 +75,21 @@ Ext.define('GeoPublic.controller.Plano', {
 			this.getPlanoStore().rejectChanges();
 		}, this);
 		this.getPlanoStore().proxy.addListener("load", this.onPlanoStoreLoad, this);
+	},
+	missingSelection : function() {
+		return this.getGrid().getSelectionModel().getSelection().length === 0;
+	},
+	onUpdateDescricaoPlano : function(button, e, options) {
+		console.log('onUpdateDescricaoPlano');
+		if (this.missingSelection()) {
+			return false;
+		}
+		var form = this.getEditor();
+		// var params = form.getForm().getValues(false, true, false, false);
+		// console.log(params);
+		var record = form.getRecord();
+		// console.log(record);
+		form.updateRecord(record);
 	},
 	// http://localhost/extjs/docs/index.html#!/api/Ext.grid.plugin.RowEditing
 	// not in use
@@ -150,10 +171,18 @@ Ext.define('GeoPublic.controller.Plano', {
 		var sm = this.getGrid().getSelectionModel();
 		var store = this.getPlanoStore();
 		rowEditing.cancelEdit();
-		store.remove(sm.getSelection());
-		if (store.getCount() > 0) {
-			sm.select(0);
+
+		var selection = sm.getSelection();
+		console.log(GeoPublic.LoggedInUser.data.id + ' === ' + selection[0].data.idutilizador);
+		if (GeoPublic.LoggedInUser.data.id === selection[0].data.idutilizador) {
+			store.remove(sm.getSelection());
+			if (store.getCount() > 0) {
+				sm.select(0);
+			}
+		} else {
+			Ext.example.msg('Remover plano', 'Não pode remover um plano criado por outro utilizador.');
 		}
+
 	},
 	onPlanoStoreLoad : function(proxy, records, successful, eOpts) {
 		if (!successful) {

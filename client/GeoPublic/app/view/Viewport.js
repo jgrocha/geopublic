@@ -39,9 +39,9 @@ Ext.define('GeoPublic.view.Viewport', {
 			xtype : 'startpanel'
 		}, {
 			xtype : 'mapa-com-projeto'
-		}, {
-			xtype : 'grid-promotor'
 		} /*, {
+			xtype : 'grid-promotor'
+		} {
 			xtype : 'bem-vindo-panel'
 		}*/ ]
 	}]

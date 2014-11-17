@@ -30,6 +30,10 @@ Ext.define('GeoPublic.model.Plano', {
 	}, {
 		name : 'the_geom',
 		type : 'string'
+	}, {
+		name : 'idutilizador',
+		type : 'int',
+		persist: false
 	}],
 	// belongsTo : 'GeoPublic.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct

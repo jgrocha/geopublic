@@ -25,6 +25,7 @@ sudo apt-get upgrade
 
 sudo apt-get install redis-server
 sudo apt-get install build-essential subversion
+sudo apt-get install graphicsmagick
 ```
 
 One language package should be installed. PostgreSQL will not create the initial database cluster without any language installed.
@@ -80,6 +81,32 @@ npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p public/uploads
 ```
+
+##### Server folders
+
+On the server side, under `public_html` folder, 4 folders are used:
+ resources
+ participation_data
+ uploaded_images
+ uploads
+
+![Server folder structure](serverfolderstructure.png "Server folder structure")
+
+1. `uploads`
+
+    This is a temporary folder to receive uploaded images. Images are scaled and moved from this temporary folder to other folders.
+
+2. `participation_data`
+
+    Images uploaded by users to illustrate their participation are stored in this folder. This folder is organized by entity and plan. All images regarding one plan are stored on the same folder.
+
+3. `uploaded_images`
+
+    Other images uploaded by users are stored under this folder. Profile images are uploaded here.
+
+4. `resources`
+
+    Contains static resources used by the application, like icons, etc.
 
 #### Start the application
 
