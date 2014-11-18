@@ -91,15 +91,16 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             }
         }, this);
         /*
-        this.listen({
-            controller: {
-                '*': {
-                    logoutComSucesso: this.onLogoutComSucesso, // this.fireEvent('showPromotores'); in GeoPublic.controller.MainMapPanel
-                    loginComSucesso: this.onLoginComSucesso
-                }
-            }
-        });
-        */
+         this.listen({
+         controller: {
+         controller: {
+         '*': {
+         logoutComSucesso: this.onLogoutComSucesso, // this.fireEvent('showPromotores'); in GeoPublic.controller.MainMapPanel
+         loginComSucesso: this.onLoginComSucesso
+         }
+         }
+         });
+         */
     },
     onLoginComSucesso: function () {
         // <debug>
@@ -155,20 +156,20 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
         // - devo fazer setVisible(false) aos form dos comentários
 
         /*
-        this.getTodasDiscussoes().query('discussion commentform').forEach(function (c) {
-            c.setVisible(false);
-        });
+         this.getTodasDiscussoes().query('discussion commentform').forEach(function (c) {
+         c.setVisible(false);
+         });
 
-        this.getTodasDiscussoes().query('discussion tool[type=close]').forEach(function (c) {
-            console.log('Tentar esconder botão de remover participação...');
-            c.setVisible(false);
-        });
+         this.getTodasDiscussoes().query('discussion tool[type=close]').forEach(function (c) {
+         console.log('Tentar esconder botão de remover participação...');
+         c.setVisible(false);
+         });
 
-        this.getTodasDiscussoes().query('discussion tool[type=gear]').forEach(function (c) {
-            console.log('Tentar esconder botão de editar participação...');
-            c.setVisible(false);
-        });
-        */
+         this.getTodasDiscussoes().query('discussion tool[type=gear]').forEach(function (c) {
+         console.log('Tentar esconder botão de editar participação...');
+         c.setVisible(false);
+         });
+         */
 
         var plano = this.getComboplano().getValue();
         if (plano) {
@@ -206,7 +207,7 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
         // <debug>
         console.log('onOcorrenciaStoreLoad');
         // console.debug(store);
-        console.debug(records);
+        // console.debug(records);
         // </debug>
 
         var me = this;
@@ -228,33 +229,54 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             });
             // f.style.fillColor = records[i].data.color;
             f.fid = records[i].data.id;
+
+            f.attributes["idplano"] = records[i].data.idplano;
+            f.attributes["idpromotor"] = me.getCombopromotor().getValue();
+            f.attributes["idestado"] = records[i].data.idestado;
+            f.attributes["idtipoocorrencia"] = records[i].data.idtipoocorrencia;
+            f.attributes["titulo"] = records[i].data.titulo;
+            f.attributes["participacao"] = records[i].data.participacao;
+            f.attributes["datacriacao"] = records[i].data.datacriacao;
+            f.attributes["numcomments"] = records[i].data.numcomentarios;
+            f.attributes["fotografia"] = records[i].data.fotografia;
+            f.attributes["days"] = records[i].data.days;
+            f.attributes["hours"] = records[i].data.hours;
+            f.attributes["minutes"] = records[i].data.minutes;
+            f.attributes["seconds"] = records[i].data.seconds;
+            f.attributes["nome"] = records[i].data.nome;
+            f.attributes["idutilizador"] = records[i].data.idutilizador;
+
             report.addFeatures([f]);
 
-            // criar os paineis de discussao
-            var newDiscussion = new GeoPublic.view.Participation.Discussion({
-                id_ocorrencia: records[i].data.id,
-                idplano: records[i].data.idplano,
-                idpromotor: me.getCombopromotor().getValue(),
-                idestado: records[i].data.idestado,
-                idtipoocorrencia: records[i].data.idtipoocorrencia,
-                titulo: records[i].data.titulo,
-                participacao: records[i].data.participacao,
-                datacriacao: records[i].data.datacriacao,
-                numcomments: records[i].data.numcomentarios,
-                fotografia: records[i].data.fotografia,
-                days: records[i].data.days,
-                hours: records[i].data.hours,
-                minutes: records[i].data.minutes,
-                seconds: records[i].data.seconds,
-                nome: records[i].data.nome,
-                idutilizador: records[i].data.idutilizador,
-                feature: f // é um objecto!
-            });
+            /*
+             // criar os paineis de discussao
+             var newDiscussion = new GeoPublic.view.Participation.Discussion({
+             id_ocorrencia: records[i].data.id,
+             idplano: records[i].data.idplano,
+             idpromotor: me.getCombopromotor().getValue(),
+             idestado: records[i].data.idestado,
+             idtipoocorrencia: records[i].data.idtipoocorrencia,
+             titulo: records[i].data.titulo,
+             participacao: records[i].data.participacao,
+             datacriacao: records[i].data.datacriacao,
+             numcomments: records[i].data.numcomentarios,
+             fotografia: records[i].data.fotografia,
+             days: records[i].data.days,
+             hours: records[i].data.hours,
+             minutes: records[i].data.minutes,
+             seconds: records[i].data.seconds,
+             nome: records[i].data.nome,
+             idutilizador: records[i].data.idutilizador,
+             feature: f // é um objecto!
+             });
+             f.discussion = newDiscussion;
+             */
+
             // me.getTodasDiscussoes().add(newDiscussion);
-            me.getTodasDiscussoes().insert(0, newDiscussion);
-            me.getTodasDiscussoes().doLayout();
+            // me.getTodasDiscussoes().insert(0, newDiscussion);
+            // me.getTodasDiscussoes().doLayout();
         }
-        // this.getTodasDiscussoes().doLayout();
+        // me.getTodasDiscussoes().doLayout();
     },
     onChangePlano: function (field, newValue, oldValue, eOpts) {
         // <debug>
@@ -474,22 +496,90 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
              */
             onSelect: function (f) {
                 console.log('o feature ' + f.fid + ' foi selecionado');
+
+                var newDiscussion = null;
                 var p = me.getTodasDiscussoes();
-                // console.log(p.items);
-                var d = p.items.findBy(function (cmp) {
-                    // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
-                    return (cmp.idocorrencia == f.fid);
-                });
-                // console.log(d);
-                if (d) {
-                    d.setUI('discussion-framed');
-                    console.log(d);
-                    var pos = d.getOffsetsTo(p)[1];
+
+                if (f.discussion) {
+                    console.log('Já existe a discussão ' + f.fid);
+                    newDiscussion = f.discussion;
+                    // faz scroll!
+                    var pos = newDiscussion.getOffsetsTo(p)[1];
                     p.body.scroll('top', pos, true);
+                } else {
+                    console.log('Criar a discussão ' + f.fid);
+                    // criar os paineis de discussao
+                    newDiscussion = new GeoPublic.view.Participation.Discussion({
+                        id_ocorrencia: f.fid,
+                        idplano: f.attributes["idplano"],
+                        idpromotor: f.attributes["idpromotor"],
+                        idestado: f.attributes["idestado"],
+                        idtipoocorrencia: f.attributes["idtipoocorrencia"],
+                        titulo: f.attributes["titulo"],
+                        participacao: f.attributes["participacao"],
+                        datacriacao: f.attributes["datacriacao"],
+                        numcomments: f.attributes["numcomments"],
+                        fotografia: f.attributes["fotografia"],
+                        days: f.attributes["days"],
+                        hours: f.attributes["hours"],
+                        minutes: f.attributes["minutes"],
+                        seconds: f.attributes["seconds"],
+                        nome: f.attributes["nome"],
+                        idutilizador: f.attributes["idutilizador"],
+                        feature: f // é um objecto!
+                    });
+                    f.discussion = newDiscussion;
+                    // o método add só adiciona se ainda não existe no painel
+                    me.getTodasDiscussoes().add(newDiscussion);
+                    me.getTodasDiscussoes().insert(0, newDiscussion);
                 }
+
+                newDiscussion.setUI('discussion-framed');
+
+                var task = new Ext.util.DelayedTask(function(){
+                    newDiscussion.setUI('default-framed');
+                });
+                task.delay(2000);
+
+                // me.getTodasDiscussoes().doLayout();
+
+                /*
+                 var p = me.getTodasDiscussoes();
+                 if (newDiscussion) {
+                 newDiscussion.setUI('discussion-framed');
+                 // console.log(newDiscussion);
+                 var pos = newDiscussion.getOffsetsTo(p)[1];
+                 p.body.scroll('top', pos, true);
+                 }
+                 */
+
+                /*
+                 Passar a guardar no feature o painel correspondente
+                 event.feature.attributes["title"]
+                 */
+
+                /*
+                 var p = me.getTodasDiscussoes();
+                 // console.log(p.items);
+
+
+
+                 var d = p.items.findBy(function (cmp) {
+                 // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+                 return (cmp.idocorrencia == f.fid);
+                 });
+                 // console.log(d);
+                 if (d) {
+                 d.setUI('discussion-framed');
+                 console.log(d);
+                 var pos = d.getOffsetsTo(p)[1];
+                 p.body.scroll('top', pos, true);
+                 }
+                 */
             },
             onUnselect: function (f) {
                 console.log('o feature ' + f.fid + ' foi deselecionado');
+                /*
                 var p = me.getTodasDiscussoes();
                 // console.log(p.items);
                 var d = p.items.findBy(function (cmp) {
@@ -500,6 +590,7 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
                 if (d) {
                     d.setUI('default-framed');
                 }
+                */
             }
         });
 

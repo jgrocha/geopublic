@@ -16,7 +16,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 	initComponent : function() {
 		var me = this;
 		// console.debug(this.initialConfig);
-		// console.log('Abrir com a discussao ' + this.initialConfig.id_ocorrencia + ' com ' + this.initialConfig.numcomments + ' comentarios');
+		console.log('Abrir com a discussao ' + this.initialConfig.id_ocorrencia + ' com ' + this.initialConfig.numcomments + ' comentarios');
 		this.title = this.initialConfig.titulo;
 		this.idtipoocorrencia = this.initialConfig.idtipoocorrencia;
 		this.idocorrencia = this.initialConfig.id_ocorrencia;

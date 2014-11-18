@@ -40,6 +40,29 @@ sudo apt-get install language-pack-pt
 ```bash
 sudo apt-get install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-contrib
 sudo apt-get install postgresql-server-dev-9.3 postgresql-client-common postgresql-client-9.3
+sudo apt-get install pgbouncer
+
+sudo sed -i s/=0/=1/ /etc/default/pgbouncer
+
+sudo vi /etc/pgbouncer/pgbouncer.ini
+[databases]
+geopublic = host=127.0.0.1 port=5432 dbname=geopublic
+
+sudo vi /etc/pgbouncer/userlist.txt
+"postgres" "postgres"
+"geobox" "geobox"
+
+sudo sed -i "s/^max_client_conn = 100/max_client_conn = 1000/" /etc/pgbouncer/pgbouncer.ini
+
+sudo service pgbouncer restart
+psql -h localhost -p 6432 -U geobox geopublic
+\q
+
+psql -h localhost -p 6432 -U geobox geopublic -c "SHOW config_file;"
+/etc/postgresql/9.3/main/postgresql.conf
+
+sudo sed -i "s/^max_connections = 100/max_connections = 250/" /etc/postgresql/9.3/main/postgresql.conf
+sudo service postgresql restart
 ```
 
 #### Create new database
@@ -60,6 +83,7 @@ exit
 wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-demo.backup
 export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-demo.backup
 ```
+
 
 #### Installing node.js
 

@@ -10,6 +10,11 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 		this.control({
 			"discussion fotografia dataview" : {
 				itemclick : this.onFotografiaItemClick
+			},
+			'fotografia': {
+				'beforerender': this.onFotografiaBeforeRender,
+				'afterrender': this.onFotografiaAfterRender,
+				'beforeactivate': this.onFotografiaBeforeActivate
 			}
 		});
 		/*
@@ -19,8 +24,17 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 		 }, this);
 		 */
 	},
+	onFotografiaBeforeRender: function (panel, options) {
+		console.log('onFotografiaBeforeRender');
+	},
+	onFotografiaAfterRender: function (panel, options) {
+		console.log('onFotografiaAfterRender');
+	},
+	onFotografiaBeforeActivate: function (panel, options) {
+		console.log('onFotografiaBeforeActivate');
+	},
 	onFotografiaItemClick : function(dview, record, item, index, e, eOpts) {
-		console.log(arguments);
+		// console.log(arguments);
 		// record.data.url, record.data.largura, record.data.altura
 		// var res = str.replace("Microsoft", "W3Schools");
 		// http://localhost:3000/participation_data/2/2/80x80/500950f0f512dc9a8dca7888bd9a9a17.jpg

@@ -24,12 +24,16 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 			this.idplano = this.initialConfig.config.idplano;
 			this.idpromotor = this.initialConfig.config.idpromotor;
 			// console.log('A criar componente GeoPublic.view.Participation.Fotografia para o idocorrencia = ' + this.idocorrencia);
+
+			// vamos só buscar a coisa no afterrender?
+			// podemos ir já...
 			this.store.load({
 				params : {
 					idocorrencia : this.idocorrencia
 				},
 				scope : this
 			});
+
 			// { idocorrencia: 1, page: 1, start: 0, limit: 25 }
 		} else {
 			console.log('A criar componente GeoPublic.view.Participation.Fotografia SEM idocorrencia');
@@ -90,7 +94,7 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 		this.callParent(arguments);
 	},
 	onFotografiaStoreLoad : function(store, records) {
-		console.log('onFotografiaStoreLoad ' + records.length + ' fotografias que ocupam ' + (records.length * 95) + ' pixels');
+		// console.log('onFotografiaStoreLoad ' + records.length + ' fotografias que ocupam ' + (records.length * 95) + ' pixels');
 		this.down('dataview').setWidth(records.length * 95);
 	},
 	getStore : function() {

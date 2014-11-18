@@ -64,10 +64,17 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 						}));
 					});
 					// console.log(result.total);
+					var start = new Date().getTime();
+
 					p.update(aux);
 					p.numcomments = parseInt(result.total);
 					p.setTitle(p.numcomments + ' comentários');
 					p.loaded = true;
+
+					var end = new Date().getTime();
+					var time = end - start;
+					console.log('Execution time: ' + time);
+
 				} else {
 					console.log('Problemas na recuperação dos comentários');
 				}

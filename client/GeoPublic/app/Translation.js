@@ -10,7 +10,7 @@ Ext.define('GeoPublic.Translation', {}, function() {
 
 		String.prototype.translate = function() {
 			var s = this.valueOf();
-			console.log('TRANSLATE: ' + s);
+			// console.log('TRANSLATE: ' + s);
 			var t = {},
 			    i = 0,
 			    n = GeoPublic.Translation.length;
