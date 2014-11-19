@@ -49,16 +49,15 @@ sudo vi /etc/pgbouncer/pgbouncer.ini
 geopublic = host=127.0.0.1 port=5432 dbname=geopublic
 
 sudo vi /etc/pgbouncer/userlist.txt
-"postgres" "postgres"
-"geobox" "geobox"
+"geobox" "password"
 
-sudo sed -i "s/^max_client_conn = 100/max_client_conn = 1000/" /etc/pgbouncer/pgbouncer.ini
+sudo sed -i "s/^max_client_conn = 100/max_client_conn = 500/" /etc/pgbouncer/pgbouncer.ini
 
 sudo service pgbouncer restart
 psql -h localhost -p 6432 -U geobox geopublic
 \q
 
-psql -h localhost -p 6432 -U geobox geopublic -c "SHOW config_file;"
+psql -h localhost -p 5432 -U postgres postgres -c "SHOW config_file;"
 /etc/postgresql/9.3/main/postgresql.conf
 
 sudo sed -i "s/^max_connections = 100/max_connections = 250/" /etc/postgresql/9.3/main/postgresql.conf
@@ -100,7 +99,7 @@ sudo chown -R $USER:$USER ~/.npm
 ```bash
 mkdir public_html
 cd public_html/
-svn checkout https://github.com/jgrocha/geopublic/trunk/node-server/extdirect-pg .
+svn checkout https://github.com/jgrocha/geopublic/trunk/server .
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p public/uploads
@@ -108,11 +107,13 @@ mkdir -p public/uploads
 
 ##### Server folders
 
-On the server side, under `public_html` folder, 4 folders are used:
- resources
- participation_data
- uploaded_images
+On the server side, under `public_html`:
  uploads
+
+On the server side, under `public_html/public`:
+ public/resources
+ public/participation_data
+ public/uploaded_images
 
 ![Server folder structure](serverfolderstructure.png "Server folder structure")
 
@@ -120,15 +121,15 @@ On the server side, under `public_html` folder, 4 folders are used:
 
     This is a temporary folder to receive uploaded images. Images are scaled and moved from this temporary folder to other folders.
 
-2. `participation_data`
+2. `public/participation_data`
 
     Images uploaded by users to illustrate their participation are stored in this folder. This folder is organized by entity and plan. All images regarding one plan are stored on the same folder.
 
-3. `uploaded_images`
+3. `public/uploaded_images`
 
     Other images uploaded by users are stored under this folder. Profile images are uploaded here.
 
-4. `resources`
+4. `public/resources`
 
     Contains static resources used by the application, like icons, etc.
 

@@ -86,7 +86,8 @@ Ext.define('GeoPublic.Application', {
 			GeoPublic.geoserver = 'http://cm-agueda.geomaster.pt:8080';
 			GeoPublic.mapproxy = ['http://a.geomaster.pt/mapproxy/tms/', 'http://b.geomaster.pt/mapproxy/tms/', 'http://c.geomaster.pt/mapproxy/tms/', 'http://d.geomaster.pt/mapproxy/tms/'];
 			socket = io.connect({
-				path : '/ppgis/socket.io'
+				// path : '/ppgis/socket.io'
+				path : '/socket.io'
 			});
 		}
 
