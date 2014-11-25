@@ -42,5 +42,9 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 		var imagem = record.data.url.replace("/80x80/", "/");
 		var win = window.open(imagem, '_blank');
 		win.focus();
+	},
+	onLaunch : function() {
+		var me = this;
+		console.log('...O controlador GeoPublic.controller.Participation.Fotografia arrancou.');
 	}
 });

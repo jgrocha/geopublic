@@ -25,6 +25,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 		var o = p.up('discussion').idocorrencia;
 		// console.debug(p);
 		if (!p.loaded) {
+			p.header.getEl().setStyle('cursor','default');
 			ExtRemote.DXParticipacao.readComment(o, function(result, event) {
 				if (result.success) {
 					// console.log(result.data);
@@ -33,7 +34,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 					// "haquantotempo": {"hours":2,"minutes":41,"seconds":59}
 					var aux = [];
 					Ext.Array.each(result.data, function(rec, index, comments) {
-						// console.log(rec);
+						console.log(rec);
 						var datacriacao = Ext.Date.parse(rec.datacriacao, 'c');
 						var tempo = 'Há ';
 						if (!rec.haquantotempo.days) {
@@ -115,7 +116,10 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 	*/
 	onButtonGravar : function(button, e, options) {
 		console.log('Gravar comentário');
+		// console.log(button);
+
 		var me = this;
+		var d = button.up('discussion');
 		var fc = button.up('form').getForm();
 		var params = fc.getValues(false, false, false, false);
 
@@ -123,21 +127,54 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 			if (result.success) {
 				// Ext.Msg.alert('Successo', 'O seu comentário foi registado. Obrigado pela participação.');
 				// limpar o formulário!
-				fc.findField('comentario').setValue('');
+				// fc.findField('comentario').setValue('');
+				// reset() clear the field and removes the validation reminder
+				fc.reset();
+				var comboBox = button.up('form').down('combo');
+				comboBox.clearValue();
 
 				// console.log(result.data);
 				// console.log(JSON.stringify(result.data));
 				// console.log(result.data[0].id);
 
 				var p = button.up('discussion').down('commentlist');
-				console.debug(p);
+				// console.debug(p);
 
+				// alterar a cor do feature em função da alteração do estado
+				// se houve alteração do estado...
+				var cor = '';
+				var estadoTexto = '';
+
+				if (params.idestado) {
+					var novo = params.idestado;
+					var estado = me.getParticipationEstadoComboStore().findRecord('id', novo);
+					cor = estado.get('color');
+					estadoTexto = estado.get('estado');
+					// Qual é a nova cor?
+					d.feature.attributes['color'] = cor;
+					d.feature.layer.drawFeature(d.feature);
+					fc.findField('comentario').setValue('');
+					// atualiza do estado no painel
+					d.estado = estadoTexto;
+					d.color = cor;
+				} else {
+					// Vai buscar o estado anterior ao painel...
+					cor = d.color;
+					estadoTexto = d.estado;
+					console.log('Aproveitar estado guardado: ', d.color, d.estado);
+				}
+				// atualizar o form dos comentários
+				// comboBox.setFieldStyle('color:green'); // muda a combo; não o label!
+				comboBox.labelEl.setStyle('color', d.color);
+				comboBox.setFieldLabel('Estado: ' + d.estado);
 				if (p.loaded) {
 					// junto este aos comentários existentes
 					var tempo = 'Há menos de 1 minuto';
 					// if (p.numcomments > 0) {
 					p.data.push(Ext.apply(result.data[0], {
-						tempo : tempo
+						tempo : tempo,
+						estado: estadoTexto,
+						color: cor
 					}));
 					p.update(p.data);
 					// } else {
@@ -150,17 +187,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 					p.expand(true);
 				}
 
-				// alterar a cor do feature em função da alteração do estado
-				// se houve alteração do estado...
-				if (params.idestado) {
-					var novo = params.idestado;
-					var estado = me.getParticipationEstadoComboStore().findRecord('id', novo);
-					var cor = estado.get('color');
-					var d = button.up('discussion');
-					// Qual é a nova cor?
-					d.feature.attributes['color'] = cor;
-					d.feature.layer.drawFeature(d.feature);
-				}
+
 			} else {
 				Ext.Msg.alert('Erro', 'Ocorreu um erro ao registar o seu comentário.');
 			}

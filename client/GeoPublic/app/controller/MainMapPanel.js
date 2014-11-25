@@ -74,8 +74,9 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
         this.control({
             'app-main-map-panel': {
                 'beforerender': this.onMapPanelBeforeRender,
-                'afterrender': this.onMapPanelAfterRender,
-                'beforeactivate': this.onMapPanelBeforeActivate
+                'afterrender': this.onMapPanelAfterRender
+                // 'afterlayout': this.onMapPanelAfterLayout,
+                // 'beforeactivate': this.onMapPanelBeforeActivate
             },
             "app-main-map-panel gx_geocodercombo#geocoder": {
                 select: this.onSelectGeocoder
@@ -233,6 +234,7 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             f.attributes["idplano"] = records[i].data.idplano;
             f.attributes["idpromotor"] = me.getCombopromotor().getValue();
             f.attributes["idestado"] = records[i].data.idestado;
+            f.attributes["estado"] = records[i].data.estado;
             f.attributes["idtipoocorrencia"] = records[i].data.idtipoocorrencia;
             f.attributes["titulo"] = records[i].data.titulo;
             f.attributes["participacao"] = records[i].data.participacao;
@@ -344,8 +346,14 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             // load do store
             this.getFotografiatmp().store.load();
 
-            this.fireEvent('changePlan');
+            // Guardar num cookie que este utilizador abrir este plano...
+            var agora = new Date();
+            var validade = new Date(agora.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 dias
+            Ext.util.Cookies.set('promotor', promotor, validade);
+            Ext.util.Cookies.set('plano', plano, validade);
+            console.log('Cookie plano guardado');
 
+            this.fireEvent('changePlan');
             // Abrir a barra do StartPanel e mostrar todos os promotores...
             // controller StartPanel showPromotores(null);
             this.fireEvent('showPlanDetails');
@@ -472,6 +480,9 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
         me.getGeocoder().layer = locationLayer;
 
     },
+    onMapPanelAfterLayout: function (mapPanel, layout, options) {
+        console.log('onMapPanelAfterLayout');
+    },
     onMapPanelAfterRender: function (mapPanel, options) {
         console.log('onMapPanelAfterRender');
         var me = this;
@@ -509,11 +520,14 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
                 } else {
                     console.log('Criar a discussão ' + f.fid);
                     // criar os paineis de discussao
+
                     newDiscussion = new GeoPublic.view.Participation.Discussion({
                         id_ocorrencia: f.fid,
                         idplano: f.attributes["idplano"],
                         idpromotor: f.attributes["idpromotor"],
                         idestado: f.attributes["idestado"],
+                        estado: f.attributes["estado"],
+                        color: f.attributes["color"],
                         idtipoocorrencia: f.attributes["idtipoocorrencia"],
                         titulo: f.attributes["titulo"],
                         participacao: f.attributes["participacao"],
@@ -532,11 +546,16 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
                     // o método add só adiciona se ainda não existe no painel
                     me.getTodasDiscussoes().add(newDiscussion);
                     me.getTodasDiscussoes().insert(0, newDiscussion);
+
+                    if (f.attributes["numcomments"] > 0) {
+                        // give feedback to user
+                        newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');
+                    }
                 }
 
                 newDiscussion.setUI('discussion-framed');
 
-                var task = new Ext.util.DelayedTask(function(){
+                var task = new Ext.util.DelayedTask(function () {
                     newDiscussion.setUI('default-framed');
                 });
                 task.delay(2000);
@@ -580,17 +599,17 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             onUnselect: function (f) {
                 console.log('o feature ' + f.fid + ' foi deselecionado');
                 /*
-                var p = me.getTodasDiscussoes();
-                // console.log(p.items);
-                var d = p.items.findBy(function (cmp) {
-                    // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
-                    return (cmp.idocorrencia == f.fid);
-                });
-                // console.log(d);
-                if (d) {
-                    d.setUI('default-framed');
-                }
-                */
+                 var p = me.getTodasDiscussoes();
+                 // console.log(p.items);
+                 var d = p.items.findBy(function (cmp) {
+                 // console.log('Comparar: ' + cmp.idocorrencia + ' com ' + event.feature.fid);
+                 return (cmp.idocorrencia == f.fid);
+                 });
+                 // console.log(d);
+                 if (d) {
+                 d.setUI('default-framed');
+                 }
+                 */
             }
         });
 
@@ -612,7 +631,7 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
 
         report.events.on({
             beforefeatureadded: function (event) {
-                console.log('report.beforefeatureadded');
+                // console.log('report.beforefeatureadded');
                 // console.log(arguments);
                 // console.debug(event.feature);
                 if (!event.feature.attributes["title"]) {
@@ -637,13 +656,13 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
                 // Percorrer TODOS os features
                 var n = f.layer.features.length;
                 var toremove = [];
-                console.log('Limpar os features temporarios. Percorrer ' + n + ' features existentes.');
+                // console.log('Limpar os features temporarios. Percorrer ' + n + ' features existentes.');
                 // Excepto este acabado de inserir!
                 for (var i = 0; i < n; i++) {
-                    console.log(f.layer.features[i].id, f.layer.features[i].fid);
+                    // console.log(f.layer.features[i].id, f.layer.features[i].fid);
                     // remover dentro deste ciclo?
                     if ((f.layer.features[i].fid == null) && (f.layer.features[i].id != f.id)) {
-                        console.log('Remove: ', f.layer.features[i].id, f.layer.features[i].fid);
+                        // console.log('Remove: ', f.layer.features[i].id, f.layer.features[i].fid);
                         toremove.push(f.layer.features[i]);
                     }
                 }
@@ -716,9 +735,31 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
         // var guia = Ext.widget('guia');
         // guia.show();
 
+        /*
+         if (GeoPublic.OpenPlan) {
+         var promo = GeoPublic.OpenPlan["promotor"];
+         var plano = GeoPublic.OpenPlan["plano"];
+         console.log('Vai abrir o plano ' + plano + ' do promotor ' + promo);
+
+         var taskuinho = new Ext.util.DelayedTask(function(){
+         me.getCombopromotor().setValue(promo);
+         });
+         taskuinho.delay(2000);
+         var taskao = new Ext.util.DelayedTask(function(){
+         me.getComboplano().setValue(plano);
+         });
+         taskao.delay(3000);
+
+         delete GeoPublic.OpenPlan;
+         } else {
+         console.log('Não abre plano nenhum automaticamente');
+         }
+         */
+
+
     },
     onMapPanelBeforeActivate: function (mapPanel, options) {
-        console.log('onMapPanelBeforeActivate');
+        console.log('******************onMapPanelBeforeActivate*****************************');
         var map = mapPanel.map;
         if (GeoPublic.LoggedInUser) {
             this.getBarra().enable();

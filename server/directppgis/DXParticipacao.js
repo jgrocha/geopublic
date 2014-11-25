@@ -159,11 +159,24 @@ var DXParticipacao = {
         console.log(params);
         var idocorrencia = params;
         var conn = db.connect();
+        /*
+         SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, e.estado, e.color
+         FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o
+         where idocorrencia = 1134
+         and c.idutilizador = u.id
+         and c.idestado = e.id
+         and o.idplano = e.idplano
+         and c.idocorrencia = o.id
+         */
         var sql = '';
-        sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome';
-        sql += ' FROM ppgis.comentario c, public.utilizador u ';
+        sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, e.estado, e.color';
+        sql += ' FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o';
         sql += ' where idocorrencia = ' + idocorrencia;
         sql += ' and c.idutilizador = u.id';
+        sql += ' and c.idestado = e.id';
+        sql += ' and o.idplano = e.idplano';
+        sql += ' and c.idocorrencia = o.id';
+
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
@@ -629,14 +642,14 @@ var DXParticipacao = {
         }
         var conn = db.connect();
         /*
-         SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,
+         SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,
          now()-o.datacriacao as haquantotempo, u.fotografia, u.nome
          FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u
          WHERE NOT o.apagado AND o.idplano = 2 and e.id = o.idestado AND e.idplano = o.idplano
          AND o.idutilizador = u.id
          */
 
-        var sql = 'SELECT o.*, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
+        var sql = 'SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
         sql += ' now()-o.datacriacao as haquantotempo, u.fotografia, u.nome, o.idutilizador';
         sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
         sql += ' WHERE NOT o.apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';

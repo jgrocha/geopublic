@@ -22,6 +22,9 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 		this.idocorrencia = this.initialConfig.id_ocorrencia;
 		this.idplano = this.initialConfig.idplano;
 		this.idpromotor = this.initialConfig.idpromotor;
+		this.idestado = this.initialConfig.idestado;
+		this.estado = this.initialConfig.estado;
+		this.color = this.initialConfig.color;
 		this.numcomments = this.initialConfig.numcomments;
 		this.idutilizador = this.initialConfig.idutilizador;
 		this.feature = this.initialConfig.feature;
@@ -103,7 +106,10 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 			xtype : 'commentform',
 			hidden : !showComments,
 			config : {
-				idocorrencia : this.idocorrencia
+				idocorrencia : this.idocorrencia,
+				idestado : this.idestado,
+				estado : this.estado,
+				color: this.color
 			}
 		}];
 		this.callParent(arguments);

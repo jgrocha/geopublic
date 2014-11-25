@@ -17,7 +17,9 @@ Ext.define('GeoPublic.view.Participation.CommentList', {
 		// http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
 		var commenttpl = new Ext.XTemplate(//
 		'<tpl for=".">', //
-		'<p><img src="{fotografia}" align="left" height="32" width="32"><b>{nome}</b> {comentario}<br/>{tempo}</p>', //
+		'<p><img src="{fotografia}" align="left" height="32" width="32">', //
+		'<b>{nome}</b> {comentario}<br/><i>{tempo}</i></p>', //
+		'<p>Estado: <span style="color:{color}">{estado}</span></p>', //
 		'</tpl>' //
 		);
 		this.tpl = commenttpl;

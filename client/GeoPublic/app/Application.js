@@ -9,6 +9,16 @@ Ext.define('GeoPublic.Application', {
 	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Participation.ChartByState', 'Participation.ChartByType'],
 	stores : ['Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
 	splashscreen : {},
+	refs : [{
+		selector : 'viewport > tabpanel',
+		ref : 'painelPrincipal' // gera um getPainelPrincipal
+	}, {
+		ref : 'combopromotor', // this.getCombopromotor()
+		selector : 'app-main-map-panel combo#promotor'
+	}, {
+		ref : 'comboplano', // this.getComboplano()
+		selector : 'app-main-map-panel combo#plano'
+	}],
 	init : function() {
 		splashscreen = Ext.getBody().mask('Loading PPGIS, please stand by ...', 'splashscreen');
 		var me = this;
@@ -77,38 +87,38 @@ Ext.define('GeoPublic.Application', {
 		 });
 		 */
 
-		var socket = null;
 		if (document.location.href.split('/')[2].indexOf('localhost') > -1) {
 			GeoPublic.geoserver = 'http://localhost:8080';
 			GeoPublic.mapproxy = 'http://localhost/mapproxy/tms/';
-			socket = io.connect();
 		} else {
 			GeoPublic.geoserver = 'http://cm-agueda.geomaster.pt:8080';
 			GeoPublic.mapproxy = ['http://a.geomaster.pt/mapproxy/tms/', 'http://b.geomaster.pt/mapproxy/tms/', 'http://c.geomaster.pt/mapproxy/tms/', 'http://d.geomaster.pt/mapproxy/tms/'];
-			socket = io.connect({
-				// path : '/ppgis/socket.io'
-				path : '/socket.io'
-			});
 		}
 
-		// var socket = io.connect();
-		// var socket = io.connect('http://cm-agueda.geomaster.pt/ppgis');
-		// var socket = io.connect('http://cm-agueda.geomaster.pt/ppgis', { resource: 'ppgis/socket.io'});
+		var socket = io.connect();
+		/*
+		var socket = io.connect({
+			// path : '/ppgis/socket.io'
+			path : '/socket.io'
+		});
+		*/
 
 		// No servidor
 		// var io = require('socket.io').listen(servidor, { resource: '/ppgis/socket.io'});
 
 		socket.on('comment', function(data) {
-			console.log('Novo comentário: ', data);
+			console.log('Novo comentário recebido do servidor: ', data);
 			// Recebe novas estatísticas
 			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
 			me.fireEvent('newComment', data);
+			Ext.example.msg('No comentário recebido', data.params.comentario);
 		});
 		socket.on('participation', function(data) {
 			console.log('Nova ocorrência: ', data);
 			// Recebe novas estatísticas
 			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
 			me.fireEvent('newParticipation', data);
+			Ext.example.msg('Nova participação recebida', data.params.participacao);
 		});
 	},
 	launch : function() {
@@ -164,6 +174,23 @@ Ext.define('GeoPublic.Application', {
 			} /* else {
 			 me.fireEvent('logoutComSucesso');
 			 } */
+			// Esta consulta ao servidor deu tempo para a aplicação arrancar...
+			// Salto já para o mapa? Posso?
+			// Estou a fazer isto, mesmo sem saber se está ou não autenticado
+			var cookiepromotor = Ext.util.Cookies.get('promotor');
+			var cookieplano = Ext.util.Cookies.get('plano');
+			console.log('Cookie promotor: ', cookiepromotor);
+			console.log('Cookie plano: ', cookieplano);
+			if (cookiepromotor && cookieplano) {
+				console.log('Vai mudar automaticamente para o plano ' + cookieplano + ' daqui a instantes...');
+				// O último plano que andou a mexer foi em ...
+				// GeoPublic.OpenPlan = { promotor: parseInt(cookiepromotor), plano: parseInt(cookieplano)}
+				me.getCombopromotor().setValue(parseInt(cookiepromotor));
+				me.getComboplano().setValue(parseInt(cookieplano));
+				me.getPainelPrincipal().setActiveTab(1);
+			} else {
+				console.log('Não há cookies para ninguém');
+			}
 		});
 	}
 });
@@ -191,7 +218,7 @@ Ext.example = function() {
 			var m = Ext.DomHelper.append(msgCt, createBox(title, s), true);
 			m.hide();
 			m.slideIn('t').ghost("t", {
-				delay : 1000,
+				delay : 2000,
 				remove : true
 			});
 		},

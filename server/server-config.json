@@ -15,7 +15,7 @@
         "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
         "AccessControlAllowCredentials": true,
         "AccessControlMaxAge": 3600,
-        "_url": "http://cm-agueda.geomaster.pt/ppgis",
+        "url": "http://ppgis.cm-agueda.geomaster.pt",
         "url_doc": "if ServerConfig.url is undefined, the request.headers.host is used. Don't use / at end"
     },
     "ExtDirectConfig": {
@@ -27,8 +27,8 @@
         "_classPath": "folder with classes /direct",
         "classPrefix": "DX",
         "_server": "localhost",
-        "server": "10.15.5.233",
-        "_server": "cm-agueda.geomaster.pt",
+        "_server": "10.15.5.233",
+        "server": "ppgis.cm-agueda.geomaster.pt",
         "_port": "80",
         "port": "3003",
         "protocol": "http",

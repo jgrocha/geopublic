@@ -167,3 +167,8 @@ Install postfix and select Internet Site from the available options.
 sudo apt-get install postfix
 ```
 
+#### Configuration behind Apache (Apache 2.4.5 and later)
+
+```bash
+sudo a2enmod proxy_wstunnel
+```
