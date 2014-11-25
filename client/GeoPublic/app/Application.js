@@ -185,14 +185,11 @@ Ext.define('GeoPublic.Application', {
 				console.log('Vai mudar automaticamente para o plano ' + cookieplano + ' daqui a instantes...');
 				// O último plano que andou a mexer foi em ...
 				// GeoPublic.OpenPlan = { promotor: parseInt(cookiepromotor), plano: parseInt(cookieplano)}
-				var task1 = new Ext.util.DelayedTask(function () {
-					me.getCombopromotor().setValue(parseInt(cookiepromotor));
-				});
-				task1.delay(500);
-				var task2 = new Ext.util.DelayedTask(function () {
+				me.getCombopromotor().setValue(parseInt(cookiepromotor));
+				var taskOpenPlan = new Ext.util.DelayedTask(function () {
 					me.getComboplano().setValue(parseInt(cookieplano));
 				});
-				task2.delay(1000);
+				taskOpenPlan.delay(1500);
 				me.getPainelPrincipal().setActiveTab(1);
 			} else {
 				console.log('Não há cookies para ninguém');
