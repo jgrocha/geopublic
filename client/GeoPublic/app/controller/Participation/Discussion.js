@@ -85,35 +85,16 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 	onCenterFeature : function(tool, e) {
 		// console.log(arguments);
 		var ocorrencia = tool.up('panel').idocorrencia;
-		console.log('Vai centrar na ocorrência ' + ocorrencia);
+		console.log('Discussion.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia);
 		var mapa = this.getMapa().map;
 		var layer = mapa.getLayersByName('Report')[0];
 		var feature = tool.up('panel').feature;
-		this.getMapa().selectCtrl.unselectAll();
-		this.getMapa().selectCtrl.select(feature);
-		mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+        if (feature) {
+            this.getMapa().selectCtrl.unselectAll();
+            this.getMapa().selectCtrl.select(feature);
+            mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+        }
 	},
-	/*
-	onCenterFeature : function(tool, e) {
-		// console.log(arguments);
-		var ocorrencia = tool.up('panel').idocorrencia;
-		console.log('Vai centrar na ocorrência ' + ocorrencia);
-		var mapa = this.getMapa().map;
-		var layer = mapa.getLayersByName('Report')[0];
-
-		this.getMapa().selectCtrl.unselectAll();
-
-		console.log('Vai procurar o feature ' + ocorrencia + ' em ' + layer.features.length + ' existentes');
-		for (var f = 0; f < layer.features.length; f++) {
-			console.log('Comparação: ' + layer.features[f].fid + ' == ' + ocorrencia);
-			if (layer.features[f].fid == ocorrencia) {
-				this.getMapa().selectCtrl.select(layer.features[f]);
-				mapa.zoomToExtent(layer.features[f].geometry.getBounds(), closest = true);
-				break;
-			}
-		}
-	},
-	*/
 	onButtonGravar : function(button, e, options) {
 		console.log('Gravar comentário');
 		// console.log(button);

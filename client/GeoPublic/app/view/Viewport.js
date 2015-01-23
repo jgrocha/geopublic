@@ -39,12 +39,17 @@ Ext.define('GeoPublic.view.Viewport', {
 			xtype : 'startpanel'
 		}, {
 			xtype : 'mapa-com-projeto'
-		}, {
+		}, /* {
 			xtype: 'discussao-regulamento'
-		} /*, {
-			xtype : 'grid-promotor'
-		} {
+		},*/ {
+            itemId: 'separador',
+            tabConfig : {
+                xtype : 'tbfill'
+            }
+        }, {
+            xtype : 'grid-promotor'
+        }, {
 			xtype : 'bem-vindo-panel'
-		}*/ ]
+		}]
 	}]
 });

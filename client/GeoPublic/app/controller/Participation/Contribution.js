@@ -76,13 +76,15 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 	onCenterFeature : function(tool, e) {
 		// console.log(arguments);
 		var ocorrencia = tool.up('panel').idocorrencia;
-		console.log('Vai centrar na ocorrência ' + ocorrencia);
+		console.log('Contribution.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia);
 		var mapa = this.getMapa().map;
 		var layer = mapa.getLayersByName('Report')[0];
 		var feature = tool.up('panel').feature;
-		this.getMapa().selectCtrl.unselectAll();
-		// this.getMapa().selectCtrl.select(feature);
-		mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+        if (feature) {
+            this.getMapa().selectCtrl.unselectAll();
+            // this.getMapa().selectCtrl.select(feature);
+            mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+        }
 	},
 	onEditParticipation : function(tool, e) {
 		// console.log('Editar a sua participação: ' + tool.up('panel').idocorrencia + ' do utilizador ' + tool.up('panel').idutilizador);
@@ -152,9 +154,11 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 							}
 						});
 						if (vitima) {
-							var report = me.getMapa().map.getLayersByName('Report')[0];
-							report.removeFeatures([feature]);
 							me.getTodasDiscussoes().remove(vitima);
+                            if (feature) {
+                                var report = me.getMapa().map.getLayersByName('Report')[0];
+                                report.removeFeatures([feature]);
+                            }
 						}
 					} else {
 						// console.log('Deu raia a remover a participação.');
@@ -166,7 +170,6 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
 						});
 					}
 				});
-
 			}
 		});
 	},

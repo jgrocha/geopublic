@@ -997,6 +997,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BemVindoPanel": [],
+  "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Participation.Activity": [],
   "GeoPublic.controller.Participation.Contribution": [],
@@ -1037,6 +1038,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Avatar": [],
   "GeoPublic.view.BemVindoPanel": [],
   "GeoPublic.view.ChangePassword": [],
+  "GeoPublic.view.DiscussaoRegulamento": [],
   "GeoPublic.view.Guia": [],
   "GeoPublic.view.Home": [],
   "GeoPublic.view.MainMapPanel": [],
@@ -2237,6 +2239,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BemVindoPanel": [],
+  "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Participation.Activity": [],
   "GeoPublic.controller.Participation.Contribution": [],
@@ -2282,6 +2285,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.ChangePassword": [
     "widget.xpassword"
+  ],
+  "GeoPublic.view.DiscussaoRegulamento": [
+    "widget.discussao-regulamento"
   ],
   "GeoPublic.view.Guia": [
     "widget.guia"

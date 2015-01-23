@@ -222,33 +222,37 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             // http://www.codechewing.com/library/add-external-graphic-icon-to-geometry-point-openlayers/
             // http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Feature/Vector-js.html
 
-            // geometry, attributes, style
-            var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"), {
-                color: records[i].data.color,
-                icon: records[i].data.icon,
-                title: records[i].data.titulo
-            });
-            // f.style.fillColor = records[i].data.color;
-            f.fid = records[i].data.id;
+            if (records[i].data.geojson) {
+                // geometry, attributes, style
+                var f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"), {
+                    color: records[i].data.color,
+                    icon: records[i].data.icon,
+                    title: records[i].data.titulo
+                });
+                // f.style.fillColor = records[i].data.color;
+                f.fid = records[i].data.id;
 
-            f.attributes["idplano"] = records[i].data.idplano;
-            f.attributes["idpromotor"] = me.getCombopromotor().getValue();
-            f.attributes["idestado"] = records[i].data.idestado;
-            f.attributes["estado"] = records[i].data.estado;
-            f.attributes["idtipoocorrencia"] = records[i].data.idtipoocorrencia;
-            f.attributes["titulo"] = records[i].data.titulo;
-            f.attributes["participacao"] = records[i].data.participacao;
-            f.attributes["datacriacao"] = records[i].data.datacriacao;
-            f.attributes["numcomments"] = records[i].data.numcomentarios;
-            f.attributes["fotografia"] = records[i].data.fotografia;
-            f.attributes["days"] = records[i].data.days;
-            f.attributes["hours"] = records[i].data.hours;
-            f.attributes["minutes"] = records[i].data.minutes;
-            f.attributes["seconds"] = records[i].data.seconds;
-            f.attributes["nome"] = records[i].data.nome;
-            f.attributes["idutilizador"] = records[i].data.idutilizador;
+                f.attributes["idplano"] = records[i].data.idplano;
+                f.attributes["idpromotor"] = me.getCombopromotor().getValue();
+                f.attributes["idestado"] = records[i].data.idestado;
+                f.attributes["estado"] = records[i].data.estado;
+                f.attributes["idtipoocorrencia"] = records[i].data.idtipoocorrencia;
+                f.attributes["titulo"] = records[i].data.titulo;
+                f.attributes["participacao"] = records[i].data.participacao;
+                f.attributes["datacriacao"] = records[i].data.datacriacao;
+                f.attributes["numcomments"] = records[i].data.numcomentarios;
+                f.attributes["fotografia"] = records[i].data.fotografia;
+                f.attributes["days"] = records[i].data.days;
+                f.attributes["hours"] = records[i].data.hours;
+                f.attributes["minutes"] = records[i].data.minutes;
+                f.attributes["seconds"] = records[i].data.seconds;
+                f.attributes["nome"] = records[i].data.nome;
+                f.attributes["idutilizador"] = records[i].data.idutilizador;
 
-            report.addFeatures([f]);
+                report.addFeatures([f]);
+            } else {
+                console.log('A ocorrência', records[i].data.titulo, 'não tem componente geográfica');
+            }
 
             /*
              // criar os paineis de discussao

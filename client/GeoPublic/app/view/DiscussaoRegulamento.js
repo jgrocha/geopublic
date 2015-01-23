@@ -1,29 +1,51 @@
 Ext.define('GeoPublic.view.DiscussaoRegulamento', {
     extend: 'Ext.container.Container',
+    requires : ['GeoPublic.view.Participation.ActivityNew'],
     alias: 'widget.discussao-regulamento',
-    // requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing'],
     layout: 'border',
-    title: 'Regime Jurídico da Urbanização e Edificação',
+    closable: true,
+    // title: 'Regime Jurídico da Urbanização e Edificação',
     // style : 'padding:5px',
-    items: [{
-        region: 'center',
-        collapsible: false,
-        // html: 'Janela com o texto do regulamento',
-        items: [{
-            html: 'Antes'
+    initComponent: function () {
+        //<debug>
+        console.log(this.initialConfig);
+        //</debug>
+
+        this.mergelycriado = false;
+
+        this.iddivcompare = 'compare-' + this.initialConfig.idplano;
+        this.items = [{
+            region: 'center',
+            collapsible: false,
+            // html: 'Janela com o texto do regulamento',
+            layout: 'border',
+            items: [{
+                xtype: 'component',
+                itemId: 'secretaria',
+                layout: 'fit',
+                region: 'center',
+                // style: {background: 'red'},
+                id: this.iddivcompare,
+                config : {
+                    idplano : this.initialConfig.idplano,
+                    idpromotor : this.initialConfig.idpromotor,
+                    title: this.initialConfig.designacao,
+                    proposta: this.initialConfig.proposta,
+                    designacao: this.initialConfig.designacao,
+                    descricao: this.initialConfig.descricao
+                }
+            }]
         }, {
-            xtype: 'component',
-            id: 'compare',
-            autoEl: {
-                html: 'Teste'
+            xtype: 'activitynew',
+            region: 'east',
+            // collapsible : false,
+            split: true,
+            width: 400,
+            config : {
+                idplano : this.initialConfig.idplano,
+                idpromotor : this.initialConfig.idpromotor
             }
-        }, {
-            html: 'Depois'
-        }]
-    }, {
-        region: 'east',
-        split: true,
-        width: 400,
-        html: 'Janela com as participações'
-    }]
+        }];
+        this.callParent(arguments);
+    }
 });

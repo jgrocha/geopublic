@@ -28,13 +28,19 @@ Ext.define('GeoPublic.model.Plano', {
 		name : 'fim',
 		type : 'date'
 	}, {
-		name : 'the_geom',
-		type : 'string'
-	}, {
-		name : 'idutilizador',
-		type : 'int',
-		persist: false
-	}],
+        name : 'idutilizador',
+        type : 'int',
+        persist: false
+    }, {
+        name : 'the_geom',
+        type : 'string'
+    }, {
+        name : 'proposta',
+        type : 'string'
+    }, 	{
+        name : 'alternativeproposta',
+        type : 'boolean'
+    }],
 	// belongsTo : 'GeoPublic.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct
 	proxy : {

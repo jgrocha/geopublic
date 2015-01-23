@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.store.PromotorCombo', {
 	extend : 'Ext.data.Store',
 	requires : ['GeoPublic.model.Promotor'],
-	autoLoad : true, // só pode ler este store depois de ter um utilizador autenticado
+	autoLoad : true,
 	remoteSort : false, //enable remote filter
 	remoteFilter : false, //enable remote sorting
 	// pageSize: 5,
