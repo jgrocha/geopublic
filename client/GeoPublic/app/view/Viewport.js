@@ -37,9 +37,9 @@ Ext.define('GeoPublic.view.Viewport', {
 		plain : true, // remover o fundo da barra dos panels
 		items : [{
 			xtype : 'startpanel'
-		}, {
-			xtype : 'mapa-com-projeto'
 		}, /* {
+			xtype : 'mapa-com-projeto'
+		}, {
 			xtype: 'discussao-regulamento'
 		},*/ {
             itemId: 'separador',

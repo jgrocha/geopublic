@@ -12,7 +12,7 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
 		this.control({
 			'discussao-regulamento' : {
 				// 'beforerender' : this.onBemVindoPanelBeforeRender,
-				// 'render' : this.onStartPanelRender
+				'beforeactivate' : this.onDiscussaoRegulamentoBeforeActivate,
                 'resize' : this.onDiscussaoRegulamentoResize,
                 'afterrender' : this.onDiscussaoRegulamentoAfterRender
 			}
@@ -24,44 +24,81 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
         var largura = panel.down('component#secretaria').getWidth();
         var altura = panel.down('component#secretaria').getHeight();
         console.log('onDiscussaoRegulamentoResize Mergely component#secretaria: ', largura, altura);
-
         var idsec = '#' + panel.iddivcompare;
-
         if (!panel.mergelycriado) {
             $(idsec).mergely({
                 width: 'auto', // largura,
                 height: 'auto', // altura,
+                autoupdate: false, // depois muda-se...
                 cmsettings: {
-                    readOnly: false,
+                    readOnly: true,
                     lineWrapping: true,
                     width: 'auto'
                 },
                 lhs: function (setValue) {
                     setValue(panel.proposta);
-                },
+                } /*,
                 rhs: function (setValue) {
-                    // setValue(proposta);
-                    setValue(panel.proposta);
-                }
+                    setValue('');
+                    // setValue(panel.proposta);
+                } */
             });
             panel.mergelycriado = true;
+            // $(idsec).mergely('cm', 'rhs').setOption('readOnly', false);
         }
-
     },
-    onDiscussaoRegulamentoAfterRender : function(panel) {
+    onDiscussaoRegulamentoBeforeActivate: function (panel, eOpts) {
+        var idsec = '#' + panel.iddivcompare;
+        console.log('onDiscussaoRegulamentoBeforeActivate', idsec);
+        $(idsec).mergely('resize');
+    },
+    onDiscussaoRegulamentoAfterRender: function (panel) {
         var me = this;
-        // console.log('onDiscussaoRegulamentoAfterRender', panel.getWidth());
-
-        var largura = panel.down('component#secretaria').getWidth();
-        var altura = panel.down('component#secretaria').getHeight();
-        console.log('onDiscussaoRegulamentoAfterRender Mergely component#secretaria: ', largura, altura);
-
-        /*
-        // Ext.ComponentQuery.query('#compare25')
-
-        */
-
-
-
+        var store = panel.getStoreOcorrencias();
+        store.on({
+            scope: panel,
+            load: this.onOcorrenciaStoreLoad
+        });
+        store.load({
+            params: {
+                idplano: panel.idplano
+            }
+        });
+    },
+    onOcorrenciaStoreLoad: function (store, records) {
+        console.log('onOcorrenciaStoreLoad ' + records.length);
+        // o scope passado é o do painel
+        // this === panel
+        var me = this;
+        // console.log(this);
+        var start = 0;
+        var limit = records.length <= 10 ? records.length : 10;
+        for (var i = start; i < limit; i++) {
+            var newDiscussion = new GeoPublic.view.Participation.Discussion({
+                id_ocorrencia: records[i].data.id,
+                idplano: records[i].data.idplano,
+                idpromotor: me.idpromotor,
+                idestado: records[i].data.idestado,
+                estado: records[i].data.estado,
+                idtipoocorrencia: records[i].data.idtipoocorrencia,
+                titulo: records[i].data.titulo,
+                participacao: records[i].data.participacao,
+                datacriacao: records[i].data.datacriacao,
+                numcomments: records[i].data.numcomentarios,
+                fotografia: records[i].data.fotografia,
+                days: records[i].data.days,
+                hours: records[i].data.hours,
+                minutes: records[i].data.minutes,
+                seconds: records[i].data.seconds,
+                nome: records[i].data.nome,
+                idutilizador: records[i].data.idutilizador,
+                proposta: records[i].data.proposta,
+                feature: null,
+                estadoStore: me.getStoreEstado(),
+                geodiscussao : false
+            });
+            me.down('#flow').add(newDiscussion);
+        }
+        me.down('#flow').doLayout();
     }
 });

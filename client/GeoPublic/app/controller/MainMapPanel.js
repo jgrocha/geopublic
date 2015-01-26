@@ -86,10 +86,10 @@ Ext.define('GeoPublic.controller.MainMapPanel', {
             },
             "app-main-map-panel combo#promotor": {
                 change: this.onChangePromotor
-            },
+            } /*,
             "contribution toolbar button#local": {
                 click: this.onButtonLocal
-            }
+            } */
         }, this);
         /*
          this.listen({

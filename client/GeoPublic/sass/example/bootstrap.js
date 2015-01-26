@@ -997,9 +997,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BemVindoPanel": [],
+  "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.MainMapPanel": [],
+  "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
+  "GeoPublic.controller.Participation.ActivityNew": [],
   "GeoPublic.controller.Participation.Contribution": [],
   "GeoPublic.controller.Participation.Discussion": [],
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
@@ -1038,12 +1041,15 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Avatar": [],
   "GeoPublic.view.BemVindoPanel": [],
   "GeoPublic.view.ChangePassword": [],
+  "GeoPublic.view.DiscussaoGeografica": [],
   "GeoPublic.view.DiscussaoRegulamento": [],
   "GeoPublic.view.Guia": [],
   "GeoPublic.view.Home": [],
   "GeoPublic.view.MainMapPanel": [],
+  "GeoPublic.view.Mapa": [],
   "GeoPublic.view.MapaComProjeto": [],
   "GeoPublic.view.Participation.Activity": [],
+  "GeoPublic.view.Participation.ActivityNew": [],
   "GeoPublic.view.Participation.CommentForm": [],
   "GeoPublic.view.Participation.CommentList": [],
   "GeoPublic.view.Participation.Contribution": [],
@@ -2239,9 +2245,12 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BemVindoPanel": [],
+  "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.MainMapPanel": [],
+  "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
+  "GeoPublic.controller.Participation.ActivityNew": [],
   "GeoPublic.controller.Participation.Contribution": [],
   "GeoPublic.controller.Participation.Discussion": [],
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
@@ -2286,6 +2295,9 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.ChangePassword": [
     "widget.xpassword"
   ],
+  "GeoPublic.view.DiscussaoGeografica": [
+    "widget.discussao-geografica"
+  ],
   "GeoPublic.view.DiscussaoRegulamento": [
     "widget.discussao-regulamento"
   ],
@@ -2298,11 +2310,17 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.MainMapPanel": [
     "widget.app-main-map-panel"
   ],
+  "GeoPublic.view.Mapa": [
+    "widget.mapa"
+  ],
   "GeoPublic.view.MapaComProjeto": [
     "widget.mapa-com-projeto"
   ],
   "GeoPublic.view.Participation.Activity": [
     "widget.activity"
+  ],
+  "GeoPublic.view.Participation.ActivityNew": [
+    "widget.activitynew"
   ],
   "GeoPublic.view.Participation.CommentForm": [
     "widget.commentform"

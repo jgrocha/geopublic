@@ -63,11 +63,19 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 		/*
 		Ocultar estas tools em função do número de comentários e do idutilizador
 		 */
-		this.tools.push({
-			type : 'search',
-			tooltip : 'Center on map'.translate()
-		});
-
+        if (this.initialConfig.geodiscussao) {
+            this.tools.push({
+                type : 'search',
+                tooltip : 'Center on map'.translate()
+            });
+        } else {
+            if (this.initialConfig.proposta.length > 0) {
+                this.tools.push({
+                    type : 'search',
+                    tooltip : 'Redação proposta'
+                });
+            }
+        }
 		// http://docs.sencha.com/extjs/4.2.2/#!/api/Ext.Date
 		var tempo = 'Há ';
 		if (this.initialConfig.days > 0) {
@@ -109,19 +117,10 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 				idocorrencia : this.idocorrencia,
 				idestado : this.idestado,
 				estado : this.estado,
-				color: this.color
+				color: this.color,
+                estadoStore: this.initialConfig.estadoStore
 			}
 		}];
 		this.callParent(arguments);
 	}
 });
-
-/*
- * 				id_ocorrencia : records[i].data.id,
- idplano : records[i].data.idplano,
- idestado : records[i].data.idestado,
- idtipoocorrencia : records[i].data.idtipoocorrencia,
- titulo : records[i].data.titulo,
- participacao : records[i].data.participacao,
- datacriacao : records[i].data.datacriacao
- */

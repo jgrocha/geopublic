@@ -4,10 +4,10 @@ Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
 	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
 	extend : 'Ext.app.Application',
-	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'StartPlanoEstatisticas', 'BemVindoPanel', 'MainMapPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'StartPanelChartByType', 'StartPanelChartByState'],
-	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'MainMapPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa'],
+	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'StartPlanoEstatisticas', 'BemVindoPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'StartPanelChartByType', 'StartPanelChartByState'],
+	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica'],
 	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Participation.ChartByState', 'Participation.ChartByType'],
-	stores : ['Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Ocorrencia', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
+	stores : ['Sessao', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
 	splashscreen : {},
 	refs : [{
 		selector : 'viewport > tabpanel',
@@ -106,20 +106,60 @@ Ext.define('GeoPublic.Application', {
 		// No servidor
 		// var io = require('socket.io').listen(servidor, { resource: '/ppgis/socket.io'});
 
-		socket.on('comment', function(data) {
-			console.log('Novo comentário recebido do servidor: ', data);
-			// Recebe novas estatísticas
-			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
-			me.fireEvent('newComment', data);
-			Ext.example.msg('No comentário recebido', data.params.comentario);
-		});
-		socket.on('participation', function(data) {
-			console.log('Nova ocorrência: ', data);
-			// Recebe novas estatísticas
-			// despoleta um evento fireEvent(data.numeros) para o controlador startpanel
-			me.fireEvent('newParticipation', data);
-			Ext.example.msg('Nova participação recebida', data.params.participacao);
-		});
+        // comment-created
+        // comment-updated
+        // comment-deleted
+        socket.on('comment-created', function(data) {
+            console.log('comment-created: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newComment', data);
+            // Ext.example.msg('No comentário recebido', data.params.comentario);
+            Ext.example.msg('Novo comentário', 'Novo comentário registado');
+        });
+        socket.on('comment-updated', function(data) {
+            console.log('comment-updated: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newComment', data);
+            // Ext.example.msg('No comentário recebido', data.params.comentario);
+            Ext.example.msg('Comentário atualizado', 'Um comentário foi alterado');
+        });
+        socket.on('comment-deleted', function(data) {
+            console.log('comment-deleted: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newComment', data);
+            // Ext.example.msg('No comentário recebido', data.params.comentario);
+            Ext.example.msg('Comentário eliminado', 'Um comentário foi eliminado');
+        });
+        // participation-created
+        // participation-updated
+        // participation-deleted
+        socket.on('participation-created', function(data) {
+            console.log('participation-created: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newParticipation', data);
+            // Ext.example.msg('Nova participação recebida', data.params.participacao);
+            Ext.example.msg('Nova participação', 'Nova participação registada');
+        });
+        socket.on('participation-updated', function(data) {
+            console.log('participation-updated: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newParticipation', data);
+            // Ext.example.msg('Nova participação recebida', data.params.participacao);
+            Ext.example.msg('Participação atualizada', 'Uma participação foi alterada');
+        });
+        socket.on('participation-deleted', function(data) {
+            console.log('participation-deleted: ', data);
+            // Recebe novas estatísticas
+            // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
+            me.fireEvent('newParticipation', data);
+            // Ext.example.msg('Nova participação recebida', data.params.participacao);
+            Ext.example.msg('Participação eliminada', 'Uma participação foi removida');
+        });
 	},
 	launch : function() {
 		var me = this;

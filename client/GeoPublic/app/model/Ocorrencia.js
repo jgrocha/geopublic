@@ -19,9 +19,12 @@ Ext.define('GeoPublic.model.Ocorrencia', {
 		name : 'participacao',
 		type : 'string'
 	}, {
-		name : 'geojson',
-		type : 'string'
-	}, {
+        name : 'geojson',
+        type : 'string'
+    }, {
+        name : 'proposta',
+        type : 'string'
+    }, {
 		name : 'datacriacao',
 		type : 'date'
 	}, {

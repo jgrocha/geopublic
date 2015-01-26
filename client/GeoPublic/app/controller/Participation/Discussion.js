@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.controller.Participation.Discussion', {
 	extend : 'Ext.app.Controller',
-	stores : ['Participation.EstadoCombo'], // getParticipationEstadoComboStore()
+	// stores : ['Participation.EstadoCombo'], // getParticipationEstadoComboStore()
 	// Ext.ComponentQuery.query('commentform toolbar button#gravar')
 	refs : [{
 		ref : 'mapa',
@@ -82,17 +82,42 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 			});
 		}
 	},
+    /*
+    Este método é invocado pelo utilizador
+     */
 	onCenterFeature : function(tool, e) {
 		// console.log(arguments);
 		var ocorrencia = tool.up('panel').idocorrencia;
-		console.log('Discussion.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia);
-		var mapa = this.getMapa().map;
-		var layer = mapa.getLayersByName('Report')[0];
-		var feature = tool.up('panel').feature;
-        if (feature) {
-            this.getMapa().selectCtrl.unselectAll();
-            this.getMapa().selectCtrl.select(feature);
-            mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+        var activity = tool.up('activitynew');
+        if (activity.geodiscussao) {
+            console.log('Mostrar ocorrência geográfica', ocorrencia);
+            var feature = tool.up('panel').feature;
+            console.log('Discussion.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia, feature);
+            if (feature) {
+                var mapa = feature.layer.map;
+                var layer = feature.layer;
+                var control = mapa.getControlsBy("id", "selectCtrl")[0];
+                if (control) {
+                    control.unselectAll();
+                    control.select(feature);
+                    mapa.zoomToExtent(feature.geometry.getBounds(), closest = true);
+                } else {
+                    console.log('PROBLEMA: Não encontro o control no mapa');
+                }
+            }
+        } else {
+            console.log('Mostrar ocorrência NÃO geográfica', ocorrencia);
+            // Mostrar a nova redação, se existir...
+            // O ideal seria só mostrar a ferramenta se existir uma proposta de redação
+            var proposta = tool.up('panel').proposta;
+            if (Ext.isDefined(proposta) && proposta.length > 0) {
+                // Mostrar, sem deixar mexer
+                var idsec = '#' + activity.up('discussao-regulamento').down('#secretaria').id;
+                $(idsec).mergely('options', { autoupdate: true});
+                $(idsec).mergely('update');
+                $(idsec).mergely('rhs', proposta);
+                $(idsec).mergely('cm', 'rhs').setOption('readOnly', true);
+            }
         }
 	},
 	onButtonGravar : function(button, e, options) {
@@ -101,10 +126,11 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 
 		var me = this;
 		var d = button.up('discussion');
+        var activity = d.up('activitynew');
 		var fc = button.up('form').getForm();
 		var params = fc.getValues(false, false, false, false);
 
-		ExtRemote.DXParticipacao.createComment(params, function(result, event) {
+        ExtRemote.DXParticipacao.createComment(params, function(result, event) {
 			if (result.success) {
 				// Ext.Msg.alert('Successo', 'O seu comentário foi registado. Obrigado pela participação.');
 				// limpar o formulário!
@@ -128,12 +154,16 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 
 				if (params.idestado) {
 					var novo = params.idestado;
-					var estado = me.getParticipationEstadoComboStore().findRecord('id', novo);
+                    // var estado = me.getParticipationEstadoComboStore().findRecord('id', novo);
+                    var estadoStore = button.up('discussion').estadoStore;
+                    var estado = estadoStore.findRecord('id', novo);
 					cor = estado.get('color');
 					estadoTexto = estado.get('estado');
 					// Qual é a nova cor?
-					d.feature.attributes['color'] = cor;
-					d.feature.layer.drawFeature(d.feature);
+                    if (activity.geodiscussao) {
+                        d.feature.attributes['color'] = cor;
+                        d.feature.layer.drawFeature(d.feature);
+                    }
 					fc.findField('comentario').setValue('');
 					// atualiza do estado no painel
 					d.estado = estadoTexto;

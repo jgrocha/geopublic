@@ -80,11 +80,12 @@ Ext.define('GeoPublic.controller.StartPanel', {
         pcomments.update(data.numeros.comments + ' Comentários');
     },
     onNewParticipation: function (data) {
-        console.log('onNewParticipation');
-        console.log(arguments);
+        console.log('Participation numbers have changed (more or less participations)');
+        // console.log(arguments);
         var pparticipations = this.getCircleBar().down('container#participationscircle');
         pparticipations.update(data.numeros.participations + ' Participações');
     },
+    /*
     onPlanSelectMapPanel: function () {
         var plano = this.getComboplano().getValue();
         if (plano) {
@@ -94,6 +95,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
             }
         }
     },
+    */
     showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta) {
         var tp = this.getPlanPresentationBar();
 
@@ -144,12 +146,14 @@ Ext.define('GeoPublic.controller.StartPanel', {
             var p = this.getReadyBar();
             p.setVisible(true);
 
+            /*
             // seleciona este plano na ComboBox do mapa...
             console.log('Mudar a combo do mapa para o plano ' + idplano);
             // para não entrar em ciclo...
             if (this.getComboplano().getValue() != idplano) {
                 this.getComboplano().setValue(idplano);
             }
+            */
         }
         // scroll!
         var pos = tp.getOffsetsTo(this.getStartPanel())[1];
@@ -170,11 +174,20 @@ Ext.define('GeoPublic.controller.StartPanel', {
         // seleciona este promotor na ComboBox do mapa...
         // var escolhido = button.up('startpromotor').idpromotor;
         var escolhido = promoterPanel.idpromotor;
+
+        var store = this.getPlanoComboStore();
+        store.load({
+            id: escolhido
+        });
+
         // setting the combo will call showPlanos
-        this.getCombopromotor().setValue(escolhido);
+        // this.getCombopromotor().setValue(escolhido);
+        // UPDATE
+        // this.showPlanos();
     },
     /* deprecated :-) */
     onPromotorClick: function (button, e, options) {
+        console.log('onPromotorClick');
         // Calma!
         // Tem que sincronizar com as combos do MapPanel
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
@@ -182,8 +195,14 @@ Ext.define('GeoPublic.controller.StartPanel', {
         p.setVisible(true);
         // seleciona este promotor na ComboBox do mapa...
         var escolhido = button.up('startpromotor').idpromotor;
+
+        var store = this.getPlanoComboStore();
+        store.load({
+            id: escolhido
+        });
+
         // setting the combo will call showPlanos
-        this.getCombopromotor().setValue(escolhido);
+        // this.getCombopromotor().setValue(escolhido);
     },
 
     showPlanos: function () {
@@ -240,26 +259,11 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
     showPromotores: function () {
         var me = this;
+        //<debug>
         console.log('showPromotores');
-        // Calma!
-        // Antes de mostrar os promotores, tem que os carregar né?
-        // Tenho um getPromotorComboStore()
-        /*
-         * 	fields : [{
-         name : 'id', type : 'int'
-         }, {
-         name : 'designacao',		 type : 'string'
-         }, {
-         name : 'email',		 type : 'string'
-         }, {
-         name : 'site',		 type : 'string'
-         }, {
-         name : 'dataregisto',		 type : 'date'
-         }],
-         */
+        //</debug>
         var bar = me.getPromotorBar();
         var newPromotor = {};
-
         if (bar.items.length == 0) {
             this.getPromotorComboStore().each(function (rec) {
                 // console.log(rec.get('designacao'));
@@ -276,7 +280,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
         // tinha que consultar a opacidade!
         // if (!bar.isVisible()) {
         // bar.setVisible(true);
-
         bar.getEl().fadeIn({
             opacity: 1, //can be any value between 0 and 1 (e.g. .5)
             easing: 'easeIn', // 'easeOut',
@@ -312,9 +315,11 @@ Ext.define('GeoPublic.controller.StartPanel', {
                         idplano: plano.idplano,
                         idpromotor: plano.idpromotor,
                         title: plano.designacao,
-                        proposta: plano.proposta,
                         designacao: plano.designacao,
-                        descricao: plano.descricao
+                        descricao: plano.descricao,
+                        // the_geom: plano.the_geom,
+                        proposta: plano.proposta,
+                        alternativeproposta: plano.alternativeproposta
                     }));
                 } else {
                     me.getPainelPrincipal().insert(sepTabIndex, Ext.create(GeoPublic.view.DiscussaoGeografica, {
@@ -322,9 +327,11 @@ Ext.define('GeoPublic.controller.StartPanel', {
                         idplano: plano.idplano,
                         idpromotor: plano.idpromotor,
                         title: plano.designacao,
-                        proposta: plano.proposta,
                         designacao: plano.designacao,
-                        descricao: plano.descricao
+                        descricao: plano.descricao,
+                        the_geom: plano.the_geom
+                        // proposta: plano.proposta,
+                        // alternativeproposta: plano.alternativeproposta
                     }));
                 }
                 me.getPainelPrincipal().setActiveTab(sepTabIndex);
@@ -415,6 +422,5 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 console.log('Problemas na recuperação dos números de participação');
             }
         });
-
     }
 });

@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.view.Participation.CommentForm', {
 	extend : 'Ext.form.Panel',
 	requires : ['GeoPublic.model.Participation.EstadoOcorrencia', 'GeoPublic.store.Participation.EstadoCombo'],
-	stores : ['Participation.EstadoCombo'],
+	// stores : ['Participation.EstadoCombo'],
 	alias : 'widget.commentform',
 	api : {
 		submit : 'ExtRemote.DXParticipacao.createComment'
@@ -43,7 +43,7 @@ Ext.define('GeoPublic.view.Participation.CommentForm', {
 				emptyText : 'Novo estado...',
 				forceSelection : true,
 				triggerAction : 'all',
-				store : 'Participation.EstadoCombo',
+				store : this.initialConfig.config.estadoStore,
 				queryMode : 'local',
 				labelStyle: 'color:' + this.initialConfig.config.color, // saber esta cor...
 				labelAlign: 'top',

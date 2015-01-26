@@ -139,7 +139,7 @@ var DXParticipacao = {
                             console.log('Novas estatísticas calculadas: ');
                             // console.log(res.data);
                             if (res.success) {
-                                io.emit('comment', {
+                                io.emit('comment-created', {
                                     msg: 'Novo comentário',
                                     params: params,
                                     idutilizador: request.session.userid,
@@ -372,7 +372,7 @@ var DXParticipacao = {
                             console.log('Novas estatísticas calculadas: ');
                             // console.log(res.data);
                             if (res.success) {
-                                io.emit('participation', {
+                                io.emit('participation-deleted', {
                                     msg: 'Participation deleted',
                                     params: params,
                                     idutilizador: request.session.userid,
@@ -469,7 +469,7 @@ var DXParticipacao = {
                                     console.log('Novas estatísticas calculadas: ');
                                     // console.log(res.data);
                                     if (res.success) {
-                                        io.emit('participation', {
+                                        io.emit('participation-updated', {
                                             msg: 'Participation updated',
                                             params: params,
                                             idutilizador: request.session.userid,
@@ -611,7 +611,7 @@ var DXParticipacao = {
                                 console.log('Novas estatísticas calculadas: ');
                                 // console.log(res.data);
                                 if (res.success) {
-                                    io.emit('participation', {
+                                    io.emit('participation-created', {
                                         msg: 'New participation',
                                         params: params,
                                         idutilizador: request.session.userid,
@@ -649,7 +649,7 @@ var DXParticipacao = {
          AND o.idutilizador = u.id
          */
 
-        var sql = 'SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
+        var sql = 'SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, proposta, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
         sql += ' now()-o.datacriacao as haquantotempo, u.fotografia, u.nome, o.idutilizador';
         sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
         sql += ' WHERE NOT o.apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';

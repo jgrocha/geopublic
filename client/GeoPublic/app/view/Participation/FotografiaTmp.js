@@ -15,16 +15,8 @@ Ext.define('GeoPublic.view.Participation.FotografiaTmp', {
 	initComponent : function() {
 		console.log('A criar componente GeoPublic.view.Participation.FotografiaTmp SEM idocorrencia');
 		this.store = Ext.create(GeoPublic.store.Participation.FotografiaTmp);
-
-		// com filtros
-		// this.store.filter("idocorrencia", this.idocorrencia);
-		/*
-		 { page: 1,
-		 start: 0,
-		 limit: 25,
-		 filter: [ { property: 'idocorrencia', value: 9 } ] }
-		 */
-
+        // podem existir imagens postas por este utilizador...
+        this.store.load();
 		this.items = [{
 			xtype : 'dataview',
 			title : 'Fotografias',
@@ -43,7 +35,9 @@ Ext.define('GeoPublic.view.Participation.FotografiaTmp', {
 			itemSelector : 'div.thumb-wrap',
 			emptyText : 'Acrescente fotografias...'
 		}];
-
 		this.callParent(arguments);
-	}
+	},
+    getStore: function () {
+        return this.store;
+    }
 });
