@@ -14,7 +14,6 @@ Ext.define('GeoPublic.controller.Participation.EstadoOcorrencia', {
 		ref : 'buttonRemove' // gera um getButtonRemove
 	}],
 	init : function() {
-		console.log('O controlador está a arrancar...');
 		this.control({
 			"grid-promotor gridpanel#estadoocorrencia button#add" : {
 				click : this.onButtonClickAdiciona

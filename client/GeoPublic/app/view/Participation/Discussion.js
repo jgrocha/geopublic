@@ -16,7 +16,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 	initComponent : function() {
 		var me = this;
 		// console.debug(this.initialConfig);
-		console.log('Abrir com a discussao ' + this.initialConfig.id_ocorrencia + ' com ' + this.initialConfig.numcomments + ' comentarios');
+		console.log('Abrir com a discussao ', this.initialConfig);
 		this.title = this.initialConfig.titulo;
 		this.idtipoocorrencia = this.initialConfig.idtipoocorrencia;
 		this.idocorrencia = this.initialConfig.id_ocorrencia;
@@ -68,13 +68,15 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
                 type : 'search',
                 tooltip : 'Center on map'.translate()
             });
+            console.log('Painel geodiscussao');
         } else {
-            if (this.initialConfig.proposta.length > 0) {
+            if ((this.initialConfig.proposta) && (this.initialConfig.proposta.length > 0)) {
                 this.tools.push({
                     type : 'search',
                     tooltip : 'Redação proposta'
                 });
             }
+            console.log('Painel discussao paleio');
         }
 		// http://docs.sencha.com/extjs/4.2.2/#!/api/Ext.Date
 		var tempo = 'Há ';

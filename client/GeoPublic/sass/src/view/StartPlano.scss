@@ -1,0 +1,33 @@
+@include extjs-panel-ui(
+        $ui-label: 'startplano',
+        $ui-header-background-color: $base-startplano-color,
+        $ui-body-background-color: $base-startplano-color,
+        $ui-header-padding: 10px 10px 10px 10px
+        // $ui-header-line-height: 38px
+);
+
+/*
+.x-panel-header-body-startplano {
+  height: 32px;
+}
+*/
+
+.x-panel-header-text-startplano {
+  white-space: normal;
+}
+
+@include extjs-panel-ui(
+        $ui-label: 'startplano-framed',
+        $ui-border-color: $base-discussion-color,
+        $ui-border-width: 1px,
+        $ui-border-radius: 4px,
+        $ui-padding: 4px,
+        $ui-header-background-color: $base-discussion-color,
+        $ui-header-border-color: $base-discussion-color,
+        $ui-header-border-width: 1px,
+        $ui-header-inner-border-color: $base-discussion-color,
+        $ui-header-inner-border-width: 0,
+        $ui-header-padding: 4px 5px,
+        $ui-body-border-width: 1px,
+        $ui-body-background-color: $base-discussion-color
+);

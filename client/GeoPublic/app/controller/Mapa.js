@@ -74,14 +74,15 @@ Ext.define('GeoPublic.controller.Mapa', {
             onSelect: function (f) {
                 console.log('o feature ' + f.fid + ' foi selecionado');
                 var newDiscussion = null;
-                var p = mapPanel.up('discussao-geografica').down('activitynew #flow');
+                var discussaogeografia = mapPanel.up('discussao-geografica');
+                var p = discussaogeografia.down('activitynew #flow');
                 // var p = me.getTodasDiscussoes();
                 if (f.discussion) {
                     console.log('Já existe a discussão ' + f.fid);
                     newDiscussion = f.discussion;
                     // faz scroll!
-                    var pos = newDiscussion.getOffsetsTo(p)[1];
-                    p.body.scroll('top', pos, true);
+                    // var pos = newDiscussion.getOffsetsTo(p)[1];
+                    // p.body.scroll('top', pos, true);
                 } else {
                     console.log('Criar a discussão ' + f.fid);
                     // criar os paineis de discussao
@@ -104,7 +105,9 @@ Ext.define('GeoPublic.controller.Mapa', {
                         seconds: f.attributes["seconds"],
                         nome: f.attributes["nome"],
                         idutilizador: f.attributes["idutilizador"],
-                        feature: f // é um objecto!
+                        feature: f,
+                        estadoStore: discussaogeografia.getStoreEstado(),
+                        geodiscussao : true
                     });
                     f.discussion = newDiscussion;
                     // o método add só adiciona se ainda não existe no painel
@@ -115,6 +118,15 @@ Ext.define('GeoPublic.controller.Mapa', {
                         newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');
                     }
                 }
+                // faz scroll!
+                var pos = newDiscussion.getOffsetsTo(p)[1];
+                p.body.scroll('top', pos, true);
+                // visual feedback
+                newDiscussion.setUI('discussion-framed');
+                var task = new Ext.util.DelayedTask(function () {
+                    newDiscussion.setUI('default-framed');
+                });
+                task.delay(2000);
             },
             onUnselect: function (f) {
                 console.log('o feature ' + f.fid + ' foi deselecionado');

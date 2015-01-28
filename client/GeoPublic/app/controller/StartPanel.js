@@ -22,17 +22,15 @@ Ext.define('GeoPublic.controller.StartPanel', {
         selector: 'viewport > tabpanel > startpanel #readybar',
         ref: 'readyBar' // gera um getReadyBar
     }, {
-        selector: 'viewport > tabpanel > startpanel tabpanel#planpresentationbar',
+        selector: 'viewport > tabpanel > startpanel #planpresentationbar',
         ref: 'planPresentationBar' // gera um getPlanPresentationBar
-    }, {
-        ref: 'combopromotor', // this.getCombopromotor()
-        selector: 'app-main-map-panel combo#promotor'
-    }, {
-        ref: 'comboplano', // this.getComboplano()
-        selector: 'app-main-map-panel combo#plano'
     }],
     init: function () {
         console.log('O controlador GeoPublic.controller.BemVindoPanel init...');
+        this.getPromotorComboStore().on({
+            scope: this,
+            load: this.onPromotorComboStoreLoad
+        });
         this.getPlanoComboStore().on({
             scope: this,
             load: this.showPlanos
@@ -48,31 +46,69 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 // 'render' : this.onStartPanelRender
                 'afterrender': this.onStartPanelRender
             },
-            'startpanel startpromotor button': {
+            'startpanel startpromotor button#planosdisponiveis': {
                 'click': this.onPromotorClick
             },
             'startpromotor': {
                 'clickPlano': this.onClickPlano
             },
-            'startplano': {
-                'clickApresentacao': this.onPlanDetailsClick
+            'startplano button#apresentacao': {
+                'click': this.onMostraApresentacaoPlano
+            },
+            'startplanodescricao button#regras': {
+                'click': this.onMostraRegras
+            },
+            'startpanel #readybar button#participa': {
+                'mouseover': this.onMouseOverParticipa,
+                'mouseout': this.onMouseOutParticipa,
+                'click': this.onParticipe
             }
         }, this);
-        /*
-         *
-         * Deixou de haver app-main-map-panelcom comboboxes
-         * Ufa!
-         *
-        this.listen({
-            controller: {
-                '*': {
-                    showPromotores: this.showPromotores, // this.showPlanos, // this.fireEvent('showPromotores'); in GeoPublic.controller.MainMapPanel
-                    showPlanDetails: this.onPlanSelectMapPanel // this.fireEvent('showPlanDetails'); in GeoPublic.controller.MainMapPanel
-                }
-            }
-        });
-        */
     },
+    onMouseOverParticipa: function (b) {
+        b.setText('Participar');
+    },
+    onMouseOutParticipa: function (b) {
+        b.setText('');
+    },
+    onPromotorComboStoreLoad: function (store, records) {
+        var me = this;
+        console.log('Promotores: ', records.length);
+        var bar = me.getPromotorBar();
+        var start = 0;
+        var total = records.length;
+        if (records.length == 1) {
+            // Do not show the institutions
+            // Show the available plas for the only one insitution
+            bar.setVisible(false);
+            var escolhido = records[0].data.id;
+            var store = this.getPlanoComboStore();
+            store.load({
+                id: escolhido
+            });
+        } else {
+            for (var i = start; i < total; i++) {
+                var promotor = Ext.apply({}, records[i].data, {
+                    idpromotor: records[i].data.id
+                });
+                delete promotor.id;
+                var newPromotor = new GeoPublic.view.StartPromotor(promotor);
+                console.log(records[i].get('designacao'));
+                bar.add(newPromotor);
+            }
+            bar.doLayout();
+            bar.getEl().fadeIn({
+                opacity: 1, //can be any value between 0 and 1 (e.g. .5)
+                easing: 'easeIn', // 'easeOut',
+                duration: 1500
+            });
+            /*
+             var pos = bar.getOffsetsTo(this.getStartPanel())[1];
+             this.getStartPanel().body.scroll('top', pos, true);
+             */
+        }
+    },
+
     onNewComment: function (data) {
         console.log('onNewComment');
         console.log(arguments);
@@ -85,17 +121,37 @@ Ext.define('GeoPublic.controller.StartPanel', {
         var pparticipations = this.getCircleBar().down('container#participationscircle');
         pparticipations.update(data.numeros.participations + ' Participações');
     },
-    /*
-    onPlanSelectMapPanel: function () {
-        var plano = this.getComboplano().getValue();
-        if (plano) {
-            var rec = this.getPlanoComboStore().findRecord('id', plano);
-            if (rec) {
-                this.showPlanDetails(plano, rec.get('idpromotor'), rec.get('designacao'), rec.get('descricao'), rec.get('the_geom'), rec.get('proposta'), rec.get('alternativeproposta'));
-            }
-        }
+    onMostraRegras: function (button, e, options) {
+        console.log('onMostraRegras');
+
+        var p = this.getReadyBar();
+        // p.setVisible(true);
+
+        // scroll!
+        var pos = p.getOffsetsTo(this.getStartPanel())[1];
+        this.getStartPanel().body.scroll('top', pos, true);
+
+        p.getEl().fadeIn({
+            opacity: 1, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
+
     },
-    */
+    onMostraApresentacaoPlano: function (button, e, options) {
+        console.log('onMostraApresentacaoPlano');
+        var startplano = button.up('startplano');
+        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta);
+        // esconde a #readybar, se visível
+        var p = this.getReadyBar();
+        // p.setVisible(false);
+        p.getEl().fadeIn({
+            opacity: 0, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
+
+    },
     showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta) {
         var tp = this.getPlanPresentationBar();
 
@@ -115,52 +171,62 @@ Ext.define('GeoPublic.controller.StartPanel', {
             });
             tp.add(newDescricao);
 
+            // tp.setVisible(true);
+
+            tp.getEl().fadeIn({
+                opacity: 1, //can be any value between 0 and 1 (e.g. .5)
+                easing: 'easeIn', // 'easeOut',
+                duration: 1500
+            });
+
             /*
              * Abre o store...
              */
-            this.getParticipationChartByTypeStore().load({
-                params: {
-                    idplano: idplano
-                }
-            });
-
-            this.getParticipationChartByStateStore().load({
-                params: {
-                    idplano: idplano
-                }
-            });
-
-            var newEstatisticas = new GeoPublic.view.StartPlanoEstatisticas({
-                idplano: idplano,
-                descricao: descricao,
-                designacao: designacao
-            });
-            tp.add(newEstatisticas);
-
-            tp.doLayout();
-            tp.setActiveTab(0);
-
-            tp.setVisible(true);
-
-            // readybar
-            var p = this.getReadyBar();
-            p.setVisible(true);
 
             /*
-            // seleciona este plano na ComboBox do mapa...
-            console.log('Mudar a combo do mapa para o plano ' + idplano);
-            // para não entrar em ciclo...
-            if (this.getComboplano().getValue() != idplano) {
-                this.getComboplano().setValue(idplano);
-            }
-            */
+             this.getParticipationChartByTypeStore().load({
+             params: {
+             idplano: idplano
+             }
+             });
+
+             this.getParticipationChartByStateStore().load({
+             params: {
+             idplano: idplano
+             }
+             });
+
+             var newEstatisticas = new GeoPublic.view.StartPlanoEstatisticas({
+             idplano: idplano,
+             descricao: descricao,
+             designacao: designacao
+             });
+             tp.add(newEstatisticas);
+
+             tp.doLayout();
+             tp.setActiveTab(0);
+
+             tp.setVisible(true);
+             */
+
+            // readybar
+            /*
+             var p = this.getReadyBar();
+             p.setVisible(true);
+             */
+
+            /*
+             // seleciona este plano na ComboBox do mapa...
+             console.log('Mudar a combo do mapa para o plano ' + idplano);
+             // para não entrar em ciclo...
+             if (this.getComboplano().getValue() != idplano) {
+             this.getComboplano().setValue(idplano);
+             }
+             */
         }
         // scroll!
         var pos = tp.getOffsetsTo(this.getStartPanel())[1];
         this.getStartPanel().body.scroll('top', pos, true);
-    },
-    onPlanDetailsClick: function (startplano) {
-        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta);
     },
     onClickPlano: function (promoterPanel) {
         console.log('onClickPlano');
@@ -170,7 +236,13 @@ Ext.define('GeoPublic.controller.StartPanel', {
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
         // var p = button.up('startpanel').down('#planbar');
         var p = this.getPlanBar();
-        p.setVisible(true);
+        // p.setVisible(true);
+        p.getEl().fadeIn({
+            opacity: 1, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
+
         // seleciona este promotor na ComboBox do mapa...
         // var escolhido = button.up('startpromotor').idpromotor;
         var escolhido = promoterPanel.idpromotor;
@@ -192,7 +264,12 @@ Ext.define('GeoPublic.controller.StartPanel', {
         // Tem que sincronizar com as combos do MapPanel
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
         var p = button.up('startpanel').down('#planbar');
-        p.setVisible(true);
+        // p.setVisible(true);
+        p.getEl().fadeIn({
+            opacity: 1, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
         // seleciona este promotor na ComboBox do mapa...
         var escolhido = button.up('startpromotor').idpromotor;
 
@@ -200,22 +277,16 @@ Ext.define('GeoPublic.controller.StartPanel', {
         store.load({
             id: escolhido
         });
-
-        // setting the combo will call showPlanos
-        // this.getCombopromotor().setValue(escolhido);
     },
 
-    showPlanos: function () {
+    showPlanos: function (store, records) {
         var me = this;
         console.log('showPlanos @ GeoPublic.controller.StartPanel');
 
         var bar = me.getPlanBar();
-        var tab = bar.up('tabpanel');
-
         bar.removeAll(true);
 
-        this.getPlanoComboStore().each(function (rec) {
-
+        store.each(function (rec) {
             // rec.id is dangerous, because the new object GeoPublic.view.StartPlano gets this id
             // copy of the object, without id, using idplano instead
             var plano = Ext.apply({}, rec.data, {
@@ -229,33 +300,37 @@ Ext.define('GeoPublic.controller.StartPanel', {
 
             var newPlano = new GeoPublic.view.StartPlano(plano);
             bar.add(newPlano);
-            bar.doLayout();
-
         });
+        bar.doLayout();
 
-        // mostrar o tabpainel (superior) // tabplanbar
-        /*
-         if (!tab.isVisible()) {
-         tab.setVisible(true);
-         }
-         */
-        tab.getEl().fadeIn({
+        bar.getEl().fadeIn({
             opacity: 1, //can be any value between 0 and 1 (e.g. .5)
             easing: 'easeIn', // 'easeOut',
             duration: 1500
         });
 
-        var pos = tab.getOffsetsTo(tab.up('startpanel'))[1];
-        tab.up('startpanel').body.scroll('top', pos, true);
+        var pos = bar.getOffsetsTo(bar.up('startpanel'))[1];
+        bar.up('startpanel').body.scroll('top', pos, true);
 
         // volta a esconder os detalhes do plano, se entretanto ficaram visíveis
         var p = this.getPlanPresentationBar();
-        p.setVisible(false);
+        // p.setVisible(false);
+        p.getEl().fadeIn({
+            opacity: 0, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
+
         p.idplano = null;
 
         // readybar
         var p = this.getReadyBar();
-        p.setVisible(false);
+        // p.setVisible(false);
+        p.getEl().fadeIn({
+            opacity: 0, //can be any value between 0 and 1 (e.g. .5)
+            easing: 'easeIn', // 'easeOut',
+            duration: 1500
+        });
     },
     showPromotores: function () {
         var me = this;
@@ -346,81 +421,88 @@ Ext.define('GeoPublic.controller.StartPanel', {
         ppromotores.getEl().on('click', function () {
             me.showPromotores();
         });
-        var pparticipe = panel.down('#readybar container#participecircle');
 
-        pparticipe.getEl().on({
-            scope: me,
-            click: this.onParticipe
-        });
+        /*
+         var pparticipe = panel.down('#readybar container#participecircle');
 
-        // get updated data...
-        ExtRemote.DXParticipacao.numeros({}, function (result, event) {
-            if (result.success) {
-                // console.log(result.data);
-                // ppromotores.update(result.data.promoters + ' Promotores');
+         pparticipe.getEl().on({
+         scope: me,
+         click: this.onParticipe
+         });
+         */
 
-                // Promotores
-                var inicioPromoters = 1;
-                var updatePromotor = function () {
-                    if (inicioPromoters <= result.data.promoters) {
-                        ppromotores.update(inicioPromoters + ' Promotores');
-                        inicioPromoters = inicioPromoters + 1;
-                    } else {
-                        clearInterval(intPromotor);
-                    }
-                };
-                var intPromotor = setInterval(function () {
-                    updatePromotor();
-                }, 200);
+        // me.showPromotores();
 
-                // Planos
-                var pplans = panel.down('#circlebar container#planoscircle');
-                var inicioPlans = 1;
-                var updatePlan = function () {
-                    if (inicioPlans <= result.data.plans) {
-                        pplans.update(inicioPlans + ' Planos');
-                        inicioPlans = inicioPlans + 1;
-                    } else {
-                        clearInterval(intPlan);
-                    }
-                };
-                var intPlan = setInterval(function () {
-                    updatePlan();
-                }, 300);
+        /*
+         // get updated data...
+         ExtRemote.DXParticipacao.numeros({}, function (result, event) {
+         if (result.success) {
+         // console.log(result.data);
+         // ppromotores.update(result.data.promoters + ' Promotores');
 
-                // Participações
-                var pparticipations = panel.down('#circlebar container#participationscircle');
-                var inicioParticipations = 1;
-                var updateParticipation = function () {
-                    if (inicioParticipations <= result.data.participations) {
-                        pparticipations.update(inicioParticipations + ' Participações');
-                        inicioParticipations = inicioParticipations + 1;
-                    } else {
-                        clearInterval(intParticipation);
-                    }
-                };
-                var intParticipation = setInterval(function () {
-                    updateParticipation();
-                }, 100);
+         // Promotores
+         var inicioPromoters = 1;
+         var updatePromotor = function () {
+         if (inicioPromoters <= result.data.promoters) {
+         ppromotores.update(inicioPromoters + ' Promotores');
+         inicioPromoters = inicioPromoters + 1;
+         } else {
+         clearInterval(intPromotor);
+         }
+         };
+         var intPromotor = setInterval(function () {
+         updatePromotor();
+         }, 200);
 
-                // Comments
-                var pcomments = panel.down('#circlebar container#commentscircle');
-                var inicioComments = 1;
-                var updateComment = function () {
-                    if (inicioComments <= result.data.comments) {
-                        pcomments.update(inicioComments + ' Comentários');
-                        inicioComments = inicioComments + 1;
-                    } else {
-                        clearInterval(intComment);
-                    }
-                };
-                var intComment = setInterval(function () {
-                    updateComment();
-                }, 50);
+         // Planos
+         var pplans = panel.down('#circlebar container#planoscircle');
+         var inicioPlans = 1;
+         var updatePlan = function () {
+         if (inicioPlans <= result.data.plans) {
+         pplans.update(inicioPlans + ' Planos');
+         inicioPlans = inicioPlans + 1;
+         } else {
+         clearInterval(intPlan);
+         }
+         };
+         var intPlan = setInterval(function () {
+         updatePlan();
+         }, 300);
 
-            } else {
-                console.log('Problemas na recuperação dos números de participação');
-            }
-        });
+         // Participações
+         var pparticipations = panel.down('#circlebar container#participationscircle');
+         var inicioParticipations = 1;
+         var updateParticipation = function () {
+         if (inicioParticipations <= result.data.participations) {
+         pparticipations.update(inicioParticipations + ' Participações');
+         inicioParticipations = inicioParticipations + 1;
+         } else {
+         clearInterval(intParticipation);
+         }
+         };
+         var intParticipation = setInterval(function () {
+         updateParticipation();
+         }, 100);
+
+         // Comments
+         var pcomments = panel.down('#circlebar container#commentscircle');
+         var inicioComments = 1;
+         var updateComment = function () {
+         if (inicioComments <= result.data.comments) {
+         pcomments.update(inicioComments + ' Comentários');
+         inicioComments = inicioComments + 1;
+         } else {
+         clearInterval(intComment);
+         }
+         };
+         var intComment = setInterval(function () {
+         updateComment();
+         }, 50);
+
+         } else {
+         console.log('Problemas na recuperação dos números de participação');
+         }
+         });
+         */
     }
 });

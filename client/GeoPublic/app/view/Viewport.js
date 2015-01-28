@@ -46,10 +46,13 @@ Ext.define('GeoPublic.view.Viewport', {
             tabConfig : {
                 xtype : 'tbfill'
             }
+        } /*, {
+            title : 'Estatísticas',
+            hmtl : 'Estatísticas'
         }, {
             xtype : 'grid-promotor'
-        }, {
+        },  {
 			xtype : 'bem-vindo-panel'
-		}]
+		}*/ ]
 	}]
 });

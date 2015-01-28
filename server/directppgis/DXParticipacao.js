@@ -1398,14 +1398,14 @@ var DXParticipacao = {
         // ???
         var userid = request.session.userid;
         var conn = db.connect();
-        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom FROM ppgis.plano where idpromotor = ' + promotor;
+        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom FROM ppgis.plano where idpromotor = ' + promotor + ' and active';
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor;
+                var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor + ' and active';
                 conn.query(totalQuery, function (err, resultTotalQuery) {
                     if (err) {
                         console.log('SQL=' + totalQuery + ' Error: ', err);
@@ -1562,14 +1562,14 @@ var DXParticipacao = {
         // { userid: 31, page: 1, start: 0, limit: 5 }
         var userid = request.session.userid;
         var conn = db.connect();
-        var sql = 'SELECT * FROM ppgis.promotor';
+        var sql = 'SELECT * FROM ppgis.promotor where active';
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = 'SELECT count(*) as totals from ppgis.promotor';
+                var totalQuery = 'SELECT count(*) as totals from ppgis.promotor where active';
                 conn.query(totalQuery, function (err, resultTotalQuery) {
                     if (err) {
                         console.log('SQL=' + totalQuery + ' Error: ', err);

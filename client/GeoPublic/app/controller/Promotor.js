@@ -14,7 +14,6 @@ Ext.define('GeoPublic.controller.Promotor', {
 		ref : 'buttonRemove' // gera um getButtonRemove
 	}],
 	init : function() {
-		console.log('O controlador está a arrancar...');
 		this.control({
 			"grid-promotor gridpanel#promotor button#add" : {
 				click : this.onButtonClickAdiciona

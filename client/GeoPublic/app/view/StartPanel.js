@@ -9,11 +9,11 @@ Ext.define('GeoPublic.view.StartPanel', {
 	},
 	layout : {
 		type : 'vbox',
-		padding : '5',
+		// padding : '5',
 		align : 'center'
 	},
 	defaults : {
-		margin : '0 0 50 0'
+		margin : '0 0 20 0' // '0 0 50 0'
 	},
 	items : [{
 		title : 'Participação Pública',
@@ -26,6 +26,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 			autoLoad : true
 		}
 	}, {
+        hidden: true,
 		width : 900,
 		itemId : 'circlebar',
 		layout : {
@@ -67,58 +68,54 @@ Ext.define('GeoPublic.view.StartPanel', {
 			html : '0 Comentários'
 		}]
 	}, {
-		title : 'Promotores',
+		title : 'Entidades',
 		width : 900,
-		autoScroll : true,
-		bodyPadding : 10,
-		itemId : 'promotorbar',
+        itemId : 'promotorbar',
+        style: 'opacity: 0;', // para usar o FadeIn
+        autoScroll : true,
 		// hidden : true,
-		style: 'opacity: 0;', // para usar o FadeIn
 		layout : {
 			type : 'hbox',
-			padding : '0 0 20 0',
 			pack : 'left', // 'center',
-			align : 'left' // 'middle'
+			align : 'middle' // 'middle'
 		},
 		defaults : {
-			margin : '0 10 0 0'
+			margin : '10 10 10 0'
 		},
-		items : []
+		items : [/*{
+         xtype : 'startpromotor'
+         }, {
+         xtype : 'startpromotor'
+         }, {
+         xtype : 'startpromotor'
+         } */]
 	}, {
-		xtype : 'tabpanel',
-		itemId : 'tabplanbar',
-		// hidden : true,
-		style: 'opacity: 0;', // para usar o FadeIn
-		plain : true, // remover o fundo da barra dos panels
-		items : [{
-			title : 'Planos em discussão',
-			width : 900,
-			itemId : 'planbar',
-			layout : {
-				type : 'hbox',
-				padding : '5',
-				pack : 'left', // 'center',
-				align : 'middle'
-			},
-			defaults : {
-				margin : '0 10 0 0'
-			},
-			items : [{
-				xtype : 'startplano'
-			}, {
-				xtype : 'startplano'
-			}, {
-				xtype : 'startplano'
-			}]
-		}, {
-			title : 'Planos já discutidos',
-			disabled : true
-		}]
-	}, {
-		xtype : 'tabpanel',
+        title : 'Planos em discussão',
+        width : 900,
+        itemId : 'planbar',
+        style: 'opacity: 0;', // para usar o FadeIn
+        autoScroll : true,
+        layout : {
+            type : 'hbox',
+            pack : 'left', // 'center',
+            align : 'middle'
+        },
+        defaults : {
+            margin : '10 10 10 0'
+        },
+        items : [ /*{
+            xtype : 'startplano'
+        }, {
+            xtype : 'startplano'
+        }, {
+            xtype : 'startplano'
+        } */]
+    }, {
+		// xtype : 'tabpanel',
 		itemId : 'planpresentationbar',
 		width : 900,
-		bodyPadding : 10,
+        style: 'opacity: 0;', // para usar o FadeIn
+		// bodyPadding : 10,
 		// hidden : true,
 		plain : true, // remover o fundo da barra dos panels
 		idplano : null,
@@ -128,31 +125,50 @@ Ext.define('GeoPublic.view.StartPanel', {
 	}, {
 		width : 900,
 		itemId : 'readybar',
-		title : 'Participar',
-		hidden : true,
-		layout : {
-			type : 'hbox',
-			padding : '5',
-			pack : 'center',
-			align : 'middle'
-		},
-		defaults : {
-			margin : '0 5 0 0'
-		},
+		title : 'Regras de participação',
+        ui: 'startplano',
+		// hidden : true,
+        style: 'opacity: 0;', // para usar o FadeIn
+        layout: {
+            type: 'vbox',
+            align: 'stretch',
+            pack: 'start'
+        },
 		items : [{
-			width : 700,
-			autoScroll : true,
-			loader : {
-				url : 'resources/guiarapido/participar.html',
-				autoLoad : true
-			}
-		}, {
-			xtype : 'container',
-			itemId : 'participecircle',
-			cls : 'circle-go',
-			width : 150,
-			height : 150,
-			html : 'Participar'
-		}]
+            // bodyPadding: '0 48 0 0',
+            margin: '0 48 0 0',
+            xtype: 'panel',
+            // region: 'center',
+            flex: 1,
+            bodyStyle: 'background-color: #E6E6E6', // cinza claro
+            items: [{
+                loader : {
+                    url : 'resources/guiarapido/participar.html',
+                    autoLoad : true
+                },
+                // padding: '0 0 10 0',
+                bodyStyle: 'background:none'
+            }]
+        }, {
+            xtype: 'panel',
+            // bodyStyle: 'background-color: #333', // cinza escuro
+            bodyStyle: 'background:none',
+            // region: 'south',
+            height: 48,
+            layout: {
+                type: 'hbox',
+                pack: 'end',
+                align: 'stretch'
+            },
+            items: [{
+                minWidth: 48,
+                // overCls: 'customOverStyle',
+                textAlign: 'right',
+                xtype: 'button',
+                itemId: 'participa',
+                text: '',
+                scale: 'medium'
+            }]
+        }]
 	}]
 });

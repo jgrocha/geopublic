@@ -23,7 +23,6 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		ref : 'painelPrincipal' // gera um getPainelPrincipal
 	}],
 	init : function() {
-		console.log('O controlador está a arrancar...');
 		this.control({
 			"topheader button#botaoRegisto" : {
 				click : this.onButtonClickRegisto

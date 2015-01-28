@@ -22,7 +22,6 @@ Ext.define('GeoPublic.controller.Plano', {
 		selector : 'grid-promotor #planoForm'
 	}],
 	init : function() {
-		console.log('O controlador está a arrancar...');
 		this.control({
 			"grid-promotor gridpanel#plano button#add" : {
 				click : this.onButtonClickAdiciona

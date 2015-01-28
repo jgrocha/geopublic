@@ -1,79 +1,75 @@
 Ext.define('GeoPublic.view.StartPlano', {
-	extend : 'Ext.panel.Panel',
-	alias : 'widget.startplano',
-	width : 280,
-	height: 380,
-	frame : true,
-	ui : 'light',
-	layout : {
-		type : 'vbox',
-		padding : '0 0 10 0', // not working...
-		align : 'stretch'
-	},
-	bodyPadding : 10,
-	initComponent : function() {
-		//<debug>
-		console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao + ' com a proposta '); //  + this.initialConfig.proposta.substr(0, 12));
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.startplano',
+    width: 280,
+    height: 280,
+    ui: 'startplano', // 'light', 'default', 'startplano-framed'
+    frame: false, // true,
+    layout: 'border',
+    bodyPadding: 0,
+    // bodyStyle : 'background-color:#e7d885',
+    initComponent: function () {
+        //<debug>
+        console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao + ' com a proposta '); //  + this.initialConfig.proposta.substr(0, 12));
         //</debug>
         this.idplano = this.initialConfig.idplano;
         this.idpromotor = this.initialConfig.idpromotor;
-		// this.itemId = 'StartPlano-' + this.initialConfig.id;
-		this.title = this.initialConfig.designacao;
         this.descricao = this.initialConfig.descricao;
         this.proposta = this.initialConfig.proposta;
 
-		this.items = [/*{
-		 xtype : 'image',
-		 src : 'resources/images/startpanel/plpa.jpg',
-		 shrinkWrap : 0,
-		 width : 200,
-		 height : 200
-		 }, */
-		{
-			html : this.initialConfig.designacao,
-			padding : '0 0 10 0'
-		}, {
-			html : ' De: ' + Ext.util.Format.date(this.initialConfig.inicio, "d M Y"),
-			padding : '0 0 10 0'
-		}, {
-			html : 'Até: ' + Ext.util.Format.date(this.initialConfig.fim, "d M Y"),
-			padding : '0 0 10 0'
-		}, {
-			html : 'Responsável: ' + this.initialConfig.responsavel,
-			padding : '0 0 10 0'
-		}, {
-			html : 'Contacto: <a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
-			padding : '0 0 20 0'
-		}, /* {
-		 xtype : 'button',
-		 // itemId : 'planplpa',
-		 text : 'Apresentação do plano'
-		 } */
-		{
-			xtype : 'container',
-			layout : {
-				type : 'hbox',
-				// padding : '5',
-				pack : 'center',
-				align : 'middle'
-			},
-			items : [{
-				// itemId : 'promotorescircle',
-				xtype : 'container',
-				cls : 'circle',
-				width : 150,
-				// maxWidth : 150,
-				height : 150,
-				html : 'Apresentação',
-				listeners : {
-					render : function(c) {
-						c.el.on('click', function() {
-							c.up('startplano').fireEvent('clickApresentacao', c.up('startplano'));
-						});
-					}
-				}
-			}]
-		}];
-		this.callParent(arguments);
-	}
+        this.title = this.initialConfig.designacao;
+        this.items = [{
+            bodyPadding: '10 0 0 10',
+            margin: '0 48 0 0',
+            xtype: 'panel',
+            region: 'center',
+            layout: {
+                type: 'vbox',
+                padding: '0 0 10 0', // Por baixo de cada item
+                align: 'stretch'
+            },
+            bodyStyle: 'background-color: #b7b7b7', // cinza claro
+            items: [ /*{
+                html: this.initialConfig.descricao,
+                padding: '0 0 10 0',
+                bodyStyle: 'background:none'
+            }, */ {
+                html: ' De: ' + Ext.util.Format.date(this.initialConfig.inicio, "d M Y"),
+                padding: '0 0 10 0',
+                bodyStyle: 'background:none'
+            }, {
+                html: 'Até: ' + Ext.util.Format.date(this.initialConfig.fim, "d M Y"),
+                padding: '0 0 10 0',
+                bodyStyle: 'background:none'
+            }, {
+                html: 'Responsável: ' + this.initialConfig.responsavel,
+                padding: '0 0 10 0',
+                bodyStyle: 'background:none'
+            }, {
+                html: 'Contacto: <a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
+                padding: '0 0 20 0',
+                bodyStyle: 'background:none'
+            }]
+        }, {
+            xtype: 'panel',
+            bodyStyle: 'background-color: #FFDB4D', // amarelo claro
+            // bodyStyle: 'background:none',
+            region: 'south',
+            height: 48,
+            layout: {
+                type: 'hbox',pack: 'end',
+                align: 'stretch'
+            },
+            items: [{
+                minWidth: 48,
+                // overCls: 'customOverStyle',
+                textAlign: 'right',
+                xtype: 'button',
+                itemId: 'apresentacao',
+                text: '',
+                scale: 'medium'
+            }]
+        }];
+        this.callParent(arguments);
+    }
 });

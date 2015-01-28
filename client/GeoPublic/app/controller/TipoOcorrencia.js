@@ -13,7 +13,6 @@ Ext.define('GeoPublic.controller.TipoOcorrencia', {
 		ref : 'buttonRemove' // gera um getButtonRemove
 	}],
 	init : function() {
-		console.log('O controlador está a arrancar...');
 		this.control({
 			"grid-promotor gridpanel#tipoocorrencia button#add" : {
 				click : this.onButtonClickAdiciona
