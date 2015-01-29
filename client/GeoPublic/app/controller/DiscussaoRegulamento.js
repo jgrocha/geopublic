@@ -30,6 +30,7 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 width: 'auto', // largura,
                 height: 'auto', // altura,
                 autoupdate: false, // depois muda-se...
+                change_timeout: 3600000, // depois muda-se...
                 cmsettings: {
                     readOnly: true,
                     lineWrapping: true,

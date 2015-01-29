@@ -467,7 +467,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                     // console.log(params);
                     ExtRemote.DXParticipacao.createOcorrencia(params, function (result, event) {
                         if (result.success) {
-                            Ext.Msg.alert('Success'.translate(), 'Changes were successfully saved'.translate());
+                            Ext.Msg.alert('Success'.translate(), 'Your participation was saved'.translate());
                             // console.log(result.data[0].id);
                             // console.log(result.dataphoto);
                             // associar o id ao fid do novo feature inserido no openlayers
@@ -531,7 +531,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                 });
                 ExtRemote.DXParticipacao.updateOcorrencia(params, function (result, event) {
                     if (result.success) {
-                        Ext.example.msg('Success'.translate(), 'Changes were successfully saved');
+                        Ext.example.msg('Success'.translate(), 'Changes were successfully saved'.translate());
                         // Ext.Msg.alert('Successo', 'As alterações foram gravadas com sucesso.');
                         // console.log(result.data[0].id);
                         // console.log(result.dataphoto);
@@ -586,7 +586,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                 // console.log(params);
                 ExtRemote.DXParticipacao.createOcorrencia(params, function (result, event) {
                     if (result.success) {
-                        Ext.Msg.alert('Successo', 'As alterações foram gravadas com sucesso.');
+                        Ext.Msg.alert('Success'.translate(), 'Your participation was saved'.translate());
                         // console.log(result.data[0].id);
                         // console.log(result.dataphoto);
                         // associar o id ao fid do novo feature inserido no openlayers
@@ -611,7 +611,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                             }
                         });
                     } else {
-                        Ext.Msg.alert('Error', 'Error saving changes');
+                        Ext.Msg.alert('Error'.translate(), 'Error saving changes'.translate());
                     }
                 });
             }

@@ -63,7 +63,7 @@ GeoPublic.Translation = [{
 	"translation" : "Sucesso"
 }, {
 	"id" : 'Changes were successfully saved',
-	"translation" : "As alterações foram gravadas com êxito"
+	"translation" : "As alterações foram gravadas"
 }, {
 	"id" : 'You need to choose a plan to participate',
 	"translation" : "Para participar, tem que ter um plano selecionado"
@@ -73,6 +73,9 @@ GeoPublic.Translation = [{
 }, {
     "id" : 'Participation was successfully removed',
     "translation" : "A participação foi eliminada"
+}, {
+    "id" : 'Your participation was saved',
+    "translation" : "A sua participação foi registada"
 }];
 
 /*

@@ -4,7 +4,81 @@ var mkdirp = require('mkdirp');
 var smtpTransport = global.App.transport;
 var emailTemplates = require('email-templates');
 
-var enviarEmail = function (destino, parametros, callback) {
+var enviarEmailParticipation = function (params) {
+    /*
+     userid: request.session.userid,
+     titulo: params.titulo,
+     participacao: params.participacao,
+     idplano: params.idplano
+     */
+    var siteStr = '';
+    if (global.App.url) {
+        siteStr = global.App.url;
+    } else {
+        siteStr = params.site;
+    }
+    /*
+     select u.nome, u.email, u.masculino, p.designacao, p.responsavel, p.email as responsavelemail, e.designacao as entidade
+     from public.utilizador u, ppgis.plano p, ppgis.promotor e
+     where p.id = 28 and u.id = 31 and p.idpromotor = e.id
+     */
+    var conn = db.connect();
+    var sql = '';
+    sql += 'select u.nome, u.email, u.masculino, p.designacao, p.responsavel, p.email as responsavelemail, e.designacao as entidade';
+    sql += ' from public.utilizador u, ppgis.plano p, ppgis.promotor e';
+    sql += ' where p.id = ' + params.idplano + ' and u.id = ' + params.userid + ' and p.idpromotor = e.id';
+    conn.query(sql, function (err, result) {
+        if (err) {
+            console.log('SQL=' + sql + ' Error: ', err);
+        } else {
+            db.disconnect(conn);
+            //release connection
+            console.log('Resultado: ', result.rows.length);
+            var locals = {
+                email: result.rows[0].email,
+                subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
+                saudacao: result.rows[0].masculino ? 'Caro' : 'Cara',
+                name: result.rows[0].nome,
+                plano: result.rows[0].designacao,
+                responsavel: result.rows[0].responsavel,
+                responsavelemail: result.rows[0].responsavelemail,
+                entidade: result.rows[0].entidade,
+                site: siteStr,
+                titulo: params.titulo,
+                participacao: params.participacao,
+                callback: function (err, responseStatus) {
+                    if (err) {
+                        console.log('Erro', responseStatus.message);
+                    } else {
+                        console.log('Sucesso', responseStatus.message);
+                    }
+                    smtpTransport.close();
+                }
+            };
+            emailTemplates(global.App.templates, function (err, template) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    template('newparticipation', locals, function (err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            smtpTransport.sendMail({
+                                from : locals.responsavelemail,
+                                to: locals.email,
+                                subject: locals.subject,
+                                html: html,
+                                text: text
+                            }, locals.callback);
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+
+var enviarEmailPlan = function (destino, parametros, callback) {
     var email = destino.email;
     var name = destino.nome;
     var siteStr = '';
@@ -604,6 +678,26 @@ var DXParticipacao = {
                                 data: resultInsert.rows,
                                 dataphoto: result2Insert
                             });
+                            /*
+                            * Notify users by email
+                            *
+                            * createOcorrencia:  { titulo: 'Notificação 1',
+                             participacao: 'nihao tong shue',
+                             idplano: 29,
+                             idestado: 1,
+                             proposta: '' }
+
+                             request.session.userid
+
+                             */
+
+                            enviarEmailParticipation({
+                                userid: request.session.userid,
+                                titulo: params.titulo,
+                                participacao: params.participacao,
+                                idplano: params.idplano
+                            }); // sem callback nem parametros para o callback...
+
                             /*
                              * Atualizar as estatísticas...
                              */
@@ -1269,7 +1363,7 @@ var DXParticipacao = {
                             // cf. DXFormTest.js, filesubmitinstantaneo
                             mkdirp.sync(pasta + '/80x80');
                             mkdirp.sync(pasta + '/_x600');
-                            enviarEmail({
+                            enviarEmailPlan({
                                 email: params.email.toLowerCase(),
                                 nome: params.responsavel,
                                 site: 'http://' + request.headers.host
@@ -1345,7 +1439,7 @@ var DXParticipacao = {
                             if (params.email) {
                                 // mudou o email; vamos mandar um email a dizer que o plano ficou a apontar para este novo email
                                 console.log('Está na hora de enviar um email para ' + email);
-                                enviarEmail({
+                                enviarEmailPlan({
                                     email: params.email.toLowerCase(),
                                     nome: resultSelect.rows[0].responsavel,
                                     site: 'http://' + request.headers.host

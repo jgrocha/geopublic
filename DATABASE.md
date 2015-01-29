@@ -23,6 +23,28 @@ If plano.proposta exists, then the discussion is about something without geograp
 If plano.proposta exists, the promotor can decide if alternative text forms can be provided by citizens, using the plano.alternativetext (yes or no)';
 
 ALTER TABLE ppgis.ocorrencia ADD COLUMN proposta text;
+
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (1, 28, 'Recebida', 'Participação reportada', 'yellow', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (2, 28, 'Subscrita', 'Opinião subscrita por mais alguém', 'red', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (3, 28, 'Sem fundamentação', 'Participação pouco fundamentada', 'gray', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (4, 28, 'Sem aplicabilidade', 'Participação sem aplicabilidade ao plano em discussão', 'gray', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (5, 28, 'Aceite para análise', 'Participação reportada', 'green', '');
+
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (1, 29, 'Recebida', 'Participação reportada', 'yellow', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (2, 29, 'Subscrita', 'Opinião subscrita por mais alguém', 'red', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (3, 29, 'Sem fundamentação', 'Participação pouco fundamentada', 'gray', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (4, 29, 'Sem aplicabilidade', 'Participação sem aplicabilidade ao plano em discussão', 'gray', '');
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (5, 29, 'Aceite para análise', 'Participação reportada', 'green', '');
 ```
 
 ####Table utilizador
