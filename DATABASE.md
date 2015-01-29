@@ -47,3 +47,36 @@ The user should be able to change his email address
 When removing a user, we also must drop all its session data.
 
 A trigger should exist to preserve the user+session data, if important.
+
+### Prepare database for publishing
+
+```
+sudo su postgres -c psql
+
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE
+-- don't kill my own connection!
+pid <> pg_backend_pid()
+-- don't kill the connections to other databases
+AND datname = 'geopublic';
+
+-- REVOKE the CONNECT privileges to avoid new connections:
+-- REVOKE CONNECT ON DATABASE geopublic FROM PUBLIC, geobox;
+-- GRANT CONNECT ON DATABASE geopublic FROM PUBLIC, geobox;
+
+alter database geopublic rename to geopublicdev;
+\q
+
+sudo su postgres
+createdb -O geobox  --encoding=UTF8 geopublic
+psql geopublic -c "CREATE EXTENSION adminpack;"
+psql geopublic -c "CREATE EXTENSION postgis;"
+psql geopublic -c "CREATE EXTENSION hstore;"
+
+export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-demo.backup
+
+exit
+
+pg_dump --host localhost --port 5432 --username "geobox" --role "geobox" --no-password  --format custom --blobs --verbose --file geopublic-demo-0-9.backup geopublic
+
+
+```
