@@ -236,7 +236,7 @@ Ext.define('GeoPublic.Application', {
 			} else {
 				console.log('Não há cookies para ninguém');
 			}
-            */
+			*/
 		});
 	}
 });

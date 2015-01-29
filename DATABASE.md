@@ -6,6 +6,25 @@
 
 File: geopublic.sql 
 
+### Last motifications
+
+```
+ALTER TABLE ppgis.promotor ADD COLUMN active boolean;
+UPDATE ppgis.promotor SET active = true;
+
+ALTER TABLE ppgis.plano ADD COLUMN proposta text,
+ ADD COLUMN alternativeproposta boolean,
+ ADD COLUMN active boolean;
+UPDATE ppgis.plano SET active = true;
+
+COMMENT ON TABLE ppgis.plano
+  IS 'If plano.the_geom exists, then the disuccsion is map based, with one geographic feature for each participation
+If plano.proposta exists, then the discussion is about something without geographic features
+If plano.proposta exists, the promotor can decide if alternative text forms can be provided by citizens, using the plano.alternativetext (yes or no)';
+
+ALTER TABLE ppgis.ocorrencia ADD COLUMN proposta text;
+```
+
 ####Table utilizador
 
 #####email field

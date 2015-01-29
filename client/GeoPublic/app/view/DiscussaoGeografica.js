@@ -28,13 +28,10 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
         //</debug>
         me.storeEstado = Ext.StoreManager.lookup(storeEstadoId); // Ext.StoreManager.lookup(storeId);
         if (!Ext.isDefined(me.storeEstado)) {
-            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({storeId: storeEstadoId, autoDestroy: true}));
+            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({storeId: storeEstadoId, autoDestroy: false}));
+            // ao destruir uma discussão com este store na combo, o store era destruído
+            // tem mesmo que ser autoDestroy: false
         }
-        me.storeEstado.load({
-            params: {
-                idplano: me.idplano
-            }
-        });
 
         /*
         // TODO

@@ -94,7 +94,7 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 		this.callParent(arguments);
 	},
 	onFotografiaStoreLoad : function(store, records) {
-		// console.log('onFotografiaStoreLoad ' + records.length + ' fotografias que ocupam ' + (records.length * 95) + ' pixels');
+		console.log('onFotografiaStoreLoad ' + records.length + ' fotografias que ocupam ' + (records.length * 95) + ' pixels');
 		this.down('dataview').setWidth(records.length * 95);
 	},
 	getStore : function() {

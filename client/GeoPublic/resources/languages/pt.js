@@ -68,8 +68,11 @@ GeoPublic.Translation = [{
 	"id" : 'You need to choose a plan to participate',
 	"translation" : "Para participar, tem que ter um plano selecionado"
 }, {
-	"id" : 'You need to authenticate to participate',
-	"translation" : "Para participar, tem que se autenticar"
+    "id" : 'Are you sure you want to delete this participation?',
+    "translation" : 'Quer mesmo eliminar esta participação?'
+}, {
+    "id" : 'Participation was successfully removed',
+    "translation" : "A participação foi eliminada"
 }];
 
 /*

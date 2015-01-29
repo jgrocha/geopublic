@@ -105,14 +105,15 @@ Ext.define('GeoPublic.controller.Mapa', {
                         seconds: f.attributes["seconds"],
                         nome: f.attributes["nome"],
                         idutilizador: f.attributes["idutilizador"],
+                        proposta: null,
                         feature: f,
                         estadoStore: discussaogeografia.getStoreEstado(),
                         geodiscussao : true
                     });
                     f.discussion = newDiscussion;
                     // o método add só adiciona se ainda não existe no painel
-                    p.add(newDiscussion);
-                    // p.insert(0, newDiscussion);
+                    // p.add(newDiscussion);
+                    p.insert(0, newDiscussion);
                     if (f.attributes["numcomments"] > 0) {
                         // give feedback to user
                         newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');

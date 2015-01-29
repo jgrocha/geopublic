@@ -15,12 +15,11 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 				click : this.onCenterFeature
 			},
 			"discussion commentlist" : {
-				beforeexpand : this.onOcorrenciaBeforeExpand
-				// expand : this.onOcorrenciaExpand
+				beforeexpand : this.onCommentListBeforeExpand
 			}
 		});
 	},
-	onOcorrenciaBeforeExpand : function(p, animate, eOpts) {
+    onCommentListBeforeExpand : function(p, animate, eOpts) {
 		// console.log('GeoPublic.controller.Participation.Discussion onOcorrenciaBeforeExpand');
 		var o = p.up('discussion').idocorrencia;
 		// console.debug(p);
@@ -90,9 +89,11 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
 		var ocorrencia = tool.up('panel').idocorrencia;
         var activity = tool.up('activitynew');
         if (activity.geodiscussao) {
-            console.log('Mostrar ocorrência geográfica', ocorrencia);
             var feature = tool.up('panel').feature;
+            //<debug>
             console.log('Discussion.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia, feature);
+            console.log('Mostrar ocorrência geográfica', ocorrencia);
+            //</debug>
             if (feature) {
                 var mapa = feature.layer.map;
                 var layer = feature.layer;
@@ -106,17 +107,25 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                 }
             }
         } else {
+            //<debug>
             console.log('Mostrar ocorrência NÃO geográfica', ocorrencia);
+            console.log('Informação que tenho: ', tool.up('panel'));
+            //</debug>
+            var informacao = activity.up('discussao-regulamento').down('#informacao-lhs');
+
             // Mostrar a nova redação, se existir...
             // O ideal seria só mostrar a ferramenta se existir uma proposta de redação
             var proposta = tool.up('panel').proposta;
             if (Ext.isDefined(proposta) && proposta.length > 0) {
                 // Mostrar, sem deixar mexer
                 var idsec = '#' + activity.up('discussao-regulamento').down('#secretaria').id;
-                $(idsec).mergely('options', { autoupdate: true});
+                $(idsec).mergely('options', {autoupdate: true, change_timeout: 150});
                 $(idsec).mergely('update');
                 $(idsec).mergely('rhs', proposta);
                 $(idsec).mergely('cm', 'rhs').setOption('readOnly', true);
+                informacao.update('Redação proposta por: ' + tool.up('panel').nome );
+            } else {
+                informacao.update('');
             }
         }
 	},

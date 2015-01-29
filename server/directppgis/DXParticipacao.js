@@ -542,7 +542,7 @@ var DXParticipacao = {
         // o id vem a 0, quando se insere um registo
         for (var key in params) {
             switch (key) {
-                case "id":
+                case "idocorrencia":
                     break;
                 /*
                  case "geojson":

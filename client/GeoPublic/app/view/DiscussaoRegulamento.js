@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.view.DiscussaoRegulamento', {
     extend: 'Ext.container.Container',
-    requires : ['GeoPublic.view.Participation.ActivityNew', 'GeoPublic.store.Ocorrencia'],
+    requires : ['GeoPublic.view.Participation.ActivityNew', 'GeoPublic.store.Ocorrencia', 'GeoPublic.store.Participation.EstadoCombo'],
     alias: 'widget.discussao-regulamento',
     layout: 'border',
     closable: true,
@@ -21,20 +21,16 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
         if (!Ext.isDefined(me.store)) {
             me.store = Ext.create('GeoPublic.store.Ocorrencia', Ext.apply({storeId: me.storeId, autoDestroy: true}));
         }
-
         var storeEstadoId = me.itemId + '-estadoocorrencia-store';
         //<debug>
         console.log('Ler os estados possíveis de ', storeEstadoId, me.itemId);
         //</debug>
         me.storeEstado = Ext.StoreManager.lookup(storeEstadoId); // Ext.StoreManager.lookup(storeId);
         if (!Ext.isDefined(me.storeEstado)) {
-            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({storeId: storeEstadoId, autoDestroy: true}));
+            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({storeId: storeEstadoId, autoDestroy: false}));
+            // ao destruir uma discussão com este store na combo, o store era destruído
+            // tem mesmo que ser autoDestroy: false
         }
-        me.storeEstado.load({
-            params: {
-                idplano: me.idplano
-            }
-        });
 
         this.mergelycriado = false;
         this.iddivcompare = 'compare-' + this.initialConfig.idplano;
@@ -45,6 +41,29 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
             // html: 'Janela com o texto do regulamento',
             layout: 'border',
             items: [{
+                region: 'north',
+                layout: {
+                    type: 'hbox',
+                    // padding: '5',
+                    align: 'middle'
+                },
+                height: 100,
+                items:[{
+                    xtype: 'panel',
+                    itemId: 'informacao-rhs',
+                    margin: '10 10 10 10',
+                    html: 'Texto original, proposto para discussão.',
+                    // bodyStyle: 'background-color: #E6E6E6', // cinza claro
+                    flex: 1
+                },{
+                    xtype: 'panel',
+                    itemId: 'informacao-lhs',
+                    margin: '10 10 10 16',
+                    html: '', // update()...
+                    // bodyStyle: 'background-color: #A6A6A6', // cinza claro
+                    flex: 1
+                }]
+            }, {
                 xtype: 'component',
                 itemId: 'secretaria',
                 layout: 'fit',

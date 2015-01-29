@@ -81,7 +81,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                     estadoStore: me.getStoreEstado(),
                     geodiscussao : true
                 });
-                me.down('#flow').add(newDiscussion);
+                // me.down('#flow').add(newDiscussion);
+                me.down('#flow').insert(0, newDiscussion);
                 if (f) {
                     f.discussion = newDiscussion;
                 }
@@ -103,5 +104,20 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                 idplano: panel.idplano
             }
         });
+        //
+        var estore = panel.getStoreEstado();
+        estore.on({
+            scope: panel,
+            load: this.onEstadoOcorrenciaStoreLoad
+        });
+        estore.load({
+            params: {
+                idplano: panel.idplano
+            }
+        });
+    },
+    onEstadoOcorrenciaStoreLoad: function (store, records) {
+        console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
+        console.log(store);
     }
 });

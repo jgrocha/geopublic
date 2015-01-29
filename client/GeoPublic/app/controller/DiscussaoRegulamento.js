@@ -37,11 +37,11 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 },
                 lhs: function (setValue) {
                     setValue(panel.proposta);
-                } /*,
+                },
                 rhs: function (setValue) {
                     setValue('');
                     // setValue(panel.proposta);
-                } */
+                }
             });
             panel.mergelycriado = true;
             // $(idsec).mergely('cm', 'rhs').setOption('readOnly', false);
@@ -64,6 +64,22 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 idplano: panel.idplano
             }
         });
+        //
+        var estore = panel.getStoreEstado();
+        estore.on({
+            scope: panel,
+            load: this.onEstadoOcorrenciaStoreLoad
+        });
+        estore.load({
+            params: {
+                idplano: panel.idplano
+            }
+        });
+
+    },
+    onEstadoOcorrenciaStoreLoad: function (store, records) {
+        console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
+        console.log(store);
     },
     onOcorrenciaStoreLoad: function (store, records) {
         console.log('onOcorrenciaStoreLoad ' + records.length);
@@ -74,6 +90,10 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
         var start = 0;
         var limit = records.length <= 10 ? records.length : 10;
         for (var i = start; i < limit; i++) {
+            if (i==0) {
+                console.log('Registo:', records[i].data);
+                console.log('me.getStoreEstado()', me.getStoreEstado());
+            }
             var newDiscussion = new GeoPublic.view.Participation.Discussion({
                 id_ocorrencia: records[i].data.id,
                 idplano: records[i].data.idplano,
@@ -97,8 +117,10 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 estadoStore: me.getStoreEstado(),
                 geodiscussao : false
             });
-            me.down('#flow').add(newDiscussion);
+            // me.down('#flow').add(newDiscussion);
+            me.down('#flow').insert(0, newDiscussion);
         }
         me.down('#flow').doLayout();
+        console.log('onOcorrenciaStoreLoad terminou');
     }
 });
