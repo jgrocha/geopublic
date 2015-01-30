@@ -20,7 +20,7 @@ Ext.define('GeoPublic.controller.Mapa', {
     },
     onButtonLocal: function (button, e, options) {
         var mapa = button.up('discussao-geografica').down('mapa');
-        console.log('onButtonLocal', button, mapa);
+        // console.log('onButtonLocal', button, mapa);
 
         var selectCtrl = mapa.map.getControlsBy("id", "selectCtrl")[0];
         var highlightCtrl = mapa.map.getControlsBy("id", "highlightCtrl")[0];
@@ -38,7 +38,7 @@ Ext.define('GeoPublic.controller.Mapa', {
         }
     },
     onMapaBeforeRender: function (mapPanel, options) {
-        console.log('onMapPanelBeforeRender');
+        // console.log('onMapPanelBeforeRender');
         var me = this;
         var map = mapPanel.map;
 
@@ -63,7 +63,7 @@ Ext.define('GeoPublic.controller.Mapa', {
         // me.getGeocoder().layer = locationLayer;
     },
     onMapaAfterRender: function (mapPanel, options) {
-        console.log('onMapPanelAfterRender');
+        // console.log('onMapPanelAfterRender');
         var me = this;
         var map = mapPanel.map;
         var report = map.getLayersByName('Report')[0];
@@ -72,19 +72,25 @@ Ext.define('GeoPublic.controller.Mapa', {
             id: 'selectCtrl',
             clickout: true,
             onSelect: function (f) {
+                //<debug>
                 console.log('o feature ' + f.fid + ' foi selecionado');
+                //</debug>
                 var newDiscussion = null;
                 var discussaogeografia = mapPanel.up('discussao-geografica');
                 var p = discussaogeografia.down('activitynew #flow');
                 // var p = me.getTodasDiscussoes();
                 if (f.discussion) {
+                    //<debug>
                     console.log('Já existe a discussão ' + f.fid);
+                    //</debug>
                     newDiscussion = f.discussion;
                     // faz scroll!
                     // var pos = newDiscussion.getOffsetsTo(p)[1];
                     // p.body.scroll('top', pos, true);
                 } else {
+                    //<debug>
                     console.log('Criar a discussão ' + f.fid);
+                    //</debug>
                     // criar os paineis de discussao
                     newDiscussion = new GeoPublic.view.Participation.Discussion({
                         id_ocorrencia: f.fid,
@@ -130,7 +136,9 @@ Ext.define('GeoPublic.controller.Mapa', {
                 task.delay(2000);
             },
             onUnselect: function (f) {
+                //<debug>
                 console.log('o feature ' + f.fid + ' foi deselecionado');
+                //</debug>
             }
         });
         mapPanel.highlightCtrl = new OpenLayers.Control.SelectFeature(report, {
@@ -165,7 +173,9 @@ Ext.define('GeoPublic.controller.Mapa', {
          */
         mapPanel.insertPoint.events.on({
             featureadded: function (event) {
+                //<debug>
                 console.log('mapPanel.insertPoint.events.on featureadded');
+                //</debug>
                 // console.log(arguments);
                 var f = event.feature;
                 var contrib = mapPanel.up('discussao-geografica').down('activitynew').down('contribution');
@@ -233,8 +243,10 @@ Ext.define('GeoPublic.controller.Mapa', {
                 var parser = new OpenLayers.Format.GeoJSON();
                 if (mapPanel.the_geom) {
                     var polygon = parser.read(mapPanel.the_geom, "Geometry");
+                    //<debug>
                     console.log('Vou fazer zoom ao plano ');
                     console.log(polygon.getBounds());
+                    //</debug>
                     map.zoomToExtent(polygon.getBounds(), true);
                 }
             }

@@ -12,7 +12,9 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         }, this);
     },
     onOcorrenciaStoreLoad: function (store, records) {
+        //<debug>
         console.log('onOcorrenciaStoreLoad ' + records.length);
+        //</debug>
         // o scope passado é o do painel
         // this === panel
         var me = this;
@@ -117,7 +119,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         });
     },
     onEstadoOcorrenciaStoreLoad: function (store, records) {
-        console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
-        console.log(store);
+        // console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
+        // console.log(store);
     }
 });
