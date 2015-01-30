@@ -15,12 +15,12 @@ Ext.define('GeoPublic.view.TopHeader', {
 		xtype : 'imagecomponent',
 		width : 48,
 		height : 48,
-		alt : 'INSTITUTION'.translate(),
-		title : 'INSTITUTION'.translate(),
+		// alt : 'INSTITUTION'.translate(),
+		// title : 'INSTITUTION'.translate(),
 		src : 'resources/images/community_blue_48x48.png'.translate() // 'resources/images/logo_cmagueda.png' // 'http://www.sencha.com/img/20110215-feat-html5.png'
 	}, {
 		xtype : 'label',
-		html : 'Participação Pública<br/>Câmara Municipal de Águeda'.translate(),
+		html : 'Have Your Say'.translate() + '<br/>' + 'Câmara Municipal de Águeda'.translate(),
 		style : {
 			'font-size' : '12px', // The javascript constant.
 			'font-weight' : 'bold'
@@ -40,15 +40,15 @@ Ext.define('GeoPublic.view.TopHeader', {
 		resizable : true,
 		scale : 'medium',
 		menu : [{
-			text : 'Últimos acessos'.translate(),
+			text : 'Last access'.translate(),
 			itemId : 'botaoLastAccess'
-		}, {
-			text : 'Mensagens'
-		}, {
-			text : 'Dados pessoais'.translate(),
+		}, /*{
+			text : 'Mensagens'.translate()
+		}, */ {
+			text : 'Profile'.translate(),
 			itemId : 'botaoPerfil'
 		}, {
-			text : 'Sair'.translate(),
+			text : 'Logout'.translate(),
 			icon : 'resources/assets/logout.png',
 			itemId : 'botaoLogout'
 		}]

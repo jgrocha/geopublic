@@ -9,7 +9,7 @@ Ext.define('GeoPublic.controller.StartPlanoDescricao', {
         }, this);
     },
     onMouseOverRegrasParticipacao: function (b) {
-        b.setText('Regras de participação');
+        b.setText('Participation rules'.translate());
     },
     onMouseOutRegrasParticipacao: function (b) {
         b.setText('');

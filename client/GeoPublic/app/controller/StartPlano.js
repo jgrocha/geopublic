@@ -16,7 +16,7 @@ Ext.define('GeoPublic.controller.StartPlano', {
         header.setHeight(56);
     },
     onMouseOverApresentacaoPlano: function (b) {
-        b.setText('Apresentação');
+        b.setText('Introduction'.translate());
     },
     onMouseOutApresentacaoPlano: function (b) {
         b.setText('');

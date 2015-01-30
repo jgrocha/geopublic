@@ -9,7 +9,7 @@ Ext.define('GeoPublic.controller.StartPromotor', {
         }, this);
     },
     onMouseOverApresentacaoPromotor: function (b) {
-        b.setText('Planos em discussão');
+        b.setText('Plans under discussion'.translate());
     },
     onMouseOutApresentacaoPromotor: function (b) {
         b.setText('');

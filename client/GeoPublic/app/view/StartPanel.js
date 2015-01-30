@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.view.StartPanel', {
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.startpanel',
-	title : 'Bem vindo',
+	title : 'Welcome'.translate(),
 	autoScroll : true,
 	width : 900,
 	initComponent : function() {
@@ -16,7 +16,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 		margin : '0 0 20 0' // '0 0 50 0'
 	},
 	items : [{
-		title : 'Participação Pública',
+		title : 'Have Your Say'.translate(),
 		itemId : 'participationbar',
 		width : 900,
 		autoScroll : true,
@@ -68,7 +68,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 			html : '0 Comentários'
 		}]
 	}, {
-		title : 'Entidades',
+		title : 'Institutions'.translate(),
 		width : 900,
         itemId : 'promotorbar',
         style: 'opacity: 0;', // para usar o FadeIn
@@ -90,7 +90,7 @@ Ext.define('GeoPublic.view.StartPanel', {
          xtype : 'startpromotor'
          } */]
 	}, {
-        title : 'Planos em discussão',
+        title : 'Plans under discussion'.translate(),
         width : 900,
         itemId : 'planbar',
         style: 'opacity: 0;', // para usar o FadeIn
@@ -125,7 +125,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 	}, {
 		width : 900,
 		itemId : 'readybar',
-		title : 'Regras de participação',
+		title : 'Participation rules',
         ui: 'startplano',
 		// hidden : true,
         style: 'opacity: 0;', // para usar o FadeIn

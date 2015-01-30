@@ -1,29 +1,79 @@
 Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
-	extend : 'Ext.app.Controller',
-    requires : ['GeoPublic.store.Ocorrencia'],
+    extend: 'Ext.app.Controller',
+    requires: ['GeoPublic.store.Ocorrencia'],
     // stores: ['Ocorrencia'],
-	init : function() {
-        /*
-        this.getOcorrenciaStore().on({
+    refs: [{ // Ext.ComponentQuery.query('app-main-map-panel toolbar')
+        selector: 'viewport > tabpanel',
+        ref: 'painelPrincipal' // gera um getPainelPrincipal
+    }],
+    init: function () {
+        this.application.on({
             scope: this,
-            load: this.onOcorrenciaStoreLoad
+            loginComSucesso: this.onLoginComSucesso,
+            logoutComSucesso: this.onLogoutComSucesso
         });
-        */
-		this.control({
-			'discussao-regulamento' : {
-				// 'beforerender' : this.onBemVindoPanelBeforeRender,
-				'beforeactivate' : this.onDiscussaoRegulamentoBeforeActivate,
-                'resize' : this.onDiscussaoRegulamentoResize,
-                'afterrender' : this.onDiscussaoRegulamentoAfterRender
-			}
-		}, this);
-	},
-    onDiscussaoRegulamentoResize : function(panel) {
+        this.control({
+            'discussao-regulamento': {
+                // 'beforerender' : this.onBemVindoPanelBeforeRender,
+                'beforeactivate': this.onDiscussaoRegulamentoBeforeActivate,
+                'resize': this.onDiscussaoRegulamentoResize,
+                'afterrender': this.onDiscussaoRegulamentoAfterRender
+            }
+        }, this);
+    },
+    onLoginComSucesso: function () {
         var me = this;
-        console.log('onDiscussaoRegulamentoResize', panel.iddivcompare);
+        // console.log('GeoPublic.controller.DiscussaoRegulamento ' + 'onLoginComSucesso ');
+
+        var tabPanel = me.getPainelPrincipal();
+        // console.log('Existem ', tabPanel.items.length);
+        for (var i = tabPanel.items.length-1; i>= 0; i--) {
+            if (tabPanel.items.items[i].xtype.search(/^discussao-/) != -1) {
+                //<debug>
+                console.log('Vou remover o tab', i, tabPanel.items.items[i].xtype);
+                //</debug>
+                tabPanel.remove(i);
+                var mesg = 'The discussion was closed on your login'.translate();
+                mesg += '<br/>';
+                mesg += 'You can reopen the discussion with participation privileges'.translate();
+                Ext.example.msg('Discussion panel closed'.translate(), mesg);
+            }
+        }
+    },
+    onLogoutComSucesso: function () {
+        var me = this;
+        // console.log('GeoPublic.controller.DiscussaoRegulamento ' + 'onLogoutComSucesso ');
+
+        var tabPanel = me.getPainelPrincipal();
+        // console.log('Existem ', tabPanel.items.length);
+        for (var i = tabPanel.items.length-1; i>= 0; i--) {
+            if (tabPanel.items.items[i].xtype.search(/^discussao-/) != -1) {
+                //<debug>
+                console.log('Vou remover o tab', i, tabPanel.items.items[i].xtype);
+                //</debug>
+                tabPanel.remove(i);
+                var mesg = 'The discussion was closed on your logout'.translate();
+                mesg += '<br/>';
+                mesg += 'You can reopen the discussion with read only privileges'.translate();
+                Ext.example.msg('Discussion panel closed'.translate(), mesg);
+            }
+            // profile
+            if (tabPanel.items.items[i].xtype == 'profile') {
+                //<debug>
+                console.log('Vou remover o tab', i, tabPanel.items.items[i].xtype);
+                //</debug>
+                tabPanel.remove(i);
+                var mesg = 'The profile was closed on your logout'.translate();
+                Ext.example.msg('Profile panel closed'.translate(), mesg);
+            }
+        }
+    },
+    onDiscussaoRegulamentoResize: function (panel) {
+        var me = this;
+        // console.log('onDiscussaoRegulamentoResize', panel.iddivcompare);
         var largura = panel.down('component#secretaria').getWidth();
         var altura = panel.down('component#secretaria').getHeight();
-        console.log('onDiscussaoRegulamentoResize Mergely component#secretaria: ', largura, altura);
+        // console.log('onDiscussaoRegulamentoResize Mergely component#secretaria: ', largura, altura);
         var idsec = '#' + panel.iddivcompare;
         if (!panel.mergelycriado) {
             $(idsec).mergely({
@@ -50,7 +100,7 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
     },
     onDiscussaoRegulamentoBeforeActivate: function (panel, eOpts) {
         var idsec = '#' + panel.iddivcompare;
-        console.log('onDiscussaoRegulamentoBeforeActivate', idsec);
+        // console.log('onDiscussaoRegulamentoBeforeActivate', idsec);
         $(idsec).mergely('resize');
     },
     onDiscussaoRegulamentoAfterRender: function (panel) {
@@ -79,11 +129,13 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
 
     },
     onEstadoOcorrenciaStoreLoad: function (store, records) {
-        console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
-        console.log(store);
+        // console.log('onEstadoOcorrenciaStoreLoad ' + records.length);
+        // console.log(store);
     },
     onOcorrenciaStoreLoad: function (store, records) {
+        //<debug>
         console.log('onOcorrenciaStoreLoad ' + records.length);
+        //</debug>
         // o scope passado é o do painel
         // this === panel
         var me = this;
@@ -91,10 +143,6 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
         var start = 0;
         var limit = records.length <= 10 ? records.length : 10;
         for (var i = start; i < limit; i++) {
-            if (i==0) {
-                console.log('Registo:', records[i].data);
-                console.log('me.getStoreEstado()', me.getStoreEstado());
-            }
             var newDiscussion = new GeoPublic.view.Participation.Discussion({
                 id_ocorrencia: records[i].data.id,
                 idplano: records[i].data.idplano,
@@ -116,12 +164,12 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 proposta: records[i].data.proposta,
                 feature: null,
                 estadoStore: me.getStoreEstado(),
-                geodiscussao : false
+                geodiscussao: false
             });
             // me.down('#flow').add(newDiscussion);
             me.down('#flow').insert(0, newDiscussion);
         }
         me.down('#flow').doLayout();
-        console.log('onOcorrenciaStoreLoad terminou');
+        // console.log('onOcorrenciaStoreLoad terminou');
     }
 });

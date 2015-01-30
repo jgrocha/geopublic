@@ -373,7 +373,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
 					me.application.fireEvent('loginComSucesso');
 					// login.close(); // passou para o evento
 				} else {
-					Ext.Msg.alert('Error starting session', 'Invalid user or password' ); // Ext.encode(result)
+					Ext.Msg.alert('Error starting session'.translate(), 'Invalid user or password'.translate() ); // Ext.encode(result)
 				}
 			});
 		}

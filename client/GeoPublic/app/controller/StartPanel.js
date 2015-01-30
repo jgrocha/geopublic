@@ -66,14 +66,16 @@ Ext.define('GeoPublic.controller.StartPanel', {
         }, this);
     },
     onMouseOverParticipa: function (b) {
-        b.setText('Participar');
+        b.setText('Discuss the plan'.translate());
     },
     onMouseOutParticipa: function (b) {
         b.setText('');
     },
     onPromotorComboStoreLoad: function (store, records) {
         var me = this;
+        //<debug>
         console.log('Promotores: ', records.length);
+        //</debug>
         var bar = me.getPromotorBar();
         var start = 0;
         var total = records.length;
@@ -93,7 +95,9 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 });
                 delete promotor.id;
                 var newPromotor = new GeoPublic.view.StartPromotor(promotor);
+                //<debug>
                 console.log(records[i].get('designacao'));
+                //</debug>
                 bar.add(newPromotor);
             }
             bar.doLayout();

@@ -11,8 +11,10 @@ Ext.define('GeoPublic.view.StartPromotor', {
     bodyPadding: 0,
 	initComponent : function() {
 		var me = this;
+        //<debug>
 		console.debug(this.initialConfig);
 		console.log('Abrir com o promotor ' + this.initialConfig.idpromotor + ' denominado ' + this.initialConfig.designacao);
+        //</debug>
 		this.idpromotor = this.initialConfig.idpromotor;
 
         this.title = this.initialConfig.designacao;

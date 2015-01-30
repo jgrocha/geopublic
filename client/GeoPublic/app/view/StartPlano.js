@@ -34,19 +34,19 @@ Ext.define('GeoPublic.view.StartPlano', {
                 padding: '0 0 10 0',
                 bodyStyle: 'background:none'
             }, */ {
-                html: ' De: ' + Ext.util.Format.date(this.initialConfig.inicio, "d M Y"),
+                html: 'From'.translate() + ':&nbsp;' + Ext.util.Format.date(this.initialConfig.inicio, "d M Y"),
                 padding: '0 0 10 0',
                 bodyStyle: 'background:none'
             }, {
-                html: 'Até: ' + Ext.util.Format.date(this.initialConfig.fim, "d M Y"),
+                html: 'Until'.translate() + ':&nbsp;' + Ext.util.Format.date(this.initialConfig.fim, "d M Y"),
                 padding: '0 0 10 0',
                 bodyStyle: 'background:none'
             }, {
-                html: 'Responsável: ' + this.initialConfig.responsavel,
+                html: 'Responsible'.translate() + ':&nbsp;' + this.initialConfig.responsavel,
                 padding: '0 0 10 0',
                 bodyStyle: 'background:none'
             }, {
-                html: 'Contacto: <a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
+                html: 'Contact'.translate() + ':&nbsp;' + '<a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
                 padding: '0 0 20 0',
                 bodyStyle: 'background:none'
             }]
