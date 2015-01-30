@@ -132,6 +132,9 @@ mkdir -p uploads
 mkdir -p public/participation_data
 mkdir -p public/uploaded_images
 
+mkdir -p public/uploaded_images/profiles/32x32
+mkdir -p public/uploaded_images/profiles/160x160
+
 mkdir -p public/participation_data/1/1/80x80
 mkdir -p public/participation_data/1/1/_x600
 ```
@@ -189,7 +192,7 @@ sudo is necessary to run the application on port 80.
 
 ```bash
 cd ~/public_html
-forever logs
+sudo forever logs
 tail -f <log file>
 ```
 
@@ -197,8 +200,19 @@ tail -f <log file>
 
 ```bash
 cd public_html
-forever stop server.js
+sudo forever stop server.js
 ```
+
+#### Update application
+
+```bash
+cd public_html
+sudo forever stop server.js
+svn checkout https://github.com/jgrocha/geopublic/trunk/server .
+npm update
+svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
+```
+
 
 #### Configuration behind Apache (Apache 2.4.5 and later)
 
@@ -207,4 +221,7 @@ sudo a2enmod proxy_wstunnel
 ```
 # TODO
 
-uploaded_images/profiles/32x32/31_990cf6c664b7c6de6043e1084034b414.jpg
+```bash
+scp -i ~/.ssh/my-keypair.pem uploaded_images/profiles/32x32/31_990cf6c664b7c6de6043e1084034b414.jpg ubuntu@10.15.5.226:public_html/public/uploaded_images/profiles/32x32
+scp -i ~/.ssh/my-keypair.pem uploaded_images/profiles/160x160/31_990cf6c664b7c6de6043e1084034b414.jpg ubuntu@10.15.5.226:public_html/public/uploaded_images/profiles/160x160
+```
