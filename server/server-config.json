@@ -1,7 +1,7 @@
 {
   "ServerConfig": {
     "_port": 80,
-    "port": 3003,
+    "port": 80,
     "logger": "dev",
     "enableUpload": true,
     "enableCompression": true,
@@ -32,7 +32,7 @@
     "_server": "ppgis.cm-agueda.geomaster.pt",
     "server": "euparticipo.cm-agueda.pt",
     "_port": "80",
-    "port": "3003",
+    "port": "80",
     "protocol": "http",
     "relativeUrl": true,
     "relativeUrl_doc": "If true, the host name is not used",

@@ -203,40 +203,11 @@ sudo forever stop server.js
 svn checkout https://github.com/jgrocha/geopublic/trunk/server .
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
+sudo NODE_ENV=production forever start server.js
 ```
 
 #### Configuration behind Apache (Apache 2.4.5 and later)
 
 ```bash
 sudo a2enmod proxy_wstunnel
-```
-# DEPLOY
-
-```bash
-cd client/GeoPublic
-sencha app build
-
-mkdir -p build/production/GeoPublic/participation_data
-mkdir -p build/production/GeoPublic/uploaded_images
-
-mkdir -p build/production/GeoPublic/uploaded_images/profiles/32x32
-mkdir -p build/production/GeoPublic/uploaded_images/profiles/160x160
-
-mkdir -p build/production/GeoPublic/participation_data/1/1/80x80
-mkdir -p build/production/GeoPublic/participation_data/1/1/_x600
-
-cp uploaded_images/profiles/32x32/31_990cf6c664b7c6de6043e1084034b414.jpg build/production/GeoPublic/uploaded_images/profiles/32x32
-cp uploaded_images/profiles/160x160/31_990cf6c664b7c6de6043e1084034b414.jpg build/production/GeoPublic/uploaded_images/profiles/160x160
-
-cp participation_data/1/1/5f891a61039074a8d5287bcd2a50da15.jpg build/production/GeoPublic/participation_data/1/1
-cp participation_data/1/1/80x80/5f891a61039074a8d5287bcd2a50da15.jpg build/production/GeoPublic/participation_data/1/1/80x80
-cp participation_data/1/1/_x600/5f891a61039074a8d5287bcd2a50da15.jpg build/production/GeoPublic/participation_data/1/1/_x600
-
-cp participation_data/1/1/a1d11249ddf1b4bc30c1e7d793697080.jpg build/production/GeoPublic/participation_data/1/1
-cp participation_data/1/1/80x80/a1d11249ddf1b4bc30c1e7d793697080.jpg build/production/GeoPublic/participation_data/1/1/80x80
-cp participation_data/1/1/_x600/a1d11249ddf1b4bc30c1e7d793697080.jpg build/production/GeoPublic/participation_data/1/1/_x600
-
-cd ../..
-git add client/GeoPublic/build/production/GeoPublic/participation_data
-git add client/GeoPublic/build/production/GeoPublic/uploaded_images
 ```
