@@ -62,6 +62,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 
 		/*
 		Ocultar estas tools em função do número de comentários e do idutilizador
+         http://www.sencha.com/forum/showthread.php?174646-Customize-icon-on-Ext.panel.Tool
 		 */
         if (this.initialConfig.geodiscussao) {
             this.tools.push({
@@ -95,7 +96,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
 			}
 		}
 
-		this.items = [{
+        this.items = [{
 			html : this.initialConfig.participacao + '<p><img src="' + this.initialConfig.fotografia + '" align="left" height="32" width="32">Por <b>' + this.initialConfig.nome + '</b><br/>' + tempo + '</p>'
 		}, {
 			xtype : 'fotografia',

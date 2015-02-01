@@ -13,7 +13,8 @@ Ext.define('GeoPublic.view.Participation.CommentList', {
 		this.idocorrencia = this.initialConfig.config.id_ocorrencia;
 		this.idplano = this.initialConfig.config.idplano;
 		this.idpromotor = this.initialConfig.config.idpromotor;
-		this.title = this.numcomments + ' comentários';
+		this.title = this.numcomments + ' ' + 'comentários'.translate();
+
 		// http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
 		var commenttpl = new Ext.XTemplate(//
 		'<tpl for=".">', //

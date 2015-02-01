@@ -139,6 +139,9 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Passwords do not match',
     "translation": "As senhas não são exatamente iguais"
+}, {
+    "id": 'comments',
+    "translation": "comentários"
 }];
 
 /*
