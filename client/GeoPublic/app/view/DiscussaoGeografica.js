@@ -12,19 +12,19 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
         console.log(this.initialConfig);
         //</debug>
 
-        me.itemId = 'discussao-geografica-' + me.idplano;
-        var storeId = me.itemId + '-ocorrencia-store';
+        // me.itemId = 'discussao-geografica-' + me.idplano;
+        var storeId = 'discussao-geografica-' + me.idplano + '-ocorrencia-store';
         //<debug>
-        console.log('Ler as discussões de ', storeId, me.itemId);
+        console.log('Ler as discussões de ', storeId);
         //</debug>
         me.store = Ext.StoreManager.lookup(storeId); // Ext.StoreManager.lookup(storeId);
         if (!Ext.isDefined(me.store)) {
             me.store = Ext.create('GeoPublic.store.Ocorrencia', Ext.apply({storeId: storeId, autoDestroy: true}));
         }
 
-        var storeEstadoId = me.itemId + '-estadoocorrencia-store';
+        var storeEstadoId = 'discussao-geografica-' + me.idplano + '-estadoocorrencia-store';
         //<debug>
-        console.log('Ler os estados possíveis de ', storeEstadoId, me.itemId);
+        console.log('Ler os estados possíveis de ', storeEstadoId);
         //</debug>
         me.storeEstado = Ext.StoreManager.lookup(storeEstadoId); // Ext.StoreManager.lookup(storeId);
         if (!Ext.isDefined(me.storeEstado)) {

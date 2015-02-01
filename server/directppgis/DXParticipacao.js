@@ -6,10 +6,11 @@ var emailTemplates = require('email-templates');
 
 var enviarEmailParticipation = function (params) {
     /*
-     userid: request.session.userid,
-     titulo: params.titulo,
-     participacao: params.participacao,
-     idplano: params.idplano
+     userid: request.session.userid,        // quem submeteu a participação
+     id: newid,                             // id da nova ocorrencia
+     titulo: params.titulo,                 // título da participação
+     participacao: params.participacao,     // conteúdo da participação
+     idplano: params.idplano                // idplano em que se está a participar
      */
     var siteStr = '';
     if (global.App.url) {
@@ -34,6 +35,10 @@ var enviarEmailParticipation = function (params) {
             db.disconnect(conn);
             //release connection
             console.log('Resultado: ', result.rows.length);
+
+            // we need to send 2 emails:
+            // * for the user submitting the new participation
+            // * for the responsible of the plan under discussion
             var locals = {
                 email: result.rows[0].email,
                 subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
@@ -655,8 +660,9 @@ var DXParticipacao = {
                     console.log('INSERT INTO ppgis.ocorrencia', err);
                     rollback(conn, callback);
                 }
+                var newid = resultInsert.rows[0].id;
                 var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao) ';
-                sql += 'select ' + resultInsert.rows[0].id + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ';
+                sql += 'select ' + newid + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ';
                 sql += 'from ppgis.fotografiatmp ';
                 sql += "where sessionid = '" + sessionID + "'";
                 conn.query(sql, function (err, result2Insert) {
@@ -693,6 +699,7 @@ var DXParticipacao = {
 
                             enviarEmailParticipation({
                                 userid: request.session.userid,
+                                id: newid,
                                 titulo: params.titulo,
                                 participacao: params.participacao,
                                 idplano: params.idplano

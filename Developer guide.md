@@ -143,3 +143,9 @@ cd ../..
 git add client/GeoPublic/build/production/GeoPublic/participation_data
 git add client/GeoPublic/build/production/GeoPublic/uploaded_images
 ```
+
+#### Configuration behind Apache (Apache 2.4.5 and later)
+
+```bash
+sudo a2enmod proxy_wstunnel
+```

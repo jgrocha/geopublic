@@ -7,9 +7,21 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
             'discussao-geografica': {
                 // 'beforerender' : this.onBemVindoPanelBeforeRender,
                 // 'render' : this.onStartPanelRender
-                'afterrender': this.onDiscussaoGeograficaAfterRender
+                'afterrender': this.onDiscussaoGeograficaAfterRender,
+                'beforedestroy': this.onBeforeDestroy
             }
         }, this);
+    },
+    onBeforeDestroy: function (panel, eOpts) {
+        var store = panel.getStoreOcorrencias();
+        //<debug>
+        console.log('Vou morrer!', panel.itemId);
+        console.log('Também Vou morrer!', store.storeId);
+        //</debug>
+        store.un({
+            scope: panel,
+            load: this.onOcorrenciaStoreLoad
+        });
     },
     onOcorrenciaStoreLoad: function (store, records) {
         //<debug>
@@ -18,7 +30,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         // o scope passado é o do painel
         // this === panel
         var me = this;
-        // console.log(this);
+        console.log(this);
+
         var start = 0;
         var total = records.length;
         var limit = total <= 10 ? total : 10;
@@ -81,7 +94,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                     proposta: null,
                     feature: f, // pode ser null
                     estadoStore: me.getStoreEstado(),
-                    geodiscussao : true
+                    geodiscussao: true
                 });
                 // me.down('#flow').add(newDiscussion);
                 me.down('#flow').insert(0, newDiscussion);
@@ -93,6 +106,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
             }
         }
         me.down('#flow').doLayout();
+
     },
     onDiscussaoGeograficaAfterRender: function (panel) {
         var me = this;

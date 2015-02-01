@@ -74,9 +74,6 @@ GeoPublic.Translation = [{
     "id": 'New participation',
     "translation": "Nova participação"
 }, {
-    "id": 'Edit participation',
-    "translation": "Editar participação"
-}, {
     "id": 'Participate',
     "translation": "Participe"
 }, {

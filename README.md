@@ -15,8 +15,8 @@ The instance name will became the hostname, p.e instance-ppgis.
 After connecting to the VPN, you can connect to the server.
 
 ```bash
-chmod 0600 ~/.ssh/my-keypair.pem
-ssh -i ~/.ssh/my-keypair.pem ubuntu@10.15.5.226
+chmod 0600 ~/Transferências/agueda-keypair.pem
+ssh -i ~/Transferências/agueda-keypair.pem ubuntu@10.15.5.233
 ```
 
 #### Preparation
@@ -26,9 +26,9 @@ Use the instance name, p.e. ppgis.
 ```bash
 echo "127.0.0.1 instance-ppgis" | sudo tee -a /etc/hosts
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get -y upgrade
 
-sudo apt-get install redis-server build-essential subversion graphicsmagick
+sudo apt-get -y install redis-server build-essential subversion graphicsmagick
 ```
 
 One language package should be installed. PostgreSQL will not create the initial database cluster without any language installed.
@@ -46,11 +46,8 @@ sudo apt-get -y install postgresql-server-dev-9.3 postgresql-client-common postg
 sudo apt-get -y install pgbouncer
 
 sudo sed -i s/=0/=1/ /etc/default/pgbouncer
-
 sudo sed -i '/\[databases\]/!b;n;cgeopublic = host=127.0.0.1 port=5432 dbname=geopublic' /etc/pgbouncer/pgbouncer.ini
-
 echo '"geobox" "geobox"' | sudo tee -a /etc/pgbouncer/userlist.txt
-
 sudo sed -i "s/^max_client_conn = 100/max_client_conn = 500/" /etc/pgbouncer/pgbouncer.ini
 
 sudo service pgbouncer restart
@@ -113,9 +110,9 @@ sudo apt-get install postfix
 #### Installing node.js
 
 ```bash
-sudo apt-add-repository ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs
+sudo apt-add-repository -y ppa:chris-lea/node.js
+sudo apt-get -y update
+sudo apt-get -y install nodejs
 sudo npm install -g forever
 sudo chown -R $USER:$USER ~/.npm
 ```
@@ -129,18 +126,6 @@ svn checkout https://github.com/jgrocha/geopublic/trunk/server .
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p uploads
-```
-
-##### Sample images (from a local machine)
-
-```bash
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/5f891a61039074a8d5287bcd2a50da15.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/80x80/5f891a61039074a8d5287bcd2a50da15.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1/80x80
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/_x600/5f891a61039074a8d5287bcd2a50da15.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1/_x600
-
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/a1d11249ddf1b4bc30c1e7d793697080.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/80x80/a1d11249ddf1b4bc30c1e7d793697080.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1/80x80
-scp -i ~/.ssh/my-keypair.pem participation_data/1/1/_x600/a1d11249ddf1b4bc30c1e7d793697080.jpg ubuntu@10.15.5.226:public_html/public/participation_data/1/1/_x600
 ```
 
 ##### Server folders
@@ -206,8 +191,4 @@ svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/p
 sudo NODE_ENV=production forever start server.js
 ```
 
-#### Configuration behind Apache (Apache 2.4.5 and later)
 
-```bash
-sudo a2enmod proxy_wstunnel
-```

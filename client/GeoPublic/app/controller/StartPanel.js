@@ -299,7 +299,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
             delete plano.id;
             //<debug>
             console.log('Aplano antes de abrir');
-            console.log(plano);
+            // console.log(plano);
             //</debug>
 
             var newPlano = new GeoPublic.view.StartPlano(plano);
