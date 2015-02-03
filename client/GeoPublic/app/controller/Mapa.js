@@ -104,6 +104,7 @@ Ext.define('GeoPublic.controller.Mapa', {
                         participacao: f.attributes["participacao"],
                         datacriacao: f.attributes["datacriacao"],
                         numcomments: f.attributes["numcomments"],
+                        numfotografias: f.attributes["numfotografias"],
                         fotografia: f.attributes["fotografia"],
                         days: f.attributes["days"],
                         hours: f.attributes["hours"],
@@ -120,10 +121,12 @@ Ext.define('GeoPublic.controller.Mapa', {
                     // o método add só adiciona se ainda não existe no painel
                     // p.add(newDiscussion);
                     p.insert(0, newDiscussion);
+                    /*
                     if (f.attributes["numcomments"] > 0) {
                         // give feedback to user
                         newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');
                     }
+                    */
                 }
                 // faz scroll!
                 var pos = newDiscussion.getOffsetsTo(p)[1];

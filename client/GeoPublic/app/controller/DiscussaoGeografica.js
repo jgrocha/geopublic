@@ -84,6 +84,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                     participacao: records[i].data.participacao,
                     datacriacao: records[i].data.datacriacao,
                     numcomments: records[i].data.numcomentarios,
+                    numfotografias: records[i].data.numfotografias,
                     fotografia: records[i].data.fotografia,
                     days: records[i].data.days,
                     hours: records[i].data.hours,

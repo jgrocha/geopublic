@@ -125,7 +125,7 @@ Ext.define('GeoPublic.view.StartPanel', {
 	}, {
 		width : 900,
 		itemId : 'readybar',
-		title : 'Participation rules',
+		title : 'Participation rules'.translate(),
         ui: 'startplano',
 		// hidden : true,
         style: 'opacity: 0;', // para usar o FadeIn
@@ -166,7 +166,7 @@ Ext.define('GeoPublic.view.StartPanel', {
                 textAlign: 'right',
                 xtype: 'button',
                 itemId: 'participa',
-                text: '',
+                text: 'Discuss the plan'.translate(),
                 scale: 'medium'
             }]
         }]

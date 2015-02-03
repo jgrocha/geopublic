@@ -1053,6 +1053,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.MapaComProjeto": [],
   "GeoPublic.view.Participation.Activity": [],
   "GeoPublic.view.Participation.ActivityNew": [],
+  "GeoPublic.view.Participation.Comment": [],
   "GeoPublic.view.Participation.CommentForm": [],
   "GeoPublic.view.Participation.CommentList": [],
   "GeoPublic.view.Participation.Contribution": [],
@@ -2327,6 +2328,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Participation.ActivityNew": [
     "widget.activitynew"
+  ],
+  "GeoPublic.view.Participation.Comment": [
+    "widget.comment"
   ],
   "GeoPublic.view.Participation.CommentForm": [
     "widget.commentform"

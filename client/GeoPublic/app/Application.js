@@ -22,6 +22,7 @@ Ext.define('GeoPublic.Application', {
 	init : function() {
 		splashscreen = Ext.getBody().mask('Loading PPGIS, please stand by ...', 'splashscreen');
 		var me = this;
+        Ext.setGlyphFontFamily('FontAwesome');
 		hello.init({
 			// home facebook, menu lateral esq, no fundo; apps
 			// https://developers.facebook.com/apps/1425420377699726/dashboard/

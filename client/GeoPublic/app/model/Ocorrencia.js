@@ -31,9 +31,12 @@ Ext.define('GeoPublic.model.Ocorrencia', {
 		name : 'datamodificacao',
 		type : 'date'
 	}, {
-		name : 'numcomentarios',
-		type : 'int'
-	}, {
+        name : 'numcomentarios',
+        type : 'int'
+    }, {
+        name : 'numfotografias',
+        type : 'int'
+    }, {
 		name : 'color',
 		type : 'string'
 	}, {

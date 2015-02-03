@@ -4,6 +4,7 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
     alias: 'widget.discussao-geografica',
     layout: 'border',
     closable: true,
+    glyph: 0xf041,
     // title: 'Regime Jurídico da Urbanização e Edificação',
     // style : 'padding:5px',
     initComponent: function () {
@@ -57,7 +58,7 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
             region: 'east',
             // collapsible : false,
             split: true,
-            width: 400,
+            width: 420,
             config : {
                 idplano : this.initialConfig.idplano,
                 idpromotor : this.initialConfig.idpromotor,

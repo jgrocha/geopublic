@@ -71,6 +71,9 @@ GeoPublic.Translation = [{
     "id": 'Center on map',
     "translation": "Mostra no mapa"
 }, {
+    "id": 'View proposal',
+    "translation": "Redação proposta"
+}, {
     "id": 'New participation',
     "translation": "Nova participação"
 }, {
@@ -107,6 +110,18 @@ GeoPublic.Translation = [{
     "id": 'You need to choose a plan to participate',
     "translation": "Para participar, tem que ter um plano selecionado"
 }, {
+    "id": 'Are you sure you want to delete this comment?',
+    "translation": 'Quer mesmo eliminar este comentário?'
+}, {
+    "id": 'Clear',
+    "translation": "Limpar"
+}, {
+    "id": 'Comment',
+    "translation": "Comentar"
+}, {
+    "id": 'Comment was successfully removed',
+    "translation": "O comentário foi eliminado"
+}, {
     "id": 'Are you sure you want to delete this participation?',
     "translation": 'Quer mesmo eliminar esta participação?'
 }, {
@@ -118,6 +133,12 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Error starting session',
     "translation": "Erro na autenticação"
+}, {
+    "id": 'Error deleting comment',
+    "translation": "Erro a eliminar comentário"
+}, {
+    "id": 'Error deleting participation',
+    "translation": "Erro a eliminar participação"
 }, {
     "id": 'Invalid user or password',
     "translation": "Email ou senha incorrecto"
@@ -142,6 +163,18 @@ GeoPublic.Translation = [{
 }, {
     "id": 'comments',
     "translation": "comentários"
+}, {
+    "id": 'Favorite',
+    "translation": "Favorito"
+}, {
+    "id": 'Less than 1 minute',
+    "translation": "Há menos de 1 minuto"
+}, {
+    "id": 'Edit comment',
+    "translation": "Alterar comentário"
+}, {
+    "id": 'Delete comment',
+    "translation": "Remover comentário"
 }];
 
 /*

@@ -59,8 +59,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 'click': this.onMostraRegras
             },
             'startpanel #readybar button#participa': {
-                'mouseover': this.onMouseOverParticipa,
-                'mouseout': this.onMouseOutParticipa,
+                // 'mouseover': this.onMouseOverParticipa,
+                // 'mouseout': this.onMouseOutParticipa,
                 'click': this.onParticipe
             }
         }, this);

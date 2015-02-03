@@ -79,6 +79,47 @@ var enviarEmailParticipation = function (params) {
                     });
                 }
             });
+            // Email ao responsável
+            var locals2responsabile = {
+                email: result.rows[0].responsavelemail,
+                subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
+                saudacao: result.rows[0].masculino ? 'Caro' : 'Cara',
+                name: result.rows[0].nome,
+                plano: result.rows[0].designacao,
+                responsavel: result.rows[0].responsavel,
+                responsavelemail: result.rows[0].responsavelemail,
+                entidade: result.rows[0].entidade,
+                site: siteStr,
+                titulo: params.titulo,
+                participacao: params.participacao,
+                callback: function (err, responseStatus) {
+                    if (err) {
+                        console.log('Erro', responseStatus.message);
+                    } else {
+                        console.log('Sucesso', responseStatus.message);
+                    }
+                    smtpTransport.close();
+                }
+            };
+            emailTemplates(global.App.templates, function (err, template) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    template('newparticipation2responsabile', locals2responsabile, function (err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            smtpTransport.sendMail({
+                                from : locals.responsavelemail,
+                                to: locals.email,
+                                subject: locals.subject,
+                                html: html,
+                                text: text
+                            }, locals.callback);
+                        }
+                    });
+                }
+            });
         }
     });
 };
@@ -154,6 +195,44 @@ var rollback = function (client, fn) {
 };
 
 var DXParticipacao = {
+    updateComment: function (params, callback, sessionID, request) {
+        /*
+         { idcomentario: '106', idocorrencia: '19',  comentario: 'Se já estás a dormir, bom proveito',  idestado: '' }
+         */
+        console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+        console.log('updateComment: ', params);
+
+        // special case: the idestado can be empty
+        // we remove it from the params
+        // an additional trigger will fill it with the previous idestado of the ocorrencia
+        if (!(params.idestado && parseInt(params.idestado))) {
+            delete params.idestado;
+            console.log('params.idestado: ' + params.idestado + ' - deleted');
+        }
+
+        var i = 1, id, fields = [], values = [];
+        id = params.idcomentario;
+        delete params.idcomentario;
+        for (var key in params) {
+            fields.push(key + '= $' + i);
+            values.push(params[key]);
+            i = i + 1;
+        }
+        fields.push('datamodificacao = $' + i);
+        values.push('now()');
+
+        var conn = db.connect();
+        conn.query('UPDATE ppgis.comentario SET ' + fields.join() + ' WHERE id = ' + id, values, function (err, resultUpdate) {
+            if (err) {
+                console.log('UPDATE ppgis.ocorrencia', err);
+            } else {
+                db.disconnect(conn);
+                callback({
+                    success: true
+                });
+            }
+        });
+    },
     createComment: function (params, callback, sessionID, request) {
         /*
          { idocorrencia: '19',  comentario: 'Se já estás a dormir, bom proveito',  idestado: '' }
@@ -196,10 +275,15 @@ var DXParticipacao = {
             } else {
                 // var sql = 'SELECT * FROM ppgis.comentario where id = ' + resultInsert.rows[0].id;
                 var sql = '';
-                sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome';
-                sql += ' FROM ppgis.comentario c, public.utilizador u ';
+                sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, u.id as idutilizador, p.idutilizador as idresponsavel, e.estado, e.color';
+                sql += ' FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o, ppgis.plano p';
                 sql += ' where c.id = ' + resultInsert.rows[0].id;
                 sql += ' and c.idutilizador = u.id';
+                sql += ' and c.idestado = e.id';
+                sql += ' and o.idplano = e.idplano';
+                sql += ' and c.idocorrencia = o.id';
+                sql += ' and p.id = o.idplano';
+                console.log(sql);
                 conn.query(sql, function (err, result) {
                     if (err) {
                         console.log('SQL=' + sql + ' Error: ', err);
@@ -239,22 +323,24 @@ var DXParticipacao = {
         var idocorrencia = params;
         var conn = db.connect();
         /*
-         SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, e.estado, e.color
-         FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o
-         where idocorrencia = 1134
+         SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, u.id as idutilizador, p.idutilizador as idresponsavel, e.estado, e.color
+         FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o, ppgis.plano p
+         where idocorrencia = 44
          and c.idutilizador = u.id
          and c.idestado = e.id
          and o.idplano = e.idplano
          and c.idocorrencia = o.id
+         and p.id = o.idplano
          */
         var sql = '';
-        sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, e.estado, e.color';
-        sql += ' FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o';
+        sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, u.id as idutilizador, p.idutilizador as idresponsavel, e.estado, e.color';
+        sql += ' FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o, ppgis.plano p';
         sql += ' where idocorrencia = ' + idocorrencia;
         sql += ' and c.idutilizador = u.id';
         sql += ' and c.idestado = e.id';
         sql += ' and o.idplano = e.idplano';
         sql += ' and c.idocorrencia = o.id';
+        sql += ' and p.id = o.idplano';
 
         conn.query(sql, function (err, result) {
             if (err) {
@@ -276,6 +362,44 @@ var DXParticipacao = {
                             data: result.rows, // toJson(result.rows, resultTotalQuery.rows[0].totals),
                             total: resultTotalQuery.rows[0].totals
                         });
+                    }
+                });
+            }
+        });
+    },
+    destroyComment: function (params, callback, sessionID, request) {
+        console.log('DXParticipacao.destroyComment');
+        console.log(params);
+        var id = params.idcomentario;
+
+        var conn = db.connect();
+        var sql = 'delete FROM ppgis.comentario where id = ' + id;
+        conn.query(sql, function (err, result) {
+            db.disconnect(conn);
+            if (err) {
+                console.log('SQL=' + sql + ' Error: ', err);
+                db.debugError(callback, err);
+            } else {
+                db.disconnect(conn);
+                callback({
+                    success: true,
+                    message: 'Comment removed'
+                });
+                /*
+                 * Atualizar as estatísticas...
+                 */
+                DXParticipacao.numeros({}, function (res) {
+                    console.log('Novas estatísticas calculadas: ');
+                    // console.log(res.data);
+                    if (res.success) {
+                        io.emit('comment-deleted', {
+                            msg: 'Comment deleted',
+                            params: params,
+                            idutilizador: request.session.userid,
+                            numeros: res.data
+                        });
+                    } else {
+                        console.log('Problema GRAVE ao calcular as novas estatísticas. O mundo está perdido.');
                     }
                 });
             }
@@ -744,6 +868,7 @@ var DXParticipacao = {
         var conn = db.connect();
         /*
          SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,
+         (SELECT COUNT(*) FROM ppgis.fotografia f WHERE f.idocorrencia = o.id) AS numfotografias,
          now()-o.datacriacao as haquantotempo, u.fotografia, u.nome
          FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u
          WHERE NOT o.apagado AND o.idplano = 2 and e.id = o.idestado AND e.idplano = o.idplano
@@ -751,6 +876,7 @@ var DXParticipacao = {
          */
 
         var sql = 'SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, proposta, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id) AS numcomentarios,';
+        sql += ' (SELECT COUNT(*) FROM ppgis.fotografia f WHERE f.idocorrencia = o.id) AS numfotografias,';
         sql += ' now()-o.datacriacao as haquantotempo, u.fotografia, u.nome, o.idutilizador';
         sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
         sql += ' WHERE NOT o.apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';

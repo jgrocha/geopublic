@@ -6,8 +6,8 @@ Ext.define('GeoPublic.controller.StartPlano', {
                 'afterrender': this.onStartPlanoAfterRender
             },
             'startplano button#apresentacao': {
-                'mouseover': this.onMouseOverApresentacaoPlano,
-                'mouseout': this.onMouseOutApresentacaoPlano
+                // 'mouseover': this.onMouseOverApresentacaoPlano,
+                // 'mouseout': this.onMouseOutApresentacaoPlano
             }
         }, this);
     },

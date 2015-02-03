@@ -24,12 +24,6 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
         selector: 'contribution fotografiatmp dataview',
         ref: 'dataview' // gera um getDataview
     }, {
-        ref: 'comboplano', // this.getComboplano()
-        selector: 'app-main-map-panel combo#plano'
-    }, {
-        ref: 'mapa',
-        selector: 'app-main-map-panel'
-    }, {
         ref: 'todasDiscussoes',
         selector: 'activity #flow'
     }],
@@ -56,10 +50,18 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
             "contribution form#photos button#remove": {
                 click: this.onButtonRemoverInstantaneo
             },
+            /*
             "discussion tool[type=gear]": {
                 click: this.onEditParticipation
             },
-            "discussion tool[type=close]": {
+             "discussion tool[type=close]": {
+             click: this.onRemoveParticipation
+             },
+            */
+            "discussion toolbar#botoes-participacao button[action=edit-participation]" : {
+                click : this.onEditParticipation
+            },
+            "discussion toolbar#botoes-participacao button[action=delete-participation]": {
                 click: this.onRemoveParticipation
             }
         });
@@ -78,8 +80,8 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
      */
     onCenterFeature: function (tool, e) {
         // console.log(arguments);
-        var ocorrencia = tool.up('panel').idocorrencia;
-        var feature = tool.up('panel').feature;
+        var ocorrencia = tool.up('discussion').idocorrencia;
+        var feature = tool.up('discussion').feature;
         console.log('Contribution.onCenterFeature - Vai centrar na ocorrência ' + ocorrencia);
         if (feature) {
             var mapa = feature.layer.map;
@@ -144,7 +146,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
     },
     onEditParticipation: function (tool, e) {
         //<debug>
-        console.log('Editar a sua participação: ' + tool.up('panel').idocorrencia + ' do utilizador ' + tool.up('panel').idutilizador);
+        console.log('Editar a sua participação: ' + tool.up('discussion').idocorrencia + ' do utilizador ' + tool.up('discussion').idutilizador);
         //</debug>
         var me = this;
         // eventualmente limpar alguma edição anterior
@@ -159,17 +161,17 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
             mapPanel = tool.up('discussao-geografica').down('mapa');
             // centrar na participação, para poder editar a componente geográfica
             me.onCenterFeature(tool, e);
-            featureId = tool.up('panel').feature.id;
-            contributionForm.featureoriginal = tool.up('panel').feature;
+            featureId = tool.up('discussion').feature.id;
+            contributionForm.featureoriginal = tool.up('discussion').feature;
         }
         me.limparFormulario(contribution, mapPanel);
 
         contributionForm.getForm().setValues({
-            idocorrencia: tool.up('panel').idocorrencia,
+            idocorrencia: tool.up('discussion').idocorrencia,
             feature: featureId, // not fid
-            titulo: tool.up('panel').title,
-            idtipoocorrencia: tool.up('panel').idtipoocorrencia,
-            participacao: tool.up('panel').participacao
+            titulo: tool.up('discussion').title,
+            idtipoocorrencia: tool.up('discussion').idtipoocorrencia,
+            participacao: tool.up('discussion').participacao
         });
 
         // Mudar o título do painel...
@@ -183,7 +185,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
         buttonGravar.setText('Update'.translate());
 
         if (activity.geodiscussao) {
-            var f = tool.up('panel').feature;
+            var f = tool.up('discussion').feature;
             // console.log(f);
             // console.log('Vou remover a propriedade fid');
             delete f.fid;
@@ -193,7 +195,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
             contributionCoordinates.setText(novo.lon.toFixed(5) + ' ' + novo.lat.toFixed(5));
         } else {
             var idsec = '#' + activity.up('discussao-regulamento').down('#secretaria').id;
-            var proposta = tool.up('panel').proposta;
+            var proposta = tool.up('discussion').proposta;
             var informacao = activity.up('discussao-regulamento').down('#informacao-lhs');
             if (Ext.isDefined(proposta) && proposta.length > 0) {
                 //<debug>
@@ -215,7 +217,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                 informacao.update('A sua participação anterior não continha nenhuma proposta de redação alternativa. Pode contribuir com uma nova redação, clicando no botão <i>Propor redação</i>, no formulário.');
             }
         }
-        var params = {idocorrencia: tool.up('panel').idocorrencia};
+        var params = {idocorrencia: tool.up('discussion').idocorrencia};
         ExtRemote.DXParticipacao.prepareEditOcorrencia(params, function (result, event) {
             if (result.success) {
                 // console.log('Porreio. As fotos foram copiadas para a tmp.');
@@ -234,8 +236,8 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
         var me = this;
         Ext.Msg.confirm('Attention'.translate(), 'Are you sure you want to delete this participation?'.translate(), function (buttonId, text, opt) {
             if (buttonId == 'yes') {
-                var id = tool.up('panel').idocorrencia;
-                var feature = tool.up('panel').feature;
+                var id = tool.up('discussion').idocorrencia;
+                var feature = tool.up('discussion').feature;
                 var params = {idocorrencia: id};
                 ExtRemote.DXParticipacao.destroyOcorrencia(params, function (result, event) {
                     if (result.success) {

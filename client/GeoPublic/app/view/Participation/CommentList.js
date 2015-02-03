@@ -1,37 +1,64 @@
 Ext.define('GeoPublic.view.Participation.CommentList', {
-	extend : 'Ext.panel.Panel',
-	alias : 'widget.commentlist',
-	frame : false,
-	ui : 'light', // neptune theme
-	collapsible : true,
-	collapsed : true,
-	hideCollapseTool : true,
-	titleCollapse : true,
-	initComponent : function() {
-		this.loaded = false;
-		this.numcomments = this.initialConfig.config.numcomments;
-		this.idocorrencia = this.initialConfig.config.id_ocorrencia;
-		this.idplano = this.initialConfig.config.idplano;
-		this.idpromotor = this.initialConfig.config.idpromotor;
-		this.title = this.numcomments + ' ' + 'comentários'.translate();
+    extend: 'Ext.panel.Panel',
+    requires: ['GeoPublic.view.Participation.CommentForm'],
+    alias: 'widget.commentlist',
+    frame: false,
+    ui: 'light', // neptune theme
+    collapsible: true,
+    collapsed: true,
+    // titleCollapse : true,
+    header: false,
+    hideCollapseTool: true,
+    bodyStyle: 'background-color: #EEEEEE', // cinza claro
+    initComponent: function () {
+        this.loaded = false;
+        this.numcomments = this.initialConfig.config.numcomments;
+        this.idocorrencia = this.initialConfig.config.idocorrencia;
+        this.idplano = this.initialConfig.config.idplano;
+        this.idpromotor = this.initialConfig.config.idpromotor;
+        // this.title = this.numcomments + ' ' + 'comentários'.translate();
 
-		// http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
-		var commenttpl = new Ext.XTemplate(//
-		'<tpl for=".">', //
-		'<p><img src="{fotografia}" align="left" height="32" width="32">', //
-		'<b>{nome}</b> {comentario}<br/><i>{tempo}</i></p>', //
-		'<p>Estado: <span style="color:{color}">{estado}</span></p>', //
-		'</tpl>' //
-		);
-		this.tpl = commenttpl;
-		this.data = [];
-		this.callParent(arguments);
-	},
-	getNumComments: function() {
+        // http://localhost/extjs/docs/index.html#!/api/Ext.XTemplate
+        // http://wenda.baba.io/questions/404061/extjs-component-inside-ext-xtemplate-on-extjs-4.html
+
+        /*
+         var commenttpl = new Ext.XTemplate(//
+         '<tpl for=".">', //
+         '<p><img src="{fotografia}" align="left" height="32" width="32">', //
+         '<b>{nome}</b> {comentario}<br/><i>{tempo}</i></p>', //
+         '<p>Estado: <span style="color:{color}">{estado}</span></p>', //
+         '<p><div class="comment-buttons"></div></p>',
+         '</tpl>' //
+         );
+
+         this.tpl = commenttpl;
+         this.data = [];
+         */
+
+        this.items = [{
+            html: '&nbsp;',
+            height: 1
+        }];
+
+        this.items.push({
+            xtype: 'commentform',
+            hidden: !this.initialConfig.config.showFormComments,
+            config: {
+                idocorrencia: this.idocorrencia,
+                idestado: this.initialConfig.config.idestado,
+                estado: this.initialConfig.config.estado,
+                color: this.initialConfig.config.color,
+                estadoStore: this.initialConfig.config.estadoStore
+            }
+        });
+
+        this.callParent(arguments);
+    },
+    getNumComments: function () {
         return this.numcomments;
     },
-	setNumComments: function(x) {
-		this.numcomments = x;
+    setNumComments: function (x) {
+        this.numcomments = x;
         return this.numcomments;
     }
 });

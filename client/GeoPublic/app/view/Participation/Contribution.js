@@ -176,7 +176,8 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                     xtype : 'button',
                     itemId : 'limpar',
                     // formBind : true,
-                    text : 'Limpar'
+                    glyph: 0xf12d,
+                    text : 'Clear'.translate()
                 }, {
                     xtype : 'button',
                     itemId : 'gravar',

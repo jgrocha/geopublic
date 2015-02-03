@@ -66,7 +66,7 @@ Ext.define('GeoPublic.view.StartPlano', {
                 textAlign: 'right',
                 xtype: 'button',
                 itemId: 'apresentacao',
-                text: '',
+                text: 'Introduction'.translate(),
                 scale: 'medium'
             }]
         }];

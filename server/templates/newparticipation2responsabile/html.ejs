@@ -1,0 +1,26 @@
+<h3><%= saudacao %> <%= responsavel %>,</h3>
+
+<p>
+    Foi registada uma nova participação na discussão do plano <b><%= plano %></b>, promovido pela <b><%= entidade %></b>.
+</p>
+
+<p>
+A boa receção desta mensagem indica que a participação foi registada com sucesso.
+</p>
+
+<table border="0">
+    <tr><td>Título</td><td><%= titulo %></td></tr>
+    <tr><td>Descrição</td><td><%= participacao %></td></tr>
+    <tr><td>Autor</td><td><%= name %></td></tr>
+</table>
+
+<p>
+    Recebeu esta mensagem através do email <a href="mailto:<%= responsavelemail %>"><%= responsavelemail %></a> por constar como responsável por esta discussão.
+</p>
+
+<p>
+    O autor também foi notificado por email.
+</p>
+
+
+<p>Boa trabalho!</p>

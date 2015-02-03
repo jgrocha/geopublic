@@ -45,7 +45,7 @@ Ext.define('GeoPublic.view.StartPlanoDescricao', {
                 textAlign: 'right',
                 xtype: 'button',
                 itemId: 'regras',
-                text: '',
+                text: 'Participation rules'.translate(),
                 scale: 'medium'
             }]
         }];

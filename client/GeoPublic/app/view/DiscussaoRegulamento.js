@@ -3,6 +3,7 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
     requires : ['GeoPublic.view.Participation.ActivityNew', 'GeoPublic.store.Ocorrencia', 'GeoPublic.store.Participation.EstadoCombo'],
     alias: 'widget.discussao-regulamento',
     layout: 'border',
+    glyph: 0xf0f6,
     closable: true,
     // title: 'Regime Jurídico da Urbanização e Edificação',
     // style : 'padding:5px',
@@ -85,7 +86,7 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
             region: 'east',
             // collapsible : false,
             split: true,
-            width: 400,
+            width: 420,
             config : {
                 idplano : this.initialConfig.idplano,
                 idpromotor : this.initialConfig.idpromotor,

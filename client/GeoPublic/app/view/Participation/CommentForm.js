@@ -6,13 +6,19 @@ Ext.define('GeoPublic.view.Participation.CommentForm', {
 	api : {
 		submit : 'ExtRemote.DXParticipacao.createComment'
 	},
+    bodyStyle: 'background-color: #FFF6D2', // amarelo claro
+    style: 'border-top: 1px solid #FFE066', // amarelo mais escuro
 	initComponent : function() {
 		this.items = [{
-			xtype : 'hiddenfield',
-			name : 'idocorrencia',
-			value : this.initialConfig.config.idocorrencia
-		}, {
+            xtype : 'hiddenfield',
+            name : 'idocorrencia',
+            value : this.initialConfig.config.idocorrencia
+        }, {
+            xtype : 'hiddenfield',
+            name : 'idcomentario' // para editar
+        }, {
 			xtype : 'textareafield',
+            margin: '10 10 10 42',
 			grow : true,
 			name : 'comentario',
 			emptyText : 'O seu comentário...',
@@ -24,6 +30,8 @@ Ext.define('GeoPublic.view.Participation.CommentForm', {
 			// afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>'
 		}];
 		this.dockedItems = [{
+            style: 'background-color: #FFF6D2;',
+            padding: '0 0 6 42',
 			xtype : 'toolbar',
 			// flex : 1,
 			dock : 'bottom',
@@ -36,20 +44,21 @@ Ext.define('GeoPublic.view.Participation.CommentForm', {
 				xtype : 'combo',
 				// itemId : 'estado',
 				name : 'idestado', // o que é submetido no form...
-				width : 220,
+				width : 140,
 				editable : false,
 				valueField : 'id',
+                value: this.initialConfig.config.idestado,
 				displayField : 'estado',
 				emptyText : 'Novo estado...',
 				forceSelection : true,
 				triggerAction : 'all',
 				store : this.initialConfig.config.estadoStore,
 				queryMode : 'local',
-				labelStyle: 'color:' + this.initialConfig.config.color, // saber esta cor...
-				labelAlign: 'top',
-				fieldLabel: 'Estado: ' + this.initialConfig.config.estado,
-				labelWidth: 96,
-				labelSeparator: '',
+				// labelStyle: 'color:' + this.initialConfig.config.color, // saber esta cor...
+				// labelAlign: 'top',
+				// fieldLabel: 'Estado: ' + this.initialConfig.config.estado,
+				// labelWidth: 96,
+				// labelSeparator: '',
 				listConfig: {
 					getInnerTpl: function() {
 						return '<div data-qtip="{significado}">{estado}</div>';
@@ -58,11 +67,18 @@ Ext.define('GeoPublic.view.Participation.CommentForm', {
 			}, {
 				xtype : 'tbfill'
 			}, {
+                xtype : 'button',
+                itemId : 'limpar',
+                // formBind : true,
+                glyph: 0xf12d,
+                text : 'Clear'.translate()
+            }, {
 				xtype : 'button',
 				itemId : 'gravar',
+                action: 'save', // 'update'
 				formBind : true,
 				icon : 'resources/assets/pencil.png',
-				text : 'Comentar'
+				text : 'Comment'.translate()
 			}]
 		}];
 		this.callParent(arguments);

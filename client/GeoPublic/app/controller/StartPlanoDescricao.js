@@ -3,8 +3,8 @@ Ext.define('GeoPublic.controller.StartPlanoDescricao', {
     init: function () {
         this.control({
             'startplanodescricao button#regras': {
-                'mouseover': this.onMouseOverRegrasParticipacao,
-                'mouseout': this.onMouseOutRegrasParticipacao
+                // 'mouseover': this.onMouseOverRegrasParticipacao,
+                // 'mouseout': this.onMouseOutRegrasParticipacao
             }
         }, this);
     },
