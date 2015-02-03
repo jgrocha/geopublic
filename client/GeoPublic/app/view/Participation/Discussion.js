@@ -146,6 +146,8 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
                 items: [{
                     xtype: 'image',
                     margin: '10 10 0 10',
+                    width: 32,
+                    height: 32,
                     src: this.initialConfig.fotografia
                 }, {
                     xtype: 'panel',
@@ -174,6 +176,8 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
                 items: [{
                     xtype: 'image',
                     margin: '10 10 0 10',
+                    width: 32,
+                    height: 32,
                     src: this.initialConfig.fotografia
                 }, {
                     xtype: 'panel',
