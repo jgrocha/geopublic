@@ -1,7 +1,6 @@
 {
   "ServerConfig": {
-    "_port": 80,
-    "port": 3003,
+    "port": 80,
     "logger": "dev",
     "enableUpload": true,
     "enableCompression": true,
@@ -15,9 +14,8 @@
     "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
     "AccessControlAllowCredentials": true,
     "AccessControlMaxAge": 3600,
-    "url": "http://localhost",
-    "_url": "http://euparticipo.cm-agueda.pt",
-    "_url": "http://ppgis.cm-agueda.geomaster.pt",
+    "_url": "http://localhost",
+    "url": "http://euparticipo.cm-agueda.pt",
     "url_doc": "if ServerConfig.url is undefined, the request.headers.host is used. Don't use / at end"
   },
   "ExtDirectConfig": {
@@ -29,11 +27,9 @@
     "_classPath": "folder with classes /direct",
     "classPrefix": "DX",
     "server": "localhost",
-    "_server": "10.15.5.233",
-    "_server": "ppgis.cm-agueda.geomaster.pt",
-    "_server": "euparticipo.cm-agueda.pt",
-    "_port": "80",
-    "port": "3003",
+    "server": "euparticipo.cm-agueda.pt",
+    "port": "80",
+    "_port": "3003",
     "protocol": "http",
     "relativeUrl": true,
     "relativeUrl_doc": "If true, the host name is not used",
