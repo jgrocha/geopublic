@@ -83,7 +83,7 @@ var enviarEmailParticipation = function (params) {
             });
             // Email ao responsável
             var locals2responsabile = {
-                email: result.rows[0].responsavelemail,
+                email: result.rows[0].email,
                 subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
                 saudacao: result.rows[0].masculino ? 'Caro' : 'Cara',
                 name: result.rows[0].nome,
@@ -113,11 +113,11 @@ var enviarEmailParticipation = function (params) {
                         } else {
                             smtpTransport.sendMail({
                                 from: locals.responsavelemail,
-                                to: locals.email,
+                                to: locals.responsavelemail,
                                 subject: locals.subject,
                                 html: html,
                                 text: text
-                            }, locals.callback);
+                            }, locals2responsabile.callback);
                         }
                     });
                 }

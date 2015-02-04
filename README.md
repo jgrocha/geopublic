@@ -25,7 +25,6 @@ Use the instance name, p.e. ppgis.
 
 ```bash
 echo "127.0.0.1 instance-ppgis" | sudo tee -a /etc/hosts
-echo "178.239.183.17 euparticipo.cm-agueda.pt" | sudo tee -a /etc/hosts
 sudo apt-get update
 sudo apt-get -y upgrade
 
@@ -107,8 +106,11 @@ Use *euparticipo.cm-agueda.pt* for the system mail name.
 ```bash
 sudo apt-get install postfix
 sudo hostname euparticipo.cm-agueda.pt
+echo "127.0.0.1 euparticipo.cm-agueda.pt" | sudo tee -a /etc/hosts
 sudo postfix reload
 ```
+
+Note: `inet_protocols = ipv4` might be necessary in /etc/main.cf
 
 #### Installing node.js
 
