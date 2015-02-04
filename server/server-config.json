@@ -16,7 +16,7 @@
     "AccessControlMaxAge": 3600,
     "url": "http://localhost",
     "url_doc": "if ServerConfig.url is undefined, the request.headers.host is used. Don't use / at end",
-    "maxparticipation": 25
+    "maxparticipation": 2000
   },
   "ExtDirectConfig": {
     "namespace": "ExtRemote",
@@ -27,7 +27,6 @@
     "_classPath": "folder with classes /direct",
     "classPrefix": "DX",
     "server": "localhost",
-    "_server": "euparticipo.cm-agueda.pt",
     "port": 3003,
     "protocol": "http",
     "relativeUrl": true,

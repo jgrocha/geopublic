@@ -111,55 +111,67 @@ Ext.define('GeoPublic.Application', {
         // comment-updated
         // comment-deleted
         socket.on('comment-created', function(data) {
+            //<debug>
             console.log('comment-created: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newComment', data);
             // Ext.example.msg('No comentário recebido', data.params.comentario);
-            Ext.example.msg('Novo comentário', 'Novo comentário registado');
+            Ext.example.msg('New comment'.translate(), 'New comment was submitted'.translate());
         });
         socket.on('comment-updated', function(data) {
+            //<debug>
             console.log('comment-updated: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newComment', data);
             // Ext.example.msg('No comentário recebido', data.params.comentario);
-            Ext.example.msg('Comentário atualizado', 'Um comentário foi alterado');
+            Ext.example.msg('Comment updated'.translate(), 'A comment was updated'.translate());
         });
         socket.on('comment-deleted', function(data) {
+            //<debug>
             console.log('comment-deleted: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newComment', data);
             // Ext.example.msg('No comentário recebido', data.params.comentario);
-            Ext.example.msg('Comentário eliminado', 'Um comentário foi eliminado');
+            Ext.example.msg('Comment deleted'.translate(), 'A comment was deleted'.translate());
         });
         // participation-created
         // participation-updated
         // participation-deleted
         socket.on('participation-created', function(data) {
+            //<debug>
             console.log('participation-created: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newParticipation', data);
             // Ext.example.msg('Nova participação recebida', data.params.participacao);
-            Ext.example.msg('Nova participação', 'Nova participação registada');
+            Ext.example.msg('New participation'.translate(), 'New participation was submitted'.translate());
         });
         socket.on('participation-updated', function(data) {
+            //<debug>
             console.log('participation-updated: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newParticipation', data);
             // Ext.example.msg('Nova participação recebida', data.params.participacao);
-            Ext.example.msg('Participação atualizada', 'Uma participação foi alterada');
+            Ext.example.msg('Participation updated'.translate(), 'A participation was updated'.translate());
         });
         socket.on('participation-deleted', function(data) {
+            //<debug>
             console.log('participation-deleted: ', data);
+            //</debug>
             // Recebe novas estatísticas
             // despoleta um evento fireEvent(data.numeros) para o controlador startpanel
             me.fireEvent('newParticipation', data);
             // Ext.example.msg('Nova participação recebida', data.params.participacao);
-            Ext.example.msg('Participação eliminada', 'Uma participação foi removida');
+            Ext.example.msg('Participation deleted'.translate(), 'A participation was deleted'.translate());
         });
 	},
 	launch : function() {

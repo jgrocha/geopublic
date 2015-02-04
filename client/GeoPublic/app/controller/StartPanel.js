@@ -26,7 +26,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
         ref: 'planPresentationBar' // gera um getPlanPresentationBar
     }],
     init: function () {
-        console.log('O controlador GeoPublic.controller.BemVindoPanel init...');
         this.getPromotorComboStore().on({
             scope: this,
             load: this.onPromotorComboStoreLoad
@@ -114,20 +113,22 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
 
     onNewComment: function (data) {
+        //<debug>
         console.log('onNewComment');
         console.log(arguments);
+        //</debug>
         var pcomments = this.getCircleBar().down('container#commentscircle');
         pcomments.update(data.numeros.comments + ' Comentários');
     },
     onNewParticipation: function (data) {
+        //<debug>
         console.log('Participation numbers have changed (more or less participations)');
         // console.log(arguments);
+        //</debug>
         var pparticipations = this.getCircleBar().down('container#participationscircle');
         pparticipations.update(data.numeros.participations + ' Participações');
     },
     onMostraRegras: function (button, e, options) {
-        console.log('onMostraRegras');
-
         var p = this.getReadyBar();
         // p.setVisible(true);
 
@@ -143,7 +144,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
 
     },
     onMostraApresentacaoPlano: function (button, e, options) {
-        console.log('onMostraApresentacaoPlano');
         var startplano = button.up('startplano');
         this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta);
         // esconde a #readybar, se visível
@@ -233,8 +233,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
         this.getStartPanel().body.scroll('top', pos, true);
     },
     onClickPlano: function (promoterPanel) {
-        console.log('onClickPlano');
-        // console.log(arguments);
         // Calma!
         // Tem que sincronizar com as combos do MapPanel
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
@@ -263,8 +261,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
     /* deprecated :-) */
     onPromotorClick: function (button, e, options) {
-        console.log('onPromotorClick');
-        // Calma!
         // Tem que sincronizar com as combos do MapPanel
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
         var p = button.up('startpanel').down('#planbar');
@@ -285,8 +281,6 @@ Ext.define('GeoPublic.controller.StartPanel', {
 
     showPlanos: function (store, records) {
         var me = this;
-        console.log('showPlanos @ GeoPublic.controller.StartPanel');
-
         var bar = me.getPlanBar();
         bar.removeAll(true);
 
@@ -416,7 +410,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 me.getPainelPrincipal().setActiveTab(sepTabIndex);
             }
         } else {
-            console.log('Faltam os detalhes do plano');
+            console.log('Plan details missing');
         }
     },
     onStartPanelRender: function (panel) {

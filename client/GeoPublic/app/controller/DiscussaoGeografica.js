@@ -30,8 +30,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         // o scope passado é o do painel
         // this === panel
         var me = this;
-        console.log(this);
-
+        // console.log(this);
         var start = 0;
         var total = records.length;
         var limit = total <= 10 ? total : 10;

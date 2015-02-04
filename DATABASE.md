@@ -11,8 +11,6 @@ File: geopublic.sql
 ```
 ALTER TABLE ppgis.ocorrencia ALTER COLUMN participacao TYPE text;
 ALTER TABLE ppgis.comentario ALTER COLUMN comentario TYPE text;
-
-
 ```
 
 ### Last motifications

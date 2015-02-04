@@ -25,13 +25,19 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 		 */
 	},
 	onFotografiaBeforeRender: function (panel, options) {
+        //<debug>
 		console.log('onFotografiaBeforeRender');
+        //</debug>
 	},
 	onFotografiaAfterRender: function (panel, options) {
+        //<debug>
 		console.log('onFotografiaAfterRender');
+        //</debug>
 	},
 	onFotografiaBeforeActivate: function (panel, options) {
+        //<debug>
 		console.log('onFotografiaBeforeActivate');
+        //</debug>
 	},
 	onFotografiaItemClick : function(dview, record, item, index, e, eOpts) {
 		// console.log(arguments);

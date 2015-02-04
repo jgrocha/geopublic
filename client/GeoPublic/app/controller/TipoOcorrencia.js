@@ -111,11 +111,9 @@ Ext.define('GeoPublic.controller.TipoOcorrencia', {
 				msg : 'The data encountered a load error, please try again in a few minutes.'
 			});
 		} else {
+            //<debug>
 			console.log(records.length + ' registos foram devolvidos');
+            //</debug>
 		}
-	},
-	onLaunch : function() {
-		var me = this;
-		console.log('...O controlador GeoPublic.controller.TipoOcorrencia arrancou.');
 	}
 });

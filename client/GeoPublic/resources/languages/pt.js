@@ -74,8 +74,41 @@ GeoPublic.Translation = [{
     "id": 'View proposal',
     "translation": "Redação proposta"
 }, {
+    "id": 'New comment',
+    "translation": "Novo comentário"
+}, {
+    "id": 'New comment was submitted',
+    "translation": "Novo comentário registado"
+}, {
+    "id": 'Comment updated',
+    "translation": "Comentário atualizado"
+}, {
+    "id": 'A comment was updated',
+    "translation": "Um comentário foi alterado"
+}, {
+    "id": 'Comment deleted',
+    "translation": "Comentário eliminado"
+}, {
+    "id": 'A comment was deleted',
+    "translation": "Um comentário foi eliminado"
+}, {
     "id": 'New participation',
     "translation": "Nova participação"
+}, {
+    "id": 'New participation was submitted',
+    "translation": "Nova participação registada"
+}, {
+    "id": 'Participation updated',
+    "translation": "Participação atualizada"
+}, {
+    "id": 'A participation was updated',
+    "translation": "Uma participação foi alterada"
+}, {
+    "id": 'Participation deleted',
+    "translation": "Participação eliminada"
+}, {
+    "id": 'A participation was deleted',
+    "translation": "Uma participação foi removida"
 }, {
     "id": 'Participate',
     "translation": "Participe"
@@ -107,6 +140,9 @@ GeoPublic.Translation = [{
     "id": 'Changes were successfully saved',
     "translation": "As alterações foram gravadas"
 }, {
+    "id": 'You need to authenticate to participate',
+    "translation": "Para participar, tem que ter iniciar sessão"
+},{
     "id": 'You need to choose a plan to participate',
     "translation": "Para participar, tem que ter um plano selecionado"
 }, {
@@ -136,6 +172,9 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Error deleting comment',
     "translation": "Erro a eliminar comentário"
+},{
+    "id": 'Error updating comment',
+    "translation": "Erro ao atualizar comentário"
 }, {
     "id": 'Error deleting participation',
     "translation": "Erro a eliminar participação"
