@@ -35,6 +35,15 @@ var transport = nodemailer.createTransport("SMTP", {
 if (ServerConfig.url) {
 	global.App.url = ServerConfig.url;
 }
+
+if (ServerConfig.maxparticipation) {
+    global.App.maxparticipation = ServerConfig.maxparticipation;
+} else {
+    global.App.maxparticipation = 1000;
+}
+
+console.log(global.App.maxparticipation);
+
 // 'http://cm-agueda.geomaster.pt/ppgis/';
 global.App.from = 'ppgis@geomaster.pt';
 global.App.transport = transport;

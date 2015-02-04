@@ -25,6 +25,7 @@ Use the instance name, p.e. ppgis.
 
 ```bash
 echo "127.0.0.1 instance-ppgis" | sudo tee -a /etc/hosts
+echo "178.239.183.17 euparticipo.cm-agueda.pt" | sudo tee -a /etc/hosts
 sudo apt-get update
 sudo apt-get -y upgrade
 
@@ -105,6 +106,8 @@ Use *euparticipo.cm-agueda.pt* for the system mail name.
 
 ```bash
 sudo apt-get install postfix
+sudo hostname euparticipo.cm-agueda.pt
+sudo postfix reload
 ```
 
 #### Installing node.js
@@ -114,6 +117,7 @@ sudo apt-add-repository -y ppa:chris-lea/node.js
 sudo apt-get -y update
 sudo apt-get -y install nodejs
 sudo npm install -g forever
+sudo npm install -g forever-service
 sudo chown -R $USER:$USER ~/.npm
 ```
 
@@ -123,6 +127,8 @@ sudo chown -R $USER:$USER ~/.npm
 mkdir public_html
 cd public_html/
 svn checkout https://github.com/jgrocha/geopublic/trunk/server .
+sudo sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
+sudo sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p uploads
@@ -156,39 +162,49 @@ On the server side, under `public_html/public`:
 
     Contains static resources used by the application, like icons, etc.
 
-#### Start the application
+#### Create the service for the application
 
 ```bash
 cd ~/public_html/
-sudo NODE_ENV=production forever start server.js
+sudo forever-service install -e "NODE_ENV=production" ppgis --script server.js
 ```
 
-sudo is necessary to run the application on port 80.
+Commands to interact with service ppgis:
+Start   - "sudo start ppgis"
+Stop    - "sudo stop ppgis"
+Status  - "sudo status ppgis"
+Restart - "sudo restart ppgis"
+
+#### Start the application
+
+```bash
+sudo start ppgis
+```
 
 #### Monitoring the application
 
 ```bash
 cd ~/public_html
-sudo forever logs
+sudo forever list
 tail -f <log file>
 ```
 
 #### Stop the application
 
 ```bash
-cd public_html
-sudo forever stop server.js
+sudo stop ppgis
 ```
 
 #### Update application
 
 ```bash
 cd public_html
-sudo forever stop server.js
+sudo stop ppgis
+rm -rf .svn public/.svn
 svn checkout https://github.com/jgrocha/geopublic/trunk/server .
+sudo sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
+sudo sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
-sudo NODE_ENV=production forever start server.js
+sudo start ppgis
 ```
-
-

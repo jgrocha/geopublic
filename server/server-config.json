@@ -1,6 +1,6 @@
 {
   "ServerConfig": {
-    "port": 80,
+    "port": 3003,
     "logger": "dev",
     "enableUpload": true,
     "enableCompression": true,
@@ -14,9 +14,9 @@
     "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
     "AccessControlAllowCredentials": true,
     "AccessControlMaxAge": 3600,
-    "_url": "http://localhost",
-    "url": "http://euparticipo.cm-agueda.pt",
-    "url_doc": "if ServerConfig.url is undefined, the request.headers.host is used. Don't use / at end"
+    "url": "http://localhost",
+    "url_doc": "if ServerConfig.url is undefined, the request.headers.host is used. Don't use / at end",
+    "maxparticipation": 25
   },
   "ExtDirectConfig": {
     "namespace": "ExtRemote",
@@ -27,9 +27,8 @@
     "_classPath": "folder with classes /direct",
     "classPrefix": "DX",
     "server": "localhost",
-    "server": "euparticipo.cm-agueda.pt",
-    "port": "80",
-    "_port": "3003",
+    "_server": "euparticipo.cm-agueda.pt",
+    "port": 3003,
     "protocol": "http",
     "relativeUrl": true,
     "relativeUrl_doc": "If true, the host name is not used",

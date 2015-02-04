@@ -3,6 +3,8 @@ var io = global.App.io;
 var mkdirp = require('mkdirp');
 var smtpTransport = global.App.transport;
 var emailTemplates = require('email-templates');
+var maxparticipation = global.App.maxparticipation;
+// var maxparticipation = 10;
 
 var enviarEmailParticipation = function (params) {
     /*
@@ -69,7 +71,7 @@ var enviarEmailParticipation = function (params) {
                             console.log(err);
                         } else {
                             smtpTransport.sendMail({
-                                from : locals.responsavelemail,
+                                from: locals.responsavelemail,
                                 to: locals.email,
                                 subject: locals.subject,
                                 html: html,
@@ -110,7 +112,7 @@ var enviarEmailParticipation = function (params) {
                             console.log(err);
                         } else {
                             smtpTransport.sendMail({
-                                from : locals.responsavelemail,
+                                from: locals.responsavelemail,
                                 to: locals.email,
                                 subject: locals.subject,
                                 html: html,
@@ -201,6 +203,7 @@ var DXParticipacao = {
          */
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log('updateComment: ', params);
+        console.log('maxparticipation: ', maxparticipation);
 
         // special case: the idestado can be empty
         // we remove it from the params
@@ -209,13 +212,16 @@ var DXParticipacao = {
             delete params.idestado;
             console.log('params.idestado: ' + params.idestado + ' - deleted');
         }
-
         var i = 1, id, fields = [], values = [];
         id = params.idcomentario;
         delete params.idcomentario;
         for (var key in params) {
             fields.push(key + '= $' + i);
-            values.push(params[key]);
+            if (key === 'comentario') {
+                values.push(params[key].substr(0, maxparticipation));
+            } else {
+                values.push(params[key]);
+            }
             i = i + 1;
         }
         fields.push('datamodificacao = $' + i);
@@ -226,9 +232,28 @@ var DXParticipacao = {
             if (err) {
                 console.log('UPDATE ppgis.ocorrencia', err);
             } else {
-                db.disconnect(conn);
-                callback({
-                    success: true
+                var sql = '';
+                sql += 'SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, u.id as idutilizador, p.idutilizador as idresponsavel, e.estado, e.color';
+                sql += ' FROM ppgis.comentario c, public.utilizador u, ppgis.estado e, ppgis.ocorrencia o, ppgis.plano p';
+                sql += ' where c.id = ' + id;
+                sql += ' and c.idutilizador = u.id';
+                sql += ' and c.idestado = e.id';
+                sql += ' and o.idplano = e.idplano';
+                sql += ' and c.idocorrencia = o.id';
+                sql += ' and p.id = o.idplano';
+                console.log(sql);
+                conn.query(sql, function (err, result) {
+                    if (err) {
+                        console.log('SQL=' + sql + ' Error: ', err);
+                        db.debugError(callback, err);
+                    } else {
+                        db.disconnect(conn);
+                        callback({
+                            success: true,
+                            data: result.rows, // toJson(result.rows, resultTotalQuery.rows[0].totals),
+                            total: result.rows.length
+                        });
+                    }
                 });
             }
         });
@@ -251,6 +276,11 @@ var DXParticipacao = {
         for (var key in params) {
             switch (key) {
                 case "id":
+                    break;
+                case "comentario":
+                    // truncar a 2000 characters
+                    fields.push(key);
+                    values.push(params[key].substr(0,maxparticipation));
                     break;
                 default:
                     fields.push(key);
@@ -617,7 +647,11 @@ var DXParticipacao = {
                 }
             } else {
                 fields.push(key + '= $' + i);
-                values.push(params[key]);
+                if (key === 'participacao') {
+                    values.push(params[key].substr(0, maxparticipation));
+                } else {
+                    values.push(params[key]);
+                }
             }
             i = i + 1;
         }
@@ -747,6 +781,11 @@ var DXParticipacao = {
             switch (key) {
                 case "idocorrencia":
                     break;
+                case "participacao":
+                    // truncar a 2000 characters
+                    fields.push(key);
+                    values.push(params[key].substr(0,maxparticipation));
+                    break;
                 /*
                  case "geojson":
                  fields.push('the_geom');
@@ -809,9 +848,9 @@ var DXParticipacao = {
                                 dataphoto: result2Insert
                             });
                             /*
-                            * Notify users by email
-                            *
-                            * createOcorrencia:  { titulo: 'Notificação 1',
+                             * Notify users by email
+                             *
+                             * createOcorrencia:  { titulo: 'Notificação 1',
                              participacao: 'nihao tong shue',
                              idplano: 29,
                              idestado: 1,

@@ -441,14 +441,15 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
         var d = button.up('discussion');
         var activity = d.up('activitynew');
         var fc = button.up('form').getForm();
-        var comentar = button.up('form').down('button#gravar');
-        comentar.action = 'save'; // 'update'
+        var buttonGravar = button.up('form').down('button#gravar');
+        buttonGravar.setText('Comment'.translate());
+        buttonGravar.action = 'save'; // 'update'
         // var params = fc.getValues(false, false, false, false);
         var comboBox = button.up('form').down('combo');
         // Por o valor relativo ao estado da ocorrencia
         comboBox.setValue(d.idestado);
         fc.findField('comentario').setValue('');
-
+        // truque para saber que painel de comentário está a ser editado
         var commentForm = button.up('commentform');
         delete commentForm.commentToEdit;
     },
@@ -541,6 +542,11 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                         // Abre os comentários
                         p.expand(true);
                     }
+                    // TODO
+                    // Há algumas coisas a serem feitas em repetido,
+                    // que podem ser tiradas desde onButtonGravarComentario
+                    // pois estão no onButtonLimparFormComentario
+                    me.onButtonLimparFormComentario(button, e, options);
                 } else {
                     Ext.Msg.alert('Erro', 'Ocorreu um erro ao registar o seu comentário.');
                 }
@@ -594,11 +600,15 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                         console.log('Aproveitar estado guardado: ', d.color, d.estado);
                     }
                     var commentForm = button.up('commentform');
-                    var commenthtml = '<b>' + commentForm.commentToEdit.nome + '</b> - <i>' + tempo + '</i><br/>' + params.comentario;
+                    var commenthtml = '<b>' + commentForm.commentToEdit.nome + '</b> - <i>' + tempo + '</i><br/>' + result.data[0].comentario;
                     commentForm.commentToEdit.down('#comment-body').update(commenthtml);
-                    commentForm.commentToEdit.comentario = params.comentario;
+                    // se voltar a editar...
+                    commentForm.commentToEdit.comentario = result.data[0].comentario;
                     delete commentForm.commentToEdit;
                     comentar.action = 'save'; // 'update'
+                    // TODO
+                    // algumas coisas podem ser eliminadas, pois o LimparFormComentario já faz...
+                    me.onButtonLimparFormComentario(button, e, options);
                 } else {
                     Ext.Msg.alert('Erro', 'Ocorreu um erro ao alterar o seu comentário.');
                 }

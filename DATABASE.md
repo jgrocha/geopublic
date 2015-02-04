@@ -6,6 +6,15 @@
 
 File: geopublic.sql 
 
+### Participation text now limited to 255 characters #26
+
+```
+ALTER TABLE ppgis.ocorrencia ALTER COLUMN participacao TYPE text;
+ALTER TABLE ppgis.comentario ALTER COLUMN comentario TYPE text;
+
+
+```
+
 ### Last motifications
 
 ```
