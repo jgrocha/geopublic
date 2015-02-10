@@ -9,7 +9,7 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 	init : function() {
 		this.control({
 			"discussion fotografia dataview" : {
-				itemclick : this.onFotografiaItemClick
+				// itemclick : this.onFotografiaItemClick
 			},
 			'fotografia': {
 				'beforerender': this.onFotografiaBeforeRender,

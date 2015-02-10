@@ -110,7 +110,7 @@ echo "127.0.0.1 euparticipo.cm-agueda.pt" | sudo tee -a /etc/hosts
 sudo postfix reload
 ```
 
-Note: `inet_protocols = ipv4` might be necessary in /etc/main.cf
+Note (TODO): `inet_protocols = ipv4` might be necessary in /etc/main.cf.
 
 #### Installing node.js
 
