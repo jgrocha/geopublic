@@ -57,7 +57,8 @@ Ext.define('GeoPublic.view.StartPlano', {
             region: 'south',
             height: 48,
             layout: {
-                type: 'hbox',pack: 'end',
+                type: 'hbox',
+                pack: 'end',
                 align: 'stretch'
             },
             items: [{

@@ -1,6 +1,33 @@
 GeoPublic.Translation = [{
-    "id": 'INSTITUTION',
-    "translation": "Câmara Municipal de Águeda"
+    "id": 'Choose photo',
+    "translation": "Escolher fotografia"
+}, {
+    "id": 'Current password',
+    "translation": "Senha atual"
+}, {
+    "id": 'Enter your current password',
+    "translation": "Introduza a senha atual"
+}, {
+    "id": 'New password',
+    "translation": "Nova senha"
+}, {
+    "id": 'Enter a new password',
+    "translation": "Introduza a nova senha"
+}, {
+    "id": 'Repeat new password',
+    "translation": "Repetir nova senha"
+}, {
+    "id": 'Repeat the new password',
+    "translation": "Repita a nova senha para confirmar"
+}, {
+    "id": 'Photograph',
+    "translation": "Fotografia"
+}, {
+    "id": 'Personal data',
+    "translation": "Dados pessoais"
+}, {
+    "id": 'Identification',
+    "translation": "Identificação"
 }, {
     "id": 'Have Your Say',
     "translation": "Participação Pública"
@@ -15,7 +42,7 @@ GeoPublic.Translation = [{
     "translation": "Últimos acessos"
 }, {
     "id": 'Profile',
-    "translation": "Dados pessoais"
+    "translation": "Perfil"
 }, {
     "id": 'Logout',
     "translation": "Sair"

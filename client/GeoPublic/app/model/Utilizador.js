@@ -50,7 +50,7 @@ Ext.define('GeoPublic.model.Utilizador', {
 		persist : false
 	}, {
 		name : 'masculino',
-		type : 'boolean',
+		type : 'auto', // 'boolean', // importante para não converter null para falso
 		persist : false
 	}, {
 		name : 'pessoacoletiva',

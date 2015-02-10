@@ -30,7 +30,7 @@ Ext.define('GeoPublic.view.Avatar', {
 		msgTarget : 'side',
 		allowBlank : true,
 		anchor : '40%',
-		buttonText : 'Fotografia...',
+		buttonText : 'Choose photo'.translate(),
 		buttonOnly : true
 	}] /*,
 	bbar : [{
@@ -60,36 +60,36 @@ Ext.define('GeoPublic.view.ChangePassword', {
 		inputType : 'password',
 		name : 'oldpassword',
 		itemId : 'oldpassword',
-		fieldLabel : 'Senha atual',
+		fieldLabel : 'Current password'.translate(),
 		enableKeyEvents : true,
 		maxLength : 15,
 		allowBlank : false,
-		tooltip : 'Introduza a senha atual',
+		tooltip : 'Enter your current password'.translate(),
 		disabled : true
 	}, {
 		// http://stackoverflow.com/questions/9704913/confirm-password-validator-extjs-4
 		inputType : 'password',
 		name : 'password',
 		itemId : 'password',
-		fieldLabel : 'Nova senha',
+		fieldLabel : 'New password'.translate(),
 		enableKeyEvents : true,
 		maxLength : 15,
 		allowBlank : false,
-		tooltip : 'Escolha uma senha'
+		tooltip : 'Enter a new password'.translate()
 	}, {
 		inputType : 'password',
 		name : 'password2x',
 		vtype : 'password', // para validar
-		fieldLabel : 'Repetir senha',
+		fieldLabel : 'Repeat new password'.translate(),
 		enableKeyEvents : true,
 		maxLength : 15,
 		allowBlank : false,
-		tooltip : 'Repita a senha escolhida para confirmar'
+		tooltip : 'Repeat the new password'.translate()
 	}],
 	bbar : [{
 		xtype : 'button',
 		itemId : 'alterar',
-		text : 'Alterar'
+		text : 'Update'.translate()
 	}]
 });
 
@@ -130,21 +130,21 @@ Ext.define('GeoPublic.view.Users.Profile', {
 	extend : 'Ext.panel.Panel',
 	// com vários forms dentro
 	alias : 'widget.profile',
-	title : 'Profile',
+	title : 'Profile'.translate(),
 	requires : ['Ext.form.action.DirectLoad', 'Ext.form.action.DirectSubmit'],
 	bodyPadding : 5,
 	autoScroll : true,
 	items : [{
 		xtype : 'avatar',
-		title : 'Fotografia'
+		title : 'Photograph'.translate()
 	}, {
 		xtype : 'form',
 		itemId : 'dados',
 		trackResetOnLoad : true, // saber que fields estão dirty
-		title : 'Dados',
+		title : 'Personal data'.translate(),
 		items : [{
 			xtype : 'fieldset',
-			title : 'Identificação',
+			title : 'Identification'.translate(),
 			frame : false,
 			items : [{
 				xtype : 'textfield',
@@ -159,15 +159,28 @@ Ext.define('GeoPublic.view.Users.Profile', {
 				fieldLabel : 'Nº de Identificação Civil (BI ou CC)',
 				name : 'nic'
 			}, {
-				xtype : 'checkbox',
-				fieldLabel : 'Masculino?',
-				name : 'masculino',
-				inputValue : '1',
-				uncheckedValue : '0'
-			}]
+                xtype : 'fieldset',
+                title : 'Sexo',
+                layout : 'hbox',
+                items : [{
+                    xtype : 'checkbox',
+                    fieldLabel : 'Masculino',
+                    name : 'masculino',
+                    inputValue : '1',
+                    uncheckedValue : '0',
+                    margin: '0 20 0 0'
+                }, {
+                    xtype : 'checkbox',
+                    fieldLabel : 'Feminino',
+                    name : 'feminino',
+                    inputValue : '1',
+                    uncheckedValue : '0'
+                }]
+            }]
 		}, {
 			xtype : 'fieldset',
 			title : 'Endereço de email',
+            padding: '0 0 10 10',
 			layout : 'hbox',
 			items : [{
 				xtype : 'textfield',
@@ -218,6 +231,7 @@ Ext.define('GeoPublic.view.Users.Profile', {
 					minLengthText : 'O código postal tem que ter 4 digitos.'
 				}, {
 					xtype : 'textfield',
+                    padding: '0 0 0 10',
 					name : 'despostal'
 				}]
 			}]
@@ -254,7 +268,7 @@ Ext.define('GeoPublic.view.Users.Profile', {
 		title : 'Localização',
 		items : [{
 			xtype : 'label',
-			text : 'Para aceder rapidamente à informação na sua vizinhança, indique a sua localização.',
+			text : 'Click no mapa para indicar a sua localização.',
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			xtype : 'home-map-panel'

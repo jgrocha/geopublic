@@ -41,10 +41,19 @@ var enviarEmailParticipation = function (params) {
             // we need to send 2 emails:
             // * for the user submitting the new participation
             // * for the responsible of the plan under discussion
+
+            var saudacao = '';
+            if (result.rows[0].masculino === false)
+                saudacao = 'Cara';
+            if (result.rows[0].masculino === true)
+                saudacao = 'Caro';
+            if (result.rows[0].masculino === null)
+                saudacao = 'Caro(a)';
+
             var locals = {
                 email: result.rows[0].email,
                 subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
-                saudacao: result.rows[0].masculino ? 'Caro' : 'Cara',
+                saudacao: saudacao,
                 name: result.rows[0].nome,
                 plano: result.rows[0].designacao,
                 responsavel: result.rows[0].responsavel,
@@ -85,7 +94,7 @@ var enviarEmailParticipation = function (params) {
             var locals2responsabile = {
                 email: result.rows[0].email,
                 subject: 'Nova participação - ' + result.rows[0].designacao, // translate()?
-                saudacao: result.rows[0].masculino ? 'Caro' : 'Cara',
+                saudacao: 'Caro(a)',
                 name: result.rows[0].nome,
                 plano: result.rows[0].designacao,
                 responsavel: result.rows[0].responsavel,

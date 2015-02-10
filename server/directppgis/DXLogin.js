@@ -364,10 +364,19 @@ var DXLogin = {
 								} else {
 									siteStr = 'http://' + request.headers.host;
 								}
+
+                                var saudacao = '';
+                                if (result.rows[0].masculino === false)
+                                    saudacao = 'Cara';
+                                if (result.rows[0].masculino === true)
+                                    saudacao = 'Caro';
+                                if (result.rows[0].masculino === null)
+                                    saudacao = 'Caro(a)';
+
 								var locals = {
 									email : email,
 									subject : 'Pedido de nova senha',
-									saudacao : result.rows[0].masculino ? 'Caro' : 'Cara',
+									saudacao : saudacao,
 									name : result.rows[0].nome,
 									token : token,
 									// site : 'http://' + request.headers.host,

@@ -1007,6 +1007,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.Participation.Discussion": [],
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
+  "GeoPublic.controller.Participation.FrameViewer": [],
   "GeoPublic.controller.Plano": [],
   "GeoPublic.controller.Promotor": [],
   "GeoPublic.controller.StartPanel": [],
@@ -1060,6 +1061,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Participation.Discussion": [],
   "GeoPublic.view.Participation.Fotografia": [],
   "GeoPublic.view.Participation.FotografiaTmp": [],
+  "GeoPublic.view.Participation.FrameViewer": [],
   "GeoPublic.view.Participation.Ocorrencias": [],
   "GeoPublic.view.Promotor": [],
   "GeoPublic.view.StartPanel": [],
@@ -2259,6 +2261,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.Participation.Discussion": [],
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
+  "GeoPublic.controller.Participation.FrameViewer": [],
   "GeoPublic.controller.Plano": [],
   "GeoPublic.controller.Promotor": [],
   "GeoPublic.controller.StartPanel": [],
@@ -2349,6 +2352,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Participation.FotografiaTmp": [
     "widget.fotografiatmp"
+  ],
+  "GeoPublic.view.Participation.FrameViewer": [
+    "widget.frameviewer"
   ],
   "GeoPublic.view.Participation.Ocorrencias": [
     "widget.ocorrencias"

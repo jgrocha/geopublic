@@ -136,7 +136,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
 			mainPanel.remove(promotoresPanel);
 		}
 		var profilePanel = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Profile';
+			return tab.title === 'Profile'.translate();
 		});
 		if (profilePanel) {
 			mainPanel.remove(profilePanel);
@@ -214,14 +214,14 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		console.log('Vamos mostrar e permitir atualizar o perfil do utilizador');
 		var mainPanel = this.getPainelPrincipal();
 		var newTab = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Profile';
+			return tab.title === 'Profile'.translate();
 		});
 		if (!newTab) {
 			if (Ext.ClassManager.getNameByAlias('widget.profile') != "") {
 				newTab = mainPanel.add({
 					xtype : 'profile',
 					closable : true,
-					title : 'Profile'
+					title : 'Profile'.translate()
 				});
 			} else {
 				console.log("Erro! The class " + 'widget.profile' + " does not exist!");
