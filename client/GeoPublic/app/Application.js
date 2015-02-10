@@ -196,7 +196,11 @@ Ext.define('GeoPublic.Application', {
 		//<debug>
 		console.log('... tudo carregado e pronto a funcionar (app/Application.js).');
 		//</debug>
-		if (Ext.supports.LocalStorage) {
+
+        // Ext.Loader.loadScriptFile('ext/locale/ext-lang-pt_PT.js');
+        Ext.Loader.injectScriptElement('resources/locale/ext-lang-pt_PT.js', Ext.emptyFn);
+
+        if (Ext.supports.LocalStorage) {
 			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
 			//<debug>
 			console.log('Vai usar local storage HTML 5');
