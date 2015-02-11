@@ -1,6 +1,7 @@
-Ext.define('GeoPublic.view.StartPlanoEstatisticas', {
+Ext.define('GeoPublic.view.Estatisticas.Graficos', {
 	extend : 'Ext.panel.Panel',
-	alias : 'widget.startplanoestatisticas',
+    requires: ['GeoPublic.view.Estatisticas.ChartByState', 'GeoPublic.view.Estatisticas.ChartByType', 'GeoPublic.view.Estatisticas.ChartByAtividade'],
+	alias : 'widget.graficos',
 	title : 'Gráficos',
 	minHeight : 290,
 	// itemId : 'estatisticas',
@@ -22,12 +23,12 @@ Ext.define('GeoPublic.view.StartPlanoEstatisticas', {
 
 		// this.itemId = 'StartPlanoDescricao-' + this.initialConfig.id;
 		this.items = [{
-			xtype : 'startpanelchartbytype',
+			xtype : 'startpanelchartbyatividade', // 'startpanelchartbytype',
 			layout : 'fit',
 			width : 560,
 			height : 280,
 			config : {
-				idplano : this.idplano
+				idplano : 1 // this.idplano
 			}
 		}, {
 			xtype : 'startpanelchartbystate',
@@ -35,7 +36,7 @@ Ext.define('GeoPublic.view.StartPlanoEstatisticas', {
 			width : 280,
 			height : 280,
 			config : {
-				idplano : this.idplano
+				idplano : 1 // this.idplano
 			}
 		}];
 		this.callParent(arguments);

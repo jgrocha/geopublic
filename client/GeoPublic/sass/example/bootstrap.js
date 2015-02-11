@@ -7,7 +7,7 @@
 Ext.Loader.addClassPathMappings({
   "Ext": "../../ext/src",
   "Ext.Msg": "../../ext/src/window/MessageBox.js",
-  "Ext.chart.theme.CustomBlue": "../../app/view/StartPanelChartByType.js",
+  "Ext.chart.theme.CustomBlue": "../../app/view/Estatisticas/ChartByType.js",
   "Ext.rtl.EventObjectImpl": "../../ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "../../ext/packages/ext-theme-neptune/overrides",
   "GeoExt": "../../geoext2-2.0.2/src/GeoExt",
@@ -999,6 +999,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
+  "GeoPublic.controller.Estatisticas.Estatisticas": [],
   "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
@@ -1017,9 +1018,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.model.Estatisticas.ChartByAtividade": [],
+  "GeoPublic.model.Estatisticas.ChartByState": [],
+  "GeoPublic.model.Estatisticas.ChartByType": [],
   "GeoPublic.model.Ocorrencia": [],
-  "GeoPublic.model.Participation.ChartByState": [],
-  "GeoPublic.model.Participation.ChartByType": [],
   "GeoPublic.model.Participation.EstadoOcorrencia": [],
   "GeoPublic.model.Participation.Fotografia": [],
   "GeoPublic.model.Participation.FotografiaTmp": [],
@@ -1028,9 +1030,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.Estatisticas.ChartByAtividade": [],
+  "GeoPublic.store.Estatisticas.ChartByState": [],
+  "GeoPublic.store.Estatisticas.ChartByType": [],
+  "GeoPublic.store.Estatisticas.Plano": [],
+  "GeoPublic.store.Estatisticas.Promotor": [],
   "GeoPublic.store.Ocorrencia": [],
-  "GeoPublic.store.Participation.ChartByState": [],
-  "GeoPublic.store.Participation.ChartByType": [],
   "GeoPublic.store.Participation.EstadoCombo": [],
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
   "GeoPublic.store.Participation.Fotografia": [],
@@ -1047,6 +1052,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.ChangePassword": [],
   "GeoPublic.view.DiscussaoGeografica": [],
   "GeoPublic.view.DiscussaoRegulamento": [],
+  "GeoPublic.view.Estatisticas.ChartByAtividade": [],
+  "GeoPublic.view.Estatisticas.ChartByState": [],
+  "GeoPublic.view.Estatisticas.ChartByType": [],
+  "GeoPublic.view.Estatisticas.Estatisticas": [],
+  "GeoPublic.view.Estatisticas.Graficos": [],
   "GeoPublic.view.Guia": [],
   "GeoPublic.view.Home": [],
   "GeoPublic.view.MainMapPanel": [],
@@ -1065,11 +1075,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Participation.Ocorrencias": [],
   "GeoPublic.view.Promotor": [],
   "GeoPublic.view.StartPanel": [],
-  "GeoPublic.view.StartPanelChartByState": [],
-  "GeoPublic.view.StartPanelChartByType": [],
   "GeoPublic.view.StartPlano": [],
   "GeoPublic.view.StartPlanoDescricao": [],
-  "GeoPublic.view.StartPlanoEstatisticas": [],
   "GeoPublic.view.StartPromotor": [],
   "GeoPublic.view.TopHeader": [],
   "GeoPublic.view.Users.GridSessao": [],
@@ -2253,6 +2260,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
+  "GeoPublic.controller.Estatisticas.Estatisticas": [],
   "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
@@ -2271,9 +2279,10 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.model.Estatisticas.ChartByAtividade": [],
+  "GeoPublic.model.Estatisticas.ChartByState": [],
+  "GeoPublic.model.Estatisticas.ChartByType": [],
   "GeoPublic.model.Ocorrencia": [],
-  "GeoPublic.model.Participation.ChartByState": [],
-  "GeoPublic.model.Participation.ChartByType": [],
   "GeoPublic.model.Participation.EstadoOcorrencia": [],
   "GeoPublic.model.Participation.Fotografia": [],
   "GeoPublic.model.Participation.FotografiaTmp": [],
@@ -2282,9 +2291,12 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.Estatisticas.ChartByAtividade": [],
+  "GeoPublic.store.Estatisticas.ChartByState": [],
+  "GeoPublic.store.Estatisticas.ChartByType": [],
+  "GeoPublic.store.Estatisticas.Plano": [],
+  "GeoPublic.store.Estatisticas.Promotor": [],
   "GeoPublic.store.Ocorrencia": [],
-  "GeoPublic.store.Participation.ChartByState": [],
-  "GeoPublic.store.Participation.ChartByType": [],
   "GeoPublic.store.Participation.EstadoCombo": [],
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
   "GeoPublic.store.Participation.Fotografia": [],
@@ -2310,6 +2322,21 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.DiscussaoRegulamento": [
     "widget.discussao-regulamento"
+  ],
+  "GeoPublic.view.Estatisticas.ChartByAtividade": [
+    "widget.startpanelchartbyatividade"
+  ],
+  "GeoPublic.view.Estatisticas.ChartByState": [
+    "widget.startpanelchartbystate"
+  ],
+  "GeoPublic.view.Estatisticas.ChartByType": [
+    "widget.startpanelchartbytype"
+  ],
+  "GeoPublic.view.Estatisticas.Estatisticas": [
+    "widget.estatisticas"
+  ],
+  "GeoPublic.view.Estatisticas.Graficos": [
+    "widget.graficos"
   ],
   "GeoPublic.view.Guia": [
     "widget.guia"
@@ -2365,20 +2392,11 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.StartPanel": [
     "widget.startpanel"
   ],
-  "GeoPublic.view.StartPanelChartByState": [
-    "widget.startpanelchartbystate"
-  ],
-  "GeoPublic.view.StartPanelChartByType": [
-    "widget.startpanelchartbytype"
-  ],
   "GeoPublic.view.StartPlano": [
     "widget.startplano"
   ],
   "GeoPublic.view.StartPlanoDescricao": [
     "widget.startplanodescricao"
-  ],
-  "GeoPublic.view.StartPlanoEstatisticas": [
-    "widget.startplanoestatisticas"
   ],
   "GeoPublic.view.StartPromotor": [
     "widget.startpromotor"

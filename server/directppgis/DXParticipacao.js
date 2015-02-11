@@ -1003,6 +1003,14 @@ var DXParticipacao = {
     statsByState: function (params, callback, sessionID, request) {
         console.log('DXParticipacao.statsByState');
         console.log(params);
+        /*
+         SELECT e.id, e.estado as state, COUNT(o.idestado)
+         FROM ppgis.estado e
+         LEFT JOIN ppgis.ocorrencia o ON (e.id = o.idestado AND e.idplano = o.idplano)
+         WHERE e.idplano = 1
+         GROUP BY e.id, e.estado
+         ORDER BY e.id
+         */
         var where = '';
         if (params.idplano) {
             where = 'idplano = ' + params.idplano;
@@ -1034,16 +1042,69 @@ var DXParticipacao = {
             callback({
                 success: false
             });
-
         }
+    },
+    statsParticipacao: function (params, callback, sessionID, request) {
+        console.log('DXParticipacao.statsParticipacao');
+        console.log(params);
         /*
-         SELECT e.id, e.estado, COUNT(o.idestado)
-         FROM ppgis.estado e
-         LEFT JOIN ppgis.ocorrencia o ON (e.id = o.idestado AND e.idplano = o.idplano)
-         WHERE e.idplano = 2
-         GROUP BY e.id, e.estado
-         ORDER BY e.id;
+         select 1, 'Participações', count(*)
+         from ppgis.ocorrencia where idplano = 1
+         union
+         select 2, 'Comentários', count(c.*)
+         from ppgis.comentario c, ppgis.ocorrencia o
+         where o.idplano = 1 and c.idocorrencia = o.id
+         union
+         select 3, 'Cidadãos envolvidos', count(*) from
+         (select c.idutilizador
+         from ppgis.comentario c, ppgis.ocorrencia o
+         where o.idplano = 1 and c.idocorrencia = o.id
+         union
+         select o.idutilizador
+         from ppgis.ocorrencia o
+         where o.idplano = 1) utilizadores
          */
+        if (params.idplano) {
+            var sql = "";
+            sql += "select 1 as id, 'Participações' as type, count(*) as count";
+            sql += " from ppgis.ocorrencia where idplano = " + params.idplano;
+            sql += " union";
+            sql += " select 2, 'Comentários', count(c.*)";
+            sql += " from ppgis.comentario c, ppgis.ocorrencia o";
+            sql += " where o.idplano = " + params.idplano + " and c.idocorrencia = o.id";
+            sql += " union";
+            sql += " select 3, 'Cidadãos envolvidos', count(*) from";
+            sql += " (select c.idutilizador";
+            sql += " from ppgis.comentario c, ppgis.ocorrencia o";
+            sql += " where o.idplano = " + params.idplano + " and c.idocorrencia = o.id";
+            sql += " union";
+            sql += " select o.idutilizador";
+            sql += " from ppgis.ocorrencia o";
+            sql += " where o.idplano = " + params.idplano + ") utilizadores";
+            sql += " order by 1";
+            console.log(sql);
+
+            var conn = db.connect();
+            conn.query(sql, function (err, result) {
+                if (err) {
+                    console.log('SQL=' + sql + ' Error: ', err);
+                    db.debugError(callback, err);
+                } else {
+                    //release connection
+                    db.disconnect(conn);
+                    callback({
+                        success: true,
+                        data: result.rows,
+                        total: result.rows.length
+                    });
+                }
+            });
+        } else {
+            console.log('statsParticipacao: idplano parameter missing');
+            callback({
+                success: false
+            });
+        }
     },
     numeros: function (params, callback, sessionID, request) {
         console.log('DXParticipacao.numeros');

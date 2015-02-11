@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.model.Participation.ChartByType', {
+Ext.define('GeoPublic.model.Estatisticas.ChartByAtividade', {
 	extend : 'Ext.data.Model',
 	fields : [{
 		name : 'id',
@@ -16,7 +16,7 @@ Ext.define('GeoPublic.model.Participation.ChartByType', {
 		type : 'direct',
 		// paramOrder : 'id,idplano', // Tells the proxy to pass the id as the first parameter to the remoting method.
 		api : {
-			read : 'ExtRemote.DXParticipacao.statsByType'
+			read : 'ExtRemote.DXParticipacao.statsParticipacao'
 		},
 		reader : {
 			type : 'json',

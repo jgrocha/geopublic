@@ -34,13 +34,14 @@ Ext.define('GeoPublic.view.Viewport', {
             tabConfig : {
                 xtype : 'tbfill'
             }
-        } /*, {
-            title : 'Estatísticas',
-            hmtl : 'Estatísticas'
-        }, {
+        }, /* {
             xtype : 'grid-promotor'
-        },  {
+        }, */
+            {
+            xtype : 'estatisticas',
+            glyph: 0xf080 // fa-bar-chart [&#xf080;]
+        } /*, {
 			xtype : 'bem-vindo-panel'
-		}*/ ]
+		}*/]
 	}]
 });

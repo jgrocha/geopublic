@@ -1,10 +1,10 @@
-Ext.define('GeoPublic.store.Participation.ChartByType', {
+Ext.define('GeoPublic.store.Estatisticas.ChartByState', {
 	extend : 'Ext.data.Store',
-	requires : ['GeoPublic.model.Participation.ChartByType'],
+	requires : ['GeoPublic.model.Estatisticas.ChartByState'],
 	autoLoad : false,
 	remoteSort : false, //enable remote filter
 	remoteFilter : false, //enable remote sorting
 	// pageSize: 5,
 	autoSync: false, // if operating on model directly this will make double POSTs!
-	model : 'GeoPublic.model.Participation.ChartByType'
+	model : 'GeoPublic.model.Estatisticas.ChartByState'
 });

@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.model.Participation.ChartByState', {
+Ext.define('GeoPublic.model.Estatisticas.ChartByState', {
 	extend : 'Ext.data.Model',
 	fields : [{
 		name : 'id',

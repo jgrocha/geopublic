@@ -1,31 +1,6 @@
-Ext.define('Ext.chart.theme.CustomBlue', {
-	extend : 'Ext.chart.theme.Base',
-
-	constructor : function(config) {
-		var titleLabel = {
-			font : 'bold 18px Arial'
-		}, axisLabel = {
-			fill : 'rgb(8,69,148)',
-			font : '12px Arial',
-			spacing : 2,
-			padding : 5
-		};
-
-		this.callParent([Ext.apply({
-			axis : {
-				stroke : '#084594'
-			},
-			axisLabelLeft : axisLabel,
-			axisLabelBottom : axisLabel,
-			axisTitleLeft : titleLabel,
-			axisTitleBottom : titleLabel
-		}, config)]);
-	}
-});
-
-Ext.define('GeoPublic.view.StartPanelChartByType', {
+Ext.define('GeoPublic.view.Estatisticas.ChartByAtividade', {
 	extend : 'Ext.chart.Chart',
-	alias : 'widget.startpanelchartbytype',
+	alias : 'widget.startpanelchartbyatividade',
 	animate : true,
 	shadow : true,
 	axes : [{
@@ -35,7 +10,7 @@ Ext.define('GeoPublic.view.StartPanelChartByType', {
 		label : {
 			renderer : Ext.util.Format.numberRenderer('0,0')
 		},
-		title : 'Número de participações',
+		title : 'Envolvimento',
 		grid : true,
 		minimum : 0
 	}, {
@@ -44,7 +19,6 @@ Ext.define('GeoPublic.view.StartPanelChartByType', {
 		fields : ['type']
 		// title : 'Tipo de Ocorrência'
 	}],
-	// theme : 'CustomBlue',
 	theme : 'Base:gradients',
 	background : {
 		gradient : {
@@ -60,7 +34,7 @@ Ext.define('GeoPublic.view.StartPanelChartByType', {
 			}
 		}
 	},
-	store: 'Participation.ChartByType',
+	store: 'Estatisticas.ChartByAtividade',
 	initComponent : function() {
 		/*
 		// global!

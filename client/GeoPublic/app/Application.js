@@ -4,10 +4,10 @@ Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
 	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
 	extend : 'Ext.app.Application',
-	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'StartPlanoEstatisticas', 'BemVindoPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'StartPanelChartByType', 'StartPanelChartByState'],
-	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer'],
-	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Participation.ChartByState', 'Participation.ChartByType'],
-	stores : ['Sessao', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
+	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'BemVindoPanel', 'Promotor', 'TopHeader', 'Users.GridSessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas'], // , 'ChartByType', 'ChartByState'
+	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas'],
+	models : ['Utilizador', 'Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade'],
+	stores : ['Sessao', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade', 'Estatisticas.Promotor', 'Estatisticas.Plano'],
 	splashscreen : {},
 	refs : [{
 		selector : 'viewport > tabpanel',
@@ -197,8 +197,9 @@ Ext.define('GeoPublic.Application', {
 		console.log('... tudo carregado e pronto a funcionar (app/Application.js).');
 		//</debug>
 
-        // Ext.Loader.loadScriptFile('ext/locale/ext-lang-pt_PT.js');
-        Ext.Loader.injectScriptElement('resources/locale/ext-lang-pt_PT.js', Ext.emptyFn);
+        var userLang = navigator.language || navigator.userLanguage;
+        if (/^pt/i.test(userLang))
+            Ext.Loader.injectScriptElement('resources/locale/ext-lang-pt_PT.js', Ext.emptyFn);
 
         if (Ext.supports.LocalStorage) {
 			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));

@@ -1,4 +1,7 @@
 GeoPublic.Translation = [{
+    "id": 'Statistics',
+    "translation": "Estatísticas"
+}, {
     "id": 'Choose photo',
     "translation": "Escolher fotografia"
 }, {

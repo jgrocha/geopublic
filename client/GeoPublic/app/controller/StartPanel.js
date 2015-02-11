@@ -1,8 +1,8 @@
 Ext.define('GeoPublic.controller.StartPanel', {
     extend: 'Ext.app.Controller',
     requires: ['GeoPublic.view.StartPlano', 'GeoPublic.view.StartPlanoDescricao', 'GeoPublic.view.DiscussaoRegulamento', 'GeoPublic.view.DiscussaoGeografica'],
-    stores: ['PromotorCombo', 'PlanoCombo', 'Participation.ChartByState', 'Participation.ChartByType'],
-    // getPromotorComboStore(), getPlanoComboStore(), getParticipationChartByStateStore(), getParticipationChartByTypeStore()
+    stores: ['PromotorCombo', 'PlanoCombo'],
+    // getPromotorComboStore(), getPlanoComboStore()
     refs: [{
         selector: 'viewport > tabpanel',
         ref: 'painelPrincipal' // gera um getPainelPrincipal

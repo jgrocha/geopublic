@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.view.StartPanelChartByState', {
+Ext.define('GeoPublic.view.Estatisticas.ChartByState', {
 	extend : 'Ext.chart.Chart',
 	alias : 'widget.startpanelchartbystate',
 	animate : true,
@@ -11,7 +11,7 @@ Ext.define('GeoPublic.view.StartPanelChartByState', {
 	 */
 	insetPadding : 60,
 	theme : 'Base:gradients',
-	store: 'Participation.ChartByState',
+	store: 'Estatisticas.ChartByState',
 	initComponent : function() {
 		/*
 		 * SELECT e.id, e.estado, COUNT(o.idestado)
