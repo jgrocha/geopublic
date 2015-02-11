@@ -5,16 +5,14 @@ Ext.define('GeoPublic.view.Estatisticas.Graficos', {
 	title : 'Gráficos',
 	minHeight : 290,
 	// itemId : 'estatisticas',
-	layout : {
-		type : 'hbox',
-		padding : '5',
-		pack : 'left', // 'center',
-		align : 'middle'
-	},
+    layout: {
+        type:'vbox',
+        padding:'5',
+        align:'center'
+    },
 	defaults : {
-		margin : '0 10 0 0'
+		margin : '10 0 0 0'
 	},
-
 	initComponent : function() {
 		var me = this;
 		console.debug(this.initialConfig);
@@ -23,22 +21,30 @@ Ext.define('GeoPublic.view.Estatisticas.Graficos', {
 
 		// this.itemId = 'StartPlanoDescricao-' + this.initialConfig.id;
 		this.items = [{
-			xtype : 'startpanelchartbyatividade', // 'startpanelchartbytype',
+            xtype : 'startpanelchartbyatividade',
+            layout : 'fit',
+            width : 600,
+            height : 280,
+            config : {
+                idplano : 1 // this.idplano
+            }
+        }, {
+			xtype : 'startpanelchartbystate',
 			layout : 'fit',
-			width : 560,
-			height : 280,
+			width : 600,
+			height : 320,
 			config : {
 				idplano : 1 // this.idplano
 			}
 		}, {
-			xtype : 'startpanelchartbystate',
-			layout : 'fit',
-			width : 280,
-			height : 280,
-			config : {
-				idplano : 1 // this.idplano
-			}
-		}];
+            xtype : 'startpanelchartbytype',
+            layout : 'fit',
+            width : 600,
+            height : 420,
+            config : {
+                idplano : 1 // this.idplano
+            }
+        }];
 		this.callParent(arguments);
 	}
 });

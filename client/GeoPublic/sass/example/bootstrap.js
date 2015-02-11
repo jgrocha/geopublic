@@ -7,7 +7,6 @@
 Ext.Loader.addClassPathMappings({
   "Ext": "../../ext/src",
   "Ext.Msg": "../../ext/src/window/MessageBox.js",
-  "Ext.chart.theme.CustomBlue": "../../app/view/Estatisticas/ChartByType.js",
   "Ext.rtl.EventObjectImpl": "../../ext/src/rtl/EventObject.js",
   "ExtThemeNeptune": "../../ext/packages/ext-theme-neptune/overrides",
   "GeoExt": "../../geoext2-2.0.2/src/GeoExt",
@@ -124,7 +123,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.chart.series.Scatter": [],
   "Ext.chart.series.Series": [],
   "Ext.chart.theme.Base": [],
-  "Ext.chart.theme.CustomBlue": [],
   "Ext.chart.theme.Theme": [],
   "Ext.container.AbstractContainer": [],
   "Ext.container.ButtonGroup": [
@@ -1197,7 +1195,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.chart.series.Series": [],
   "Ext.chart.theme.Base": [],
-  "Ext.chart.theme.CustomBlue": [],
   "Ext.chart.theme.Theme": [],
   "Ext.container.AbstractContainer": [],
   "Ext.container.ButtonGroup": [
