@@ -1,0 +1,27 @@
+<h3>Caro(a) <%= responsavel %>,</h3>
+
+<p>
+    Foi alterado um comentário na discussão do plano <b><%= plano %></b>, promovido pela <b><%= entidade %></b>.
+</p>
+
+<p>
+    A boa receção desta mensagem indica que a alteração foi registada com sucesso, referente à participação com o título <b><%= titulo %></b>.
+</p>
+
+<h3>Comentário</h3>
+<hr>
+<p><%= comentario %></p>
+<hr>
+
+<p>
+    Recebeu esta mensagem através do email <a href="mailto:<%= responsavelemail %>"><%= responsavelemail %></a> por constar como responsável por esta discussão.
+</p>
+
+<p>
+    O autor do comentário (<%= autorcomentario %>) também foi notificado para o email <a href="mailto:<%= email %>"><%= email %></a>
+</p>
+<p>
+    O autor da participação (<%= autorparticipacao %>) à qual foi acrescentada este comentário também foi notificado para o email <a href="mailto:<%= email %>"><%= email %></a>
+</p>
+
+<p>Boa discussão!</p>

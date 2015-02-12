@@ -13,7 +13,7 @@ Ext.define('GeoPublic.view.Estatisticas.ChartByType', {
         title: 'Número de participações',
         grid: true,
         minimum: 0,
-        adjustMaximumByMajorUnit: true
+        majorTickSteps: 1
     }, {
         type: 'Category',
         position: 'left',

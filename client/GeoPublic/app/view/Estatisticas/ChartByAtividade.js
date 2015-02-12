@@ -1,3 +1,6 @@
+/*
+O meu primeiro fiddle :-)
+ */
 Ext.define('GeoPublic.view.Estatisticas.ChartByAtividade', {
     extend: 'Ext.chart.Chart',
     alias: 'widget.startpanelchartbyatividade',
@@ -12,6 +15,7 @@ Ext.define('GeoPublic.view.Estatisticas.ChartByAtividade', {
         },
         title: 'Contagem',
         grid: true,
+        majorTickSteps: 1,
         minimum: 0
         // maximum: 15
     }, {
@@ -57,7 +61,12 @@ Ext.define('GeoPublic.view.Estatisticas.ChartByAtividade', {
             'text-anchor': 'middle'
         },
         xField: 'type',
-        yField: ['count']
+        yField: ['count'],
+        renderer: function(sprite, record, attr, index, store) {
+            return Ext.apply(attr, {
+                fill: 'rgb(249, 153, 0)'
+            });
+        }
     }],
     initComponent: function () {
         this.callParent(arguments);

@@ -1,11 +1,11 @@
 <h3>Caro(a) <%= responsavel %>,</h3>
 
 <p>
-    Foi registada uma nova participação na discussão do plano <b><%= plano %></b>, promovido pela <b><%= entidade %></b>.
+    Foi alterada uma participação na discussão do plano <b><%= plano %></b>, promovido pela <b><%= entidade %></b>.
 </p>
 
 <p>
-A boa receção desta mensagem indica que a participação foi registada com sucesso.
+A boa receção desta mensagem indica que a participação foi alterada com sucesso.
 </p>
 
 <table border="0">
@@ -13,6 +13,8 @@ A boa receção desta mensagem indica que a participação foi registada com suc
     <tr><td>Descrição</td><td><%= participacao %></td></tr>
     <tr><td>Autor</td><td><%= name %></td></tr>
 </table>
+
+<p><%= nota %></p>
 
 <p>
     Recebeu esta mensagem através do email <a href="mailto:<%= responsavelemail %>"><%= responsavelemail %></a> por constar como responsável por esta discussão.
@@ -22,4 +24,4 @@ A boa receção desta mensagem indica que a participação foi registada com suc
     O autor também foi notificado para o email <a href="mailto:<%= email %>"><%= email %></a>
 </p>
 
-<p>Boa trabalho!</p>
+<p>Boa discussão!</p>

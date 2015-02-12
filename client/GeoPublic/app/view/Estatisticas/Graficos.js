@@ -24,7 +24,7 @@ Ext.define('GeoPublic.view.Estatisticas.Graficos', {
             xtype : 'startpanelchartbyatividade',
             layout : 'fit',
             width : 600,
-            height : 280,
+            height : 240,
             config : {
                 idplano : 1 // this.idplano
             }
