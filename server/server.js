@@ -26,9 +26,21 @@ var app = express();
 var RedisStore = require('connect-redis')(express);
 var redis = require("redis").createClient();
 
+/*
 var transport = nodemailer.createTransport("SMTP", {
 	host : 'localhost',
 	port : 25
+});
+*/
+
+var transport = nodemailer.createTransport("SMTP", {
+    host: 'goa.di.uminho.pt',
+    port: 25,
+    secure: true,
+    auth: {
+        user: 'ppgis@geomaster.pt',
+        pass: 'xXxXxXxX' // xXxXxXxX
+    }
 });
 
 // Deployment url

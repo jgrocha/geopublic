@@ -207,6 +207,7 @@ svn checkout --force https://github.com/jgrocha/geopublic/trunk/server .
 svn revert -R .
 sudo sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
 sudo sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
+sudo sed -i 's/xXxXxXxX/euparticipo/' server.js
 npm update
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 svn revert -R public
