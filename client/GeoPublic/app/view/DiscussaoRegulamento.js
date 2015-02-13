@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.view.DiscussaoRegulamento', {
     extend: 'Ext.container.Container',
-    requires : ['GeoPublic.view.Participation.ActivityNew', 'GeoPublic.store.Ocorrencia', 'GeoPublic.store.Participation.EstadoCombo'],
+    requires: ['GeoPublic.view.Participation.ActivityNew', 'GeoPublic.store.Ocorrencia', 'GeoPublic.store.Participation.EstadoCombo'],
     alias: 'widget.discussao-regulamento',
     layout: 'border',
     glyph: 0xf0f6,
@@ -28,7 +28,10 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
         //</debug>
         me.storeEstado = Ext.StoreManager.lookup(storeEstadoId); // Ext.StoreManager.lookup(storeId);
         if (!Ext.isDefined(me.storeEstado)) {
-            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({storeId: storeEstadoId, autoDestroy: false}));
+            me.storeEstado = Ext.create('GeoPublic.store.Participation.EstadoCombo', Ext.apply({
+                storeId: storeEstadoId,
+                autoDestroy: false
+            }));
             // ao destruir uma discussão com este store na combo, o store era destruído
             // tem mesmo que ser autoDestroy: false
         }
@@ -37,9 +40,8 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
         this.iddivcompare = 'compare-' + this.initialConfig.idplano;
 
         this.items = [{
+            xtype: 'panel',
             region: 'center',
-            collapsible: false,
-            // html: 'Janela com o texto do regulamento',
             layout: 'border',
             items: [{
                 region: 'north',
@@ -48,15 +50,15 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
                     // padding: '5',
                     align: 'middle'
                 },
-                height: 100,
-                items:[{
+                height: 60,
+                items: [{
                     xtype: 'panel',
                     itemId: 'informacao-rhs',
                     margin: '10 10 10 10',
                     html: 'Texto original, proposto para discussão.',
                     // bodyStyle: 'background-color: #E6E6E6', // cinza claro
                     flex: 1
-                },{
+                }, {
                     xtype: 'panel',
                     itemId: 'informacao-lhs',
                     margin: '10 10 10 16',
@@ -65,21 +67,27 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
                     flex: 1
                 }]
             }, {
-                xtype: 'component',
-                itemId: 'secretaria',
-                layout: 'fit',
                 region: 'center',
-                // style: {background: 'red'},
-                id: this.iddivcompare,
-                config : {
-                    idplano : this.initialConfig.idplano,
-                    idpromotor : this.initialConfig.idpromotor,
-                    title: this.initialConfig.designacao,
-                    designacao: this.initialConfig.designacao,
-                    descricao: this.initialConfig.descricao,
-                    proposta: this.initialConfig.proposta,
-                    alternativeproposta: this.initialConfig.alternativeproposta
-                }
+                collapsible: false,
+                layout: 'border',
+                // this panel will be used by mergely.
+                // it only fits, if this panle is the only component of a border layout
+                items: [{
+                    xtype: 'component',
+                    itemId: 'secretaria',
+                    region: 'center',
+                    // style: {background: 'red'},
+                    id: this.iddivcompare,
+                    config: {
+                        idplano: this.initialConfig.idplano,
+                        idpromotor: this.initialConfig.idpromotor,
+                        title: this.initialConfig.designacao,
+                        designacao: this.initialConfig.designacao,
+                        descricao: this.initialConfig.descricao,
+                        proposta: this.initialConfig.proposta,
+                        alternativeproposta: this.initialConfig.alternativeproposta
+                    }
+                }]
             }]
         }, {
             xtype: 'activitynew',
@@ -87,10 +95,10 @@ Ext.define('GeoPublic.view.DiscussaoRegulamento', {
             // collapsible : false,
             split: true,
             width: 420,
-            config : {
-                idplano : this.initialConfig.idplano,
-                idpromotor : this.initialConfig.idpromotor,
-                geodiscussao : false
+            config: {
+                idplano: this.initialConfig.idplano,
+                idpromotor: this.initialConfig.idpromotor,
+                geodiscussao: false
             }
         }];
         this.callParent(arguments);

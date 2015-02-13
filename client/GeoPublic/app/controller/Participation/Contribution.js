@@ -127,7 +127,7 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
             $(idsec).mergely('options', {autoupdate: true, change_timeout: 150});
 
             if (mensagem == ''){
-                informacao.update('Aproveite este lado para redigir as alterações pretendidas.<br/>Quando gravar, estas alterações ficam registadas e associadas à sua participação.');
+                informacao.update('Aproveite este lado para redigir as alterações pretendidas.<br/>Quando gravar, as alterações ficam registadas e associadas à sua participação.');
             } else {
                 informacao.update(mensagem);
             }

@@ -19,8 +19,7 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 'resize': this.onDiscussaoRegulamentoResize,
                 'afterrender': this.onDiscussaoRegulamentoAfterRender
             }
-        }, this);
-    },
+        }, this);},
     onLoginComSucesso: function () {
         var me = this;
         // console.log('GeoPublic.controller.DiscussaoRegulamento ' + 'onLoginComSucesso ');

@@ -53,7 +53,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 					scale : 'medium', // small 16x16, medium 24x24, large 32x32
 					style : 'background-size: cover;',
 					disabled : false
-				} /*, {
+				}, {
 					xtype : 'button',
 					text : 'Microsoft',
 					itemId : 'windows',
@@ -61,7 +61,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 					scale : 'medium',
 					style : 'background-size: cover;',
 					disabled : false
-				} */]
+				}]
 			}, {
 				xtype : 'label',
 				html : '<b>Nada será publicado na rede social em seu nome.</b>',
@@ -109,15 +109,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
 			}]
 
-		}
-		/*, {
-		 xtype : 'box',
-		 // el : 'fb-login-button',
-		 // https://developers.facebook.com/docs/plugins/login-button/
-		 html : '<div class="fb-login-button" data-scope="basic_info,email" data-max-rows="1" data-size="medium" data-show-faces="true" data-auto-logout-link="true"></div>',
-		 // data-show-faces="true" - Aparece "Jorge Gustavo Rocha uses Promoção da Acessibilidade" e a cara
-		 autoShow : true
-		 } */ ],
+		}],
 		dockedItems : [{
 			xtype : 'toolbar',
 			dock : 'bottom',
