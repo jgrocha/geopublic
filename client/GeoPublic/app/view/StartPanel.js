@@ -7,6 +7,12 @@ Ext.define('GeoPublic.view.StartPanel', {
 	initComponent : function() {
 		this.callParent(arguments);
 	},
+    bodyStyle: {
+        backgroundImage: 'url(resources/images/storm.png)',
+        backgroundSize: '241 174',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'bottom left'
+    },
 	layout : {
 		type : 'vbox',
 		// padding : '5',

@@ -1072,6 +1072,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Participation.FrameViewer": [],
   "GeoPublic.view.Participation.Ocorrencias": [],
   "GeoPublic.view.Promotor": [],
+  "GeoPublic.view.Sobre": [],
   "GeoPublic.view.StartPanel": [],
   "GeoPublic.view.StartPlano": [],
   "GeoPublic.view.StartPlanoDescricao": [],
@@ -2385,6 +2386,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Promotor": [
     "widget.grid-promotor"
+  ],
+  "GeoPublic.view.Sobre": [
+    "widget.sobre"
   ],
   "GeoPublic.view.StartPanel": [
     "widget.startpanel"

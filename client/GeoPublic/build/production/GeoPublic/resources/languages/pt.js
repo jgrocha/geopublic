@@ -1,4 +1,10 @@
 GeoPublic.Translation = [{
+    "id": 'About Have your Say platform',
+    "translation": "Sobre a plataforma Eu participo"
+}, {
+    "id": 'About',
+    "translation": "Sobre"
+}, {
     "id": 'Statistics',
     "translation": "Estatísticas"
 }, {

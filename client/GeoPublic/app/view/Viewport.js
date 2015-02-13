@@ -40,7 +40,9 @@ Ext.define('GeoPublic.view.Viewport', {
             {
             xtype : 'estatisticas',
             glyph: 0xf080 // fa-bar-chart [&#xf080;]
-        } /*, {
+        }, {
+                xtype : 'sobre'
+            } /*, {
 			xtype : 'bem-vindo-panel'
 		}*/]
 	}]

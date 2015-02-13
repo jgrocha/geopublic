@@ -95,7 +95,18 @@ wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-demo-0
 export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-demo-0.9.backup
 ```
 
-#### Configuring SMTP
+#### Empty database contents (usually not necessary)
+
+If previous data already exist, that can be cleared with:
+
+```sql
+delete from ppgis.fotografia; ALTER SEQUENCE ppgis.fotografia_id_seq RESTART WITH 1;
+delete from ppgis.fotografiatmp; ALTER SEQUENCE ppgis.fotografiatmp_id_seq RESTART WITH 1;
+delete from ppgis.comentario; ALTER SEQUENCE ppgis.comentario_id_seq RESTART WITH 1;
+delete from ppgis.ocorrencia; ALTER SEQUENCE ppgis.ocorrencia_id_seq RESTART WITH 1;
+```
+
+#### Configuring SMTP (no longer necessary)
 
 The server should provide the SMTP service.
 
