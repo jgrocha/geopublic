@@ -110,7 +110,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 type : 'hbox'
             },
             api : {
-                submit : 'ExtRemote.DXFormTest.filesubmitinstantaneo'
+                submit : 'ExtRemote.DXFormUploads.filesubmitinstantaneo'
             },
             items : [{
                 xtype : 'hiddenfield',
@@ -122,6 +122,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 value : me.idpromotor
             }, {
                 xtype : 'filefield',
+                padding: '0 10 0 0',
                 name : 'documento',
                 inputAttrTpl: 'accept="application/pdf"',
                 itemId : 'documento',
@@ -132,9 +133,10 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 // anchor : '40%',
                 // icon : 'resources/assets/pencil.png',
                 buttonOnly : true,
-                buttonText : 'PDF',
+                buttonText : 'PDF...',
                 buttonConfig : {
-                    iconCls : 'upload-icon'
+                    glyph: 0xf1c1 // fa-file-pdf-o [&#xf1c1;]
+                    // iconCls : 'upload-icon'
                 },
                 reset: function () {
                     /*
@@ -164,6 +166,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 }
             }, {
                 xtype : 'filefield',
+                padding: '0 10 0 0',
                 name : 'instantaneo',
                 inputAttrTpl: 'accept="image/jpeg,image/png,image/tif,application/pdf"',
                 itemId : 'instantaneo',
@@ -174,12 +177,14 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 // anchor : '40%',
                 // icon : 'resources/assets/pencil.png',
                 buttonOnly : true,
-                buttonText : 'Foto',
+                buttonText : 'Photo'.translate() + '...',
                 buttonConfig : {
                     // http://stackoverflow.com/questions/16310888/extjs-filefield-button-only-with-an-image/16310942#16310942
                     // iconCls : 'upload-icon'
                     glyph: 0xf030 // fa-camera [&#xf030;] // não está a funcionar...
+                    // icon : 'resources/assets/pencil.png'
                 },
+
                 reset: function () {
                     /*
                      Não está a fazer nenhuma validação. Só serve para o file browser!
@@ -210,8 +215,10 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 xtype : 'button',
                 itemId : 'remove',
                 // formBind : true,
-                icon : 'resources/images/icons/fam/image_remove.png',
-                text : 'Remover'
+                // icon : 'resources/images/icons/fam/image_remove.png',
+                glyph: 0xf00d, // fa-remove (alias) [&#xf00d;]
+                tooltip: 'Remove selected image or document'.translate()
+                // text : 'Remover'
             }]
         }];
         if (me.geodiscussao) {

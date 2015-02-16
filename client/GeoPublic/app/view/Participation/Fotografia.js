@@ -61,7 +61,7 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 			],
 			multiSelect : true,
 			width : 2000, // depois de ler o store, pode ajustar este width
-			height : 95,
+			height : 125, // 95,
 			trackOver : true,
 			overItemCls : 'x-item-over',
 			itemSelector : 'div.thumb-wrap',

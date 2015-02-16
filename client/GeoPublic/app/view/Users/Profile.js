@@ -5,7 +5,7 @@ Ext.define('GeoPublic.view.Avatar', {
 	title : 'Avatar',
 	bodyPadding : 5,
 	api : {
-		submit : 'ExtRemote.DXFormTest.filesubmitphotoprofile'
+		submit : 'ExtRemote.DXFormUploads.filesubmitphotoprofile'
 	},
 	/*
 	 * The Profile Image dimensions are 160px by 160px!

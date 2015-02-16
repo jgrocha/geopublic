@@ -6,7 +6,7 @@ var mkdirp = require('mkdirp');
 var fileType = require('file-type');
 var readChunk = require('read-chunk');
 
-var DXFormTest = {
+var DXFormUploads = {
     /*
      testMe : function(params, callback) {
      console.log(params);
@@ -196,16 +196,12 @@ var DXFormTest = {
         // image url: pasta + '/' + newfilename
         var pasta = 'participation_data/' + params.idpromotor + '/' + params.idplano;
         var newfilename = aleatorio + extension;
-
         // server side
         var path_normal = ''; // mudará consoante se for imagem ou documento
         var path_thumb = './public/' + pasta + '/80x80/' + newfilename;
         var path_medium = './public/' + pasta + '/_x600/' + newfilename;
-
         console.log(file.name, path_normal, path_thumb, path_medium);
-
         var resize80 = null, resize600 = null;
-
         function complete(folder, largura, altura) {
             if (resize600 !== null && resize80 !== null) {
                 try {
@@ -242,7 +238,6 @@ var DXFormTest = {
                 }
             }
         }
-
         function complete_documento(folder, largura, altura) {
             try {
                 fs.rename(tmp_path, path_normal, function (err) {
@@ -250,7 +245,7 @@ var DXFormTest = {
                         throw err;
                     var fields = ['sessionid', 'pasta', 'caminho', 'observacoes', 'idutilizador', 'tamanho', 'largura', 'altura'];
                     var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8'];
-                    var values = [sessionID, folder, 'document.png', pasta + '/doc/' + newfilename, request.session.userid, file.size, largura, altura];
+                    var values = [sessionID, folder, aleatorio + '.png', pasta + '/doc/' + newfilename, request.session.userid, file.size, largura, altura];
                     console.log(values);
                     var conn = db.connect();
                     conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {
@@ -277,21 +272,35 @@ var DXFormTest = {
                 });
             }
         }
-
         function processa() {
-
             console.log('processa');
-
             var buffer = readChunk.sync(tmp_path, 0, 262);
             var tipo = fileType(buffer);
             console.log(tipo);
-
             if (tipo.hasOwnProperty('mime')) {
                 switch (tipo['mime']) {
                     case "application/pdf":
                         console.log('PDF a CAMINHO...', extension, tipo['mime']);
                         path_normal = './public/' + pasta + '/doc/' + newfilename;
-                        complete_documento('/resources/images', 438, 438);
+                        path_thumb = './public/' + pasta + '/80x80/' + aleatorio + '.png';
+                        /*
+                        gm(tmp_path + '[0]').thumb(80, 80, path_thumb, 80, function (err, stdout, stderr, command) {
+                            if (err) {
+                                console.log('Erro: ', err);
+                            } else {
+                                console.log(path_thumb, ' was saved');
+                                complete_documento(pasta, 438, 438); // o tamanho é irrelevante
+                            }
+                        });
+                        */
+                        gm(tmp_path + '[0]').resize(80, 80, "^").gravity('Center').extent(80, 80).noProfile().write(path_thumb, function (err) {
+                            if (err) {
+                                console.log('Erro: ', err);
+                            } else {
+                                console.log(path_thumb, ' was saved');
+                                complete_documento(pasta, 438, 438); // o tamanho é irrelevante
+                            }
+                        });
                         break;
                     case "image/jpeg":
                     case "image/png":
@@ -311,8 +320,6 @@ var DXFormTest = {
                                 // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
                                 // { format: 'PNG',
                                 // if (data.format == 'JPEG')
-
-
                                 gm(tmp_path).resize(null, 600).noProfile().write(path_medium, function (err) {
                                     if (err) {
                                         console.log('Erro: ', err);
@@ -321,7 +328,7 @@ var DXFormTest = {
                                         complete(pasta, data.size.width, data.size.height);
                                     }
                                 });
-                                gm(tmp_path).resize(80, 80).noProfile().write(path_thumb, function (err) {
+                                gm(tmp_path).resize(80, 80, "^").gravity('Center').extent(80, 80).noProfile().write(path_thumb, function (err) {
                                     if (err) {
                                         console.log('Erro: ', err);
                                     } else {
@@ -348,7 +355,6 @@ var DXFormTest = {
             }
 
         }
-
 
         if ((params.idpromotor) && (params.idplano) && (sessionID) && (request.session.userid)) {
             mkdirp('./public/' + pasta + '/80x80/', function (err) {
@@ -519,4 +525,4 @@ var DXFormTest = {
     }
 };
 
-module.exports = DXFormTest;
+module.exports = DXFormUploads;

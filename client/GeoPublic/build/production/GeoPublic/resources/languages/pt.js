@@ -1,4 +1,7 @@
 GeoPublic.Translation = [{
+    "id": 'Remove selected image or document',
+    "translation": "Elimina a imagem ou documento selecionado"
+}, {
     "id": 'About Have your Say platform',
     "translation": "Sobre a plataforma Eu participo"
 }, {
@@ -31,6 +34,9 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Photograph',
     "translation": "Fotografia"
+}, {
+    "id": 'Photo',
+    "translation": "Foto"
 }, {
     "id": 'Personal data',
     "translation": "Dados pessoais"
