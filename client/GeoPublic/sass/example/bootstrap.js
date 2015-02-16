@@ -812,10 +812,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.grid.menu.ListMenu": [],
   "Ext.ux.grid.menu.RangeMenu": [],
   "Ext.ux.layout.Center": [],
+  "Ext.ux.panel.PDF": [],
   "Ext.ux.statusbar.StatusBar": [
     "Ext.ux.StatusBar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.util.PDF.TextLayerBuilder": [],
   "Ext.ux.wizard.Card": [],
   "Ext.ux.wizard.CardLayout": [],
   "Ext.ux.wizard.Header": [],
@@ -2044,10 +2046,14 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.layout.Center": [
     "layout.ux.center"
   ],
+  "Ext.ux.panel.PDF": [
+    "widget.pdfpanel"
+  ],
   "Ext.ux.statusbar.StatusBar": [
     "widget.statusbar"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Ext.ux.util.PDF.TextLayerBuilder": [],
   "Ext.ux.wizard.Card": [],
   "Ext.ux.wizard.CardLayout": [],
   "Ext.ux.wizard.Header": [

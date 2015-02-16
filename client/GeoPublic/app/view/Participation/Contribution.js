@@ -122,7 +122,50 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 value : me.idpromotor
             }, {
                 xtype : 'filefield',
+                name : 'documento',
+                inputAttrTpl: 'accept="application/pdf"',
+                itemId : 'documento',
+                // fieldLabel : 'Photo',
+                // labelWidth : 50,
+                msgTarget : 'side',
+                allowBlank : true,
+                // anchor : '40%',
+                // icon : 'resources/assets/pencil.png',
+                buttonOnly : true,
+                buttonText : 'PDF',
+                buttonConfig : {
+                    iconCls : 'upload-icon'
+                },
+                reset: function () {
+                    /*
+                     Não está a fazer nenhuma validação. Só serve para o file browser!
+                     http://stackoverflow.com/questions/22554621/accept-image-in-filefield-extjs/26017499
+                     */
+                    var me = this,
+                        clear = me.clearOnSubmit;
+                    if (me.rendered) {
+                        me.button.reset(clear);
+                        me.fileInputEl = me.button.fileInputEl;
+                        me.fileInputEl.set({
+                            accept: 'application/pdf'
+                        });
+                        if (clear) {
+                            me.inputEl.dom.value = '';
+                        }
+                        me.callParent();
+                    }
+                },
+                listeners : {
+                    afterrender : function(cmp) {
+                        cmp.fileInputEl.set({
+                            accept : 'application/pdf'
+                        });
+                    }
+                }
+            }, {
+                xtype : 'filefield',
                 name : 'instantaneo',
+                inputAttrTpl: 'accept="image/jpeg,image/png,image/tif,application/pdf"',
                 itemId : 'instantaneo',
                 // fieldLabel : 'Photo',
                 // labelWidth : 50,
@@ -131,14 +174,35 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 // anchor : '40%',
                 // icon : 'resources/assets/pencil.png',
                 buttonOnly : true,
-                buttonText : 'Adicionar imagem',
+                buttonText : 'Foto',
                 buttonConfig : {
-                    iconCls : 'upload-icon'
+                    // http://stackoverflow.com/questions/16310888/extjs-filefield-button-only-with-an-image/16310942#16310942
+                    // iconCls : 'upload-icon'
+                    glyph: 0xf030 // fa-camera [&#xf030;] // não está a funcionar...
+                },
+                reset: function () {
+                    /*
+                     Não está a fazer nenhuma validação. Só serve para o file browser!
+                     http://stackoverflow.com/questions/22554621/accept-image-in-filefield-extjs/26017499
+                     */
+                    var me = this,
+                        clear = me.clearOnSubmit;
+                    if (me.rendered) {
+                        me.button.reset(clear);
+                        me.fileInputEl = me.button.fileInputEl;
+                        me.fileInputEl.set({
+                            accept: 'image/jpeg,image/png,image/tif,application/pdf'
+                        });
+                        if (clear) {
+                            me.inputEl.dom.value = '';
+                        }
+                        me.callParent();
+                    }
                 },
                 listeners : {
                     afterrender : function(cmp) {
                         cmp.fileInputEl.set({
-                            accept : 'image/*'
+                            accept : 'image/jpeg,image/png,image/tif,application/pdf'
                         });
                     }
                 }
@@ -147,7 +211,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 itemId : 'remove',
                 // formBind : true,
                 icon : 'resources/images/icons/fam/image_remove.png',
-                text : 'Remover imagem'
+                text : 'Remover'
             }]
         }];
         if (me.geodiscussao) {

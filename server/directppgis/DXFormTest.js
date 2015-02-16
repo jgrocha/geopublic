@@ -3,6 +3,8 @@ var gm = require('gm');
 var crypto = require('crypto');
 var db = global.App.database;
 var mkdirp = require('mkdirp');
+var fileType = require('file-type');
+var readChunk = require('read-chunk');
 
 var DXFormTest = {
     /*
@@ -142,12 +144,13 @@ var DXFormTest = {
      * Tenho que estar em sessão...
      */
     filesubmitinstantaneo: function (params, callback, sessionID, request, response/*formHandler*/) {
+
         console.log('filesubmitinstantaneo');
         var files = request.files;
         // get files from request object
         console.log(params);
         // console.log(request);
-        // console.log(files);
+        console.log(files);
 
         // participation_data/promotor/plano/nome.png (original)
         // participation_data/promotor/plano/80x80/nome.png (80 por 80)
@@ -156,10 +159,31 @@ var DXFormTest = {
         // participation_data/1/2/80x80/teste.png
         // participation_data/1/2/_x600/teste.png
 
-        var fs = require('fs'), file = files.instantaneo, tmp_path = file.path;
-        var path = require('path');
-        console.log('Temporary path = ' + tmp_path);
+        var fs = require('fs'), path = require('path');
 
+        var file = {};
+        console.log('Instantaneo: ', files.instantaneo.size, 'Documento: ', files.documento.size);
+        if (files.instantaneo.size > 0) {
+            file = files.instantaneo;
+        } else {
+            if (files.documento.size > 0) {
+                file = files.documento;
+            } else {
+                console.log('file.size === 0');
+                callback({
+                    success: false,
+                    msg: "Upload failed - empty file",
+                    params: params,
+                    errors: {
+                        clientCode: "File not found",
+                        portOfLoading: "This field must not be null"
+                    }
+                });
+            }
+        }
+
+        var tmp_path = file.path;
+        console.log('Temporary path = ' + tmp_path);
         var aleatorio = tmp_path.split('/')[1];
 
         // { idplano: '1', idpromotor: '1' }
@@ -169,13 +193,162 @@ var DXFormTest = {
         // or the file type returned by gm().identify
         var extension = path.extname(file.name).toLowerCase();
         // client side path
-        // image url: pasta + '/' + caminho
+        // image url: pasta + '/' + newfilename
         var pasta = 'participation_data/' + params.idpromotor + '/' + params.idplano;
-        var caminho = aleatorio + extension;
+        var newfilename = aleatorio + extension;
+
         // server side
-        var path_normal = './public/' + pasta + '/' + caminho;
-        var path_thumb = './public/' + pasta + '/80x80/' + caminho;
-        var path_medium = './public/' + pasta + '/_x600/' + caminho;
+        var path_normal = ''; // mudará consoante se for imagem ou documento
+        var path_thumb = './public/' + pasta + '/80x80/' + newfilename;
+        var path_medium = './public/' + pasta + '/_x600/' + newfilename;
+
+        console.log(file.name, path_normal, path_thumb, path_medium);
+
+        var resize80 = null, resize600 = null;
+
+        function complete(folder, largura, altura) {
+            if (resize600 !== null && resize80 !== null) {
+                try {
+                    fs.rename(tmp_path, path_normal, function (err) {
+                        if (err)
+                            throw err;
+                        var fields = ['sessionid', 'pasta', 'caminho', 'idutilizador', 'tamanho', 'largura', 'altura'];
+                        var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7'];
+                        var values = [sessionID, folder, newfilename, request.session.userid, file.size, largura, altura];
+                        console.log(values);
+                        var conn = db.connect();
+                        conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {
+                            db.disconnect(conn);
+                            if (err) {
+                                db.debugError(callback, err);
+                            } else {
+                                callback({
+                                    success: true,
+                                    msg: 'Uploaded successfully',
+                                    size: file.size,
+                                    path: path_normal,
+                                    data: resultInsert.rows // id para fazer o load do store :-)
+                                });
+                            }
+                        });
+                    });
+                } catch (e) {
+                    console.log('Exception');
+                    callback({
+                        success: false,
+                        msg: "Upload failed - can't rename the uploaded file",
+                        errors: e.message
+                    });
+                }
+            }
+        }
+
+        function complete_documento(folder, largura, altura) {
+            try {
+                fs.rename(tmp_path, path_normal, function (err) {
+                    if (err)
+                        throw err;
+                    var fields = ['sessionid', 'pasta', 'caminho', 'observacoes', 'idutilizador', 'tamanho', 'largura', 'altura'];
+                    var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8'];
+                    var values = [sessionID, folder, 'document.png', pasta + '/doc/' + newfilename, request.session.userid, file.size, largura, altura];
+                    console.log(values);
+                    var conn = db.connect();
+                    conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {
+                        db.disconnect(conn);
+                        if (err) {
+                            db.debugError(callback, err);
+                        } else {
+                            callback({
+                                success: true,
+                                msg: 'Uploaded successfully',
+                                size: file.size,
+                                path: path_normal,
+                                data: resultInsert.rows // id para fazer o load do store :-)
+                            });
+                        }
+                    });
+                });
+            } catch (e) {
+                console.log('Exception');
+                callback({
+                    success: false,
+                    msg: "Upload failed - can't rename the uploaded file",
+                    errors: e.message
+                });
+            }
+        }
+
+        function processa() {
+
+            console.log('processa');
+
+            var buffer = readChunk.sync(tmp_path, 0, 262);
+            var tipo = fileType(buffer);
+            console.log(tipo);
+
+            if (tipo.hasOwnProperty('mime')) {
+                switch (tipo['mime']) {
+                    case "application/pdf":
+                        console.log('PDF a CAMINHO...', extension, tipo['mime']);
+                        path_normal = './public/' + pasta + '/doc/' + newfilename;
+                        complete_documento('/resources/images', 438, 438);
+                        break;
+                    case "image/jpeg":
+                    case "image/png":
+                    case "image/tiff":
+                        path_normal = './public/' + pasta + '/' + newfilename;
+                        gm(tmp_path).identify(function (err, data) {
+                            if (err) {
+                                // Penso que não se trata de uma imagem
+                                console.log("Upload failed. Can't identify file format. File does not exist or no decode exist for this file format.");
+                                callback({
+                                    success: false,
+                                    msg: "Upload failed. Can't identify file format. File does not exist or no decode exist for this file format.",
+                                    errors: err.message
+                                });
+                            } else {
+                                console.log(data.format);
+                                // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
+                                // { format: 'PNG',
+                                // if (data.format == 'JPEG')
+
+
+                                gm(tmp_path).resize(null, 600).noProfile().write(path_medium, function (err) {
+                                    if (err) {
+                                        console.log('Erro: ', err);
+                                    } else {
+                                        resize600 = path_medium;
+                                        complete(pasta, data.size.width, data.size.height);
+                                    }
+                                });
+                                gm(tmp_path).resize(80, 80).noProfile().write(path_thumb, function (err) {
+                                    if (err) {
+                                        console.log('Erro: ', err);
+                                    } else {
+                                        resize80 = path_thumb;
+                                        complete(pasta, data.size.width, data.size.height);
+                                    }
+                                });
+
+                            }
+                        });
+                        break;
+                    case "application/zip":
+                        console.log('Não sei tratar um ', extension, tipo['mime']);
+                        break;
+                    default:
+                        console.log('Não sei tratar um ', extension, tipo['mime']);
+                        break;
+                }
+            } else {
+                callback({
+                    success: false,
+                    msg: 'File type not supported'
+                });
+            }
+
+        }
+
 
         if ((params.idpromotor) && (params.idplano) && (sessionID) && (request.session.userid)) {
             mkdirp('./public/' + pasta + '/80x80/', function (err) {
@@ -187,7 +360,7 @@ var DXFormTest = {
                         params: params
                     });
                 }
-                else {
+                else { //
                     mkdirp('./public/' + pasta + '/_x600/', function (err) {
                         if (err) {
                             console.error(err);
@@ -197,88 +370,18 @@ var DXFormTest = {
                                 params: params
                             });
                         }
-                        else {
-                            gm(tmp_path).identify(function (err, data) {
+                        else { //
+                            mkdirp('./public/' + pasta + '/doc/', function (err) {
                                 if (err) {
-                                    // Penso que não se trata de uma imagem
-                                    console.log("Upload failed. Can't identify file format. File does not exist or no decode exist for this file format.");
+                                    console.error(err);
                                     callback({
                                         success: false,
-                                        msg: "Upload failed. Can't identify file format. File does not exist or no decode exist for this file format.",
-                                        errors: err.message
+                                        msg: "Upload failed. Server error.",
+                                        params: params
                                     });
-                                } else {
-                                    console.log(data.format);
-                                    // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
-                                    // { format: 'PNG',
-                                    // if (data.format == 'JPEG')
-                                    if (file.size > 0) {
-                                        var resize80 = null, resize600 = null;
-                                        gm(tmp_path).resize(null, 600).noProfile().write(path_medium, function (err) {
-                                            if (err) {
-                                                console.log('Erro: ', err);
-                                            } else {
-                                                resize600 = path_medium;
-                                                complete();
-                                            }
-                                        });
-                                        gm(tmp_path).resize(80, 80).noProfile().write(path_thumb, function (err) {
-                                            if (err) {
-                                                console.log('Erro: ', err);
-                                            } else {
-                                                resize80 = path_thumb;
-                                                complete();
-                                            }
-                                        });
-                                        function complete() {
-                                            if (resize600 !== null && resize80 !== null) {
-                                                try {
-                                                    fs.rename(tmp_path, path_normal, function (err) {
-                                                        if (err)
-                                                            throw err;
-                                                        var fields = ['sessionid', 'pasta', 'caminho', 'idutilizador', 'tamanho', 'largura', 'altura'];
-                                                        var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7'];
-                                                        var values = [sessionID, pasta, caminho, request.session.userid, file.size, data.size.width, data.size.height];
-                                                        console.log(values);
-                                                        var conn = db.connect();
-                                                        conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {
-                                                            db.disconnect(conn);
-                                                            if (err) {
-                                                                db.debugError(callback, err);
-                                                            } else {
-                                                                callback({
-                                                                    success: true,
-                                                                    msg: 'Uploaded successfully',
-                                                                    size: file.size,
-                                                                    path: path_normal,
-                                                                    data: resultInsert.rows // id para fazer o load do store :-)
-                                                                });
-                                                            }
-                                                        });
-                                                    });
-                                                } catch (e) {
-                                                    console.log('Exception');
-                                                    callback({
-                                                        success: false,
-                                                        msg: "Upload failed - can't rename the uploaded file",
-                                                        errors: e.message
-                                                    });
-                                                }
-                                            }
-                                        }
-
-                                    } else {
-                                        console.log('file.size === 0');
-                                        callback({
-                                            success: false,
-                                            msg: "Upload failed - empty file",
-                                            params: params,
-                                            errors: {
-                                                clientCode: "File not found",
-                                                portOfLoading: "This field must not be null"
-                                            }
-                                        });
-                                    }
+                                }
+                                else {
+                                    processa();
                                 }
                             });
                         }

@@ -807,7 +807,7 @@ var DXParticipacao = {
         var idocorrencia = params.idocorrencia;
         var conn = db.connect();
 
-        var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
+        var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);

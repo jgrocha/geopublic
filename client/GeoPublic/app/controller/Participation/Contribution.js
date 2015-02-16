@@ -47,6 +47,9 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
             "contribution form#photos filefield#instantaneo": {
                 change: this.onButtonUpload
             },
+            "contribution form#photos filefield#documento": {
+                change: this.onButtonUpload
+            },
             "contribution form#photos button#remove": {
                 click: this.onButtonRemoverInstantaneo
             },
@@ -343,7 +346,8 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
     },
     onButtonUpload: function (button, e, options) {
         var me = this;
-        var formPhotos = button.up('contribution').down('form#photos');
+        // var formPhotos = button.up('contribution').down('form#photos');
+        var formPhotos = button.up('form');
         //<debug>
         console.log("onButtonUpload", formPhotos);
         //</debug>

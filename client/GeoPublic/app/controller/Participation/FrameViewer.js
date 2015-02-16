@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.controller.Participation.FrameViewer', {
     extend: 'Ext.app.Controller',
-    requires: ['GeoPublic.view.Participation.FrameViewer'],
+    requires: ['GeoPublic.view.Participation.FrameViewer', 'Ext.ux.panel.PDF'],
     init: function () {
         var me = this;
         this.control({
@@ -21,17 +21,46 @@ Ext.define('GeoPublic.controller.Participation.FrameViewer', {
         // var res = str.replace("Microsoft", "W3Schools");
         // http://localhost:3000/participation_data/2/2/80x80/500950f0f512dc9a8dca7888bd9a9a17.jpg
         // http://localhost:3000/participation_data/2/2/500950f0f512dc9a8dca7888bd9a9a17.jpg
-        var imagem = record.data.url.replace("/80x80/", "/");
 
-        var janela = Ext.create('GeoPublic.view.Participation.FrameViewer', {
-            store: dview.store,
-            indice: index,
-            caminho: imagem,
-            largura: record.data.largura,
-            altura: record.data.altura
-        });
-        janela.show();
-        janela.setTitle(dview.up('discussion').title);
+        var titulo = dview.up('discussion').title;
+        var documento = record.data.documento;
+        if (documento.length > 0) {
+            /*
+            var win = window.open(documento, '_blank');
+            win.focus();
+            */
+            var heightBrowser = Ext.getBody().getViewSize().height;
+            var heightJanela = Math.round(heightBrowser * 0.9);
+            var widthBrowser = Ext.getBody().getViewSize().width;
+            var widthJanela = Math.round(widthBrowser * 0.6);
+            Ext.create("Ext.Window",{
+                title : titulo, // 'Documento',
+                width : widthJanela,
+                height: heightJanela,
+                modal : true,
+                layout: 'border',
+                items: [{
+                    xtype   : 'pdfpanel',
+                    region: 'center',
+                    // title    : 'PDF Panel',
+                    // width    : 600,
+                    // height   : 600,
+                    pageScale: 1,           // Initial scaling of the PDF. 1 = 100%
+                    src      : documento
+                }]
+            }).show();
+        } else {
+            var imagem = record.data.url.replace("/80x80/", "/");
+            var janela = Ext.create('GeoPublic.view.Participation.FrameViewer', {
+                store: dview.store,
+                indice: index,
+                caminho: imagem,
+                largura: record.data.largura,
+                altura: record.data.altura
+            });
+            janela.show();
+            janela.setTitle(titulo);
+        }
     },
     buttonActions: function (button, e, eOpts) {
         var janelaframeviewer = button.up('window');
