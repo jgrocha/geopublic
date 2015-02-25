@@ -50,7 +50,7 @@ Ext.define('GeoPublic.model.Plano', {
 		// 	tabela : 'plano'
 		// },
 		type : 'direct',
-		paramOrder : 'id', // Tells the proxy to pass the id as the first parameter to the remoting method.
+		// paramOrder : 'id', // Tells the proxy to pass the id as the first parameter to the remoting method.
 		api : {
 			create : 'ExtRemote.DXParticipacao.createPlano',
 			read : 'ExtRemote.DXParticipacao.readPlano',

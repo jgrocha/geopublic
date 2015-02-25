@@ -37,7 +37,7 @@ Ext.define('GeoPublic.controller.Estatisticas.Estatisticas', {
     },
     onEstatisticasChartByTypeStoreLoad: function (store, records) {
         if (store.getCount() > 0) {
-            var altura = 120 + store.getCount()*30;
+            var altura = 120 + store.getCount() * 30;
             this.getCharByType().height = altura;
             this.getCharByType().setVisible(true);
         } else {
@@ -60,7 +60,10 @@ Ext.define('GeoPublic.controller.Estatisticas.Estatisticas', {
         if (selection.length == 1) {
             var store = this.getEstatisticasPlanoStore();
             store.load({
-                id: selection[0].data.id
+                params: {
+                    id: selection[0].data.id,
+                    mode: 1
+                }
             });
         }
     },

@@ -2054,18 +2054,28 @@ var DXParticipacao = {
         console.log('readPlano: ');
         console.log(params);
         // var promotor = params.params.idpromotor;
-        var promotor = params;
-        // ???
+        var promotor = params.id;
+
+        var open = '';
+        if (params.mode && parseInt(params.mode)) {
+            // for statistics, we new all plans, even already closed
+            console.log('readPlano params.mode: ' + params.mode);
+        } else {
+            // to select the plan for discussion, the user can only select the ones opened
+            console.log('readPlano SEM params.mode');
+            open = ' and fim > now()';
+        }
+
         var userid = request.session.userid;
         var conn = db.connect();
-        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom FROM ppgis.plano where idpromotor = ' + promotor + ' and active';
+        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom FROM ppgis.plano where idpromotor = ' + promotor + ' and active' + open;
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor + ' and active';
+                var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor + ' and active' + open;
                 conn.query(totalQuery, function (err, resultTotalQuery) {
                     if (err) {
                         console.log('SQL=' + totalQuery + ' Error: ', err);
