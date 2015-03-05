@@ -39,15 +39,13 @@ Ext.define('GeoPublic.view.TopHeader', {
 		itemId : 'botaoLogin',
 		resizable : true,
 		scale : 'medium',
-		menu : [{
+		menu : [/*{
 			text : 'Last access'.translate(),
 			itemId : 'botaoLastAccess'
-		}, /*{
-			text : 'Mensagens'.translate()
-		}, */ {
+		}, {
 			text : 'Profile'.translate(),
 			itemId : 'botaoPerfil'
-		}, {
+		}, */ {
 			text : 'Logout'.translate(),
 			icon : 'resources/assets/logout.png',
 			itemId : 'botaoLogout'

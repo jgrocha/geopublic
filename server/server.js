@@ -34,12 +34,12 @@ var transport = nodemailer.createTransport("SMTP", {
 */
 
 var transport = nodemailer.createTransport("SMTP", {
-    host: 'goa.di.uminho.pt',
+    host: 'mail.cm-agueda.pt',
     port: 25,
     secure: true,
     auth: {
-        user: 'ppgis@geomaster.pt',
-        pass: 'xXxXxXxX' // xXxXxXxX
+        user: 'ppgis@cm-agueda.pt',
+        pass: 'xXxXxXxX'
     }
 });
 

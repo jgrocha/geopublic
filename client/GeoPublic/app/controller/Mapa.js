@@ -1,6 +1,7 @@
 Ext.define('GeoPublic.controller.Mapa', {
     extend: 'Ext.app.Controller',
     // stores: ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
+    stores: ['Layer'], // getLayerStore()
     // requires: ['GeoExt.Action'],
     zoomLevelEdit: 12,
     firsttime: 0,
@@ -10,8 +11,9 @@ Ext.define('GeoPublic.controller.Mapa', {
         // </debug>
         this.control({
             'mapa': {
-                'beforerender': this.onMapaBeforeRender,
-                'afterrender': this.onMapaAfterRender
+                'beforerender': this.onMapaBeforeRender
+                // it is called by onMapaBeforeRender
+                // 'afterrender': this.onMapaAfterRender
             },
             "contribution toolbar button#local": {
                 click: this.onButtonLocal
@@ -48,19 +50,126 @@ Ext.define('GeoPublic.controller.Mapa', {
         mapPanelDebug = mapPanel;
         //</debug>
 
-        var locationLayer = new OpenLayers.Layer.Vector("Location", {
-            displayInLayerSwitcher: false,
-            projection: new OpenLayers.Projection("EPSG:4326"),
-            styleMap: new OpenLayers.Style({
-                externalGraphic: "resources/images/marker.png",
-                graphicYOffset: -25,
-                graphicHeight: 25,
-                graphicTitle: "${name}"
-            })
+
+        var layers = [];
+        var store = this.getLayerStore();
+        store.load({
+            params: {
+                filter: '[{"type":"boolean","value":true,"field":"activo"}]',
+                sort: [{property: 'ord', direction: 'ASC'}]
+            },
+            callback: function (records, operation, success) {
+                //<debug>
+                console.log(records.length + ' layers foram devolvidos');
+                //</debug>
+                var total = records.length;
+                var novolayer = {};
+                for (var i = 0; i < total; i++) {
+                    console.log(records[i].data);
+                    // console.log(records[i].data.url.trim().split(/ *, */));
+
+                    switch (records[i].data.tipo) {
+                        case 'WMTS':
+                            novolayer = new OpenLayers.Layer.WMTS({
+                                name: records[i].data.titulo,
+                                // only in OL3
+                                // url: 'http://{a-d}.geomaster.pt/mapproxy/wmts/mapquest/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png',
+                                url: records[i].data.url.trim().split(/ *, */),
+                                layer: records[i].data.layer,
+                                matrixSet: 'pt_tm_06',
+                                format: 'image/png',
+                                isBaseLayer: records[i].data.base,
+                                style: records[i].data.estilo,
+                                requestEncoding: 'REST',
+                                visibility: records[i].data.visivel
+                            });
+                            break;
+                        case 'WMS':
+                            novolayer = new OpenLayers.Layer.WMS(
+                                records[i].data.titulo,
+                                records[i].data.url.trim().split(/ *, */),
+                                {
+                                    "STYLES": records[i].data.estilo,
+                                    "LAYERS": records[i].data.layer,
+                                    format: 'image/png',
+                                    transparent: true
+                                }, {
+                                    buffer: 0,
+                                    visibility: records[i].data.visivel,
+                                    displayOutsideMaxExtent: true,
+                                    isBaseLayer: records[i].data.base,
+                                    yx: {'EPSG:3763': false}
+                                });
+                            break;
+                        case 'OSM':
+                            novolayer = new OpenLayers.Layer.OSM(
+                                records[i].data.titulo,
+                                records[i].data.url.trim().split(/ *, */));
+                            break;
+                        case 'Stamen':
+                            novolayer = new OpenLayers.Layer.Stamen(records[i].data.layer);
+                            break;
+                        default:
+                            console.log('Tipo desconhecido: ' + records[i].data.tipo);
+                            break;
+                    }
+                    layers.push(novolayer);
+                }
+                map.addLayers(layers);
+
+                // var baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"]);
+                // var baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg", "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
+                // map.addLayers([baseOSM, baseAerial]);
+
+                var defaultStyle = new OpenLayers.Style({
+                    'pointRadius': 10,
+                    'fillColor': '${color}',
+                    'title': '${title}'
+                });
+
+                var highlightStyle = new OpenLayers.Style({
+                    'pointRadius': 12 // {Number} Pixel point radius.  Default is 6.
+                });
+
+                var selectStyle = new OpenLayers.Style({
+                    'pointRadius': 10, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+                    'strokeColor': '#FFBB09',
+                    'strokeWidth': 2 // dafault 1
+                });
+
+                var styleMap = new OpenLayers.StyleMap({
+                    'default': defaultStyle,
+                    'temporary': highlightStyle,
+                    'select': selectStyle
+                });
+
+                var report = new OpenLayers.Layer.Vector("Report", {
+                    styleMap: styleMap,
+                    displayInLayerSwitcher: false
+                });
+
+                map.addLayer(report);
+
+                var locationLayer = new OpenLayers.Layer.Vector("Location", {
+                    displayInLayerSwitcher: false,
+                    projection: new OpenLayers.Projection("EPSG:4326"),
+                    styleMap: new OpenLayers.Style({
+                        externalGraphic: "resources/images/marker.png",
+                        graphicYOffset: -25,
+                        graphicHeight: 25,
+                        graphicTitle: "${name}"
+                    })
+                });
+                map.addLayer(locationLayer);
+                mapPanel.down('toolbar gx_geocodercombo#geocoder').layer = locationLayer;
+                // me.getGeocoder().layer = locationLayer;
+
+                this.onMapaAfterRender(mapPanel, {});
+
+            },
+            scope: this
         });
-        map.addLayer(locationLayer);
-        mapPanel.down('toolbar gx_geocodercombo#geocoder').layer = locationLayer;
-        // me.getGeocoder().layer = locationLayer;
+
     },
     onMapaAfterRender: function (mapPanel, options) {
         // console.log('onMapPanelAfterRender');

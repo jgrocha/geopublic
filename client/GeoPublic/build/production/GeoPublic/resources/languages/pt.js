@@ -1,4 +1,7 @@
 GeoPublic.Translation = [{
+    "id": 'Coordinates',
+    "translation": "Coordenadas"
+}, {
     "id": 'Remove selected image or document',
     "translation": "Elimina a imagem ou documento selecionado"
 }, {

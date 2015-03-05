@@ -996,11 +996,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.Application": [],
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
+  "GeoPublic.controller.BackOffice.Layer": [],
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.Estatisticas.Estatisticas": [],
-  "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
   "GeoPublic.controller.Participation.ActivityNew": [],
@@ -1018,9 +1018,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.controller.Users.Sessao": [],
+  "GeoPublic.model.BackOffice.Layer": [],
   "GeoPublic.model.Estatisticas.ChartByAtividade": [],
   "GeoPublic.model.Estatisticas.ChartByState": [],
   "GeoPublic.model.Estatisticas.ChartByType": [],
+  "GeoPublic.model.Menu": [],
   "GeoPublic.model.Ocorrencia": [],
   "GeoPublic.model.Participation.EstadoOcorrencia": [],
   "GeoPublic.model.Participation.Fotografia": [],
@@ -1029,12 +1032,16 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.model.Promotor": [],
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
+  "GeoPublic.model.Users.Sessao": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.BackOffice.Layer": [],
   "GeoPublic.store.Estatisticas.ChartByAtividade": [],
   "GeoPublic.store.Estatisticas.ChartByState": [],
   "GeoPublic.store.Estatisticas.ChartByType": [],
   "GeoPublic.store.Estatisticas.Plano": [],
   "GeoPublic.store.Estatisticas.Promotor": [],
+  "GeoPublic.store.Layer": [],
+  "GeoPublic.store.Menu": [],
   "GeoPublic.store.Ocorrencia": [],
   "GeoPublic.store.Participation.EstadoCombo": [],
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
@@ -1047,7 +1054,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.store.Sessao": [],
   "GeoPublic.store.TipoOcorrencia": [],
   "GeoPublic.store.TipoOcorrenciaCombo": [],
+  "GeoPublic.store.Users.Sessao": [],
   "GeoPublic.view.Avatar": [],
+  "GeoPublic.view.BackOffice.Layer": [],
   "GeoPublic.view.BemVindoPanel": [],
   "GeoPublic.view.ChangePassword": [],
   "GeoPublic.view.DiscussaoGeografica": [],
@@ -1059,7 +1068,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Estatisticas.Graficos": [],
   "GeoPublic.view.Guia": [],
   "GeoPublic.view.Home": [],
-  "GeoPublic.view.MainMapPanel": [],
   "GeoPublic.view.Mapa": [],
   "GeoPublic.view.MapaComProjeto": [],
   "GeoPublic.view.Participation.Activity": [],
@@ -1080,11 +1088,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.StartPlanoDescricao": [],
   "GeoPublic.view.StartPromotor": [],
   "GeoPublic.view.TopHeader": [],
-  "GeoPublic.view.Users.GridSessao": [],
   "GeoPublic.view.Users.Login": [],
   "GeoPublic.view.Users.LostPassword": [],
   "GeoPublic.view.Users.Profile": [],
   "GeoPublic.view.Users.Registo": [],
+  "GeoPublic.view.Users.Sessao": [],
   "GeoPublic.view.Viewport": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -2261,11 +2269,11 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.Application": [],
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
+  "GeoPublic.controller.BackOffice.Layer": [],
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.Estatisticas.Estatisticas": [],
-  "GeoPublic.controller.MainMapPanel": [],
   "GeoPublic.controller.Mapa": [],
   "GeoPublic.controller.Participation.Activity": [],
   "GeoPublic.controller.Participation.ActivityNew": [],
@@ -2283,9 +2291,12 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.controller.Users.Sessao": [],
+  "GeoPublic.model.BackOffice.Layer": [],
   "GeoPublic.model.Estatisticas.ChartByAtividade": [],
   "GeoPublic.model.Estatisticas.ChartByState": [],
   "GeoPublic.model.Estatisticas.ChartByType": [],
+  "GeoPublic.model.Menu": [],
   "GeoPublic.model.Ocorrencia": [],
   "GeoPublic.model.Participation.EstadoOcorrencia": [],
   "GeoPublic.model.Participation.Fotografia": [],
@@ -2294,12 +2305,16 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.model.Promotor": [],
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
+  "GeoPublic.model.Users.Sessao": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.BackOffice.Layer": [],
   "GeoPublic.store.Estatisticas.ChartByAtividade": [],
   "GeoPublic.store.Estatisticas.ChartByState": [],
   "GeoPublic.store.Estatisticas.ChartByType": [],
   "GeoPublic.store.Estatisticas.Plano": [],
   "GeoPublic.store.Estatisticas.Promotor": [],
+  "GeoPublic.store.Layer": [],
+  "GeoPublic.store.Menu": [],
   "GeoPublic.store.Ocorrencia": [],
   "GeoPublic.store.Participation.EstadoCombo": [],
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
@@ -2312,8 +2327,12 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.store.Sessao": [],
   "GeoPublic.store.TipoOcorrencia": [],
   "GeoPublic.store.TipoOcorrenciaCombo": [],
+  "GeoPublic.store.Users.Sessao": [],
   "GeoPublic.view.Avatar": [
     "widget.avatar"
+  ],
+  "GeoPublic.view.BackOffice.Layer": [
+    "widget.layer"
   ],
   "GeoPublic.view.BemVindoPanel": [
     "widget.bem-vindo-panel"
@@ -2347,9 +2366,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Home": [
     "widget.home-map-panel"
-  ],
-  "GeoPublic.view.MainMapPanel": [
-    "widget.app-main-map-panel"
   ],
   "GeoPublic.view.Mapa": [
     "widget.mapa"
@@ -2411,9 +2427,6 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.TopHeader": [
     "widget.topheader"
   ],
-  "GeoPublic.view.Users.GridSessao": [
-    "widget.grid-sessao"
-  ],
   "GeoPublic.view.Users.Login": [
     "widget.login"
   ],
@@ -2425,6 +2438,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Users.Registo": [
     "widget.registo"
+  ],
+  "GeoPublic.view.Users.Sessao": [
+    "widget.grid-sessao"
   ],
   "GeoPublic.view.Viewport": []
 });

@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.controller.TopHeader', {
 	extend : 'Ext.app.Controller',
-	stores : ['Sessao'], // getSessaoStore()
+    stores: ['Menu'], // getMenuStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
 		// selector : 'topheader splitbutton',
@@ -30,12 +30,14 @@ Ext.define('GeoPublic.controller.TopHeader', {
 			"topheader button#botaoLogin" : {// o mesmo que "topheader splitbutton"
 				click : this.onButtonClickLogin
 			},
+            /*
 			"topheader splitbutton #botaoLastAccess" : {
 				click : this.onButtonLastAccess
 			},
 			"topheader splitbutton #botaoPerfil" : {
 				click : this.onButtonClickPerfil
 			},
+            */
 			"topheader splitbutton #botaoLogout" : {
 				click : this.onButtonClickLogout
 			},
@@ -82,32 +84,8 @@ Ext.define('GeoPublic.controller.TopHeader', {
 			loginComSucesso : this.onLogin,
 			logoutComSucesso : this.onLogout
 		});
-		// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Server-event-exception
-		this.getSessaoStore().proxy.addListener("exception", function(proxy, response, operation, eOpts) {
-			var resultado = Ext.JSON.decode(response.responseText);
-			Ext.Msg.show({
-				title : 'Erro',
-				msg : resultado.errors.reason,
-				icon : Ext.Msg.ERROR,
-				buttons : Ext.Msg.OK
-			});
-			// this.getGruposStore().rejectChanges();
-		}, this);
-		this.getSessaoStore().proxy.addListener("load", this.onSessaoStoreLoad, this);
-	},
-	onSessaoStoreLoad : function(proxy, records, successful, eOpts) {
-		if (!successful) {
-			Ext.MessageBox.show({
-				title : 'Data Load Error',
-				msg : 'The data encountered a load error, please try again in a few minutes.'
-			});
-		} else {
-			console.log(records.length + ' registos foram devolvidos');
-		}
 	},
 	onLaunch : function() {
-		var me = this;
-		console.log('...O controlador arrancou.');
 		this.getBotaoLogin().menu.disable();
 	},
 	onLogout : function() {
@@ -118,29 +96,36 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		this.getBotaoLogin().setIcon('');
 		this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
 		this.getBotaoLogin().menu.disable();
-		if (GeoPublic.LoggedInUser) {
+        // eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
+        if (GeoPublic.LoggedInUser) {
 			GeoPublic.LoggedInUser = null;
 		}
-		// eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
-		var mainPanel = this.getPainelPrincipal();
-		var lastPanel = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Last access';
-		});
-		if (lastPanel) {
-			mainPanel.remove(lastPanel);
-		}
-		var promotoresPanel = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Entidades';
-		});
-		if (promotoresPanel) {
-			mainPanel.remove(promotoresPanel);
-		}
-		var profilePanel = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Profile'.translate();
-		});
-		if (profilePanel) {
-			mainPanel.remove(profilePanel);
-		}
+
+        var menu = this.getBotaoLogin().menu;
+        console.log(menu);
+        for (var i = menu.items.length-1; i >= 0; i--) {
+            if (menu.items.items[i].id.match(/^menu-/)) {
+                console.log('Remover ' + menu.items.items[i].id + ' ' + menu.items.items[i].text);
+                menu.remove(menu.items.items[i]);
+            }
+        }
+
+        // eventualment fechar views que sejam restritas a utilizadores, como a vista do perfil
+        var mainPanel = this.getPainelPrincipal();
+        var tabsParaRemover = [];
+        Ext.Array.forEach(mainPanel.items.items, function(item, index, allItems) {
+            if (item.closable) {
+                console.log('Vou fechar o painal ' + item.title);
+                tabsParaRemover.push(item);
+            } else {
+                console.log('NÃO Vou fechar o painal ' + item.title);
+            }
+        });
+        console.log('Vou remover ' + tabsParaRemover.length + ' tabs!');
+        Ext.Array.forEach(tabsParaRemover, function(item, index, allItems) {
+            mainPanel.remove(item);
+        });
+
 	},
 	onLogin : function() {
 		console.log('Vamos reagir ao evento loginComSucesso');
@@ -152,6 +137,8 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		}
 		// Mostra o menu, só por curiosidade...
 		// this.getBotaoLogin().showMenu();
+
+        // fechar a janela de login, se existir
 		var login = this.getLoginPanel();
 		if (login) {
 			login.close();
@@ -164,35 +151,98 @@ Ext.define('GeoPublic.controller.TopHeader', {
 			this.getBotaoLogin().setIcon(GeoPublic.LoggedInUser.data.fotografia);
 			this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());
 		}
+
+        // mandar ler o store com as opções disponíveis consoante as permissões para depois
+        // prencher o menu com as ações possíveis, consoante o grupo do utilizador
+        // no callback
+
+        var store = this.getMenuStore();
+        store.load({
+            params: {
+                userid: GeoPublic.LoggedInUser.data.id
 	},
-	onButtonLastAccess : function(button, e, options) {
-		/*
-		 Ext.Msg.show({
-		 title : 'Registo de entradas',
-		 msg : 'Falta abrir o store, que tem o auo a off.',
-		 icon : Ext.Msg.INFO,
-		 buttons : Ext.Msg.OK
+            callback: function (records, operation, success) {
+                //<debug>
+                console.log(records.length + ' entradas de menu foram devolvidas');
+                //</debug>
+                var total = records.length;
+                var menu = this.getBotaoLogin().menu;
+                var submenu = null;
+                for (var i = 0; i < total; i++) {
+                    var iditem = '';
+                    if (records[i].data.idsuperior && (parseInt(records[i].data.idsuperior) > 0)) {
+                        // submenu
+                        // id: menu-grid-sessao
+                        iditem = 'menu-' + records[i].data.extjsview;
+                        submenu = menu.items.get('menu-' + records[i].data.idsuperior);
+                        submenu.menu.add({
+                            text: records[i].data.titulo,
+                            id: iditem,
+                            handler: this.onItemMenuClick,
+                            scope: this
 		 });
-		 */
+                    } else {
+                        if (records[i].data.extjsview.length == 0) {
+                            // é um menu que vai ter submenu, pois não tem ação associada
+                            // menu-3
+                            iditem = 'menu-' + records[i].data.id;
+                            // insert before logout entry
+                            menu.insert(menu.items.length-1, {
+                                text: records[i].data.titulo,
+                                id: iditem,
+                                // handler: this.onItemMenuClick,
+                                menu: {
+                                    items: []
+                                }
+                            });
+                        } else {
+                            iditem = 'menu-' + records[i].data.extjsview;
+                            // insert before logout entry
+                            menu.insert(menu.items.length-1, {
+                                text: records[i].data.titulo,
+                                id: iditem,
+                                handler: this.onItemMenuClick,
+                                scope: this
+                            });
+                        }
+                    }
+                }
+            },
+            scope: this
+        });
+    },
+    onItemMenuClick: function (item) {
+        // id: menu-grid-sessao
+        var classe = item.id.substring(5);
 		var mainPanel = this.getPainelPrincipal();
-		var newTab = mainPanel.items.findBy(function(tab) {
-			return tab.title === 'Last access';
+        var check = Ext.ComponentQuery.query(classe);
+        var newTab = null;
+        if (check.length > 0) {
+            // A componente já foi criada
+            // Selecionar o tab correspondente
+            console.log('A classe ' + classe + ' já foi instanciada.');
+            newTab = mainPanel.items.findBy(function (tab) {
+                return tab.xtype === classe;
 		});
-		if (!newTab) {
-			if (Ext.ClassManager.getNameByAlias('widget.grid-sessao') != "") {
+            if (newTab) {
+                mainPanel.setActiveTab(newTab);
+            }
+        } else {
+            console.log('Vamos criar a classe ' + classe);
+            if (Ext.ClassManager.getNameByAlias('widget.' + classe) != "") {
 				newTab = mainPanel.add({
-					xtype : 'grid-sessao',
-					closable : true,
-					title : 'Last access'
+                    xtype: classe,
+                    closable: true
 				});
+                mainPanel.setActiveTab(newTab);
 				// perfeito! Não serve para nada, pois no servidor uso o userid da sessão
-				this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
-				this.getSessaoStore().load();
+                // este código tem que passar para dentro da componente...
+                // this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
+                // this.getSessaoStore().load();
 			} else {
-				console.log("Erro! The class " + 'widget.grid-sessao' + " does not exist!");
+                console.log("Erro! The class " + 'widget.' + classe + " does not exist (yet)!");
 			}
 		}
-		mainPanel.setActiveTab(newTab);
 	},
 	onButtonClickLostPassword : function(button, e, options) {
 		button.up('login').close();
@@ -307,8 +357,6 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		var formPanel = button.up('form'), registo = button.up('registo');
 		var email = formPanel.down('textfield[name=email]').getValue(), name = formPanel.down('textfield[name=name]').getValue(), password = formPanel.down('textfield[name=password]').getValue(), password2x = formPanel.down('textfield[name=password2x]').getValue();
 		var sha1 = CryptoJS.SHA1(password).toString();
-		// var sha1 = hex_sha1(password).toLowerCase();
-
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
 			//<debug>
@@ -346,7 +394,6 @@ Ext.define('GeoPublic.controller.TopHeader', {
 		}
 		//</debug>
 		var sha1 = CryptoJS.SHA1(pass).toString();
-		// var sha1 = hex_sha1(pass).toLowerCase();
 		if (formPanel.getForm().isValid()) {
 			// Ext.get(login.getEl()).mask("A validar a identificação... Aguarde...", 'loading');
 			//<debug>
