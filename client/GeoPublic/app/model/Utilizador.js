@@ -80,12 +80,12 @@ Ext.define('GeoPublic.model.Utilizador', {
 		name : 'datacriacao',
 		type : 'date'
 	}, {
-		name : 'datacriacao',
-		type : 'date'
-	}, {
 		name : 'datamodificacao',
 		type : 'date'
 	}, {
+        name : 'ultimologin',
+        type : 'date'
+    }, {
 		name : 'preferencias',
 		type : 'any',
 		persist : false
@@ -101,5 +101,19 @@ Ext.define('GeoPublic.model.Utilizador', {
 		name : 'longitude',
 		type : 'int',
 		useNull : true
-	}]
+	}],
+    proxy : {
+        type : 'direct',
+        api : {
+            // create : 'ExtRemote.DXSessao.create',
+            read : 'ExtRemote.DXSessao.readUtilizador'
+            // update : 'ExtRemote.DXSessao.update',
+            // destroy : 'ExtRemote.DXSessao.destroy'
+        },
+        reader : {
+            type : 'json',
+            root : 'data',
+            messageProperty : 'message' // mandatory if you want the framework to set it's content
+        }
+    }
 });

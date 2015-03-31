@@ -2,12 +2,12 @@
 
 Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
-	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie'],
+	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie', 'Ext.form.FieldSet'],
 	extend : 'Ext.app.Application',
-	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'BemVindoPanel', 'Promotor', 'TopHeader', 'Users.Sessao', 'Users.Profile', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas', 'Sobre'], // , 'ChartByType', 'ChartByState'
-	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas', 'BackOffice.Layer', 'Users.Sessao'],
-	models : ['Utilizador', 'Users.Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade'],
-	stores : ['Users.Sessao', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade', 'Estatisticas.Promotor', 'Estatisticas.Plano'],
+	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'BemVindoPanel', 'Promotor', 'TopHeader', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'Users.Profile', 'Users.Login', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas', 'Sobre', 'BackOffice.Permission'], // , 'ChartByType', 'ChartByState'
+	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas', 'BackOffice.Layer', 'BackOffice.Sessao', 'BackOffice.Utilizador'],
+	models : ['Utilizador', 'BackOffice.Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade'],
+	stores : ['BackOffice.Sessao', 'BackOffice.Utilizador', 'BackOffice.Grupo', 'BackOffice.Permissao', 'BackOffice.Menu', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade', 'Estatisticas.Promotor', 'Estatisticas.Plano'],
 	splashscreen : {},
 	refs : [{
 		selector : 'viewport > tabpanel',
@@ -26,15 +26,21 @@ Ext.define('GeoPublic.Application', {
 		hello.init({
 			// home facebook, menu lateral esq, no fundo; apps
 			// https://developers.facebook.com/apps/1425420377699726/dashboard/
-			facebook : '1425420377699726',
+			facebook : '1425420377699726', // PRODUCTION application ID
+            // https://developers.facebook.com/apps/1578414889066940/dashboard/
+            // facebook : '1578414889066940', // TEST application ID
 			// https://console.developers.google.com/project
 			// https://console.developers.google.com/project/driven-crane-540
-			google : '171807226739-pl2lsvoh70jeqqtkcdrqpo9j8urfdcij.apps.googleusercontent.com',
+			google : '171807226739-pl2lsvoh70jeqqtkcdrqpo9j8urfdcij.apps.googleusercontent.com', // PRODUCTION application ID
+            //
+            // https://console.developers.google.com/project/axial-acrobat-89210/apiui/credential
+            // google : '589007420557-6rabt7gf56inip9jdit9kv5qrce7n601.apps.googleusercontent.com', // TEST application ID
 			// https://account.live.com/developers/applications/index
 			// https://account.live.com/developers/applications/ApiSettings?id=0000000048117A44
 			// We can get only one application per domain :-(
 			// windows live authentication is disabled in the login form
-			windows : '0000000048117A44'
+			windows : '0000000048117A44' // PRODUCTION application ID
+            // windows : '000000004814F558' // TEST application ID
 		});
 		var sessionstart = function(auth) {
 			//<debug>
@@ -62,7 +68,8 @@ Ext.define('GeoPublic.Application', {
 					}
 				});
 			};
-			hello(auth.network).api("me").success(api_me).error(api_me_error);
+			// hello(auth.network).api("me").success(api_me).error(api_me_error);
+            hello(auth.network).api("me").then(api_me, api_me_error);
 		};
 		var sessionend = function(auth) {
 			console.log("Session has ended. Auth: " + auth.network);

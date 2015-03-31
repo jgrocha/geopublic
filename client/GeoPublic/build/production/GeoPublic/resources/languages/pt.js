@@ -1,4 +1,10 @@
 GeoPublic.Translation = [{
+    "id": 'You logged in using your {0} account. Would you like to close your {0} session?',
+    "translation": "Entrou com a sua conta do {0}. Deseja também sair do {0}?"
+}, {
+    "id": 'Also close session on {0}?',
+    "translation": "Fechar também a sessão no {0}?"
+}, {
     "id": 'Coordinates',
     "translation": "Coordenadas"
 }, {

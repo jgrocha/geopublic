@@ -997,6 +997,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Sessao": [],
+  "GeoPublic.controller.BackOffice.Utilizador": [],
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
@@ -1018,8 +1020,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
-  "GeoPublic.controller.Users.Sessao": [],
+  "GeoPublic.model.BackOffice.Grupo": [],
   "GeoPublic.model.BackOffice.Layer": [],
+  "GeoPublic.model.BackOffice.Permissao": [],
+  "GeoPublic.model.BackOffice.Sessao": [],
   "GeoPublic.model.Estatisticas.ChartByAtividade": [],
   "GeoPublic.model.Estatisticas.ChartByState": [],
   "GeoPublic.model.Estatisticas.ChartByType": [],
@@ -1032,9 +1036,13 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.model.Promotor": [],
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
-  "GeoPublic.model.Users.Sessao": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.BackOffice.Grupo": [],
   "GeoPublic.store.BackOffice.Layer": [],
+  "GeoPublic.store.BackOffice.Menu": [],
+  "GeoPublic.store.BackOffice.Permissao": [],
+  "GeoPublic.store.BackOffice.Sessao": [],
+  "GeoPublic.store.BackOffice.Utilizador": [],
   "GeoPublic.store.Estatisticas.ChartByAtividade": [],
   "GeoPublic.store.Estatisticas.ChartByState": [],
   "GeoPublic.store.Estatisticas.ChartByType": [],
@@ -1054,9 +1062,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.store.Sessao": [],
   "GeoPublic.store.TipoOcorrencia": [],
   "GeoPublic.store.TipoOcorrenciaCombo": [],
-  "GeoPublic.store.Users.Sessao": [],
   "GeoPublic.view.Avatar": [],
   "GeoPublic.view.BackOffice.Layer": [],
+  "GeoPublic.view.BackOffice.Permission": [],
+  "GeoPublic.view.BackOffice.Sessao": [],
+  "GeoPublic.view.BackOffice.Utilizador": [],
   "GeoPublic.view.BemVindoPanel": [],
   "GeoPublic.view.ChangePassword": [],
   "GeoPublic.view.DiscussaoGeografica": [],
@@ -1092,7 +1102,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Users.LostPassword": [],
   "GeoPublic.view.Users.Profile": [],
   "GeoPublic.view.Users.Registo": [],
-  "GeoPublic.view.Users.Sessao": [],
   "GeoPublic.view.Viewport": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -2270,6 +2279,8 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Sessao": [],
+  "GeoPublic.controller.BackOffice.Utilizador": [],
   "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
@@ -2291,8 +2302,10 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
-  "GeoPublic.controller.Users.Sessao": [],
+  "GeoPublic.model.BackOffice.Grupo": [],
   "GeoPublic.model.BackOffice.Layer": [],
+  "GeoPublic.model.BackOffice.Permissao": [],
+  "GeoPublic.model.BackOffice.Sessao": [],
   "GeoPublic.model.Estatisticas.ChartByAtividade": [],
   "GeoPublic.model.Estatisticas.ChartByState": [],
   "GeoPublic.model.Estatisticas.ChartByType": [],
@@ -2305,9 +2318,13 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.model.Promotor": [],
   "GeoPublic.model.Sessao": [],
   "GeoPublic.model.TipoOcorrencia": [],
-  "GeoPublic.model.Users.Sessao": [],
   "GeoPublic.model.Utilizador": [],
+  "GeoPublic.store.BackOffice.Grupo": [],
   "GeoPublic.store.BackOffice.Layer": [],
+  "GeoPublic.store.BackOffice.Menu": [],
+  "GeoPublic.store.BackOffice.Permissao": [],
+  "GeoPublic.store.BackOffice.Sessao": [],
+  "GeoPublic.store.BackOffice.Utilizador": [],
   "GeoPublic.store.Estatisticas.ChartByAtividade": [],
   "GeoPublic.store.Estatisticas.ChartByState": [],
   "GeoPublic.store.Estatisticas.ChartByType": [],
@@ -2327,12 +2344,20 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.store.Sessao": [],
   "GeoPublic.store.TipoOcorrencia": [],
   "GeoPublic.store.TipoOcorrenciaCombo": [],
-  "GeoPublic.store.Users.Sessao": [],
   "GeoPublic.view.Avatar": [
     "widget.avatar"
   ],
   "GeoPublic.view.BackOffice.Layer": [
     "widget.layer"
+  ],
+  "GeoPublic.view.BackOffice.Permission": [
+    "widget.permissoes"
+  ],
+  "GeoPublic.view.BackOffice.Sessao": [
+    "widget.grid-sessao"
+  ],
+  "GeoPublic.view.BackOffice.Utilizador": [
+    "widget.grid-utilizador"
   ],
   "GeoPublic.view.BemVindoPanel": [
     "widget.bem-vindo-panel"
@@ -2438,9 +2463,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Users.Registo": [
     "widget.registo"
-  ],
-  "GeoPublic.view.Users.Sessao": [
-    "widget.grid-sessao"
   ],
   "GeoPublic.view.Viewport": []
 });

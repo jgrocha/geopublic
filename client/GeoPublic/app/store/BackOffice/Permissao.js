@@ -1,12 +1,12 @@
-Ext.define('GeoPublic.store.Users.Sessao', {
+Ext.define('GeoPublic.store.BackOffice.Permissao', {
     extend: 'Ext.data.Store',
     requires: [
-        'GeoPublic.model.Users.Sessao'
+        'GeoPublic.model.BackOffice.Permissao'
     ],
     autoLoad: false, // só pode ler este store depois de ter um utilizador autenticado
     remoteSort: true, //enable remote filter
     remoteFilter: true, //enable remote sorting
     pageSize: 20,
     //autoSync: true, // if operating on model directly this will make double POSTs!
-    model: 'GeoPublic.model.Users.Sessao'
+    model: 'GeoPublic.model.BackOffice.Permissao'
 });

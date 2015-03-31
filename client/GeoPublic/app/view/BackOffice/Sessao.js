@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.view.Users.Sessao', {
+Ext.define('GeoPublic.view.BackOffice.Sessao', {
     extend: 'Ext.container.Container',
     xtype: 'grid-sessao',
     requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number',
@@ -11,7 +11,7 @@ Ext.define('GeoPublic.view.Users.Sessao', {
     style: 'padding:5px',
 
     initComponent: function () {
-        var estore = Ext.getStore('Users.Sessao');
+        var estore = Ext.getStore('BackOffice.Sessao');
         estore.proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
         estore.load();
         var filtersCfg = {
@@ -26,11 +26,11 @@ Ext.define('GeoPublic.view.Users.Sessao', {
             xtype: 'gridpanel',
             region: 'center',
             // itemId: 'todoGrid',
-            store: 'Users.Sessao',
+            store: 'BackOffice.Sessao',
             features: [filtersCfg],
             dockedItems: [{
                 xtype: 'pagingtoolbar',
-                store: 'Users.Sessao', // same store GridPanel is using
+                store: 'BackOffice.Sessao', // same store GridPanel is using
                 dock: 'bottom',
                 displayInfo: true
             }],

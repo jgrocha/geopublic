@@ -70,7 +70,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 },
                 editor : {
                     xtype : 'textfield',
-                    allowBlank : false
+                    allowBlank : true
                 }
             }, {
                 dataIndex: 'grupo',

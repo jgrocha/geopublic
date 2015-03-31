@@ -257,13 +257,13 @@ var DXLogin = {
 		};
 
 		var inserirNovoUtilizador = function(mensagem, inserirCallback) {
-			var campos = ['nome', 'idgrupo', 'password', 'email', 'ativo', 'emailconfirmacao', 'token'];
-			var valores = [name, 5, password, email, 'false', 'false', token];
-			var buracos = [];
-			for ( i = 1; i <= campos.length; i++) {
-				buracos.push('$' + i);
-			}
-			conn.query('INSERT INTO utilizador (' + campos.join() + ') VALUES (' + buracos.join() + ') RETURNING id', valores, function(err, resultInsert) {
+			var campos = ['nome', 'password', 'email', 'ativo', 'emailconfirmacao', 'token', 'idgrupo'];
+            var sql = 'INSERT INTO utilizador (' + campos.join() + ')';
+            sql += " SELECT " + conn.escapeLiteral(name) + ", " + conn.escapeLiteral(password) + ", " + conn.escapeLiteral(email) + ", false, false, " + conn.escapeLiteral(token) + ", min(id)";
+            sql += ' from grupo where omissao';
+            sql += ' RETURNING id;';
+            console.log('--sql inserirNovoUtilizador: ' + sql);
+            conn.query(sql, function(err, resultInsert) {
 				db.disconnect(conn);
 				// release connection
 				if (err) {
@@ -535,7 +535,7 @@ var DXLogin = {
 	 * https://account.live.com/developers/applications
 	 */
 	social : function(params, callback, sessionID, request, response) {
-		console.log('+1--------------------------------- facebook ---------------------------+');
+		console.log('+1--------------------------------- ' + params.network + ' ---------------------------+');
 		console.log(params);
 		var network = 0;
 		// facebook, google, windows
@@ -554,8 +554,8 @@ var DXLogin = {
 				break;
 		}
 		var name = params.name, email = params.email.toLowerCase();
-		var sexo = (params.gender == "male") ? 1 : 0;
-		console.log('+2--------------------------------- facebook ---------------------------+');
+		var sexo = (params.gender == "male") ? 'true' : 'false';
+        console.log('+2--------------------------------- ' + params.network + ' ---------------------------+');
 
 		// facebook
 		// var morada = params.hometown.name || ''; // erro silencioso! try exception?
@@ -565,7 +565,7 @@ var DXLogin = {
 		// console.log(fotografia);
 		// a fotografia da microsoft tem o token no url; por isso tem que ser mudada na base de dados
 		// URL
-		console.log('+3--------------------------------- facebook ---------------------------+');
+        console.log('+3--------------------------------- ' + params.network + ' ---------------------------+');
 
 		var logSessionUpdate = function(rows) {
 			if (rows[0].id != request.session.userid) {
@@ -627,25 +627,31 @@ var DXLogin = {
 
 		var inserirNovoUtilizador = function() {
 			// falta tratar a fotografia do utilizador...
-
-			var campos = ['nome', 'idgrupo', 'observacoes', 'email', 'ativo', 'emailconfirmacao', 'masculino'];
+			var campos = ['nome', 'observacoes', 'email', 'ativo', 'emailconfirmacao', 'masculino', 'idgrupo'];
 			// Está harcoded o grupo inicial = 5
-			var valores = [name, 5, 'Criado a partir da rede social ' + params.network, email, 'true', 'true', sexo];
+			// var valores = [name, 5, 'Criado a partir da rede social ' + params.network, email, 'true', 'true', sexo];
 
+            var adicional = '';
 			if (params.hometown && params.hometown.name && params.hometown.name.trim() !== "") {
 				campos.push('morada');
-				valores.push(params.hometown.name);
+				// valores.push(params.hometown.name);
+                adicional += ", " + conn.escapeLiteral(params.hometown.name);
 			}
 			if (params.picture && params.picture.trim() !== "") {
 				campos.push('fotografia');
-				valores.push(params.picture);
+				// valores.push(params.picture);
+                adicional += ", " + conn.escapeLiteral(params.picture);
 			}
 
-			var buracos = [];
-			for ( i = 1; i <= campos.length; i++) {
-				buracos.push('$' + i);
-			}
-			conn.query('INSERT INTO utilizador (' + campos.join() + ') VALUES (' + buracos.join() + ') RETURNING id', valores, function(err, resultInsert) {
+            var sql = 'INSERT INTO utilizador (' + campos.join() + ')';
+            sql += " SELECT " + conn.escapeLiteral(name) + ", 'Criado a partir da rede social " + params.network + "', " + conn.escapeLiteral(email) + ", true, true, " + sexo + ", min(id)" + adicional;
+            sql += ' from grupo where omissao';
+            sql += ' RETURNING id;';
+            console.log('--sql inserirNovoUtilizador (social): ' + sql);
+            conn.query(sql, function(err, resultInsert) {
+
+			// conn.query('INSERT INTO utilizador (' + campos.join() + ') VALUES (' + buracos.join() + ') RETURNING id', valores, function(err, resultInsert) {
+
 				if (err) {
 					db.debugError(callback, err);
 				} else {
@@ -675,7 +681,7 @@ var DXLogin = {
 		var conn = db.connect();
 		var sql = "SELECT *, st_x(ponto) as longitude, st_y(ponto) as latitude FROM utilizador WHERE email = '" + email + "'";
 
-		console.log('+4--------------------------------- facebook ---------------------------+');
+        console.log('+4--------------------------------- ' + params.network + ' ---------------------------+');
 		console.log('+sql ----------------------+' + sql);
 
 		conn.query(sql, function(err, result) {

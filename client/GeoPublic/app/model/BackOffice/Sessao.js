@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.model.Users.Sessao', {
+Ext.define('GeoPublic.model.BackOffice.Sessao', {
 	extend : 'Ext.data.Model',
 
 	fields : [{

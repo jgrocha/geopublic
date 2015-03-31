@@ -86,9 +86,9 @@ var enviarEmailComment = function (params) {
                         comentario: params.comentario,
                         callback: function (err, responseStatus) {
                             if (err) {
-                                console.log('Erro', responseStatus);
+                                console.log('enviarEmailComment Erro', responseStatus);
                             } else {
-                                console.log('Sucesso', responseStatus);
+                                console.log('enviarEmailComment Sucesso', responseStatus);
                             }
                             smtpTransport.close();
                         }
@@ -140,9 +140,9 @@ var enviarEmailComment = function (params) {
                         callback: function (err, responseStatus) {
                             if (err) {
                                 console.log(arguments);
-                                console.log('Erro', responseStatus);
+                                console.log('enviarEmailComment Erro', responseStatus);
                             } else {
-                                console.log('Sucesso', responseStatus);
+                                console.log('enviarEmailComment Sucesso', responseStatus);
                             }
                             smtpTransport.close();
                         }
@@ -192,9 +192,9 @@ var enviarEmailComment = function (params) {
        emailautorparticipacao: segundoresult.rows[0].email,
                         callback: function (err, responseStatus) {
                             if (err) {
-                                console.log('Erro', responseStatus);
+                                console.log('enviarEmailComment Erro', responseStatus);
                             } else {
-                                console.log('Sucesso', responseStatus);
+                                console.log('enviarEmailComment Sucesso', responseStatus);
                             }
                             smtpTransport.close();
                         }
@@ -288,9 +288,9 @@ var enviarEmailParticipation = function (params) {
                 nota: params.nota,
                 callback: function (err, responseStatus) {
                     if (err) {
-                        console.log('Erro', responseStatus);
+                        console.log('enviarEmailParticipation Erro', responseStatus);
                     } else {
-                        console.log('Sucesso', responseStatus);
+                        console.log('enviarEmailParticipation Sucesso', responseStatus);
                     }
                     smtpTransport.close();
                 }
@@ -330,9 +330,9 @@ var enviarEmailParticipation = function (params) {
                 nota: params.nota,
                 callback: function (err, responseStatus) {
                     if (err) {
-                        console.log('Erro', responseStatus);
+                        console.log('enviarEmailParticipation Erro', responseStatus);
                     } else {
-                        console.log('Sucesso', responseStatus);
+                        console.log('enviarEmailParticipation Sucesso', responseStatus);
                     }
                     smtpTransport.close();
                 }

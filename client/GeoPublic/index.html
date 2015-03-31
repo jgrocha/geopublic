@@ -8,7 +8,6 @@
 
 		<link rel="icon" href="resources/images/favicon.ico" type="image/vnd.microsoft.icon" />
 
-
 		<!-- Include OpenLayers. It isn't managed by Ext.Loader -->
 		<!-- This lib folder must be copied to production -->
 		<!-- app.resource.paths=${app.dir}/resources,${app.dir}/lib -->
@@ -27,6 +26,12 @@
 
 		<!-- <x-compile> -->
 		<!-- <x-bootstrap> -->
+        <!--
+        bootstrap.css should have for development mode:
+        @import 'ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css';
+        bootstrap.css should have for production mode:
+        @import 'build/production/GeoPublic/resources/GeoPublic-all.css';
+        -->
 		<link rel="stylesheet" href="bootstrap.css">
 		<script src="ext/ext-dev.js"></script>
 		<!-- <script src="ext/locale/ext-lang-pt_PT.js"></script>--><!-- ok, tem que ser aqui -->
@@ -36,7 +41,7 @@
 		<!-- este código vai ser integrado em app.js -->
 		<script src="app.js"></script>
 		<script src="resources/js/socket.io.js"></script>
-		<script src="resources/js/hello.min.js"></script>
+        <!-- <script src="resources/js/hello.js"></script> -->
 		<script src="resources/js/sha1.js"></script>
 
 		<script src="resources/js/jquery-2.1.3.min.js"></script>
@@ -49,6 +54,8 @@
         -->
         <script src="resources/js/mergely.js"></script>
         <!-- </x-compile> -->
+
+        <script src="resources/js/hello.all.js"></script>
 
         <!-- PDF viewer -->
         <script src="resources/js/compatibility.js"></script>
@@ -63,6 +70,10 @@
 		<link rel="stylesheet" href="resources/css/mergely.css">
 		-->
         <link href="resources/css/font-awesome.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="resources/css/GridFilters.css">
+        <link rel="stylesheet" href="resources/css/RangeMenu.css">
+
 	</head>
 	<body></body>
 </html>

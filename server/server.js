@@ -242,4 +242,9 @@ io.sockets.on('connection', function(socket) {
 	// socket.emit('info', { msg: 'The world is round, there is no up or down.' });
 });
 
+io.sockets.on("error", function(err) {
+    console.log("Erro apanhado: ");
+    console.log(err.stack);
+});
+
 global.App.io = io;
