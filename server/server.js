@@ -12,8 +12,10 @@ db = require('./server-db'), //
 fs = require('fs');
 
 var templatesDir = path.resolve(__dirname, 'templates'), //
-emailTemplates = require('email-templates'), //
-nodemailer = require('nodemailer');
+emailTemplates = require('email-templates');
+
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 
 var routes = require('./routes');
 
@@ -26,22 +28,20 @@ var app = express();
 var RedisStore = require('connect-redis')(express);
 var redis = require("redis").createClient();
 
-/*
-var transport = nodemailer.createTransport("SMTP", {
-	host : 'localhost',
-	port : 25
-});
-*/
-
-var transport = nodemailer.createTransport("SMTP", {
-    host: 'mail.cm-agueda.pt',
-    port: 25,
+var transport = nodemailer.createTransport(smtpTransport({
+    // host: 'mail.cm-agueda.pt',
+    host: 'mail.geomaster.pt',
+    port: 465,
     secure: true,
+    tls: {
+        rejectUnauthorized: false
+    },
+    debug: true,
     auth: {
-        user: 'ppgis@cm-agueda.pt',
-        pass: 'xXxXxXxX'
+        user: 'ppgis@geomaster.pt',
+        pass: '20150507'
     }
-});
+}));
 
 // Deployment url
 if (ServerConfig.url) {

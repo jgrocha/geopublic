@@ -183,10 +183,13 @@ sudo forever-service install -e "NODE_ENV=production" ppgis --script server.js
 ```
 
 Commands to interact with service ppgis:
+
+```
 Start   - "sudo start ppgis"
 Stop    - "sudo stop ppgis"
 Status  - "sudo status ppgis"
 Restart - "sudo restart ppgis"
+```
 
 #### Start the application
 

@@ -222,14 +222,16 @@ var DXLogin = {
 				token : token,
 				callback : function(err, responseStatus) {
 					if (err) {
+                        console.log('Erro no envio de mail');
+                        console.log(err);
 						callback({
 							success : false,
 							message : 'Falhou o envio para o endereço ' + email + '.'
 						});
 					} else {
-						console.log(responseStatus.message);
+                        console.log("Message sent: ", responseStatus);
+                        callback(parametros);
 					}
-					callback(parametros);
 					smtpTransport.close();
 				}
 			};
@@ -383,17 +385,19 @@ var DXLogin = {
 									site : siteStr,
 									callback : function(err, responseStatus) {
 										if (err) {
+                                            console.log('Erro no envio de mail');
+                                            console.log(err);
 											callback({
 												success : false,
 												message : 'Falhou o envio para o endereço ' + email + '.'
 											});
 										} else {
-											console.log(responseStatus.message);
+                                            console.log("Message sent: ", responseStatus);
+                                            callback({
+                                                success : true,
+                                                message : 'O email foi enviado com sucesso.'
+                                            });
 										}
-										callback({
-											success : true,
-											message : 'O email foi enviado com sucesso.'
-										});
 										smtpTransport.close();
 									}
 								};

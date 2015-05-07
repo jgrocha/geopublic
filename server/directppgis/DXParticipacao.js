@@ -87,6 +87,7 @@ var enviarEmailComment = function (params) {
                         callback: function (err, responseStatus) {
                             if (err) {
                                 console.log('enviarEmailComment Erro', responseStatus);
+                                console.log(err);
                             } else {
                                 console.log('enviarEmailComment Sucesso', responseStatus);
                             }
@@ -139,8 +140,8 @@ var enviarEmailComment = function (params) {
                         emailautorparticipacao: segundoresult.rows[0].email,
                         callback: function (err, responseStatus) {
                             if (err) {
-                                console.log(arguments);
                                 console.log('enviarEmailComment Erro', responseStatus);
+                                console.log(err);
                             } else {
                                 console.log('enviarEmailComment Sucesso', responseStatus);
                             }
@@ -189,10 +190,11 @@ var enviarEmailComment = function (params) {
                         autorcomentario: primeiroresult.rows[0].nome,
                         email: primeiroresult.rows[0].email,
                         autorparticipacao: segundoresult.rows[0].nome,
-       emailautorparticipacao: segundoresult.rows[0].email,
+                        emailautorparticipacao: segundoresult.rows[0].email,
                         callback: function (err, responseStatus) {
                             if (err) {
                                 console.log('enviarEmailComment Erro', responseStatus);
+                                console.log(err);
                             } else {
                                 console.log('enviarEmailComment Sucesso', responseStatus);
                             }
@@ -289,6 +291,7 @@ var enviarEmailParticipation = function (params) {
                 callback: function (err, responseStatus) {
                     if (err) {
                         console.log('enviarEmailParticipation Erro', responseStatus);
+                        console.log(err);
                     } else {
                         console.log('enviarEmailParticipation Sucesso', responseStatus);
                     }
@@ -331,6 +334,7 @@ var enviarEmailParticipation = function (params) {
                 callback: function (err, responseStatus) {
                     if (err) {
                         console.log('enviarEmailParticipation Erro', responseStatus);
+                        console.log(err);
                     } else {
                         console.log('enviarEmailParticipation Sucesso', responseStatus);
                     }
@@ -378,14 +382,14 @@ var enviarEmailPlan = function (destino, parametros, callback) {
         site: siteStr,
         callback: function (err, responseStatus) {
             if (err) {
-                console.log(responseStatus);
-                /*
-                 callback({
-                 success : false,
-                 message : 'Falhou o envio para o endereço ' + email + '.'
-                 });
-                 */
+                console.log('enviarEmailPlan Erro', responseStatus);
+                console.log(err);
+                callback({
+                    success: false,
+                    message: 'Falhou o envio para o endereço ' + email + '.'
+                });
             } else {
+                console.log("enviarEmailPlan Sucesso", responseStatus);
                 console.log(responseStatus);
             }
             callback(parametros);
@@ -494,7 +498,7 @@ var DXParticipacao = {
                             assunto: 'Comentário alterado',
                             userid: request.session.userid,
                             id: id,
-                            comentario: params.comentario.substr(0,maxparticipation),
+                            comentario: params.comentario.substr(0, maxparticipation),
                             idocorrencia: params.idocorrencia
                         });
 
@@ -525,7 +529,7 @@ var DXParticipacao = {
                 case "comentario":
                     // truncar a 2000 characters
                     fields.push(key);
-                    values.push(params[key].substr(0,maxparticipation));
+                    values.push(params[key].substr(0, maxparticipation));
                     break;
                 default:
                     fields.push(key);
@@ -576,7 +580,7 @@ var DXParticipacao = {
                             assunto: 'Novo comentário',
                             userid: request.session.userid,
                             id: resultInsert.rows[0].id,
-                            comentario: params.comentario.substr(0,maxparticipation),
+                            comentario: params.comentario.substr(0, maxparticipation),
                             idocorrencia: params.idocorrencia
                         });
 
@@ -1013,10 +1017,10 @@ var DXParticipacao = {
                                 }
 
                                 /*
-                                if (alteracaoparticipacao == '') {
-                                    alteracaoparticipacao = 'Algo foi alterado na participação, possivelmente as imagens anexadas.';
-                                }
-                                */
+                                 if (alteracaoparticipacao == '') {
+                                 alteracaoparticipacao = 'Algo foi alterado na participação, possivelmente as imagens anexadas.';
+                                 }
+                                 */
 
                                 enviarEmailParticipation({
                                     operation: 'update',
@@ -1114,7 +1118,7 @@ var DXParticipacao = {
                 case "participacao":
                     // truncar a 2000 characters
                     fields.push(key);
-                    values.push(params[key].substr(0,maxparticipation));
+                    values.push(params[key].substr(0, maxparticipation));
                     break;
                 /*
                  case "geojson":
@@ -1391,7 +1395,7 @@ var DXParticipacao = {
         if (params.idplano) {
             var sql = "";
             sql += "select 1 as id, 'Participações' as type, count(*) as count";
-            sql += " from ppgis.ocorrencia where idplano = " + params.idplano +  " and NOT apagado";
+            sql += " from ppgis.ocorrencia where idplano = " + params.idplano + " and NOT apagado";
             sql += " union";
             sql += " select 2, 'Comentários', count(c.*)";
             sql += " from ppgis.comentario c, ppgis.ocorrencia o";
