@@ -227,3 +227,45 @@ svn checkout --force https://github.com/jgrocha/geopublic/trunk/client/GeoPublic
 svn revert -R public
 sudo start ppgis
 ```
+
+### Backup
+
+The application generated data on:
+* the geopublic database
+
+and on two folder on the file system:
+* ~/public_html/public/participation_data
+* ~/public_html/public/uploaded_images
+
+#### Preparation
+
+```
+cd
+mkdir bin
+mkdir backup
+mv public_html/backup.sh ~/bin
+echo 'localhost:5432:*:geobox:geobox' >> ~/.pgpass
+chmod 600 ~/.pgpass
+bin/backup.sh
+```
+
+#### Backup operation
+
+The backup can be started at any time, or can be scheduled to run at specific times or intervals.
+
+##### Manual
+
+```
+bin/backup.sh
+```
+
+##### Automated
+
+```
+crontab -e
+```
+Add a line to crontab. The backup (in the example) will run every day, at 5:50.
+
+```
+50 5 * * * $HOME/bin/backup.sh
+```
