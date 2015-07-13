@@ -2188,6 +2188,7 @@ var DXParticipacao = {
             var conn = db.connect();
             conn.query('UPDATE ppgis.promotor SET ' + fields.join() + ' WHERE id = ' + id, values, function (err, result) {
                 if (err) {
+                    // TODO: sql não existe...
                     console.log('UPDATE =' + sql + ' Error: ' + err);
                     db.debugError(callback, err);
                 } else {
