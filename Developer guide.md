@@ -149,3 +149,33 @@ git add client/GeoPublic/build/production/GeoPublic/uploaded_images
 ```bash
 sudo a2enmod proxy_wstunnel
 ```
+
+### Updates
+
+```
+    "email-templates": "^2.0.1",
+    npm install ejs --save
+```
+
+```
+-- cls class to enagle additional css for the plan description panel
+ALTER table ppgis.plano ADD COLUMN planocls character varying(24);
+
+-- each plan with its own layers
+ALTER TABLE public.tema ADD COLUMN idplano integer NULL;
+ALTER TABLE public.tema ADD CONSTRAINT tema_plano_fk FOREIGN KEY (idplano) REFERENCES ppgis.plano (id);
+```
+
+#### Compute the plan extent to fill the form (required!)
+
+```
+WITH extent AS (
+       SELECT ST_Extent(geom) as bbox
+       FROM ppgis_pu.c_nivel_pu
+     )
+SELECT
+	ST_AsEWKT(ST_Transform(ST_SetSRID(bbox,3763), 4326)) as EPSG_4326,
+	ST_AsGeoJSON(ST_Transform(ST_SetSRID(bbox,3763), 900913), 0) as EPSG_900913,
+	ST_AsEWKT(ST_SetSRID(bbox,3763)) as EPSG_3763
+FROM extent;
+```

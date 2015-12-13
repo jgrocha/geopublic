@@ -145,7 +145,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
     onMostraApresentacaoPlano: function (button, e, options) {
         var startplano = button.up('startplano');
-        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta);
+        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta, startplano.planocls);
         // esconde a #readybar, se visível
         var p = this.getReadyBar();
         // p.setVisible(false);
@@ -156,7 +156,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
         });
 
     },
-    showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta) {
+    showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta, planocls) {
         var tp = this.getPlanPresentationBar();
 
         if (tp.idplano != idplano) {
@@ -171,7 +171,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 designacao: designacao,
                 the_geom: the_geom,
                 proposta: proposta,
-                alternativeproposta: alternativeproposta
+                alternativeproposta: alternativeproposta,
+                planocls: planocls
             });
             tp.add(newDescricao);
 
@@ -285,19 +286,20 @@ Ext.define('GeoPublic.controller.StartPanel', {
         bar.removeAll(true);
 
         store.each(function (rec) {
-            // rec.id is dangerous, because the new object GeoPublic.view.StartPlano gets this id
-            // copy of the object, without id, using idplano instead
-            var plano = Ext.apply({}, rec.data, {
-                idplano: rec.data.id
-            });
-            delete plano.id;
-            //<debug>
-            console.log('Aplano antes de abrir');
-            // console.log(plano);
-            //</debug>
-
-            var newPlano = new GeoPublic.view.StartPlano(plano);
-            bar.add(newPlano);
+            if (rec.get('active')) {
+                // rec.id is dangerous, because the new object GeoPublic.view.StartPlano gets this id
+                // copy of the object, without id, using idplano instead
+                var plano = Ext.apply({}, rec.data, {
+                    idplano: rec.data.id
+                });
+                delete plano.id;
+                //<debug>
+                console.log('Aplano antes de abrir');
+                // console.log(plano);
+                //</debug>
+                var newPlano = new GeoPublic.view.StartPlano(plano);
+                bar.add(newPlano);
+            }
         });
         bar.doLayout();
 

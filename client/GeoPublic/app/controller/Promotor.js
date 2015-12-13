@@ -68,7 +68,7 @@ Ext.define('GeoPublic.controller.Promotor', {
 	},
 	onPlanoGridItemClick : function(dataview, record, item, index, e, eOpts) {
 		console.log('onPlanoGridItemClick');
-		var form = this.getEditor();
+		var form = dataview.up('grid-promotor').down('form#planoForm');
 		form.getForm().loadRecord(record);
 		form.enable();
 	},

@@ -2,7 +2,7 @@
 
 Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
-	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie', 'Ext.form.FieldSet'],
+	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie', 'Ext.form.FieldSet' ],
 	extend : 'Ext.app.Application',
 	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'BemVindoPanel', 'Promotor', 'TopHeader', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'Users.Profile', 'Users.Login', 'Guia', 'MapaComProjeto', 'Participation.Activity', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas', 'Sobre', 'BackOffice.Permission'], // , 'ChartByType', 'ChartByState'
 	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BemVindoPanel', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas', 'BackOffice.Layer', 'BackOffice.Sessao', 'BackOffice.Utilizador'],
@@ -180,6 +180,10 @@ Ext.define('GeoPublic.Application', {
             // Ext.example.msg('Nova participação recebida', data.params.participacao);
             Ext.example.msg('Participation deleted'.translate(), 'A participation was deleted'.translate());
         });
+
+		fromProjection = new OpenLayers.Projection("EPSG:900913");
+		toProjection = new OpenLayers.Projection("EPSG:4326");
+
 	},
 	launch : function() {
 		var me = this;

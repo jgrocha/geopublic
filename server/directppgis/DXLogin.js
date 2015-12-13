@@ -113,6 +113,8 @@ var DXLogin = {
 					if (resultSelect.rows.length == 0) {
 						db.disconnect(conn);
 						//release connection
+						// por aqui um deplay
+						// registar em BD a tentativa para saber se estamos perante um ataque baseado num dicionário
 						callback({
 							success : false,
 							message : 'Invalid user or password'

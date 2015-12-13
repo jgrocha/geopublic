@@ -38,9 +38,15 @@ Ext.define('GeoPublic.model.Plano', {
         name : 'proposta',
         type : 'string'
     }, 	{
-        name : 'alternativeproposta',
-        type : 'boolean'
-    }],
+		name : 'alternativeproposta',
+		type : 'boolean'
+	}, 	{
+		name : 'active',
+		type : 'boolean'
+	}, {
+		name : 'planocls',
+		type : 'string'
+	}],
 	// belongsTo : 'GeoPublic.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct
 	proxy : {

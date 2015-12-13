@@ -142,6 +142,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'base',
+                xtype: 'checkcolumn',
                 text: 'Base',
                 width: 60,
                 filter: {
@@ -154,6 +155,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'singletile',
+                xtype: 'checkcolumn',
                 text: 'Single',
                 width: 60,
                 hidden: true,
@@ -167,6 +169,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'visivel',
+                xtype: 'checkcolumn',
                 text: 'Visível',
                 width: 60,
                 filter: {
@@ -179,6 +182,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'activo',
+                xtype: 'checkcolumn',
                 text: 'Activo',
                 width: 60,
                 filter: {
@@ -188,6 +192,17 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 },
                 editor : {
                     xtype : 'checkbox'
+                }
+            }, {
+                dataIndex: 'idplano',
+                text: 'Plano',
+                width: 60,
+                filter: {
+                    type: 'numeric'
+                },
+                editor : {
+                    xtype : 'numberfield',
+                    allowBlank : true
                 }
             }, {
                 dataIndex: 'observacoes',

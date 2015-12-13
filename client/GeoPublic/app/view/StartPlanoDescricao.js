@@ -17,16 +17,23 @@ Ext.define('GeoPublic.view.StartPlanoDescricao', {
 		this.title = this.initialConfig.designacao;
 		// this.itemId = 'StartPlanoDescricao-' + this.initialConfig.id;
         this.items = [{
-            bodyPadding: '10 0 0 10',
+            //bodyPadding: '10 0 0 10',
             margin: '0 48 0 0',
             xtype: 'panel',
             // region: 'center',
             flex: 1,
             bodyStyle: 'background-color: #E6E6E6', // cinza claro
+            //bodyStyle: {
+            //    backgroundImage: 'url(resources/images/french-tourists-378051_960_720.jpg)',
+            //    //backgroundSize: '241 174',
+            //    backgroundRepeat: 'no-repeat',
+            //    backgroundPosition: 'top left'
+            //},
             items: [{
                 html: this.initialConfig.descricao,
                 // padding: '0 0 10 0',
-                bodyStyle: 'background:none'
+                bodyStyle: 'background:none',
+                cls : this.initialConfig.planocls
             }]
         }, {
             xtype: 'panel',

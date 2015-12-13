@@ -10,12 +10,13 @@ Ext.define('GeoPublic.view.StartPlano', {
     // bodyStyle : 'background-color:#e7d885',
     initComponent: function () {
         //<debug>
-        console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao + ' com a proposta '); //  + this.initialConfig.proposta.substr(0, 12));
+        console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao + ' com o estilo ' + this.initialConfig.planocls); //  + this.initialConfig.proposta.substr(0, 12));
         //</debug>
         this.idplano = this.initialConfig.idplano;
         this.idpromotor = this.initialConfig.idpromotor;
         this.descricao = this.initialConfig.descricao;
         this.proposta = this.initialConfig.proposta;
+        this.planocls = this.initialConfig.planocls;
 
         this.title = this.initialConfig.designacao;
         this.items = [{

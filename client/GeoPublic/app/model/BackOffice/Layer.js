@@ -45,6 +45,9 @@ Ext.define('GeoPublic.model.BackOffice.Layer', {
     }, {
         name : 'base',
         type : 'boolean'
+    }, {
+        name : 'idplano',
+        type : 'int'
     }],
     proxy : {
         type : 'direct',

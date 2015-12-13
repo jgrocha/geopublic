@@ -4,7 +4,7 @@ Ext.define('GeoPublic.controller.Mapa', {
     stores: ['Layer'], // getLayerStore()
     // requires: ['GeoExt.Action'],
     zoomLevelEdit: 12,
-    firsttime: 0,
+    firsttime: 1,
     init: function () {
         // <debug>
         console.log('O controlador GeoPublic.controller.Mapa init...');
@@ -50,12 +50,11 @@ Ext.define('GeoPublic.controller.Mapa', {
         mapPanelDebug = mapPanel;
         //</debug>
 
-
         var layers = [];
         var store = this.getLayerStore();
         store.load({
             params: {
-                filter: '[{"type":"boolean","value":true,"field":"activo"}]',
+                filter: '[{"type":"boolean","value":true,"field":"activo"}, {"type":"numeric","value":' + mapPanel.idplano + ',"field":"idplano", "comparison":"eq"}]',
                 sort: [{property: 'ord', direction: 'ASC'}]
             },
             callback: function (records, operation, success) {
@@ -89,8 +88,8 @@ Ext.define('GeoPublic.controller.Mapa', {
                                 records[i].data.titulo,
                                 records[i].data.url.trim().split(/ *, */),
                                 {
-                                    "STYLES": records[i].data.estilo,
-                                    "LAYERS": records[i].data.layer,
+                                    styles: records[i].data.estilo,
+                                    layers: records[i].data.layer,
                                     format: 'image/png',
                                     transparent: true
                                 }, {
@@ -163,6 +162,24 @@ Ext.define('GeoPublic.controller.Mapa', {
                 map.addLayer(locationLayer);
                 mapPanel.down('toolbar gx_geocodercombo#geocoder').layer = locationLayer;
                 // me.getGeocoder().layer = locationLayer;
+
+                var parser = new OpenLayers.Format.GeoJSON();
+                var polygon = parser.read(mapPanel.the_geom, "Geometry");
+                // create some attributes for the feature
+                var attributes = {idplano: mapPanel.idplano, name: "Limits"};
+                var feature = new OpenLayers.Feature.Vector(polygon, attributes);
+                var bboxpolygon = new OpenLayers.Layer.Vector("Limites do Plano", {
+                    displayInLayerSwitcher: true,
+                    isBaseLayer: false,
+                    styleMap: new OpenLayers.Style({
+                        fillOpacity: 0,
+                        strokeColor: "#00ccee",
+                        strokeDashstyle: 'dot',
+                        strokeWidth: 2
+                    })
+                });
+                bboxpolygon.addFeatures([feature]);
+                map.addLayer(bboxpolygon);
 
                 this.onMapaAfterRender(mapPanel, {});
 
@@ -345,10 +362,12 @@ Ext.define('GeoPublic.controller.Mapa', {
         // -- a ordem destes dois é importante
         mapPanel.highlightCtrl.activate();
         mapPanel.selectCtrl.activate();
+
         map.events.register('zoomend', this, function (event) {
             var zLevel = map.getZoom();
             console.log('Zoom level: ', zLevel);
 
+            /*
             if (this.firsttime) {
                 this.firsttime = 0;
                 // this is only necessary if a plan is selected in the startpanel and the map was never rendered before
@@ -356,12 +375,14 @@ Ext.define('GeoPublic.controller.Mapa', {
                 if (mapPanel.the_geom) {
                     var polygon = parser.read(mapPanel.the_geom, "Geometry");
                     //<debug>
-                    console.log('Vou fazer zoom ao plano ');
+                    console.log('Vou fazer zoomToExtent ao plano ');
                     console.log(polygon.getBounds());
                     //</debug>
                     map.zoomToExtent(polygon.getBounds(), true);
                 }
             }
+            */
+
         });
     }
 });

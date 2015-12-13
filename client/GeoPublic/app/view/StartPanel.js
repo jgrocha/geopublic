@@ -149,7 +149,7 @@ Ext.define('GeoPublic.view.StartPanel', {
             bodyStyle: 'background-color: #E6E6E6', // cinza claro
             items: [{
                 loader : {
-                    url : 'resources/guiarapido/participar.html',
+                    url : 'resources/guiarapido/participar_geo.html',
                     autoLoad : true
                 },
                 // padding: '0 0 10 0',

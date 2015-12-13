@@ -1,48 +1,119 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Multiple projections</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<script src="http://svn.osgeo.org/metacrs/proj4js/trunk/lib/proj4js-compressed.js"></script>
-		<script src="http://spatialreference.org/ref/epsg/3763/proj4js/"></script>
-		<link rel="stylesheet" type="text/css" href="http://dev.openlayers.org/releases/OpenLayers-2.13.1/theme/default/style.css" />
-		<script src="http://dev.openlayers.org/releases/OpenLayers-2.13.1/lib/OpenLayers.js"></script>
-		<script>
-			var map = null;
-			function init() {
-				var options = {
-					controls : [new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
-					units : "m",
-					maxExtent : new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
-					maxResolution : 156543.0399,
-					numZoomLevels : 19,
-					projection : "EPSG:900913",
-					displayProjection : new OpenLayers.Projection("EPSG:3763")
-				};
-				map = new OpenLayers.Map('map', options);
-				map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+<head>
+    <title>Multiple projections</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="http://svn.osgeo.org/metacrs/proj4js/trunk/lib/proj4js-compressed.js"></script>
+    <script src="http://spatialreference.org/ref/epsg/3763/proj4js/"></script>
+    <link rel="stylesheet" type="text/css"
+          href="http://dev.openlayers.org/releases/OpenLayers-2.13.1/theme/default/style.css"/>
+    <!-- <script src="http://dev.openlayers.org/releases/OpenLayers-2.13.1/lib/OpenLayers.js"></script> -->
+    <script src="/resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script>
+        var map = null;
+        function init() {
 
-				var bounds = new OpenLayers.Bounds(-119191.40749999962, -300404.80399999936, 162129.08110000013, 276083.7674000006);
-				var vector_layer = new OpenLayers.Layer.Vector("Point", {
-					units : "m",
-					projection : "EPSG:3763",
-					maxExtent : bounds,
-					maxResolution : 2251.90848203125
-				});
-				vector_layer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-22000, 108000), {
-					name : "foo",
-					description : "bar"
-				})]);
-				map.addLayer(vector_layer);
+            var limite = '{"type":"Polygon","coordinates":[[[-942654,4946230],[-942673,4951377],[-937546,4951395],[-937529,4946248],[-942654,4946230]]]}';
+            var parser = new OpenLayers.Format.GeoJSON();
+            var polygon = parser.read(limite, "Geometry");
 
-				var fromProjection = map.displayProjection;
-				var toProjection = new OpenLayers.Projection("EPSG:900913");
-				var position = new OpenLayers.LonLat(-22000, 108000).transform(fromProjection, toProjection);
-				console.log(position);
-				map.setCenter(position, 8);
-			}
-		</script>
-	</head>
-	<body onload="init()">
-		<div id='map' style='width: 400px; height: 500px;'></div>
-	</body>
+            var options = {
+                controls: [new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
+                units: "m",
+                resolutions: [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135, 0.29858214169740677, 0.14929107084870338, 0.07464553542435169, 0.037322767712175846, 0.018661383856087923, 0.009330691928043961, 0.004665345964021981, 0.0023326729820109904, 0.0011663364910054952, 5.831682455027476E-4, 2.915841227513738E-4, 1.457920613756869E-4],
+//					maxExtent : new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+                projection: new OpenLayers.Projection('EPSG:900913'),
+                maxExtent: new OpenLayers.Bounds(-942009.98523385,4946607.2775991,-938436.55416201, 4950648.8854691),
+                numZoomLevels: 21,
+//                projection: "EPSG:900913",
+//					displayProjection : new OpenLayers.Projection("EPSG:3763"),
+                // maxExtent: polygon.getBounds()
+            };
+            map = new OpenLayers.Map('map', options);
+
+            console.log(polygon.getBounds());
+            console.log(new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34));
+
+
+//				map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+
+            var tiled = new OpenLayers.Layer.WMS(
+                    "altavila_ivv", "http://softwarelivre.cm-agueda.pt/geoserver/ide_local/wms",
+                    {
+                        "LAYERS": 'ide_local:altavila_ivv',
+                        "STYLES": '',
+                        format: 'image/png',
+                        transparent: true,
+                        srs: 'EPSG:900913',
+                        srsName: "EPSG:900913"
+                    },
+                    {
+                        buffer: 0,
+                        displayOutsideMaxExtent: true,
+                        isBaseLayer: false
+                    }
+            );
+//				map.addLayer(tiled);
+            var ppgis_pu = new OpenLayers.Layer.WMS(
+                    "PPGIS PU", "http://softwarelivre.cm-agueda.pt/geoserver/ide_local/wms",
+                    {
+                        "LAYERS": 'ppgis_pu',
+                        "STYLES": '',
+                        format: 'image/png',
+                        transparent: true,
+                        srs: 'EPSG:900913',
+                        srsName: "EPSG:900913",
+                        sphericalMercator: true
+                    },
+                    {
+                        buffer: 0,
+                        displayOutsideMaxExtent: true,
+                        isBaseLayer: true
+                    }
+            );
+//				http://softwarelivre.cm-agueda.pt/geoserver/gwc/service/wms?LAYERS=ide_local%3Appgis_pu&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=-940481.19588989,4950061.951059,-939869.69966369,4950673.4472852&WIDTH=256&HEIGHT=256
+            var demolayer = new OpenLayers.Layer.WMS(
+                    "ide_local:ppgis_pu", "http://softwarelivre.cm-agueda.pt/geoserver/gwc/service/wms",
+                    {
+                        layers: 'ide_local:ppgis_pu',
+                        format: 'image/png'
+                    }, {
+                        tileSize: new OpenLayers.Size(256, 256)
+                    });
+
+            map.addLayer(demolayer);
+            map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+
+            var bounds = new OpenLayers.Bounds(-119191.40749999962, -300404.80399999936, 162129.08110000013, 276083.7674000006);
+            var vector_layer = new OpenLayers.Layer.Vector("Point", {
+                units: "m",
+                projection: "EPSG:3763",
+                maxExtent: bounds,
+                maxResolution: 2251.90848203125
+            });
+            vector_layer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-26800, 100500), {
+                name: "foo",
+                description: "Point foo"
+            })]);
+            vector_layer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-26950, 100550), {
+                name: "bar",
+                description: "Point bar"
+            })]);
+
+            // this is will not be reprojected :-(
+//				map.addLayer(vector_layer);
+
+//				var fromProjection = map.displayProjection;
+//            var fromProjection = new OpenLayers.Projection("EPSG:4326");
+//            var toProjection = new OpenLayers.Projection("EPSG:900913");
+//            var position = new OpenLayers.LonLat(-26800, 100500).transform(fromProjection, toProjection);
+//            console.log(position);
+//            map.setCenter(position, 16);
+            // map.zoomToExtent(new OpenLayers.Bounds(-945266.8308609043,4947530.290098204,-938839.131263624,4950079.394225834));
+            map.zoomToExtent(new OpenLayers.Bounds(-945266.8308609043,4947530.290098204,-938839.131263624,4950079.394225834));
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id='map' style='width: 400px; height: 500px;'></div>
+</body>
 </html>

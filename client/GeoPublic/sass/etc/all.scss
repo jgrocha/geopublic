@@ -32,6 +32,38 @@ td.grid-cell-wrap-text div {
 .combo-superior-false {
 	padding-left: 4pt;
 }
+
+.regula-mento .x-panel-body-default {
+  font-weight: bold;
+  color: white;
+  /* mix-blend-mode: exclusion;*/
+  /* text-shadow: 1px 1px 0px #000;*/
+  text-shadow: 0px 0px 2px #000;
+  padding: 10px 0 10px 10px;
+}
+
+.regula-mento {
+  background: url('images/french-tourists-378051_960_720.jpg') no-repeat 0 0 !important;
+  /*
+  background-color:black;
+  z-index:0;
+  opacity:0.5;
+  */
+}
+
+.mobilidade-suave .x-panel-body-default {
+  font-weight: bold;
+  color: white;
+  /* mix-blend-mode: exclusion;*/
+  /* text-shadow: 1px 1px 0px #000;*/
+  text-shadow: 0px 0px 2px #000;
+  padding: 10px 0 10px 10px;
+}
+
+.mobilidade-suave {
+  background: url('images/mobilidade-suave.jpg') no-repeat 0 0 !important;
+}
+
 /*
  * 265C00 verde
  * AA1E00 vermelho
