@@ -18,6 +18,9 @@ Ext.define('GeoPublic.view.StartPlano', {
         this.proposta = this.initialConfig.proposta;
         this.planocls = this.initialConfig.planocls;
 
+        var emails = this.initialConfig.email.split(/[\s,]+/);
+        this.responsible = emails[0];
+
         this.title = this.initialConfig.designacao;
         this.items = [{
             bodyPadding: '10 0 0 10',
@@ -47,7 +50,7 @@ Ext.define('GeoPublic.view.StartPlano', {
                 padding: '0 0 10 0',
                 bodyStyle: 'background:none'
             }, {
-                html: 'Contact'.translate() + ':&nbsp;' + '<a href="mailto:' + this.initialConfig.email + '?Subject=' + this.initialConfig.designacao + '">' + this.initialConfig.email + '</a>',
+                html: 'Contact'.translate() + ':&nbsp;' + '<a href="mailto:' + this.responsible + '?Subject=' + this.initialConfig.designacao + '">' + this.responsible + '</a>',
                 padding: '0 0 20 0',
                 bodyStyle: 'background:none'
             }]

@@ -46,6 +46,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                 f = new OpenLayers.Feature.Vector(parser.read(records[i].data.geojson, "Geometry"), {
                     color: records[i].data.color,
                     icon: records[i].data.icon,
+                    iconselected: records[i].data.icon.replace(/\.png$/, '-selected.png'),
                     title: records[i].data.titulo
                 });
                 // f.style.fillColor = records[i].data.color;
@@ -94,7 +95,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                     proposta: null,
                     feature: f, // pode ser null
                     estadoStore: me.getStoreEstado(),
-                    geodiscussao: true
+                    geodiscussao: true,
+                    moderador: me.email
                 });
                 // me.down('#flow').add(newDiscussion);
                 me.down('#flow').insert(0, newDiscussion);

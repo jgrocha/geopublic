@@ -122,23 +122,32 @@ Ext.define('GeoPublic.controller.Mapa', {
 
                 var defaultStyle = new OpenLayers.Style({
                     'pointRadius': 10,
-                    'fillColor': '${color}',
-                    'title': '${title}'
+                    //'fillColor': '${color}',
+                    'title': '${title}',
+                    'externalGraphic': '${icon}'
                 });
 
-                var highlightStyle = new OpenLayers.Style({
+                // onhover
+                var temporaryStyle = new OpenLayers.Style({
                     'pointRadius': 12 // {Number} Pixel point radius.  Default is 6.
+                    //'fillColor': '#FF0000',
+                    //'externalGraphic': 'resources/images/community_16x16.png'
                 });
 
+                // when selected, either on the map on on the button to show on the map
                 var selectStyle = new OpenLayers.Style({
-                    'pointRadius': 10, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
-                    'strokeColor': '#FFBB09',
-                    'strokeWidth': 2 // dafault 1
+                    //cursor: "crosshair",
+                    'pointRadius': 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+                    'externalGraphic': '${iconselected}'
+                    //'strokeColor': '#FFBB09',
+                    //'strokeWidth': 2,  // dafault 1
+                    //'graphicWidth': 20,
+                    //'graphicHeight': 20
                 });
 
                 var styleMap = new OpenLayers.StyleMap({
                     'default': defaultStyle,
-                    'temporary': highlightStyle,
+                    'temporary': temporaryStyle,
                     'select': selectStyle
                 });
 
@@ -241,18 +250,18 @@ Ext.define('GeoPublic.controller.Mapa', {
                         proposta: null,
                         feature: f,
                         estadoStore: discussaogeografia.getStoreEstado(),
-                        geodiscussao : true
+                        geodiscussao: true
                     });
                     f.discussion = newDiscussion;
                     // o método add só adiciona se ainda não existe no painel
                     // p.add(newDiscussion);
                     p.insert(0, newDiscussion);
                     /*
-                    if (f.attributes["numcomments"] > 0) {
-                        // give feedback to user
-                        newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');
-                    }
-                    */
+                     if (f.attributes["numcomments"] > 0) {
+                     // give feedback to user
+                     newDiscussion.down('commentlist').header.getEl().setStyle('cursor', 'pointer');
+                     }
+                     */
                 }
                 // faz scroll!
                 var pos = newDiscussion.getOffsetsTo(p)[1];
@@ -292,6 +301,9 @@ Ext.define('GeoPublic.controller.Mapa', {
                 // console.debug(event.feature);
                 if (!event.feature.attributes["title"]) {
                     event.feature.attributes["title"] = 'Nova participação'.translate();
+                }
+                if (!event.feature.attributes["icon"]) {
+                    event.feature.attributes["icon"] = 'resources/images/community_16x16.png';
                 }
             }
         });
@@ -363,26 +375,12 @@ Ext.define('GeoPublic.controller.Mapa', {
         mapPanel.highlightCtrl.activate();
         mapPanel.selectCtrl.activate();
 
+        //<debug>
         map.events.register('zoomend', this, function (event) {
             var zLevel = map.getZoom();
             console.log('Zoom level: ', zLevel);
-
-            /*
-            if (this.firsttime) {
-                this.firsttime = 0;
-                // this is only necessary if a plan is selected in the startpanel and the map was never rendered before
-                var parser = new OpenLayers.Format.GeoJSON();
-                if (mapPanel.the_geom) {
-                    var polygon = parser.read(mapPanel.the_geom, "Geometry");
-                    //<debug>
-                    console.log('Vou fazer zoomToExtent ao plano ');
-                    console.log(polygon.getBounds());
-                    //</debug>
-                    map.zoomToExtent(polygon.getBounds(), true);
-                }
-            }
-            */
-
         });
+        //</debug>
+
     }
 });

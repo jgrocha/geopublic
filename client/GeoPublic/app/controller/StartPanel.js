@@ -145,7 +145,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
     onMostraApresentacaoPlano: function (button, e, options) {
         var startplano = button.up('startplano');
-        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta, startplano.planocls);
+        this.showPlanDetails(startplano.idplano, startplano.idpromotor, startplano.title, startplano.descricao, startplano.the_geom, startplano.proposta, startplano.alternativeproposta, startplano.planocls, startplano.email);
         // esconde a #readybar, se visível
         var p = this.getReadyBar();
         // p.setVisible(false);
@@ -156,7 +156,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
         });
 
     },
-    showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta, planocls) {
+    showPlanDetails: function (idplano, idpromotor, designacao, descricao, the_geom, proposta, alternativeproposta, planocls, email) {
         var tp = this.getPlanPresentationBar();
 
         if (tp.idplano != idplano) {
@@ -172,7 +172,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 the_geom: the_geom,
                 proposta: proposta,
                 alternativeproposta: alternativeproposta,
-                planocls: planocls
+                planocls: planocls,
+                email: email
             });
             tp.add(newDescricao);
 
@@ -404,7 +405,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
                         title: plano.designacao,
                         designacao: plano.designacao,
                         descricao: plano.descricao,
-                        the_geom: plano.the_geom
+                        the_geom: plano.the_geom,
+                        email: plano.email
                         // proposta: plano.proposta,
                         // alternativeproposta: plano.alternativeproposta
                     }));

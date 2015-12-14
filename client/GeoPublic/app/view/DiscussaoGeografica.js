@@ -10,6 +10,7 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
     initComponent: function () {
         var me = this;
         //<debug>
+        console.log('GeoPublic.view.DiscussaoGeografica: this.initialConfig');
         console.log(this.initialConfig);
         //</debug>
 

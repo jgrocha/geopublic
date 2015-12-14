@@ -179,3 +179,20 @@ SELECT
 	ST_AsEWKT(ST_SetSRID(bbox,3763)) as EPSG_3763
 FROM extent;
 ```
+#### Allow several moderators on each plan
+
+```
+ALTER TABLE ppgis.plano ALTER COLUMN email TYPE character varying(120);
+```
+
+The email column should have at least one email: the email of the responsible.
+Other emails can be added for more moderators.
+Moderators will be notified for each participation inserted, updated or deleted.
+
+Moderators also can delete and edit existing participations.
+
+Emails should be separated by commas.
+
+```
+'jgr@geomaster.pt ,  ani@geomaster.pt'.split(/[\s,]+/);
+```

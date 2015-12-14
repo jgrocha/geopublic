@@ -32,6 +32,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
         this.idutilizador = this.initialConfig.idutilizador;
         this.feature = this.initialConfig.feature;
         this.participacao = this.initialConfig.participacao;
+        this.moderator = this.initialConfig.moderador;
 
         var botoesParticipacao = [];
 
@@ -50,8 +51,14 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
         if (GeoPublic.LoggedInUser) {
             showFormComments = true;
 
-            if (GeoPublic.LoggedInUser.data.id == this.idutilizador) {
-                // console.log('Mostra botões para a participação ' + this.initialConfig.id_ocorrencia);
+            var useremail = GeoPublic.LoggedInUser.data.email;
+            console.log('Comparar emails: ' + useremail.toLowerCase());
+            console.log('Comparar emails: ' + this.moderator.toLowerCase());
+            //console.log('Comparar emails: ' + this.moderator);
+
+            if ((GeoPublic.LoggedInUser.data.id == this.idutilizador) || (this.moderator.toLowerCase().indexOf(useremail) != -1)) {
+            //if (GeoPublic.LoggedInUser.data.id == this.idutilizador) {
+                console.log('Mostra botões para a participação ' + this.initialConfig.id_ocorrencia);
                 botoesParticipacao.push({
                     glyph: 0xf044, // fa-edit (alias) [&#xf044
                     xtype: 'button',
