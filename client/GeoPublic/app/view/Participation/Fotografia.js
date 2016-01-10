@@ -54,7 +54,7 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 			title : 'Fotografias',
 			store : this.store,
 			tpl : ['<tpl for=".">', //
-			'<div class="thumb-wrap" id="fotografia-{id}">', //
+			'<div class="thumb-wrap" id="fotografia-{id}" data-qtip="{name}">', //
 			'<div class="thumb"><img src="{url}"></div>', //
 			'</div>', '</tpl>', //
 			'<div class="x-clear"></div>' //

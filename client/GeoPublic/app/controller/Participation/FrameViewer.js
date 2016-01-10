@@ -4,18 +4,53 @@ Ext.define('GeoPublic.controller.Participation.FrameViewer', {
     init: function () {
         var me = this;
         this.control({
-            "discussion fotografia dataview" : {
-                itemclick : this.onFotografiaItemClick
+            "discussion fotografia dataview": {
+                itemclick: this.onFotografiaItemClick
             },
             'frameviewer': {
                 resize: this.onResizeJanela
             },
             'frameviewer button': {
                 click: this.buttonActions
+            },
+            'mapa combo#documentcombo': {
+                select: this.selectDocument
             }
         }, this);
     },
-    onFotografiaItemClick : function(dview, record, item, index, e, eOpts) {
+    selectDocument: function (combo, records, index) {
+        console.log(arguments);
+        console.log(records[0]);
+        console.log(records[0].get('documento'));
+        var documento = records[0].get('documento');
+        if (documento.length > 0) {
+            /*
+             var win = window.open(documento, '_blank');
+             win.focus();
+             */
+            var heightBrowser = Ext.getBody().getViewSize().height;
+            var heightJanela = Math.round(heightBrowser * 0.9);
+            var widthBrowser = Ext.getBody().getViewSize().width;
+            var widthJanela = Math.round(widthBrowser * 0.6);
+            Ext.create("Ext.Window", {
+                //title: titulo, // 'Documento',
+                width: widthJanela,
+                height: heightJanela,
+                modal: true,
+                layout: 'border',
+                items: [{
+                    xtype: 'pdfpanel',
+                    region: 'center',
+                    // title    : 'PDF Panel',
+                    // width    : 600,
+                    // height   : 600,
+                    pageScale: 1,           // Initial scaling of the PDF. 1 = 100%
+                    src: documento
+                }]
+            }).show();
+        }
+    },
+    onFotografiaItemClick: function (dview, record, item, index, e, eOpts) {
         console.log(arguments);
         // record.data.url, record.data.largura, record.data.altura
         // var res = str.replace("Microsoft", "W3Schools");
@@ -26,27 +61,27 @@ Ext.define('GeoPublic.controller.Participation.FrameViewer', {
         var documento = record.data.documento;
         if (documento.length > 0) {
             /*
-            var win = window.open(documento, '_blank');
-            win.focus();
-            */
+             var win = window.open(documento, '_blank');
+             win.focus();
+             */
             var heightBrowser = Ext.getBody().getViewSize().height;
             var heightJanela = Math.round(heightBrowser * 0.9);
             var widthBrowser = Ext.getBody().getViewSize().width;
             var widthJanela = Math.round(widthBrowser * 0.6);
-            Ext.create("Ext.Window",{
-                title : titulo, // 'Documento',
-                width : widthJanela,
+            Ext.create("Ext.Window", {
+                title: titulo, // 'Documento',
+                width: widthJanela,
                 height: heightJanela,
-                modal : true,
+                modal: true,
                 layout: 'border',
                 items: [{
-                    xtype   : 'pdfpanel',
+                    xtype: 'pdfpanel',
                     region: 'center',
                     // title    : 'PDF Panel',
                     // width    : 600,
                     // height   : 600,
                     pageScale: 1,           // Initial scaling of the PDF. 1 = 100%
-                    src      : documento
+                    src: documento
                 }]
             }).show();
         } else {
@@ -70,16 +105,16 @@ Ext.define('GeoPublic.controller.Participation.FrameViewer', {
                 break;
             case 'previousframe':
                 if (janelaframeviewer.indice > 0) {
-                    var record = janelaframeviewer.store.getAt(janelaframeviewer.indice-1);
+                    var record = janelaframeviewer.store.getAt(janelaframeviewer.indice - 1);
                     var imagem = record.data.url.replace("/80x80/", "/");
-                    janelaframeviewer.setImage(janelaframeviewer.indice-1, imagem, record.data.largura, record.data.altura);
+                    janelaframeviewer.setImage(janelaframeviewer.indice - 1, imagem, record.data.largura, record.data.altura);
                 }
                 break;
             case 'nextframe':
-                if (janelaframeviewer.indice < janelaframeviewer.store.count()-1) {
-                    var record = janelaframeviewer.store.getAt(janelaframeviewer.indice+1);
+                if (janelaframeviewer.indice < janelaframeviewer.store.count() - 1) {
+                    var record = janelaframeviewer.store.getAt(janelaframeviewer.indice + 1);
                     var imagem = record.data.url.replace("/80x80/", "/");
-                    janelaframeviewer.setImage(janelaframeviewer.indice+1, imagem, record.data.largura, record.data.altura);
+                    janelaframeviewer.setImage(janelaframeviewer.indice + 1, imagem, record.data.largura, record.data.altura);
                 }
                 break;
             default:

@@ -178,7 +178,17 @@ SELECT
 	ST_AsGeoJSON(ST_Transform(ST_SetSRID(bbox,3763), 900913), 0) as EPSG_900913,
 	ST_AsEWKT(ST_SetSRID(bbox,3763)) as EPSG_3763
 FROM extent;
+
+CREATE TABLE ppgis_pu.limite AS
+WITH extent AS (
+       SELECT ST_Extent(geom) as bbox
+       FROM ppgis_pu.c_nivel_pu
+     )
+SELECT 1, ST_SetSRID(bbox,3763) as the_geom
+FROM extent;
 ```
+
+
 #### Allow several moderators on each plan
 
 ```
@@ -196,3 +206,12 @@ Emails should be separated by commas.
 ```
 'jgr@geomaster.pt ,  ani@geomaster.pt'.split(/[\s,]+/);
 ```
+
+#### Documents
+
+```
+ALTER TABLE ppgis.fotografiatmp ADD COLUMN name CHARACTER VARYING(255);
+ALTER TABLE ppgis.fotografia ADD COLUMN name CHARACTER VARYING(255);
+```
+
+

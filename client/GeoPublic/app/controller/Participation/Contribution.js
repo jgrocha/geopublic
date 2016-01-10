@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.controller.Participation.Contribution', {
     extend: 'Ext.app.Controller',
-    stores: ['Ocorrencia'],
+    stores: ['Ocorrencia', 'Participation.DocumentCombo'],
     // Ext.ComponentQuery.query('contribution form#photos filefield#instantaneo')
     refs: [{
         selector: 'contribution',
@@ -457,6 +457,15 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                                     id: id
                                 }
                             });
+
+                            var storeDocuments = this.getParticipationDocumentComboStore();
+                            console.log('Reler combo dos documentos');
+                            storeDocuments.load({
+                                params: {
+                                    idplano: mapPanel.idplano
+                                }
+                            });
+
                         } else {
                             Ext.Msg.alert('Error'.translate(), 'Error saving changes'.translate());
                         }
@@ -497,6 +506,15 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                                     id: result.data[0].id
                                 }
                             });
+
+                            var storeDocuments = this.getParticipationDocumentComboStore();
+                            console.log('Reler combo dos documentos');
+                            storeDocuments.load({
+                                params: {
+                                    idplano: mapPanel.idplano
+                                }
+                            });
+
                         } else {
                             Ext.Msg.alert('Error'.translate(), 'Error saving changes'.translate());
                         }

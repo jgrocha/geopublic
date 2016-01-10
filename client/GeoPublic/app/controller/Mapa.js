@@ -1,7 +1,7 @@
 Ext.define('GeoPublic.controller.Mapa', {
     extend: 'Ext.app.Controller',
     // stores: ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
-    stores: ['Layer'], // getLayerStore()
+    stores: ['Layer', 'Participation.DocumentCombo'], // getLayerStore()
     // requires: ['GeoExt.Action'],
     zoomLevelEdit: 12,
     firsttime: 1,
@@ -49,6 +49,13 @@ Ext.define('GeoPublic.controller.Mapa', {
         mapDebug = map;
         mapPanelDebug = mapPanel;
         //</debug>
+
+        var storeDocuments = this.getParticipationDocumentComboStore();
+        storeDocuments.load({
+            params: {
+                idplano: mapPanel.idplano
+            }
+        });
 
         var layers = [];
         var store = this.getLayerStore();

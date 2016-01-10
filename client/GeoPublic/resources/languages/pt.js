@@ -265,6 +265,12 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Delete comment',
     "translation": "Remover comentário"
+}, {
+    "id": 'Useful documents',
+    "translation": "Documentos de suporte"
+}, {
+    "id": 'Choose a document...',
+    "translation": "Escolha o documento..."
 }];
 
 /*

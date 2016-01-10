@@ -18,7 +18,10 @@ Ext.define('GeoPublic.model.Participation.Fotografia', {
 	}, {
         name : 'documento',
         type: 'string'
-    }],
+    }, {
+		name : 'name',
+		type : 'string'
+	}],
 	proxy : {
 		type : 'direct',
 		// paramOrder : ['id', 'idocorrencia'],

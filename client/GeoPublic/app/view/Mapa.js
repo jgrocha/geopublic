@@ -72,6 +72,33 @@ Ext.define('GeoPublic.view.Mapa', {
             // url : "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1&viewboxlbrt=-8.559,40.495,-8.245,40.695",
             //url: "http://open.mapquestapi.com/nominatim/v1/search.php?format=json&bounded=1",
             width: 400
+        }, {
+            xtype : 'tbfill'
+        }, {
+            xtype : 'label',
+            html : 'Useful documents'.translate(),
+            style : {
+                'font-size' : '12px', // The javascript constant.
+                'font-weight' : 'bold'
+            }
+        }, {
+            xtype : 'combo',
+            name : 'iddocument', // o que é submetido no form...
+            itemId : 'documentcombo',
+            editable : false,
+            valueField : 'id',
+            displayField : 'name', // 'documento',
+            emptyText : 'Choose a document...'.translate(),
+            //forceSelection : true,
+            triggerAction : 'all',
+            store : 'Participation.DocumentCombo', // 'TipoOcorrenciaCombo',
+            queryMode : 'local',
+            //listConfig : {
+            //    itemTpl : '<tpl for="."><div class="combo-superior-{isclass}"><span>{designacao}</span></div></tpl>'
+            //},
+            //afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>',
+            //anchor : '100%',
+            width: 400
         }];
         this.callParent(arguments);
     }

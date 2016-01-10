@@ -208,9 +208,9 @@ var DXFormUploads = {
                     fs.rename(tmp_path, path_normal, function (err) {
                         if (err)
                             throw err;
-                        var fields = ['sessionid', 'pasta', 'caminho', 'idutilizador', 'tamanho', 'largura', 'altura'];
-                        var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7'];
-                        var values = [sessionID, folder, newfilename, request.session.userid, file.size, largura, altura];
+                        var fields = ['sessionid', 'pasta', 'caminho', 'idutilizador', 'tamanho', 'largura', 'altura', 'name'];
+                        var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8'];
+                        var values = [sessionID, folder, newfilename, request.session.userid, file.size, largura, altura, file.name];
                         console.log(values);
                         var conn = db.connect();
                         conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {
@@ -243,9 +243,9 @@ var DXFormUploads = {
                 fs.rename(tmp_path, path_normal, function (err) {
                     if (err)
                         throw err;
-                    var fields = ['sessionid', 'pasta', 'caminho', 'observacoes', 'idutilizador', 'tamanho', 'largura', 'altura'];
-                    var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8'];
-                    var values = [sessionID, folder, aleatorio + '.png', pasta + '/doc/' + newfilename, request.session.userid, file.size, largura, altura];
+                    var fields = ['sessionid', 'pasta', 'caminho', 'observacoes', 'idutilizador', 'tamanho', 'largura', 'altura', 'name'];
+                    var buracos = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
+                    var values = [sessionID, folder, aleatorio + '.png', pasta + '/doc/' + newfilename, request.session.userid, file.size, largura, altura, file.name];
                     console.log(values);
                     var conn = db.connect();
                     conn.query('INSERT INTO ppgis.fotografiatmp (' + fields.join() + ') VALUES (' + buracos.join() + ') RETURNING id', values, function (err, resultInsert) {

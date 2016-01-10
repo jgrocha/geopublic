@@ -15,6 +15,9 @@ Ext.define('GeoPublic.model.Participation.FotografiaTmp', {
 	}, {
 		name : 'datacriacao',
 		type : 'date'
+	}, {
+		name : 'name',
+		type : 'string'
 	}],
 	proxy : {
 		type : 'direct',

@@ -1,5 +1,5 @@
 {
-  "name": "default-ext-direct-mysql-port-3000",
+  "name": "geopublic",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jurisv/code-examples/tree/master/node-server/extdirect-mysql"
+    "url": "https://github.com/jgrocha/geopublic"
   },
   "dependencies": {
     "connect-redis": "1.4.7",

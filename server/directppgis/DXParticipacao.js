@@ -728,7 +728,7 @@ var DXParticipacao = {
         console.log(params);
         var conn = db.connect();
 
-        var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
+        var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, name FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
@@ -807,18 +807,41 @@ var DXParticipacao = {
         console.log('readFotografia: ');
         // console.log(arguments);
         console.log(params);
-        // { idocorrencia: 1, page: 1, start: 0, limit: 25 }
-        var idocorrencia = params.idocorrencia;
-        var conn = db.connect();
 
-        var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
+        // normal
+        // { idocorrencia: 1, page: 1, start: 0, limit: 25 }
+        // for the DocumentCombo
+        // { idplano: 1, page: 1, start: 0, limit: 25 }
+
+        var idocorrencia = 0, idplano = 0;
+        var sql = '';
+        var totalQuery = '';
+
+        if (params.idocorrencia && params.idocorrencia > 0) {
+            idocorrencia = params.idocorrencia;
+            sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
+            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
+        }
+        if (params.idplano && params.idplano > 0) {
+            idplano = params.idplano;
+            sql  = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name ";
+            sql += "FROM ppgis.fotografia where not inapropriada and ";
+            sql += "idocorrencia IN ( select id from ppgis.ocorrencia where idplano = " + idplano + ") and observacoes is not null";
+            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia IN ( select id from ppgis.ocorrencia where idplano = ' + idplano + ") and observacoes is not null";
+        }
+
+        console.log('--8<-----------------------------------------------------------------------------------');
+        console.log(sql);
+        console.log(totalQuery);
+        console.log('--8<-----------------------------------------------------------------------------------');
+
+        var conn = db.connect();
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
                 conn.query(totalQuery, function (err, resultTotalQuery) {
                     if (err) {
                         console.log('SQL=' + totalQuery + ' Error: ', err);
@@ -826,11 +849,12 @@ var DXParticipacao = {
                     } else {
                         db.disconnect(conn);
                         //release connection
-                        console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+                        //console.log('Totais: ', result.rows.length, resultTotalQuery.rows[0].totals);
+                        console.log('Totais: ', result.rows.length);
                         callback({
                             success: true,
                             data: result.rows,
-                            total: resultTotalQuery.rows[0].totals
+                            total: 25 // resultTotalQuery.rows[0].totals
                         });
                     }
                 });
@@ -977,8 +1001,8 @@ var DXParticipacao = {
                         console.log(sql, err);
                         rollback(conn, callback);
                     }
-                    var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao) ';
-                    sql += 'select ' + id + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ';
+                    var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name) ';
+                    sql += 'select ' + id + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name ';
                     sql += 'from ppgis.fotografiatmp ';
                     sql += "where sessionid = '" + sessionID + "'";
                     conn.query(sql, function (err, resultInsertFotografia) {
@@ -1074,8 +1098,8 @@ var DXParticipacao = {
                     console.log('delete from ppgis.fotografiatmp: ', err);
                     rollback(conn, callback);
                 }
-                var sql = 'insert into ppgis.fotografiatmp (sessionid, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao) ';
-                sql += "select '" + sessionID + "', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ";
+                var sql = 'insert into ppgis.fotografiatmp (sessionid, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name) ';
+                sql += "select '" + sessionID + "', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name ";
                 sql += 'from ppgis.fotografia ';
                 sql += "where idocorrencia = " + params.idocorrencia;
                 console.log(sql);
@@ -1158,8 +1182,8 @@ var DXParticipacao = {
                     rollback(conn, callback);
                 }
                 var newid = resultInsert.rows[0].id;
-                var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao) ';
-                sql += 'select ' + newid + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao ';
+                var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name) ';
+                sql += 'select ' + newid + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name ';
                 sql += 'from ppgis.fotografiatmp ';
                 sql += "where sessionid = '" + sessionID + "'";
                 conn.query(sql, function (err, result2Insert) {
