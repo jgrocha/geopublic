@@ -1,6 +1,6 @@
 Ext.define('GeoPublic.view.BackOffice.Permission', {
     extend: 'Ext.container.Container',
-    xtype: 'permissoes',
+    alias: 'widget.permissoes',
     requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number',
         'Ext.toolbar.Paging', 'Ext.form.field.Checkbox',
         'Ext.grid.column.Action',
@@ -25,7 +25,9 @@ Ext.define('GeoPublic.view.BackOffice.Permission', {
         var gridGrupo = {
             title: 'Grupos',
             columnWidth: .3,
+            style: 'padding:5px',
             xtype: 'gridpanel',
+            itemId: 'grid-group',
             region: 'center',
             // itemId: 'todoGrid',
             store: 'BackOffice.Grupo',
@@ -49,13 +51,16 @@ Ext.define('GeoPublic.view.BackOffice.Permission', {
                 filter: {
                     type: 'string'
                 }
-            }]
+            }],
+            selModel: {  allowDeselect: true }
         };
 
         var gridPermissao = {
             title: 'Permissões',
-            columnWidth: .2,
+            columnWidth: .3,
+            style: 'padding:5px',
             xtype: 'gridpanel',
+            itemId: 'grid-permission',
             region: 'center',
             // itemId: 'todoGrid',
             store: 'BackOffice.Permissao',
@@ -69,11 +74,27 @@ Ext.define('GeoPublic.view.BackOffice.Permission', {
                 dataIndex: 'idgrupo',
                 text: 'Grupo',
                 width: 80,
+                hidden: true,
                 filter: {
                     type: 'numeric'
                 }
             }, {
                 dataIndex: 'idmenu',
+                text: 'Menu',
+                width: 120,
+                hidden: true,
+                filter: {
+                    type: 'string'
+                }
+            }, {
+                dataIndex: 'nome',
+                text: 'Group',
+                width: 120,
+                filter: {
+                    type: 'string'
+                }
+            }, {
+                dataIndex: 'titulo',
                 text: 'Menu',
                 width: 120,
                 filter: {
@@ -84,8 +105,10 @@ Ext.define('GeoPublic.view.BackOffice.Permission', {
 
         var gridMenu = {
             title: 'Menus disponíveis',
-            columnWidth: .5,
+            columnWidth: .4,
+            style: 'padding:5px',
             xtype: 'gridpanel',
+            itemId: 'grid-menu',
             region: 'center',
             // itemId: 'todoGrid',
             store: 'BackOffice.Menu',

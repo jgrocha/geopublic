@@ -7,6 +7,6 @@ Ext.define('GeoPublic.store.BackOffice.Utilizador', {
     remoteSort: true, //enable remote filter
     remoteFilter: true, //enable remote sorting
     pageSize: 20,
-    //autoSync: true, // if operating on model directly this will make double POSTs!
+    autoSync: true, // if operating on model directly this will make double POSTs!
     model: 'GeoPublic.model.Utilizador'
 });

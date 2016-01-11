@@ -6,6 +6,12 @@ Ext.define('GeoPublic.model.BackOffice.Permissao', {
     }, {
         name: 'idgrupo',
         type: 'int'
+    }, {
+        name: 'nome', // group name
+        type: 'string'
+    }, {
+        name: 'titulo', // menu title
+        type: 'string'
     }],
     proxy: {
         type: 'direct',

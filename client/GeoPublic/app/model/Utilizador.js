@@ -10,8 +10,8 @@ Ext.define('GeoPublic.model.Utilizador', {
 		persist : false
 	}, {
 		name : 'idgrupo',
-		type : 'int',
-		persist : false
+		type : 'int' //,
+		// persist : false // BackOffice.Utilizador needs to change idgrupo
 	}, {
 		name : 'email',
 		type : 'string',
@@ -101,14 +101,18 @@ Ext.define('GeoPublic.model.Utilizador', {
 		name : 'longitude',
 		type : 'int',
 		useNull : true
+	}, {
+		name : 'moderator',
+		type : 'boolean',
+		persist : false
 	}],
     proxy : {
         type : 'direct',
         api : {
             // create : 'ExtRemote.DXSessao.create',
-            read : 'ExtRemote.DXSessao.readUtilizador'
-            // update : 'ExtRemote.DXSessao.update',
-            // destroy : 'ExtRemote.DXSessao.destroy'
+            read : 'ExtRemote.DXSessao.readUtilizador',
+            update : 'ExtRemote.DXSessao.updateUtilizador',
+            destroy : 'ExtRemote.DXSessao.destroyUtilizador'
         },
         reader : {
             type : 'json',

@@ -549,17 +549,36 @@ var DXSessao = {
          limit: 20 }
          */
 
-        console.log('1...');
         var conn = db.connect();
-        console.log('2...');
-        var sql = 'SELECT * FROM utilizador';
+
+        /*
+         WITH moderators AS (
+         select distinct(u.id), True as moderator
+         from utilizador u, ppgis.plano p
+         where p.email ilike '%' || u.email || '%'
+         )
+         SELECT u.id, u.nome, lower(u.email), m.moderator
+         FROM utilizador u
+         LEFT OUTER JOIN moderators m
+         ON u.id = m.id
+         */
+
+        var sql = 'WITH moderators AS ( ';
+        sql += '    select distinct(u.id), True as moderator ';
+        sql += 'from utilizador u, ppgis.plano p ';
+        sql += "where p.email ilike '%' || u.email || '%' ";
+        sql += ') ';
+        sql += 'SELECT u.*, m.moderator ';
+        sql += 'FROM utilizador u ';
+        sql += 'LEFT OUTER JOIN moderators m ';
+        sql += 'ON u.id = m.id ';
+
         var where = '';
 
         if (params.hasOwnProperty('userid') && (parseInt(params.userid) > 0)) {
             where = " WHERE userid = '" + params.userid + "'";
         }
 
-        console.log('3...');
         if (params.filter) {
             /*
              [ { type: 'date',
@@ -647,6 +666,76 @@ var DXSessao = {
                             total: resultTotalQuery.rows[0].totals // rowsTotal[0].totals
                         });
                     }
+                });
+            }
+        });
+    },
+    updateUtilizador: function (params, callback, sessionID, request) {
+        /*
+         { datacriacao: '2015-03-18T22:03:54',
+         datamodificacao: '2015-03-18T22:03:54',
+         ultimologin: null,
+         ativo: true,
+         latitude: null,
+         longitude: null,
+         id: 38 }
+         */
+        console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+        console.log('updateUtilizador: ', params);
+        var i = 1, id, fields = [], values = [];
+        id = params.id;
+        delete params.id;
+        for (var key in params) {
+            switch(key) {
+                case 'ativo':
+                case 'idgrupo':
+                    fields.push(key + '= $' + i);
+                    values.push(params[key]);
+                    i = i + 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        fields.push('datamodificacao = $' + i);
+        values.push('now()');
+
+        var conn = db.connect();
+        conn.query('UPDATE utilizador SET ' + fields.join() + ' WHERE id = ' + id, values, function (err, result) {
+            if (err) {
+                console.log('UPDATE =' + sql + ' Error: ' + err);
+                db.debugError(callback, err);
+            } else {
+                var sql = 'SELECT * FROM utilizador where id = ' + id;
+                conn.query(sql, function (err, resultSelect) {
+                    db.disconnect(conn);
+                    if (err) {
+                        console.log('SQL=' + sql + ' Error: ', err);
+                        db.debugError(callback, err);
+                    } else {
+                        callback({
+                            success: true,
+                            message: 'Dados atualizados',
+                            data: resultSelect.rows
+                        });
+                    }
+                });
+            }
+        });
+    },
+    destroyUtilizador: function (params, callback, sessionID, request) {
+        // falta proteger só para grupo admin
+        console.log('destroyUtilizador: ', params.id);
+        var conn = db.connect();
+        var sql = 'delete FROM utilizador where id = ' + params.id;
+        conn.query(sql, function (err, result) {
+            db.disconnect(conn);
+            if (err) {
+                console.log('SQL=' + sql + ' Error: ', err);
+                db.debugError(callback, err);
+            } else {
+                callback({
+                    success: true
                 });
             }
         });
@@ -777,7 +866,7 @@ var DXSessao = {
         });
     },
     readPermissao: function (params, callback, sessionID, request) {
-        console.log('DXSessao.readGrupo Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+        console.log('DXSessao.readPermissao Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log(params);
         // { userid: 31, page: 1, start: 0, limit: 5 }
         // ou
@@ -799,14 +888,14 @@ var DXSessao = {
          limit: 20 }
          */
 
-        console.log('1...');
         var conn = db.connect();
-        console.log('2...');
-        var sql = 'SELECT * FROM permissao';
-        var where = '';
 
-        if (params.hasOwnProperty('userid') && (parseInt(params.userid) > 0)) {
-            where = " WHERE userid = '" + params.userid + "'";
+        var sql = 'select p.idgrupo, p.idmenu, g.nome, m.titulo ';
+        sql += 'from public.permissao p, public.grupo g, public.menu m ';
+        var where = 'where p.idmenu = m.id and p.idgrupo = g.id';
+
+        if (params.hasOwnProperty('idgrupo') && (parseInt(params.idgrupo) > 0)) {
+            where += " AND idgrupo = " + params.idgrupo;
         }
 
         console.log('3...');
