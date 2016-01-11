@@ -2085,13 +2085,25 @@ var DXParticipacao = {
         var where;
 
         if (params.id && parseInt(params.id)) {
-            where = ' where idpromotor = ' + params.id + ' and active';
+            if (params.mode && parseInt(params.mode)) {
+                if (parseInt(params.mode) == 1) {
+                    // for statistics, we need all plans, even already closed (but only the active ones)
+                    where = ' where idpromotor = ' + params.id + ' and active';
+                } else {
+                    // for backoffice, we need all plans, even not active
+                    where = ' where idpromotor = ' + params.id;
+                }
+            } else {
+                // to select the plan for discussion, the user can only select the ones opened
+                console.log('readPlano SEM params.mode');
+                where = ' where idpromotor = ' + params.id + ' and active and fim > now()';
+            }
         } else {
             // plan combobox in layers grid
             where = ' where true';
         }
 
-        var open = '';
+        /*
         if (params.mode && parseInt(params.mode)) {
             // for statistics, we need all plans, even already closed
             // for the layers combobox,  we need all plans, even already closed for all promoters
@@ -2102,6 +2114,7 @@ var DXParticipacao = {
             console.log('readPlano SEM params.mode');
             where += ' and fim > now()';
         }
+        */
 
         var userid = request.session.userid;
         var conn = db.connect();

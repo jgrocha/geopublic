@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.controller.Promotor', {
+Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 	extend : 'Ext.app.Controller',
 	stores : ['Promotor', 'Plano'], // getPromotorStore(), getPlanoStore()
 	// models : ['Plano'],
@@ -81,7 +81,10 @@ Ext.define('GeoPublic.controller.Promotor', {
 			// var model = this.getPlanoModel();
 			// model.load(selection[0].data.id);
 			store.load({
-				id : selection[0].data.id
+				params:{
+					id : selection[0].data.id,
+					mode: 2	// read all plans
+				}
 			});
 		}
 	},

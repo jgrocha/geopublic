@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.view.Promotor', {
+Ext.define('GeoPublic.view.BackOffice.Promotor', {
     extend: 'Ext.container.Container',
     alias: 'widget.grid-promotor',
     requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor'],

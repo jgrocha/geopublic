@@ -997,6 +997,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Plano": [],
+  "GeoPublic.controller.BackOffice.Promotor": [],
   "GeoPublic.controller.BackOffice.Sessao": [],
   "GeoPublic.controller.BackOffice.Utilizador": [],
   "GeoPublic.controller.BemVindoPanel": [],
@@ -1011,8 +1013,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
   "GeoPublic.controller.Participation.FrameViewer": [],
-  "GeoPublic.controller.Plano": [],
-  "GeoPublic.controller.Promotor": [],
   "GeoPublic.controller.StartPanel": [],
   "GeoPublic.controller.StartPlano": [],
   "GeoPublic.controller.StartPlanoDescricao": [],
@@ -1067,6 +1067,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Avatar": [],
   "GeoPublic.view.BackOffice.Layer": [],
   "GeoPublic.view.BackOffice.Permission": [],
+  "GeoPublic.view.BackOffice.Promotor": [],
   "GeoPublic.view.BackOffice.Sessao": [],
   "GeoPublic.view.BackOffice.Utilizador": [],
   "GeoPublic.view.BemVindoPanel": [],
@@ -1093,7 +1094,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Participation.FotografiaTmp": [],
   "GeoPublic.view.Participation.FrameViewer": [],
   "GeoPublic.view.Participation.Ocorrencias": [],
-  "GeoPublic.view.Promotor": [],
   "GeoPublic.view.Sobre": [],
   "GeoPublic.view.StartPanel": [],
   "GeoPublic.view.StartPlano": [],
@@ -2281,6 +2281,8 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Plano": [],
+  "GeoPublic.controller.BackOffice.Promotor": [],
   "GeoPublic.controller.BackOffice.Sessao": [],
   "GeoPublic.controller.BackOffice.Utilizador": [],
   "GeoPublic.controller.BemVindoPanel": [],
@@ -2295,8 +2297,6 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
   "GeoPublic.controller.Participation.FrameViewer": [],
-  "GeoPublic.controller.Plano": [],
-  "GeoPublic.controller.Promotor": [],
   "GeoPublic.controller.StartPanel": [],
   "GeoPublic.controller.StartPlano": [],
   "GeoPublic.controller.StartPlanoDescricao": [],
@@ -2356,6 +2356,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.BackOffice.Permission": [
     "widget.permissoes"
+  ],
+  "GeoPublic.view.BackOffice.Promotor": [
+    "widget.grid-promotor"
   ],
   "GeoPublic.view.BackOffice.Sessao": [
     "widget.grid-sessao"
@@ -2434,9 +2437,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Participation.Ocorrencias": [
     "widget.ocorrencias"
-  ],
-  "GeoPublic.view.Promotor": [
-    "widget.grid-promotor"
   ],
   "GeoPublic.view.Sobre": [
     "widget.sobre"

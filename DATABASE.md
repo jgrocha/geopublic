@@ -16,8 +16,38 @@ ALTER TABLE ppgis.comentario ALTER COLUMN comentario TYPE text;
 ### Last motifications
 
 ```
+CREATE OR REPLACE FUNCTION ppgis.createdefaultlayer()
+  RETURNS trigger AS
+$BODY$
+DECLARE
+estado integer;
+  BEGIN
+    INSERT INTO public.tema (ord, titulo, url, tipo, srid, activo, visivel, idutilizador, idplano)
+VALUES (10, 'OSM', 'http://a.tile.openstreetmap.org/${z}/${x}/${y}.png,http://b.tile.openstreetmap.org/${z}/${x}/${y}.png,http://c.tile.openstreetmap.org/${z}/${x}/${y}.png',
+'OSM', 3857, TRUE, TRUE, NEW.idutilizador, NEW.id);
+
+INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon)
+VALUES (1, NEW.id, 'Recebida', 'Parcicipação registada', 'red', 'resources/images/traffic-cone-icon-red-32.png');
+
+     RETURN NEW;
+  END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+CREATE TRIGGER addlayer
+  AFTER INSERT
+  ON ppgis.plano
+  FOR EACH ROW
+  EXECUTE PROCEDURE ppgis.createdefaultlayer();
+```
+
+```
+SELECT setval('ppgis.plano_id_seq', 49);
+ALTER TABLE ppgis.promotor ALTER COLUMN active SET DEFAULT TRUE;
 ALTER table public.tema ALTER COLUMN idplano DROP NOT NULL;
 ```
+### Previous motifications
 
 ```
 ALTER TABLE ppgis.promotor ADD COLUMN active boolean;

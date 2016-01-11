@@ -121,7 +121,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'estilo',
                 text: 'Estilo',
-                width: 120,
+                width: 80,
                 filter: {
                     type: 'string'
                 },
@@ -229,6 +229,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'observacoes',
                 text: 'Observações',
+                hidden: true,
                 flex: 2,
                 filter: {
                     type: 'string'

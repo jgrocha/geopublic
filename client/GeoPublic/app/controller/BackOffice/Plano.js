@@ -1,4 +1,4 @@
-Ext.define('GeoPublic.controller.Plano', {
+Ext.define('GeoPublic.controller.BackOffice.Plano', {
 	extend : 'Ext.app.Controller',
 	stores : ['Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia'], // getPlanoStore(), getParticipationEstadoOcorrenciaStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
@@ -123,6 +123,10 @@ Ext.define('GeoPublic.controller.Plano', {
 			storeEstado.loadData([], false);
 			this.getButtonAddTipoOcorrencia().setDisabled(1);
 			this.getButtonAddEstadoOcorrencia().setDisabled(1);
+
+			var form = this.getEditor();
+			form.getForm().reset();
+			form.disable();
 		}
 	},
 	onButtonClickAdiciona : function(button, e, options) {
@@ -154,14 +158,21 @@ Ext.define('GeoPublic.controller.Plano', {
 			var r = Ext.create('GeoPublic.model.Plano', {
 				idpromotor : selection[0].data.id,
 				designacao : 'Plano',
-				descricao : 'Descrição do plano ou projeto',
+				descricao : 'Descrição detalhada do plano ou projeto',
 				responsavel : responsavel,
 				email : email,
 				site : 'http://geomaster.pt/plano',
 				inicio : hoje,
-				fim : futuro
+				fim : futuro,
+				active: true,
+				the_geom: '{"type":"Polygon","coordinates":[[[-941345,4947554],[-941354,4950062],[-938856,4950070],[-938848,4947563],[-941345,4947554]]]}'
 			});
 			this.getPlanoStore().insert(0, r);
+
+			var form = this.getEditor();
+			form.getForm().loadRecord(r);
+			form.enable();
+
 		}
 	},
 	onButtonClickRemove : function(button, e, options) {
@@ -181,6 +192,10 @@ Ext.define('GeoPublic.controller.Plano', {
 		} else {
 			Ext.example.msg('Remover plano', 'Não pode remover um plano criado por outro utilizador.');
 		}
+
+		var form = this.getEditor();
+		form.getForm().reset();
+		form.disable();
 
 	},
 	onPlanoStoreLoad : function(proxy, records, successful, eOpts) {
