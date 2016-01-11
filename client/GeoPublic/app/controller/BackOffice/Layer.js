@@ -69,15 +69,8 @@ Ext.define('GeoPublic.controller.BackOffice.Layer', {
         // console.log(rowEditing);
         rowEditing.cancelEdit();
         // Create a model instance
-        var r = Ext.create('GeoPublic.model.BackOffice.Layer', {
-            /*
-             designacao : 'Nova entidade',
-             email : 'info@entidade.pt',
-             site : 'http://www.entidade.pt',
-             // É preenchida, mas só para o utilizador ver. Não será editável.
-             dataregisto : new Date()
-             */
-        });
+        // model default values...
+        var r = Ext.create('GeoPublic.model.BackOffice.Layer', { });
         this.getBackOfficeLayerStore().insert(0, r);
         // passei o startEdit para depois do evento 'write', depois de termos o id deste registo
         // rowEditing.startEdit(0, 0);

@@ -210,6 +210,10 @@ var DXSessao = {
             // se existir um ID, retira-se da lista
             id = params.id;
             delete params.id;
+            if (params.hasOwnProperty('idplano') && (parseInt(params.idplano) == 0)) {
+                delete params.idplano;
+            }
+            console.log('createLayer: ', params.idplano);
             for (var key in params) {
                 fields.push(key);
                 buracos.push('$' + i);

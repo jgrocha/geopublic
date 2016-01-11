@@ -23,7 +23,8 @@ Ext.define('GeoPublic.model.BackOffice.Layer', {
 		type : 'string'
 	}, {
         name : 'srid',
-        type : 'int'
+        type : 'int',
+        defaultValue: 900913
     }, {
 		name : 'estilo',
 		type : 'string'

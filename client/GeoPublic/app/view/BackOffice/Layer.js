@@ -1,7 +1,8 @@
 Ext.define('GeoPublic.view.BackOffice.Layer', {
     extend: 'Ext.container.Container',
+    stores: ['BackOffice.Plano'],
     xtype: 'layer',
-    requires : ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor', 'Ext.ux.grid.FiltersFeature'],
+    requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor', 'Ext.ux.grid.FiltersFeature'],
     title: 'Camadas do mapa',
     layout: 'border',
     style: 'padding:5px',
@@ -46,9 +47,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'numeric'
                 },
-                editor : {
-                    xtype : 'numberfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'numberfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'titulo',
@@ -57,9 +58,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : false
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
                 }
             }, {
                 dataIndex: 'layer',
@@ -68,9 +69,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'grupo',
@@ -80,9 +81,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'url',
@@ -91,9 +92,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'tipo',
@@ -102,9 +103,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'srid',
@@ -113,9 +114,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'int'
                 },
-                editor : {
-                    xtype : 'numberfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'numberfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'estilo',
@@ -124,9 +125,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'qtip',
@@ -136,9 +137,9 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }, {
                 dataIndex: 'base',
@@ -150,8 +151,8 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                     yesText: 'Sim',
                     noText: 'Não'
                 },
-                editor : {
-                    xtype : 'checkbox'
+                editor: {
+                    xtype: 'checkbox'
                 }
             }, {
                 dataIndex: 'singletile',
@@ -164,8 +165,8 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                     yesText: 'Sim',
                     noText: 'Não'
                 },
-                editor : {
-                    xtype : 'checkbox'
+                editor: {
+                    xtype: 'checkbox'
                 }
             }, {
                 dataIndex: 'visivel',
@@ -177,8 +178,8 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                     yesText: 'Sim',
                     noText: 'Não'
                 },
-                editor : {
-                    xtype : 'checkbox'
+                editor: {
+                    xtype: 'checkbox'
                 }
             }, {
                 dataIndex: 'activo',
@@ -190,8 +191,8 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                     yesText: 'Sim',
                     noText: 'Não'
                 },
-                editor : {
-                    xtype : 'checkbox'
+                editor: {
+                    xtype: 'checkbox'
                 }
             }, {
                 dataIndex: 'idplano',
@@ -200,9 +201,30 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'numeric'
                 },
-                editor : {
-                    xtype : 'numberfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'combobox',
+                    //queryMode: 'local',
+                    triggerAction: 'all',
+                    store: 'BackOffice.Plano',
+                    editable: false,
+                    displayField: 'designacao',
+                    valueField: 'id',
+                    listeners: {
+                        beforequery: function(queryEvent, eOpts) {
+                            queryEvent.combo.store.proxy.extraParams = {
+                                mode: 1,
+                                func: 'combobox' // just for debug
+                            }
+                        }
+                    }
+                },
+                renderer: function (value, metaData, record) {
+                    var editor = metaData.column.getEditor(record);
+                    var storeRecord = editor.store.getById(value);
+                    if (storeRecord)
+                        return storeRecord.data[editor.displayField];
+                    else
+                        return null;
                 }
             }, {
                 dataIndex: 'observacoes',
@@ -211,29 +233,25 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 filter: {
                     type: 'string'
                 },
-                editor : {
-                    xtype : 'textfield',
-                    allowBlank : true
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: true
                 }
             }],
-            tbar : [{
-                itemId : 'add',
-                text : 'Adiciona',
-                icon : 'resources/images/icons/fam/add.png'
+            tbar: [{
+                itemId: 'add',
+                text: 'Adiciona',
+                icon: 'resources/images/icons/fam/add.png'
             }, {
-                itemId : 'remove',
-                text : 'Apaga',
-                icon : 'resources/images/icons/fam/delete.gif',
-                disabled : true
+                itemId: 'remove',
+                text: 'Apaga',
+                icon: 'resources/images/icons/fam/delete.gif',
+                disabled: true
             }],
-            selType : 'rowmodel',
-            // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
-            plugins : [Ext.create('Ext.grid.plugin.RowEditing', {
-                saveBtnText : 'Alterar',
-                cancelBtnText : 'Descartar',
-                // clicksToEdit: 1, //this changes from the default double-click activation to single click activation
-                errorSummary : false //disables display of validation messages if the row is invalid
-            })]
+            selType: 'rowmodel',
+            plugins: [{
+                ptype: 'rowediting' // enable row editing
+            }]
         });
 
         this.items = [grid];

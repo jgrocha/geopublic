@@ -2082,29 +2082,39 @@ var DXParticipacao = {
         console.log('readPlano: ');
         console.log(params);
         // var promotor = params.params.idpromotor;
-        var promotor = params.id;
+        var where;
+
+        if (params.id && parseInt(params.id)) {
+            where = ' where idpromotor = ' + params.id + ' and active';
+        } else {
+            // plan combobox in layers grid
+            where = ' where true';
+        }
 
         var open = '';
         if (params.mode && parseInt(params.mode)) {
-            // for statistics, we new all plans, even already closed
+            // for statistics, we need all plans, even already closed
+            // for the layers combobox,  we need all plans, even already closed for all promoters
             console.log('readPlano params.mode: ' + params.mode);
+            where += '';
         } else {
             // to select the plan for discussion, the user can only select the ones opened
             console.log('readPlano SEM params.mode');
-            open = ' and fim > now()';
+            where += ' and fim > now()';
         }
 
         var userid = request.session.userid;
         var conn = db.connect();
         //var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active FROM ppgis.plano where idpromotor = ' + promotor + ' and active' + open;
-        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active, planocls FROM ppgis.plano where idpromotor = ' + promotor;
+        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active, planocls FROM ppgis.plano ' + where;
+        console.log(sql);
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('SQL=' + sql + ' Error: ', err);
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = 'SELECT count(*) as totals from ppgis.plano where idpromotor = ' + promotor + ' and active' + open;
+                var totalQuery = 'SELECT count(*) as totals from ppgis.plano ' + where;
                 conn.query(totalQuery, function (err, resultTotalQuery) {
                     if (err) {
                         console.log('SQL=' + totalQuery + ' Error: ', err);

@@ -16,6 +16,10 @@ ALTER TABLE ppgis.comentario ALTER COLUMN comentario TYPE text;
 ### Last motifications
 
 ```
+ALTER table public.tema ALTER COLUMN idplano DROP NOT NULL;
+```
+
+```
 ALTER TABLE ppgis.promotor ADD COLUMN active boolean;
 UPDATE ppgis.promotor SET active = true;
 
