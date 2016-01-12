@@ -220,8 +220,13 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 items: [{
                     xtype: 'button',
                     itemId: 'updateDescricaoPlano',
-                    icon: 'resources/assets/pencil.png',
+                    icon: 'resources/images/icons/fam/accept.png',
                     text: 'Atualizar'
+                }, {
+                    xtype: 'button',
+                    itemId: 'planLimits',
+                    icon: 'resources/assets/pencil.png',
+                    text: 'Show map'
                 }]
 
             }]

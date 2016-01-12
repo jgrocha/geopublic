@@ -1,5 +1,6 @@
 Ext.define('GeoPublic.controller.BackOffice.Plano', {
 	extend : 'Ext.app.Controller',
+	views: ['BackOffice.Janela'],
 	stores : ['Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia'], // getPlanoStore(), getParticipationEstadoOcorrenciaStore()
 	// Ext.ComponentQuery.query('topheader button#botaoLogin')
 	refs : [{
@@ -31,6 +32,9 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 			},
 			"grid-promotor form#planoForm button#updateDescricaoPlano" : {
 				click : this.onUpdateDescricaoPlano
+			},
+			"grid-promotor form#planoForm button#planLimits" : {
+				click : this.onUpdatePlanLimits
 			},
 			// observar a grid
 			'grid-promotor gridpanel#plano' : {
@@ -77,6 +81,15 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 	},
 	missingSelection : function() {
 		return this.getGrid().getSelectionModel().getSelection().length === 0;
+	},
+	onUpdatePlanLimits : function(button, e, options) {
+		console.log('onUpdatePlanLimits');
+		var form = this.getEditor();
+		//var record = form.getRecord();
+		var view = Ext.widget('window-map-limits', {
+			the_geom: form.getForm().findField('the_geom').getValue() // record.get('the_geom')
+		});
+		view.show();
 	},
 	onUpdateDescricaoPlano : function(button, e, options) {
 		console.log('onUpdateDescricaoPlano');

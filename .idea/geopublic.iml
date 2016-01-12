@@ -4,7 +4,6 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/client/GeoPublic/ext" />
       <excludeFolder url="file://$MODULE_DIR$/client/GeoPublic/geoext2-2.0.2" />
-      <excludeFolder url="file://$MODULE_DIR$/client/GeoPublic/resources/js" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

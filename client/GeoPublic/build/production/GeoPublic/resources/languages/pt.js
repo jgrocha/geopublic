@@ -271,6 +271,9 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Choose a document...',
     "translation": "Escolha o documento..."
+}, {
+    "id": 'Are you sure you want to delete this user?',
+    "translation": 'Quer mesmo eliminar este utilizador?'
 }];
 
 /*

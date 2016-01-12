@@ -997,6 +997,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Mapa": [],
   "GeoPublic.controller.BackOffice.Permission": [],
   "GeoPublic.controller.BackOffice.Plano": [],
   "GeoPublic.controller.BackOffice.Promotor": [],
@@ -1067,7 +1068,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.store.TipoOcorrencia": [],
   "GeoPublic.store.TipoOcorrenciaCombo": [],
   "GeoPublic.view.Avatar": [],
+  "GeoPublic.view.BackOffice.Janela": [],
   "GeoPublic.view.BackOffice.Layer": [],
+  "GeoPublic.view.BackOffice.Mapa": [],
   "GeoPublic.view.BackOffice.Permission": [],
   "GeoPublic.view.BackOffice.Promotor": [],
   "GeoPublic.view.BackOffice.Sessao": [],
@@ -2283,6 +2286,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.DirectAPI": [],
   "GeoPublic.Translation": [],
   "GeoPublic.controller.BackOffice.Layer": [],
+  "GeoPublic.controller.BackOffice.Mapa": [],
   "GeoPublic.controller.BackOffice.Permission": [],
   "GeoPublic.controller.BackOffice.Plano": [],
   "GeoPublic.controller.BackOffice.Promotor": [],
@@ -2355,8 +2359,14 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.Avatar": [
     "widget.avatar"
   ],
+  "GeoPublic.view.BackOffice.Janela": [
+    "widget.window-map-limits"
+  ],
   "GeoPublic.view.BackOffice.Layer": [
     "widget.layer"
+  ],
+  "GeoPublic.view.BackOffice.Mapa": [
+    "widget.map-limits"
   ],
   "GeoPublic.view.BackOffice.Permission": [
     "widget.permissoes"
