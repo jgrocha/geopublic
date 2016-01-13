@@ -145,7 +145,7 @@ Ext.define('GeoPublic.controller.Users.Profile', {
                 me.getImageUm().setSrc(o.result.name32);
                 me.getImageDois().setSrc(o.result.name160);
 
-                Ext.Msg.alert('Success', 'Your photo "' + o.result.name + '" has been uploaded.<br> File size:' + o.result.size + ' bytes.');
+                Ext.Msg.alert('Success', 'Your photo has been uploaded.<br> File size:' + o.result.size + ' bytes.');
             },
             failure: function (form, action) {
                 console.log(arguments);

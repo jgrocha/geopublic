@@ -12,6 +12,12 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 	}, {
 		selector : 'grid-promotor gridpanel#promotor button#remove',
 		ref : 'buttonRemove' // gera um getButtonRemove
+	}, {
+		selector : 'grid-promotor gridpanel#promotor filefield#photo',
+		ref : 'buttonUploadLogo' // gera um getButtonUploadLogo
+	}, {
+		selector : 'grid-promotor gridpanel#promotor button#viewLogo',
+		ref : 'buttonViewLogo' // gera um getButtonViewLogo
 	}],
 	init : function() {
 		this.control({
@@ -20,6 +26,12 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 			},
 			"grid-promotor gridpanel#promotor button#remove" : {
 				click : this.onButtonClickRemove
+			},
+			"grid-promotor gridpanel#promotor filefield#photo": {
+				change: this.onButtonUpload
+			},
+			"grid-promotor gridpanel#promotor button#viewLogo" : {
+				click : this.onButtonClickViewLogo
 			},
 			// observar a grid
 			'grid-promotor gridpanel#promotor' : {
@@ -66,6 +78,68 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 		}, this);
 		this.getPromotorStore().proxy.addListener("load", this.onPromotorStoreLoad, this);
 	},
+	onButtonUpload: function (button, e, options) {
+		var me = this;
+		console.log("onButtonUpload");
+		var sm = this.getGrid().getSelectionModel();
+		var store = this.getPromotorStore();
+		var selection = sm.getSelection();
+		if (selection.length == 1) {
+			button.up('form').getForm().submit({
+				waitMsg: 'Uploading your photo...',
+				callback: function (fp, o) {
+				},
+				success: function (fp, o) {
+					//console.log(me.getImageUm());
+					// uploaded_images/profiles/32x32/31_5f66cde0f0ae3fdf99c9169f657a1834.png
+
+					console.log(o.result);
+					selection[0].set('logotipo', o.result.name160);
+
+					console.log(o.result.name32);
+					console.log(o.result.name160);
+					Ext.Msg.alert('Success', 'Your photo has been uploaded.<br> File size:' + o.result.size + ' bytes.');
+				},
+				failure: function (form, action) {
+					//<debug>
+					console.log(arguments);
+					//</debug>
+					Ext.MessageBox.show({
+						title: 'EXCEPTION',
+						msg: 'Error uploading file',
+						icon: Ext.MessageBox.ERROR,
+						buttons: Ext.Msg.OK
+					});
+				}
+			});
+		}
+	},
+	onButtonClickViewLogo : function(button, e, options) {
+		console.log('onButtonClickViewLogo');
+		var sm = this.getGrid().getSelectionModel();
+		var store = this.getPromotorStore();
+		var selection = sm.getSelection();
+		if (selection.length == 1) {
+			if (selection[0].data.logotipo) {
+				console.log(selection[0].data.logotipo);
+				var logowin = Ext.create('Ext.window.Window', {
+					title: 'Logo',
+					width:200,
+					height:200,
+					modal: true,
+					border: true,
+					items:
+					{
+						xtype: 'image',
+						src: selection[0].data.logotipo
+					}
+				});
+				logowin.show();
+			} else {
+				Ext.example.msg('View logo', 'Please upload the image.');
+			}
+		}
+	},
 	onPlanoGridItemClick : function(dataview, record, item, index, e, eOpts) {
 		console.log('onPlanoGridItemClick');
 		var form = dataview.up('grid-promotor').down('form#planoForm');
@@ -74,6 +148,8 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 	},
 	onGridSelect : function(selModel, selection) {
 		this.getButtonRemove().setDisabled(!selection.length);
+		this.getButtonUploadLogo().setDisabled(!selection.length);
+		this.getButtonViewLogo().setDisabled(!selection.length);
 		if (selection.length == 1) {
 			console.log('Ler os planos do promotor ', selection[0].data.id);
 			// var store = Ext.StoreManager.lookup('Plano');

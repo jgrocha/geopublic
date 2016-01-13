@@ -201,7 +201,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'idplano',
                 text: 'Plano',
-                width: 60,
+                width: 180,
                 filter: {
                     type: 'numeric'
                 },

@@ -1,7 +1,10 @@
 Ext.define('GeoPublic.view.BackOffice.Promotor', {
     extend: 'Ext.container.Container',
     alias: 'widget.grid-promotor',
-    requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action', 'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor'],
+    requires: ['Ext.grid.Panel', 'Ext.grid.column.Number', 'Ext.form.field.Number',
+        'Ext.form.field.Date', 'Ext.toolbar.Paging', 'Ext.form.field.Checkbox', 'Ext.grid.column.Action',
+        'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor',
+        'Ext.grid.column.CheckColumn'],
     layout: 'border',
     title: 'Entidades',
     bodyPadding: 10,
@@ -52,6 +55,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 format: 'Y-m-d H:i:s',
                 submitFormat: 'c'
             }
+        }, {
+            dataIndex: 'logotipo',
+            header: 'Logo',
+            width: 140,
+            disabled: true
         }],
         tbar: [{
             itemId: 'add',
@@ -62,8 +70,32 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             text: 'Apaga',
             icon: 'resources/images/icons/fam/delete.gif',
             disabled: true
+        }, '->', {
+            xtype: 'form',
+            api : {
+                submit : 'ExtRemote.DXFormUploads.filesubmitphotoprofile'
+            },
+            items: [{
+                xtype : 'filefield',
+                name : 'photo',
+                itemId : 'photo',
+                // fieldLabel : 'Photo',
+                labelWidth : 50,
+                msgTarget : 'side',
+                allowBlank : true,
+                //anchor : '40%',
+                buttonText : 'Choose photo'.translate(),
+                buttonOnly : true,
+                disabled: true
+            }]
+        }, {
+            itemId: 'viewLogo',
+            text: 'View logo',
+            icon: 'resources/images/icons/fam/information.png',
+            disabled: true
         }],
         selType: 'rowmodel',
+        selModel: {  allowDeselect: true },
         // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
         plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
             saveBtnText: 'Alterar',
@@ -188,6 +220,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
+            selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Alterar',
@@ -288,6 +321,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
+            selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Alterar',
@@ -354,6 +388,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
+            selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Alterar',
