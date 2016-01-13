@@ -128,23 +128,23 @@ Ext.define('GeoPublic.controller.Mapa', {
                 // map.addLayers([baseOSM, baseAerial]);
 
                 var defaultStyle = new OpenLayers.Style({
-                    'pointRadius': 10,
+                    'pointRadius': 14,
                     //'fillColor': '${color}',
                     'title': '${title}',
                     'externalGraphic': '${icon}'
                 });
 
-                // onhover
+                // onhover + when the user clicks the button to add a point to the map...
                 var temporaryStyle = new OpenLayers.Style({
-                    'pointRadius': 12 // {Number} Pixel point radius.  Default is 6.
-                    //'fillColor': '#FF0000',
-                    //'externalGraphic': 'resources/images/community_16x16.png'
+                    'pointRadius': 14, // {Number} Pixel point radius.  Default is 6.
+                    //'fillColor': '#00FF00',
+                    'externalGraphic': 'resources/images/target.png'
                 });
 
                 // when selected, either on the map on on the button to show on the map
                 var selectStyle = new OpenLayers.Style({
                     //cursor: "crosshair",
-                    'pointRadius': 12, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
+                    'pointRadius': 14, // não está a fazer nada... // {Number} Pixel point radius.  Default is 6.
                     'externalGraphic': '${iconselected}'
                     //'strokeColor': '#FFBB09',
                     //'strokeWidth': 2,  // dafault 1
@@ -307,10 +307,11 @@ Ext.define('GeoPublic.controller.Mapa', {
                 // console.log(arguments);
                 // console.debug(event.feature);
                 if (!event.feature.attributes["title"]) {
-                    event.feature.attributes["title"] = 'Nova participação'.translate();
+                    event.feature.attributes["title"] = 'New participation'.translate();
                 }
                 if (!event.feature.attributes["icon"]) {
-                    event.feature.attributes["icon"] = 'resources/images/community_16x16.png';
+                    event.feature.attributes["icon"] = 'resources/images/target.png';
+                    //event.feature.attributes["icon"] = 'resources/images/community_16x16.png';
                 }
             }
         });
