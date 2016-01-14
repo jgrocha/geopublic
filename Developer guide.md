@@ -170,8 +170,8 @@ ALTER TABLE public.tema ADD CONSTRAINT tema_plano_fk FOREIGN KEY (idplano) REFER
 
 ```
 WITH extent AS (
-       SELECT ST_Extent(geom) as bbox
-       FROM ppgis_pu.c_nivel_pu
+       SELECT ST_Extent(wkb_geometry) as bbox
+       from cont_aad_caop2010 where municipio = 'ÁGUEDA'
      )
 SELECT
 	ST_AsEWKT(ST_Transform(ST_SetSRID(bbox,3763), 4326)) as EPSG_4326,
@@ -179,7 +179,9 @@ SELECT
 	ST_AsEWKT(ST_SetSRID(bbox,3763)) as EPSG_3763
 FROM extent;
 
--- {"type":"Polygon","coordinates":[[[-941345,4947554],[-941354,4950062],[-938856,4950070],[-938848,4947563],[-941345,4947554]]]}
+-- municipo de Águeda
+-- {"type":"Polygon","coordinates":[[[-952642,4938176],[-952782,4967277],[-917886,4967384],[-917849,4938282],[-952642,4938176]]]}
+
 CREATE TABLE ppgis_pu.limite AS
 WITH extent AS (
        SELECT ST_Extent(geom) as bbox

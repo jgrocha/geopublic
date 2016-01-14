@@ -649,7 +649,7 @@ var DXSessao = {
                 db.debugError(callback, err);
             } else {
                 //get totals for paging
-                var totalQuery = sql.replace(/SELECT \*/i, 'SELECT count(*) as totals');
+                var totalQuery = sql.replace(/SELECT u.\*, m.moderator/i, 'SELECT count(*) as totals');
                 totalQuery = totalQuery.replace(/ order by .+$/i, '');
                 totalQuery = totalQuery.replace(/ limit .+$/i, '');
                 console.log(totalQuery);
@@ -660,6 +660,9 @@ var DXSessao = {
                     } else {
                         db.disconnect(conn);
                         //release connection
+
+                        console.log('readUtilizador. total = ' + resultTotalQuery.rows[0].totals);
+
                         callback({
                             success: true,
                             data: result.rows,

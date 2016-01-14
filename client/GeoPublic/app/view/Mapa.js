@@ -65,7 +65,7 @@ Ext.define('GeoPublic.view.Mapa', {
         this.tbar = [{
             xtype: 'gx_geocodercombo',
             itemId: 'geocoder',
-            emptyText: 'Procurar por rua',
+            emptyText: 'Search within the plan limits'.translate(),
             srs: "EPSG:4326",
             queryDelay: 500,
             url : limite,
@@ -101,7 +101,7 @@ Ext.define('GeoPublic.view.Mapa', {
             width: 400
         }, {
             itemId: 'allDocuments',
-            text: 'All documents'
+            text: 'All documents'.translate()
             //icon: 'resources/images/icons/fam/delete.gif',
             //disabled: true
         }];

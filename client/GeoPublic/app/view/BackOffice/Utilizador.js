@@ -21,7 +21,7 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
             autoReload: true, // false,
             local: false,
             encode: true,
-            menuFilterText: 'Filtrar'
+            menuFilterText: 'Filter'.translate()
         };
 
         this.items = [{
@@ -46,7 +46,7 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
             }, {
                 dataIndex: 'idgrupo',
                 text: 'Grupo',
-                width: 80,
+                width: 140,
                 filter: {
                     type: 'numeric'
                 },
@@ -68,7 +68,7 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
                 }
             }, {
                 dataIndex: 'nome',
-                text: 'Nome',
+                text: 'Name'.translate(),
                 width: 120,
                 filter: {
                     type: 'string'
@@ -83,15 +83,15 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
             }, {
                 dataIndex: 'datacriacao',
                 xtype: 'datecolumn', // fundamental :-)
-                text: 'Criado em',
+                text: 'Creation date'.translate(),
                 width: 150,
                 format: 'Y-m-d H:i:s',
                 filter: {
                     type: 'date',
-                    afterText: 'Depois de',
-                    beforeText: 'Antes de',
+                    afterText: 'After day'.translate(),
+                    beforeText: 'Before day'.translate(),
                     dateFormat: 'Y-m-d',
-                    onText: 'No dia'
+                    onText: 'On day'.translate()
                 }
             }, {
                 dataIndex: 'ultimologin',
@@ -101,10 +101,10 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
                 format: 'Y-m-d H:i:s',
                 filter: {
                     type: 'date',
-                    afterText: 'Depois de',
-                    beforeText: 'Antes de',
+                    afterText: 'After day'.translate(),
+                    beforeText: 'Before day'.translate(),
                     dateFormat: 'Y-m-d',
-                    onText: 'No dia'
+                    onText: 'On day'.translate()
                 }
             }, {
                 dataIndex: 'ativo',
@@ -113,8 +113,8 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
                 width: 90,
                 filter: {
                     type: 'boolean',
-                    yesText: 'Sim',
-                    noText: 'Não'
+                    yesText: 'Yes'.translate(),
+                    noText: 'No'.translate()
                 },
                 editor: {
                     xtype: 'checkbox'
@@ -126,14 +126,14 @@ Ext.define('GeoPublic.view.BackOffice.Utilizador', {
                 width: 90,
                 filter: {
                     type: 'boolean',
-                    yesText: 'Sim',
-                    noText: 'Não'
+                    yesText: 'Yes'.translate(),
+                    noText: 'No'.translate()
                 },
                 disabled: true
             }],
             tbar: [{
                 itemId: 'remove',
-                text: 'Apaga',
+                text: 'Remove'.translate(),
                 icon: 'resources/images/icons/fam/delete.gif',
                 disabled: true
             }],

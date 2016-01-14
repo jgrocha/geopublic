@@ -283,6 +283,45 @@ GeoPublic.Translation = [{
 }, {
     "id": 'No documents were uploaded yet',
     "translation": 'Ainda não foram carregados documentos'
+}, {
+    "id": 'Filter',
+    "translation": 'Filtrar'
+}, {
+    "id": 'Group',
+    "translation": 'Grupo'
+}, {
+    "id": 'Name',
+    "translation": 'Nome'
+}, {
+    "id": 'Creation date',
+    "translation": 'Criado em'
+}, {
+    "id": 'After day',
+    "translation": 'Depois de'
+}, {
+    "id": 'Before day',
+    "translation": 'Antes de'
+}, {
+    "id": 'On day',
+    "translation": 'No dia'
+}, {
+    "id": 'Can login?',
+    "translation": 'Pode entrar?'
+}, {
+    "id": 'Yes',
+    "translation": 'Sim'
+}, {
+    "id": 'No',
+    "translation": 'Não'
+}, {
+    "id": 'Remove',
+    "translation": 'Apaga'
+}, {
+    "id": 'All documents',
+    "translation": 'Todos documentos'
+}, {
+    "id": 'Search within the plan limits',
+    "translation": 'Procurar dentro dos limites ddo plano'
 }];
 
 /*
