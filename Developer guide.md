@@ -179,6 +179,7 @@ SELECT
 	ST_AsEWKT(ST_SetSRID(bbox,3763)) as EPSG_3763
 FROM extent;
 
+-- {"type":"Polygon","coordinates":[[[-941345,4947554],[-941354,4950062],[-938856,4950070],[-938848,4947563],[-941345,4947554]]]}
 CREATE TABLE ppgis_pu.limite AS
 WITH extent AS (
        SELECT ST_Extent(geom) as bbox

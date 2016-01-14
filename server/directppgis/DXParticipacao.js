@@ -820,14 +820,14 @@ var DXParticipacao = {
         if (params.idocorrencia && params.idocorrencia > 0) {
             idocorrencia = params.idocorrencia;
             sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name FROM ppgis.fotografia where not inapropriada and idocorrencia = " + idocorrencia;
-            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia = ' + idocorrencia;
+            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and not apagado and idocorrencia = ' + idocorrencia;
         }
         if (params.idplano && params.idplano > 0) {
             idplano = params.idplano;
             sql  = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name ";
             sql += "FROM ppgis.fotografia where not inapropriada and ";
             sql += "idocorrencia IN ( select id from ppgis.ocorrencia where idplano = " + idplano + ") and observacoes is not null";
-            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and idocorrencia IN ( select id from ppgis.ocorrencia where idplano = ' + idplano + ") and observacoes is not null";
+            totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and not apagado and idocorrencia IN ( select id from ppgis.ocorrencia where idplano = ' + idplano + ") and observacoes is not null";
         }
 
         console.log('--8<-----------------------------------------------------------------------------------');
@@ -2032,7 +2032,7 @@ var DXParticipacao = {
                         } else {
                             if (params.email) {
                                 // mudou o email; vamos mandar um email a dizer que o plano ficou a apontar para este novo email
-                                console.log('Está na hora de enviar um email para ' + email);
+                                console.log('Está na hora de enviar um email para ' + params.email.toLowerCase());
                                 enviarEmailPlan({
                                     email: params.email.toLowerCase(),
                                     nome: resultSelect.rows[0].responsavel,
