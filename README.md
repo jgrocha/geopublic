@@ -219,9 +219,8 @@ sudo stop ppgis
 rm -rf .svn public/.svn
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/server .
 svn revert -R .
-sudo sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
-sudo sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
-sudo sed -i 's/xXxXxXxX/euparticipo/' server.js
+sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
+sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
 npm update
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 svn revert -R public

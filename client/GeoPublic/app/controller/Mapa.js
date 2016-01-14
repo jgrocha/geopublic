@@ -1,10 +1,15 @@
 Ext.define('GeoPublic.controller.Mapa', {
     extend: 'Ext.app.Controller',
+    requires: ['GeoPublic.view.Participation.AllDcoments'],
     // stores: ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
     stores: ['Layer', 'Participation.DocumentCombo'], // getLayerStore()
     // requires: ['GeoExt.Action'],
     zoomLevelEdit: 12,
     firsttime: 1,
+    refs: [{
+        selector: 'viewport > tabpanel',
+        ref: 'painelPrincipal' // gera um getPainelPrincipal
+    }],
     init: function () {
         // <debug>
         console.log('O controlador GeoPublic.controller.Mapa init...');
@@ -17,8 +22,77 @@ Ext.define('GeoPublic.controller.Mapa', {
             },
             "contribution toolbar button#local": {
                 click: this.onButtonLocal
+            },
+            "mapa button#allDocuments": {
+                click: this.onButtonAllDocuments
             }
         }, this);
+    },
+    onButtonAllDocuments: function (button, e, options) {
+        console.log('onButtonAllDocuments');
+        var me = this;
+        var storeDocuments = this.getParticipationDocumentComboStore();
+
+        var mapa = button.up('discussao-geografica').down('mapa');
+        var theTitle = Ext.util.Format.ellipsis(mapa.designacao, 20) + " ( " + "Documents".translate() + ")";
+
+        // id: menu-grid-sessao
+        var classe = 'all-documents';
+
+        var tabPanel = me.getPainelPrincipal();
+        var pos = tabPanel.items.findIndex('title', theTitle);
+        if (pos > -1) {
+            me.getPainelPrincipal().setActiveTab(pos);
+        } else {
+            var sepTab = tabPanel.child('#separador');
+            var sepTabIndex = tabPanel.items.findIndex('id', sepTab.id);
+
+                me.getPainelPrincipal().insert(sepTabIndex, {
+                    xtype: classe,
+                    title: theTitle,
+                    config: {
+                        store: storeDocuments
+                    },
+                    closable: true
+                });
+
+            me.getPainelPrincipal().setActiveTab(sepTabIndex);
+        }
+
+        /*
+        var check = Ext.ComponentQuery.query(classe);
+        var newTab = null;
+        if (check.length > 0) {
+            // A componente já foi criada
+            // Selecionar o tab correspondente
+            console.log('A classe ' + classe + ' já foi instanciada.');
+            newTab = mainPanel.items.findBy(function (tab) {
+                return tab.xtype === classe;
+            });
+            if (newTab) {
+                mainPanel.setActiveTab(newTab);
+            }
+        } else {
+            console.log('Vamos criar a classe ' + classe);
+            if (Ext.ClassManager.getNameByAlias('widget.' + classe) != "") {
+                newTab = mainPanel.add({
+                    xtype: classe,
+                    title: theTitle,
+                    config: {
+                        store: storeDocuments
+                    },
+                    closable: true
+                });
+                mainPanel.setActiveTab(newTab);
+                // perfeito! Não serve para nada, pois no servidor uso o userid da sessão
+                // este código tem que passar para dentro da componente...
+                // this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
+                // this.getSessaoStore().load();
+            } else {
+                console.log("Erro! The class " + 'widget.' + classe + " does not exist (yet)!");
+            }
+        }
+        */
     },
     onButtonLocal: function (button, e, options) {
         var mapa = button.up('discussao-geografica').down('mapa');

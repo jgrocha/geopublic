@@ -191,6 +191,26 @@ td.grid-cell-wrap-text div {
 	margin: 0;
 }
 
+
+.thumb-ad img {
+  height: 80px;
+  width: 80px;
+}
+.thumb-wrap-ad {
+  float: left;
+  margin: 4px;
+  margin-right: 0;
+  padding: 5px;
+}
+.thumb-wrap-ad span {
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  width: 86px; /* for ie to ensure that the text is centered */
+}
+
+
+
 .images-view .x-panel-body {
   background:white;
   font:11px Arial,Helvetica,sans-serif;

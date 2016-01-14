@@ -23,7 +23,12 @@ Ext.define('GeoPublic.view.Participation.Fotografia', {
 			this.idocorrencia = this.initialConfig.config.idocorrencia;
 			this.idplano = this.initialConfig.config.idplano;
 			this.idpromotor = this.initialConfig.config.idpromotor;
-			// console.log('A criar componente GeoPublic.view.Participation.Fotografia para o idocorrencia = ' + this.idocorrencia);
+
+			//<debug>
+			console.log('A criar componente GeoPublic.view.Participation.Fotografia para o idocorrencia = ' + this.idocorrencia);
+			console.log('A criar componente GeoPublic.view.Participation.Fotografia para o idplano = ' + this.idplano);
+			console.log('A criar componente GeoPublic.view.Participation.Fotografia para o idpromotor = ' + this.idpromotor);
+			//</debug>
 
 			// vamos só buscar a coisa no afterrender?
 			// podemos ir já...

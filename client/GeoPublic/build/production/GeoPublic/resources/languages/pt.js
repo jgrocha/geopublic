@@ -113,6 +113,9 @@ GeoPublic.Translation = [{
     "id": 'resources/guiarapido/participacaocivica.html',
     "translation": "resources/guiarapido/participacaocivica_pt.html"
 }, {
+    "id": 'resources/guiarapido/alldocuments.html',
+    "translation": "resources/guiarapido/alldocuments_pt.html"
+}, {
     "id": 'Edit participation',
     "translation": "Editar a participação"
 }, {
@@ -274,6 +277,12 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Are you sure you want to delete this user?',
     "translation": 'Quer mesmo eliminar este utilizador?'
+}, {
+    "id": 'Documents',
+    "translation": 'Documentos'
+}, {
+    "id": 'No documents were uploaded yet',
+    "translation": 'Ainda não foram carregados documentos'
 }];
 
 /*

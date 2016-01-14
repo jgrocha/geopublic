@@ -377,7 +377,9 @@ Ext.define('GeoPublic.controller.StartPanel', {
         if (plano) {
             // console.log(plano);
             var tabPanel = me.getPainelPrincipal();
+
             var pos = tabPanel.items.findIndex('title', plano.designacao);
+
             if (pos > -1) {
                 // já existe e está aberto
                 me.getPainelPrincipal().setActiveTab(pos);

@@ -33,7 +33,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         // console.log(this);
         var start = 0;
         var total = records.length;
-        var limit = total <= 10 ? total : 10;
+        //var limit = total <= 10 ? total : 10;
+        var limit = total;
         for (var i = start; i < total; i++) {
 
             var report = me.down('mapa').map.getLayersByName('Report')[0];

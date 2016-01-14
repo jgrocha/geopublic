@@ -46,6 +46,9 @@ CREATE TRIGGER addlayer
 SELECT setval('ppgis.plano_id_seq', 49);
 ALTER TABLE ppgis.promotor ALTER COLUMN active SET DEFAULT TRUE;
 ALTER table public.tema ALTER COLUMN idplano DROP NOT NULL;
+
+ALTER TABLE ppgis.fotografiatmp ADD COLUMN name CHARACTER VARYING(255);
+ALTER TABLE ppgis.fotografia ADD COLUMN name CHARACTER VARYING(255);
 ```
 ### Previous motifications
 

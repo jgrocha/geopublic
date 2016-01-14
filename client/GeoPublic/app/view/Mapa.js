@@ -99,6 +99,11 @@ Ext.define('GeoPublic.view.Mapa', {
             //afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>',
             //anchor : '100%',
             width: 400
+        }, {
+            itemId: 'allDocuments',
+            text: 'All documents'
+            //icon: 'resources/images/icons/fam/delete.gif',
+            //disabled: true
         }];
         this.callParent(arguments);
     }

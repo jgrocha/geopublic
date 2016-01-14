@@ -13,7 +13,8 @@ Ext.Loader.addClassPathMappings({
   "GeoPublic": "app",
   "GeoPublic.view.Avatar": "app/view/Users/Profile.js",
   "GeoPublic.view.ChangePassword": "app/view/Users/Profile.js",
-  "GeoPublic.view.Home": "app/view/Users/Profile.js"
+  "GeoPublic.view.Home": "app/view/Users/Profile.js",
+  "GeoPublic.view.Participation.AllDcoments": "app/view/Participation/AllDocuments.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -1090,6 +1091,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.MapaComProjeto": [],
   "GeoPublic.view.Participation.Activity": [],
   "GeoPublic.view.Participation.ActivityNew": [],
+  "GeoPublic.view.Participation.AllDcoments": [],
   "GeoPublic.view.Participation.Comment": [],
   "GeoPublic.view.Participation.CommentForm": [],
   "GeoPublic.view.Participation.CommentList": [],
@@ -2424,6 +2426,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.Participation.ActivityNew": [
     "widget.activitynew"
+  ],
+  "GeoPublic.view.Participation.AllDcoments": [
+    "widget.all-documents"
   ],
   "GeoPublic.view.Participation.Comment": [
     "widget.comment"
