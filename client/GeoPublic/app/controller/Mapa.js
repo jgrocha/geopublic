@@ -2,7 +2,8 @@ Ext.define('GeoPublic.controller.Mapa', {
     extend: 'Ext.app.Controller',
     requires: ['GeoPublic.view.Participation.AllDcoments'],
     // stores: ['PromotorCombo', 'PlanoCombo', 'TipoOcorrenciaCombo', 'Ocorrencia', 'Participation.EstadoCombo'], // getPromotorComboStore()
-    stores: ['Layer', 'Participation.DocumentCombo'], // getLayerStore()
+    //stores: ['Layer', 'Participation.DocumentCombo'], // getParticipationDocumentComboStore()
+    stores: ['Layer' ], // getParticipationDocumentComboStore()
     // requires: ['GeoExt.Action'],
     zoomLevelEdit: 12,
     firsttime: 1,
@@ -31,7 +32,7 @@ Ext.define('GeoPublic.controller.Mapa', {
     onButtonAllDocuments: function (button, e, options) {
         console.log('onButtonAllDocuments');
         var me = this;
-        var storeDocuments = this.getParticipationDocumentComboStore();
+        //var storeDocuments = this.getParticipationDocumentComboStore();
 
         var mapa = button.up('discussao-geografica').down('mapa');
         var theTitle = Ext.util.Format.ellipsis(mapa.designacao, 20) + " ( " + "Documents".translate() + ")";
@@ -51,7 +52,8 @@ Ext.define('GeoPublic.controller.Mapa', {
                 xtype: classe,
                 title: theTitle,
                 config: {
-                    store: storeDocuments
+                    idplano: mapa.idplano
+                    //store: storeDocuments
                 },
                 closable: true
             });
@@ -124,12 +126,14 @@ Ext.define('GeoPublic.controller.Mapa', {
         mapPanelDebug = mapPanel;
         //</debug>
 
+        /*
         var storeDocuments = this.getParticipationDocumentComboStore();
         storeDocuments.load({
             params: {
                 idplano: mapPanel.idplano
             }
         });
+        */
 
         var layers = [];
         var store = this.getLayerStore();

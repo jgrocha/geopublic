@@ -74,7 +74,7 @@ Ext.define('GeoPublic.view.Mapa', {
             width: 400
         }, {
             xtype : 'tbfill'
-        }, {
+        }, /*{
             xtype : 'label',
             html : 'Useful documents'.translate(),
             style : {
@@ -99,7 +99,7 @@ Ext.define('GeoPublic.view.Mapa', {
             //afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Obrigatório">*</span>',
             //anchor : '100%',
             width: 400
-        }, {
+        },*/ {
             itemId: 'allDocuments',
             text: 'All documents'.translate()
             //icon: 'resources/images/icons/fam/delete.gif',

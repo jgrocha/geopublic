@@ -6,12 +6,29 @@ Ext.define('GeoPublic.view.Participation.AllDcoments', {
         align: 'stretch'
     },
     style: 'padding:20px',
+    glyph: 0xf0f6,
 
     initComponent: function () {
-        console.log(this);
+        var me = this;
+        me.itemId = 'all-documents-' + me.config.idplano;
+        var storeId = me.itemId + '-store';
+        //<debug>
+        console.log('Ler os documentos de ', storeId);
+        //</debug>
+        me.store = Ext.StoreManager.lookup(storeId); // Ext.StoreManager.lookup(storeId);
+        if (!Ext.isDefined(me.store)) {
+            me.store = Ext.create('GeoPublic.store.Participation.DocumentCombo', Ext.apply({storeId: me.storeId, autoDestroy: true}));
+            //me.store.load({
+            //    params: {
+            //        idplano: me.config.idplano
+            //    }
+            //});
+        }
+
         this.items = [{
             xtype : 'dataview',
-            store : this.config.store,
+            //store : this.config.store,
+            store : me.store,
             tpl : ['<tpl for=".">', //
                 '<div class="thumb-wrap-ad" id="document-{id}" data-qtip="{name}">', //
                 '<div class="thumb-ad"><img src="{url}"></div>', //
@@ -47,6 +64,19 @@ Ext.define('GeoPublic.view.Participation.AllDcoments', {
                 autoLoad : true
             }
         }];
+        this.listeners = {
+            activate: function(tab, eOpts) {
+                //alert(tab.title + ' activate');
+                me.store.load({
+                    params: {
+                        idplano: me.config.idplano
+                    }
+                });
+            }
+        };
         this.callParent(arguments);
+    },
+    getStoreDocumentos: function () {
+        return this.store;
     }
 });
