@@ -47,52 +47,52 @@ Ext.define('GeoPublic.controller.Mapa', {
             var sepTab = tabPanel.child('#separador');
             var sepTabIndex = tabPanel.items.findIndex('id', sepTab.id);
 
-                me.getPainelPrincipal().insert(sepTabIndex, {
-                    xtype: classe,
-                    title: theTitle,
-                    config: {
-                        store: storeDocuments
-                    },
-                    closable: true
-                });
+            me.getPainelPrincipal().insert(sepTabIndex, {
+                xtype: classe,
+                title: theTitle,
+                config: {
+                    store: storeDocuments
+                },
+                closable: true
+            });
 
             me.getPainelPrincipal().setActiveTab(sepTabIndex);
         }
 
         /*
-        var check = Ext.ComponentQuery.query(classe);
-        var newTab = null;
-        if (check.length > 0) {
-            // A componente já foi criada
-            // Selecionar o tab correspondente
-            console.log('A classe ' + classe + ' já foi instanciada.');
-            newTab = mainPanel.items.findBy(function (tab) {
-                return tab.xtype === classe;
-            });
-            if (newTab) {
-                mainPanel.setActiveTab(newTab);
-            }
-        } else {
-            console.log('Vamos criar a classe ' + classe);
-            if (Ext.ClassManager.getNameByAlias('widget.' + classe) != "") {
-                newTab = mainPanel.add({
-                    xtype: classe,
-                    title: theTitle,
-                    config: {
-                        store: storeDocuments
-                    },
-                    closable: true
-                });
-                mainPanel.setActiveTab(newTab);
-                // perfeito! Não serve para nada, pois no servidor uso o userid da sessão
-                // este código tem que passar para dentro da componente...
-                // this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
-                // this.getSessaoStore().load();
-            } else {
-                console.log("Erro! The class " + 'widget.' + classe + " does not exist (yet)!");
-            }
-        }
-        */
+         var check = Ext.ComponentQuery.query(classe);
+         var newTab = null;
+         if (check.length > 0) {
+         // A componente já foi criada
+         // Selecionar o tab correspondente
+         console.log('A classe ' + classe + ' já foi instanciada.');
+         newTab = mainPanel.items.findBy(function (tab) {
+         return tab.xtype === classe;
+         });
+         if (newTab) {
+         mainPanel.setActiveTab(newTab);
+         }
+         } else {
+         console.log('Vamos criar a classe ' + classe);
+         if (Ext.ClassManager.getNameByAlias('widget.' + classe) != "") {
+         newTab = mainPanel.add({
+         xtype: classe,
+         title: theTitle,
+         config: {
+         store: storeDocuments
+         },
+         closable: true
+         });
+         mainPanel.setActiveTab(newTab);
+         // perfeito! Não serve para nada, pois no servidor uso o userid da sessão
+         // este código tem que passar para dentro da componente...
+         // this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
+         // this.getSessaoStore().load();
+         } else {
+         console.log("Erro! The class " + 'widget.' + classe + " does not exist (yet)!");
+         }
+         }
+         */
     },
     onButtonLocal: function (button, e, options) {
         var mapa = button.up('discussao-geografica').down('mapa');
@@ -161,7 +161,8 @@ Ext.define('GeoPublic.controller.Mapa', {
                                 isBaseLayer: records[i].data.base,
                                 style: records[i].data.estilo,
                                 requestEncoding: 'REST',
-                                visibility: records[i].data.visivel
+                                visibility: records[i].data.visivel,
+                                attribution: records[i].data.observacoes // works?
                             });
                             break;
                         case 'WMS':
@@ -178,16 +179,21 @@ Ext.define('GeoPublic.controller.Mapa', {
                                     visibility: records[i].data.visivel,
                                     displayOutsideMaxExtent: true,
                                     isBaseLayer: records[i].data.base,
-                                    yx: {'EPSG:3763': false}
+                                    yx: {'EPSG:3763': false},
+                                    attribution: records[i].data.observacoes
                                 });
                             break;
                         case 'OSM':
                             novolayer = new OpenLayers.Layer.OSM(
                                 records[i].data.titulo,
-                                records[i].data.url.trim().split(/ *, */));
+                                records[i].data.url.trim().split(/ *, */), {
+                                    attribution: records[i].data.observacoes
+                                });
                             break;
                         case 'Stamen':
-                            novolayer = new OpenLayers.Layer.Stamen(records[i].data.layer);
+                            novolayer = new OpenLayers.Layer.Stamen(records[i].data.layer, {
+                                attribution: records[i].data.observacoes
+                            });
                             break;
                         default:
                             console.log('Tipo desconhecido: ' + records[i].data.tipo);

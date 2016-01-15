@@ -321,7 +321,7 @@ GeoPublic.Translation = [{
     "translation": 'Todos documentos'
 }, {
     "id": 'Search within the plan limits',
-    "translation": 'Procurar dentro dos limites ddo plano'
+    "translation": 'Procurar dentro dos limites do plano'
 }];
 
 /*

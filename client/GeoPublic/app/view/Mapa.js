@@ -53,7 +53,7 @@ Ext.define('GeoPublic.view.Mapa', {
                 prefix: 'Coordinates'.translate() + ' <a href="http://spatialreference.org/ref/sr-org/7483/" target="_blank">EPSG:3857 (Web Mercator)</a>: ',
                 suffix: ' (long, lat)',
                 numDigits: 0
-            }), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
+            }), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher(), new OpenLayers.Control.Attribution()],
             projection: new OpenLayers.Projection("EPSG:900913"), // "EPSG:900913"
             // displayProjection : new OpenLayers.Projection("EPSG:3763"),
             units: 'm',
