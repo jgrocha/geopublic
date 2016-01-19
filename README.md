@@ -265,7 +265,7 @@ All emails messages are created from templates stored in the `templates` folder.
 ```bash
 cd public_html
 sudo stop ppgis
-rm -rf .svn public/.svn
+find . -name .svn -exec rm -rf \{\} \;
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/server .
 svn revert -R .
 sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
