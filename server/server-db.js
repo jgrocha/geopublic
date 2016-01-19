@@ -4,7 +4,7 @@ var conString = "";
 if ('production' == process.env.NODE_ENV) {
 	// global.App.mode pode ainda estar a undefined
 	// conString = "postgres://geobox:geomaster2k14@localhost/extdirectnode";
-	conString = "postgres://geobox:geobox@localhost:6432/geopublic";
+	conString = "postgres://geobox:geobox@localhost:5432/geopublic";
 	// em produção deve-se usar o pgbouncer
 } else {
     conString = "postgres://geobox:geobox@localhost/geopublic";

@@ -458,14 +458,6 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                                 }
                             });
 
-                            var storeDocuments = this.getParticipationDocumentComboStore();
-                            console.log('Reler combo dos documentos');
-                            storeDocuments.load({
-                                params: {
-                                    idplano: mapPanel.idplano
-                                }
-                            });
-
                         } else {
                             Ext.Msg.alert('Error'.translate(), 'Error saving changes'.translate());
                         }
@@ -504,14 +496,6 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
                             ostore.load({
                                 params: {
                                     id: result.data[0].id
-                                }
-                            });
-
-                            var storeDocuments = this.getParticipationDocumentComboStore();
-                            console.log('Reler combo dos documentos');
-                            storeDocuments.load({
-                                params: {
-                                    idplano: mapPanel.idplano
                                 }
                             });
 

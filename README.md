@@ -43,16 +43,11 @@ sudo apt-get install language-pack-pt
 ```bash
 sudo apt-get -y install postgresql-9.3 postgresql-9.3-postgis-2.1 postgresql-contrib
 sudo apt-get -y install postgresql-server-dev-9.3 postgresql-client-common postgresql-client-9.3
-sudo apt-get -y install pgbouncer
 
-sudo sed -i s/=0/=1/ /etc/default/pgbouncer
-sudo sed -i '/\[databases\]/!b;n;cgeopublic = host=127.0.0.1 port=5432 dbname=geopublic' /etc/pgbouncer/pgbouncer.ini
-echo '"geobox" "geobox"' | sudo tee -a /etc/pgbouncer/userlist.txt
-sudo sed -i "s/^max_client_conn = 100/max_client_conn = 500/" /etc/pgbouncer/pgbouncer.ini
-
-sudo service pgbouncer restart
-
-sudo sed -i "s/^max_connections = 100/max_connections = 250/" /etc/postgresql/9.3/main/postgresql.conf
+sudo sed -i "s/^max_connections = 100/max_connections = 500/" /etc/postgresql/9.3/main/postgresql.conf
+sudo sed -i "s/^shared_buffers = 128MB/shared_buffers = 256MB/" /etc/postgresql/9.3/main/postgresql.conf
+sudo sed -i "s/^#fsync = on/fsync = off/" /etc/postgresql/9.3/main/postgresql.conf
+sudo sed -i "s/^#effective_io_concurrency = 1/effective_io_concurrency = 2/" /etc/postgresql/9.3/main/postgresql.conf
 sudo service postgresql restart
 ```
 
@@ -73,55 +68,33 @@ exit
 
 ```bash
 sudo su postgres
+-- this role must match the configuration in server-db.js
 psql postgres -c "CREATE ROLE geobox LOGIN PASSWORD 'geobox' SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;"
 createdb -O geobox geopublic
 psql geopublic -c "CREATE EXTENSION adminpack;"
 psql geopublic -c "CREATE EXTENSION postgis;"
 psql geopublic -c "CREATE EXTENSION hstore;"
+psql geopublic -c "CREATE EXTENSION pgcrypto;"
+-- populate supporting tables
+psql geopublic -f geopublic-20160115-all.sql
+psql geopublic -f geopublic-20160115-data.sql
+-- initial user; replace the email 'jgr@geomaster.pt' with your own; replace the password 'pa55word' with your own
+psql geopublic -c "insert into utilizador (idgrupo, email, password, nome, emailconfirmacao) values(1, 'jgr@geomaster.pt', encode(digest('pa55word', 'sha1'), 'hex'), 'Administrator', true);"
 exit
 ```
 
-#### Testing database connection with pgbouncer
+#### Testing database connection
 
 ```bash
-psql -h localhost -p 6432 -U geobox geopublic
+psql -h localhost -p 5432 -U geobox geopublic
 \q
 ```
 
-#### Load initial database contents
+#### Configuring SMTP (not possible)
 
-```bash
-wget https://raw.githubusercontent.com/jgrocha/geopublic/master/geopublic-demo-0.9.backup
-export PGPASSWORD=geobox; pg_restore -h localhost -d geopublic -C -U geobox geopublic-demo-0.9.backup
-```
+The server should provide the SMTP service. Right now, the SMTP service is relayed to another host because the cloud can not be used to configure a proper SMTP server.
 
-#### Empty database contents (usually not necessary)
-
-If previous data already exist, that can be cleared with:
-
-```sql
-delete from ppgis.fotografia; ALTER SEQUENCE ppgis.fotografia_id_seq RESTART WITH 1;
-delete from ppgis.fotografiatmp; ALTER SEQUENCE ppgis.fotografiatmp_id_seq RESTART WITH 1;
-delete from ppgis.comentario; ALTER SEQUENCE ppgis.comentario_id_seq RESTART WITH 1;
-delete from ppgis.ocorrencia; ALTER SEQUENCE ppgis.ocorrencia_id_seq RESTART WITH 1;
-```
-
-#### Configuring SMTP (no longer necessary)
-
-The server should provide the SMTP service.
-
-Install postfix and select *Internet Site* from the available options.
-
-Use *euparticipo.cm-agueda.pt* for the system mail name.
-
-```bash
-sudo apt-get install postfix
-sudo hostname euparticipo.cm-agueda.pt
-echo "127.0.0.1 euparticipo.cm-agueda.pt" | sudo tee -a /etc/hosts
-sudo postfix reload
-```
-
-Note (TODO): `inet_protocols = ipv4` might be necessary in /etc/main.cf.
+The relay is hard coded in `server.js``.
 
 #### Installing node.js
 
@@ -137,23 +110,40 @@ sudo chown -R $USER:$USER ~/.npm
 #### Installing the PPGIS application
 
 ```bash
+cd
 mkdir public_html
 cd public_html/
 svn checkout https://github.com/jgrocha/geopublic/trunk/server .
-sudo sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
-sudo sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
+-- port where the server run. Port 80 maybe taken by Apache
+sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
+-- full address
+sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p uploads
+mkdir -p public/participation_data
+mkdir -p public/uploaded_images
 ```
 
-##### Server folders
+##### Create admin user
+
+```bash
+sudo su postgres
+-- create database structure
+psql geopublic -f geopublic-20160115-all.sql
+-- populate supporting tables (groups, menus and permissions)
+psql geopublic -f geopublic-20160115-data.sql
+-- initial user; replace the email 'jgr@geomaster.pt' with your own; replace the password 'pa55word' with your own
+psql geopublic -c "insert into utilizador (idgrupo, email, password, nome, emailconfirmacao) values(1, 'jgr@geomaster.pt', encode(digest('pa55word', 'sha1'), 'hex'), 'Administrator', true);"
+exit
+```
+
+##### About server folders
 
 On the server side, under `public_html`:
  uploads
 
 On the server side, under `public_html/public`:
- public/resources
  public/participation_data
  public/uploaded_images
 
@@ -211,7 +201,66 @@ tail -f <log file>
 sudo stop ppgis
 ```
 
-#### Update application
+### Prepare the first plan for discussion
+
+Login with the user created, p.e: 'jgr@geomaster.pt' and 'pa55word'
+
+* Under the login name 'Administrator', select "Plans and promoters" on the drop down menu
+* Add new promoter
+  * Fill the promoters data
+  * Add a logo (promoter's logo)
+* Add a new plan for discussion
+  * You can add more than one email separated by , to support more than one moderator
+* Write some description about the plan under discussion
+* Use the show map button to select the plan area. The last rectangle drawn is used.
+* Use the `Update plan` button to save the plan description and the geographic scope.
+
+Reload the site to start with the new plan.
+
+#### Change the name of the institution hosting the platform
+
+Below the name of the application Have Your Say, there is the name of the institution running the platform.
+
+To change the name, edit the file `resources/languages/en.js` and replace "Câmara Municipal de Águeda" with your own institution.
+
+#### Translate the application
+
+#### Titles and buttons
+
+Each browser sends the user's list of preferred languages. Usually this can be changed in the browser's preferences.'
+
+This application checks the list of preferred languages and uses the first one supported.
+
+For each supported languages, there should be a file in `resources/languages` with the name of the language.
+
+To translate the application to Italian, for example, simple copy `pt.js` to `it.js` and edited the file.
+Edit the translation file, but change only the "translation" string and never the "id" string.
+
+To translate to Spanish, copy `pt.js` to `es.js`; to Greek, copy `pt.js` to `el.js`, etc.
+
+#### Panels contents (longer text)
+
+Larger text are stored in small html files. For example, the first panel on the Welcome tab, that says:
+
+"Have Your Say" is a web based platform to empower every citizen committed to the public good.
+
+This text is stores in `resources/guiarapido/participacaocivica.html`.
+
+To translate it, you must create another text file, for example,  `resources/guiarapido/participacaocivica_pt.html`.
+To display your file instead of the original one, use the translation file `pt.js` to map these two files:
+
+```
+{
+    "id": 'resources/guiarapido/participacaocivica.html',
+    "translation": "resources/guiarapido/participacaocivica_pt.html"
+}
+```
+
+#### Email messages
+
+All emails messages are created from templates stored in the `templates` folder. To send email messages in your languages, edit all templates in theat folder. There is a template for HTML based messages and another for plain text messages.
+
+#### Update the application
 
 ```bash
 cd public_html
@@ -242,7 +291,7 @@ and on two folder on the file system:
 cd
 mkdir bin
 mkdir backup
-mv public_html/backup.sh ~/bin
+mv public_html/bin/backup.sh ~/bin
 echo 'localhost:5432:*:geobox:geobox' >> ~/.pgpass
 chmod 600 ~/.pgpass
 bin/backup.sh
@@ -267,4 +316,17 @@ Add a line to crontab. The backup (in the example) will run every day, at 5:50.
 
 ```
 50 5 * * * $HOME/bin/backup.sh
+```
+
+### Running on Apache
+
+If you already have Apache running on port 80, you can use Apache `mod_proxy`.
+
+```
+<VirtualHost *:80>
+        ServerName euparticipo.geomaster.pt
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:3003/
+        ProxyPassReverse / http://localhost:3003/
+</VirtualHost>
 ```
