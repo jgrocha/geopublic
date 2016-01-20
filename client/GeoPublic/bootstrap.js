@@ -1004,7 +1004,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.BackOffice.Promotor": [],
   "GeoPublic.controller.BackOffice.Sessao": [],
   "GeoPublic.controller.BackOffice.Utilizador": [],
-  "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.Estatisticas.Estatisticas": [],
@@ -1074,7 +1073,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.BackOffice.Promotor": [],
   "GeoPublic.view.BackOffice.Sessao": [],
   "GeoPublic.view.BackOffice.Utilizador": [],
-  "GeoPublic.view.BemVindoPanel": [],
   "GeoPublic.view.ChangePassword": [],
   "GeoPublic.view.DiscussaoGeografica": [],
   "GeoPublic.view.DiscussaoRegulamento": [],
@@ -2292,7 +2290,6 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.BackOffice.Promotor": [],
   "GeoPublic.controller.BackOffice.Sessao": [],
   "GeoPublic.controller.BackOffice.Utilizador": [],
-  "GeoPublic.controller.BemVindoPanel": [],
   "GeoPublic.controller.DiscussaoGeografica": [],
   "GeoPublic.controller.DiscussaoRegulamento": [],
   "GeoPublic.controller.Estatisticas.Estatisticas": [],
@@ -2377,9 +2374,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.BackOffice.Utilizador": [
     "widget.grid-utilizador"
-  ],
-  "GeoPublic.view.BemVindoPanel": [
-    "widget.bem-vindo-panel"
   ],
   "GeoPublic.view.ChangePassword": [
     "widget.xpassword"

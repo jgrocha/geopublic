@@ -54,7 +54,7 @@ Ext.define('GeoPublic.view.ChangePassword', {
 		minLength : 3,
 		// msgTarget : 'under',
 		msgTarget : 'side',
-		minLengthText : 'O mínimo são {0} carateres'
+		minLengthText : 'The minimum are {0} characters'.translate()
 	},
 	items : [{
 		inputType : 'password',
@@ -148,30 +148,30 @@ Ext.define('GeoPublic.view.Users.Profile', {
 			frame : false,
 			items : [{
 				xtype : 'textfield',
-				fieldLabel : 'Nome',
+				fieldLabel : 'Name'.translate(),
 				name : 'nome'
 			}, {
 				xtype : 'textfield',
-				fieldLabel : 'Nº de Identificação Fiscal',
+				fieldLabel : 'VAT number'.translate(),
 				name : 'nif'
 			}, {
 				xtype : 'textfield',
-				fieldLabel : 'Nº de Identificação Civil (BI ou CC)',
+				fieldLabel : 'Civil ID'.translate(),
 				name : 'nic'
 			}, {
                 xtype : 'fieldset',
-                title : 'Sexo',
+                title : 'Sex'.translate(),
                 layout : 'hbox',
                 items : [{
                     xtype : 'checkbox',
-                    fieldLabel : 'Masculino',
+                    fieldLabel : 'Male'.translate(),
                     name : 'masculino',
                     inputValue : '1',
                     uncheckedValue : '0',
                     margin: '0 20 0 0'
                 }, {
                     xtype : 'checkbox',
-                    fieldLabel : 'Feminino',
+                    fieldLabel : 'Female'.translate(),
                     name : 'feminino',
                     inputValue : '1',
                     uncheckedValue : '0'
@@ -179,12 +179,12 @@ Ext.define('GeoPublic.view.Users.Profile', {
             }]
 		}, {
 			xtype : 'fieldset',
-			title : 'Endereço de email',
+			title : 'Email address'.translate(),
             padding: '0 0 10 10',
 			layout : 'hbox',
 			items : [{
 				xtype : 'textfield',
-				fieldLabel : 'Email',
+				fieldLabel : 'Email'.translate(),
 				name : 'email',
 				readOnly : true,
 				disabled : true,
@@ -192,43 +192,43 @@ Ext.define('GeoPublic.view.Users.Profile', {
 			}, {
 				xtype : 'button',
 				itemId : 'changeEmail',
-				text : 'Alterar o email'
+				text : 'Change email'.translate()
 			}]
 		}, {
 			xtype : 'fieldset',
-			title : 'Telefones',
+			title : 'Telephone numbers'.translate(),
 			frame : false,
 			items : [{
 				xtype : 'textfield',
-				fieldLabel : 'Telefone',
+				fieldLabel : 'Telephone'.translate(),
 				name : 'telefone'
 			}, {
 				xtype : 'textfield',
-				fieldLabel : 'Telemóvel',
+				fieldLabel : 'Mobile'.translate(),
 				name : 'telemovel'
 			}]
 		}, {
 			xtype : 'fieldset',
-			title : 'Endereço postal',
+			title : 'Postal address'.translate(),
 			frame : false,
 			items : [{
 				xtype : 'textfield',
-				fieldLabel : 'Morada',
+				fieldLabel : 'Address'.translate(),
 				name : 'morada'
 			}, {
 				xtype : 'textfield',
-				fieldLabel : 'Localidade',
+				fieldLabel : 'Location'.translate(),
 				name : 'localidade'
 			}, {
 				xtype : 'panel',
 				layout : 'hbox',
 				items : [{
 					xtype : 'textfield',
-					fieldLabel : 'Código',
+					fieldLabel : 'Zip code'.translate(),
 					name : 'codpostal',
 					maxLength : 8, // 4715-281
 					minLength : 4,
-					minLengthText : 'O código postal tem que ter 4 digitos.'
+					minLengthText : 'The zip code must have 4 digits at least'.translate()
 				}, {
 					xtype : 'textfield',
                     padding: '0 0 0 10',
@@ -257,7 +257,7 @@ Ext.define('GeoPublic.view.Users.Profile', {
 				xtype : 'button',
 				itemId : 'gravar',
 				formBind : true,
-				text : 'Gravar'
+				text : 'Save'.translate()
 			}, {
 				xtype : 'tbfill'
 			}]
@@ -265,10 +265,10 @@ Ext.define('GeoPublic.view.Users.Profile', {
 	}, {
 		xtype : 'panel',
 		itemId : 'localizacao',
-		title : 'Localização',
+		title : 'Location'.translate(),
 		items : [{
 			xtype : 'label',
-			text : 'Click no mapa para indicar a sua localização.',
+			text : 'Click on the map to enter your location',
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			xtype : 'home-map-panel'
@@ -277,14 +277,14 @@ Ext.define('GeoPublic.view.Users.Profile', {
 			itemId : 'home',
 			items : [{
 				xtype : 'textfield',
-				fieldLabel : 'Longitude',
+				fieldLabel : 'Longitude'.translate(),
 				name : 'longitude',
 				readOnly : true,
 				minLength : 1
 				// disabled : true
 			}, {
 				xtype : 'textfield',
-				fieldLabel : 'Latitude',
+				fieldLabel : 'Latitude'.translate(),
 				name : 'latitude',
 				readOnly : true,
 				minLength : 1
@@ -301,11 +301,11 @@ Ext.define('GeoPublic.view.Users.Profile', {
 				items : [{
 					xtype : 'button',
 					itemId : 'limpar',
-					text : 'Remover informação de localização'
+					text : 'Remove location information'.translate()
 				}, {
 					xtype : 'button',
 					itemId : 'gravar',
-					text : 'Gravar informação da localização'
+					text : 'Save location information'.translate()
 				}, {
 					xtype : 'tbfill'
 				}]
@@ -314,7 +314,7 @@ Ext.define('GeoPublic.view.Users.Profile', {
 
 	}, {
 		xtype : 'xpassword',
-		title : 'Alterar senha',
+		title : 'Change password'.translate(),
 		collapsible : true
 	}]
 

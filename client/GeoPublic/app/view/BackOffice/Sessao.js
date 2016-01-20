@@ -6,7 +6,7 @@ Ext.define('GeoPublic.view.BackOffice.Sessao', {
         'Ext.grid.column.Action',
         'Ext.ux.LiveSearchGridPanel',
         'Ext.ux.grid.FiltersFeature'],
-    title: 'Últimos acessos',
+    title: 'Last access'.translate(),
     layout: 'border',
     style: 'padding:5px',
 
@@ -19,7 +19,7 @@ Ext.define('GeoPublic.view.BackOffice.Sessao', {
             autoReload: true, // false,
             local: false,
             encode: true,
-            menuFilterText : 'Filtrar'
+            menuFilterText : 'Filter'.translate()
         };
 
         this.items = [{
@@ -36,7 +36,7 @@ Ext.define('GeoPublic.view.BackOffice.Sessao', {
             }],
             columns: [{
                 dataIndex: 'id',
-                text: 'Id Utilizador',
+                text: 'User ID'.translate(),
                 width: 80,
                 filter: {
                     type: 'numeric'
@@ -44,33 +44,33 @@ Ext.define('GeoPublic.view.BackOffice.Sessao', {
             }, {
                 dataIndex: 'datalogin',
                 xtype: 'datecolumn', // fundamental :-)
-                text: 'Data/hora de login',
-                width: 140,
+                text: 'Login date'.translate(),
+                width: 160,
                 format: 'Y-m-d H:i:s',
                 filter: {
                     type: 'date',
-                    afterText : 'Depois de',
-                    beforeText : 'Antes de',
-                    dateFormat : 'Y-m-d',
-                    onText : 'No dia'
+                    afterText: 'After day'.translate(),
+                    beforeText: 'Before day'.translate(),
+                    dateFormat: 'Y-m-d',
+                    onText: 'On day'.translate()
                 }
             }, {
                 dataIndex: 'ip',
-                text: 'IP address',
+                text: 'IP address'.translate(),
                 width: 120,
                 filter: {
                     type: 'string'
                 }
             }, {
                 dataIndex: 'hostname',
-                text: 'Nome da máquina',
+                text: 'Hostname'.translate(),
                 width: 180,
                 filter: {
                     type: 'string'
                 }
             }, {
                 dataIndex: 'browser',
-                text: 'Navegador',
+                text: 'Browser'.translate(),
                 flex: 1,
                 filter: {
                     type: 'string'

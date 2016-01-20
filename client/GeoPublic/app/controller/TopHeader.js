@@ -91,7 +91,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
     onLogout: function () {
         console.log('Vamos reagir ao evento logoutComSucesso');
         this.getBotaoRegisto().setDisabled(false);
-        this.getBotaoLogin().setText('Iniciar sessão');
+        this.getBotaoLogin().setText('Start session'.translate());
         // Tirar alguma fotografia que haja
         this.getBotaoLogin().setIcon('');
         this.getLoginMenu().setWidth(this.getBotaoLogin().getWidth());

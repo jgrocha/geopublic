@@ -19,7 +19,7 @@ Ext.define('GeoPublic.view.Estatisticas.Estatisticas', {
     items: [{
         layout: 'column',
         width: 900,
-        title: 'Estatísticas do envolvimento da população por plano',
+        title: 'Participation statistics by plan'.translate(),
         items: [{
             columnWidth: 1 / 3,
             padding: '10 10 10 10',
@@ -28,7 +28,7 @@ Ext.define('GeoPublic.view.Estatisticas.Estatisticas', {
             store: 'Estatisticas.Promotor',
             columns: [{
                 dataIndex: 'designacao',
-                text: 'Instituição',
+                text: 'Institution'.translate(),
                 flex: 1
             }],
             selType: 'rowmodel'
@@ -41,7 +41,7 @@ Ext.define('GeoPublic.view.Estatisticas.Estatisticas', {
             store: 'Estatisticas.Plano',
             columns: [{
                 dataIndex: 'designacao',
-                text: 'Plano',
+                text: 'Plan'.translate(),
                 flex: 1
             }],
             selType: 'rowmodel'

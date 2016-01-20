@@ -7,7 +7,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 	layout : {
 		type : 'fit'
 	},
-	title : "Identifique-se",
+	title : "Authentication".translate(),
 	modal : true,
 	closable : false,
 	items : [{
@@ -23,15 +23,15 @@ Ext.define('GeoPublic.view.Users.Login', {
 			vtype : 'alphanum',
 			minLength : 3,
 			msgTarget : 'under',
-			minLengthText : 'O mínimo são {0} carateres'
+			minLengthText : 'The minimum are {0} characters'.translate()
 		},
 		items : [{
 			xtype : 'fieldset',
-			title : 'Use uma rede social',
+			title : 'Use a social network'.translate(),
 			items : [{
 				xtype : 'label',
-				text : 'A sua rede social é uma forma conveniente de se identificar, sem ter que criar e recordar mais uma senha para este site.',
-				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
+				text : 'Your social network is a suitable authentication form to use this platform without an additional password'.translate(),
+				style : 'display:block; padding:6px 0px 6px 0px' // top right bottom left
 			}, {
 				xtype : 'fieldset',
 				layout : 'hbox',
@@ -64,13 +64,13 @@ Ext.define('GeoPublic.view.Users.Login', {
 				}]
 			}, {
 				xtype : 'label',
-				html : '<b>Nada será publicado na rede social em seu nome.</b>',
+				html : '<b>Nothing will be published on your social network</b>'.translate(),
 				style : 'display:block; padding:0px 0px 6px 0px' // top right bottom left
 			}]
 		}, {
 			margin : "20 0 0 0",
 			xtype : 'fieldset',
-			title : 'Use os dados do registo',
+			title : 'Use your registered email and password'.translate(),
 			items : [/* {
 			 xtype : 'label',
 			 text : 'Endereço de email com que se registou.',
@@ -79,7 +79,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 			{
 				xtype : 'textfield',
 				name : 'email',
-				fieldLabel : 'Email',
+				fieldLabel : 'Email'.translate(),
 				vtype : 'email',
 				maxLength : 48,
 				allowBlank : false,
@@ -88,7 +88,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 				xtype : 'textfield',
 				inputType : 'password',
 				name : 'password',
-				fieldLabel : 'Senha',
+				fieldLabel : 'Password'.translate(),
 				enableKeyEvents : true,
 				// id : 'password',
 				maxLength : 15,
@@ -97,15 +97,15 @@ Ext.define('GeoPublic.view.Users.Login', {
 			}, {
 				xtype : 'checkbox',
 				labelWidth : 160,
-				fieldLabel : 'Estou no meu computador',
+				fieldLabel : 'I am on my computer'.translate(),
 				name : 'remember'
 			}, {
 				xtype : 'label',
-				html : 'Se está no seu computador, pode-se autenticar automaticamente durante uma semana.<br/>',
+				html : 'If you are on your computer, you can login automatically for a week.<br/>'.translate(),
 				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
 			}, {
 				xtype : 'label',
-				html : '<i>Não use esta opção se está num computador público.</i>',
+				html : "<i>Don't use this option on a public computer.</i>",
 				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
 			}]
 
@@ -116,18 +116,18 @@ Ext.define('GeoPublic.view.Users.Login', {
 			items : [{
 				xtype : 'button',
 				itemId : 'lost',
-				text : 'Perdi a senha'
+				text : 'Lost password'.translate()
 			}, {
 				xtype : 'tbfill'
 			}, {
 				xtype : 'button',
 				itemId : 'cancelar',
-				text : 'Cancelar'
+				text : 'Cancel'.translate()
 			}, {
 				xtype : 'button',
 				itemId : 'entrar',
 				formBind : true,
-				text : 'Entrar'
+				text : 'Login'.translate()
 			}]
 		}]
 	}] /*,

@@ -10,7 +10,7 @@ Ext.define('GeoPublic.view.Estatisticas.ChartByType', {
         label: {
             renderer: Ext.util.Format.numberRenderer('0')
         },
-        title: 'Número de participações',
+        title: 'Number of participations'.translate(),
         grid: true,
         minimum: 0,
         majorTickSteps: 1

@@ -20,6 +20,18 @@ GeoPublic.Translation = [{
     "id": 'Statistics',
     "translation": "Estatísticas"
 }, {
+    "id": 'Participation statistics by plan',
+    "translation": "Estatísticas do envolvimento da população por plano"
+}, {
+    "id": 'Charts',
+    "translation": "Gráficos"
+}, {
+    "id": 'Count',
+    "translation": "Contagem"
+}, {
+    "id": 'Number of participations',
+    "translation": "Número de participações"
+}, {
     "id": 'Choose photo',
     "translation": "Escolher fotografia"
 }, {
@@ -71,14 +83,26 @@ GeoPublic.Translation = [{
     "id": 'Logout',
     "translation": "Sair"
 }, {
+    "id": 'Authentication',
+    "translation": "Identifique-se"
+}, {
     "id": 'Welcome',
     "translation": "Bem vindo"
+}, {
+    "id": 'Institution',
+    "translation": "Entidade"
 }, {
     "id": 'Institutions',
     "translation": "Entidades"
 }, {
+    "id": 'Registration date',
+    "translation": "Data de registo"
+}, {
     "id": 'Plans under discussion',
     "translation": "Planos em discussão"
+}, {
+    "id": 'Plan',
+    "translation": "Plano"
 }, {
     "id": 'Participation rules',
     "translation": "Regras de participação"
@@ -115,6 +139,12 @@ GeoPublic.Translation = [{
 }, {
     "id": 'resources/guiarapido/alldocuments.html',
     "translation": "resources/guiarapido/alldocuments_pt.html"
+}, {
+    "id": 'resources/guiarapido/about.html',
+    "translation": "resources/guiarapido/sobre.html"
+}, {
+    "id": 'resources/guiarapido/participate_geo.html',
+    "translation": "resources/guiarapido/participar_geo.html"
 }, {
     "id": 'Edit participation',
     "translation": "Editar a participação"
@@ -170,7 +200,16 @@ GeoPublic.Translation = [{
     "id": 'Update',
     "translation": "Alterar"
 }, {
+    "id": 'Update plan',
+    "translation": "Atualizar o plano"
+}, {
+    "id": 'Cancel',
+    "translation": "Descartar"
+}, {
     "id": 'Participation',
+    "translation": "Participar"
+}, {
+    "id": 'Participate',
     "translation": "Participar"
 }, {
     "id": 'Location missing',
@@ -257,6 +296,69 @@ GeoPublic.Translation = [{
     "id": 'comments',
     "translation": "comentários"
 }, {
+    "id": 'Site',
+    "translation": "Site"
+}, {
+    "id": 'Email',
+    "translation": "Email"
+}, {
+    "id": 'Email address',
+    "translation": "Endereço de email"
+}, {
+    "id": 'Postal address',
+    "translation": "Endereço postal"
+}, {
+    "id": 'Address',
+    "translation": "Morada"
+}, {
+    "id": 'Location',
+    "translation": "Localidade"
+}, {
+    "id": 'Zip code',
+    "translation": "Código postal"
+}, {
+    "id": 'The zip code must have 4 digits at least',
+    "translation": "O código postal tem que ter 4 digitos"
+}, {
+    "id": 'Save',
+    "translation": "Gravar"
+}, {
+    "id": 'Location',
+    "translation": "Localização"
+}, {
+    "id": 'Click on the map to enter your location',
+    "translation": "Click no mapa para indicar a sua localização"
+}, {
+    "id": 'Longitude',
+    "translation": "Longitude"
+}, {
+    "id": 'Latitude',
+    "translation": "Latitude"
+}, {
+    "id": 'Remove location information',
+    "translation": "Remover informação de localização"
+}, {
+    "id": 'Save location information',
+    "translation": "Gravar informação da localização"
+}, {
+    "id": 'Change password',
+    "translation": "Alterar senha"
+}, {
+    "id": 'Change email',
+    "translation": "Alterar o email"
+}, {
+    "id": 'Telephone',
+    "translation": "Telefone"
+}, {
+    "id": 'Telephone numbers',
+    "translation": "Números de telefone"
+}, {
+    "id": 'Mobile',
+    "translation": "Telemóvel"
+}, {
+    "id": 'Logo',
+    "translation": "Logotipo"
+}, {
     "id": 'Favorite',
     "translation": "Favorito"
 }, {
@@ -287,11 +389,44 @@ GeoPublic.Translation = [{
     "id": 'Filter',
     "translation": 'Filtrar'
 }, {
+    "id": 'User ID',
+    "translation": 'Id Utilizador'
+}, {
     "id": 'Group',
     "translation": 'Grupo'
 }, {
+    "id": 'Login date',
+    "translation": 'Data de login'
+}, {
+    "id": 'IP address',
+    "translation": 'Endereço IP'
+}, {
+    "id": 'Hostname',
+    "translation": 'Nome da máquina'
+}, {
+    "id": 'Browser',
+    "translation": 'Navegador'
+}, {
     "id": 'Name',
     "translation": 'Nome'
+}, {
+    "id": 'VAT number',
+    "translation": 'Nº de Identificação Fiscal'
+}, {
+    "id": 'VAT number',
+    "translation": 'Nº de Identificação Fiscal'
+}, {
+    "id": 'Civil ID',
+    "translation": 'Nº de Identificação Civil (BI ou CC)'
+}, {
+    "id": 'Sex',
+    "translation": 'Sexo'
+}, {
+    "id": 'Male',
+    "translation": 'Masculino'
+}, {
+    "id": 'Female',
+    "translation": 'Feminino'
 }, {
     "id": 'Creation date',
     "translation": 'Criado em'
@@ -322,6 +457,90 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Search within the plan limits',
     "translation": 'Procurar dentro dos limites do plano'
+}, {
+    "id": 'Add',
+    "translation": 'Adiciona'
+}, {
+    "id": 'Remove',
+    "translation": 'Apaga'
+}, {
+    "id": 'Active',
+    "translation": 'Ativo'
+}, {
+    "id": 'Path',
+    "translation": 'Caminho'
+}, {
+    "id": 'Non-geographic',
+    "translation": 'Não Geográfico'
+}, {
+    "id": 'Color',
+    "translation": 'Cor'
+}, {
+    "id": 'Meaning',
+    "translation": 'Significado'
+}, {
+    "id": 'State',
+    "translation": 'Estado'
+}, {
+    "id": 'Type',
+    "translation": 'Tipo'
+}, {
+    "id": 'Select limits on map',
+    "translation": 'Escolher limites no mapa'
+}, {
+    "id": 'Geographic scope',
+    "translation": 'Âmbito geográfico'
+}, {
+    "id": 'Plan description',
+    "translation": 'Descrição do plano'
+}, {
+    "id": 'Write a comment...',
+    "translation": 'O seu comentário...'
+}, {
+    "id": 'New state...',
+    "translation": 'Novo estado...'
+}, {
+    "id": 'Missing location',
+    "translation": 'Sem localização'
+}, {
+    "id": 'Proposal',
+    "translation": 'Propor redação'
+}, {
+    "id": 'The minimum are {0} characters',
+    "translation": 'O mínimo são {0} carateres'
+}, {
+    "id": 'Use a social network',
+    "translation": 'Use uma rede social'
+}, {
+    "id": 'Your social network is a suitable authentication form to use this platform without an additional password',
+    "translation": 'A sua rede social é uma forma conveniente de se identificar, sem ter que criar e recordar mais uma senha para este site'
+}, {
+    "id": '<b>Nothing will be published on your social network</b>',
+    "translation": '<b>Nada será publicado na rede social em seu nome.</b>'
+}, {
+    "id": 'If you are on your computer, you can login automatically for a week.<br/>',
+    "translation": 'Se está no seu computador, pode-se autenticar automaticamente durante uma semana.<br/>'
+}, {
+    "id": "<i>Don't use this option on a public computer.</i>",
+    "translation": '<i>Não use esta opção se está num computador público.</i>'
+}, {
+    "id": 'Use your registered email and password',
+    "translation": 'Use os dados do registo'
+}, {
+    "id": 'Password',
+    "translation": 'Senha'
+}, {
+    "id": 'Lost password',
+    "translation": 'Perdi a senha'
+}, {
+    "id": 'Login',
+    "translation": 'Entrar'
+}, {
+    "id": 'Use your registered email and password',
+    "translation": 'Use os dados do registo'
+}, {
+    "id": 'I am on my computer',
+    "translation": 'Estou no meu computador'
 }];
 
 /*

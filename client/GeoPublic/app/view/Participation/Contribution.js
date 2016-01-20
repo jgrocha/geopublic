@@ -240,7 +240,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                 }, {
                     xtype : 'tbtext',
                     itemId : 'coordinates',
-                    text : 'Sem localização'
+                    text : 'Missing location'.translate()
                 }, {
                     xtype : 'tbfill'
                 }, {
@@ -254,7 +254,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                     itemId : 'gravar',
                     formBind : true, // mas já está fora do form#detail
                     icon : 'resources/assets/pencil.png',
-                    text : 'Participar',
+                    text : 'Participate'.translate(),
                     disabled : true
                 }]
             }];
@@ -273,20 +273,20 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
                     // formBind : true,
                     icon : 'resources/images/icons/fam/user_edit.png',
                     enableToggle : true,
-                    text : 'Propor redação'
+                    text : 'Proposal'.translate()
                 }, {
                     xtype : 'tbfill'
                 }, {
                     xtype : 'button',
                     itemId : 'limpar',
                     // formBind : true,
-                    text : 'Limpar'
+                    text : 'Clear'.translate()
                 }, {
                     xtype : 'button',
                     itemId : 'gravar',
                     formBind : true, // mas já está fora do form#detail
                     icon : 'resources/assets/pencil.png',
-                    text : 'Participar',
+                    text : 'Participate'.translate(),
                     disabled : true
                 }]
             }];

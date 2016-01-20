@@ -6,7 +6,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
         'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor',
         'Ext.grid.column.CheckColumn'],
     layout: 'border',
-    title: 'Entidades',
+    title: 'Institutions'.translate(),
     bodyPadding: 10,
     items: [{
         xtype: 'gridpanel',
@@ -22,7 +22,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
          width : 40
          },*/  {
             dataIndex: 'designacao',
-            header: 'Entidade promotora',
+            header: 'Institution'.translate(),
             width: 280,
             editor: {
                 xtype: 'textfield',
@@ -30,7 +30,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }
         }, {
             dataIndex: 'email',
-            header: 'Email',
+            header: 'Email'.translate(),
             flex: 1,
             editor: {
                 xtype: 'textfield',
@@ -38,7 +38,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }
         }, {
             dataIndex: 'site',
-            header: 'Site',
+            header: 'Site'.translate(),
             flex: 1,
             editor: {
                 xtype: 'textfield',
@@ -47,7 +47,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
         }, {
             dataIndex: 'dataregisto',
             xtype: 'datecolumn', // fundamental :-)
-            header: 'Data de registo',
+            header: 'Registration date'.translate(),
             width: 140,
             format: 'Y-m-d H:i:s',
             editor: {
@@ -57,17 +57,17 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }
         }, {
             dataIndex: 'logotipo',
-            header: 'Logo',
+            header: 'Logo'.translate(),
             width: 140,
             disabled: true
         }],
         tbar: [{
             itemId: 'add',
-            text: 'Adiciona',
+            text: 'Add'.translate(),
             icon: 'resources/images/icons/fam/add.png'
         }, {
             itemId: 'remove',
-            text: 'Apaga',
+            text: 'Remove'.translate(),
             icon: 'resources/images/icons/fam/delete.gif',
             disabled: true
         }, '->', {
@@ -98,13 +98,13 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
         selModel: {  allowDeselect: true },
         // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
         plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
-            saveBtnText: 'Alterar',
-            cancelBtnText: 'Descartar',
+            saveBtnText: 'Update'.translate(),
+            cancelBtnText: 'Cancel'.translate(),
             // clicksToEdit: 1, //this changes from the default double-click activation to single click activation
             errorSummary: false //disables display of validation messages if the row is invalid
         })]
     }, {
-        title: 'Planos para discussão',
+        title: 'Plans under discussion'.translate(),
         region: 'center',
         layout: {
             type: 'hbox',
@@ -127,7 +127,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
              width : 40
              },*/ {
                 dataIndex: 'designacao',
-                header: 'Plano ou Projeto',
+                header: 'Plan'.translate(),
                 width: 240,
                 editor: {
                     xtype: 'textfield',
@@ -144,7 +144,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
              },*/
                 {
                     dataIndex: 'responsavel',
-                    header: 'Responsável',
+                    header: 'Responsible'.translate(),
                     width: 120,
                     editor: {
                         xtype: 'textfield',
@@ -152,7 +152,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                     }
                 }, {
                     dataIndex: 'email',
-                    header: 'Email',
+                    header: 'Email'.translate(),
                     width: 120,
                     editor: {
                         xtype: 'textfield',
@@ -160,7 +160,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                     }
                 }, {
                     dataIndex: 'site',
-                    header: 'Site',
+                    header: 'Site'.translate(),
                     width: 120,
                     editor: {
                         xtype: 'textfield',
@@ -169,7 +169,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }, {
                     dataIndex: 'inicio',
                     xtype: 'datecolumn', // fundamental :-)
-                    header: 'De',
+                    header: 'From'.translate(),
                     width: 140,
                     format: 'Y-m-d H:i:s',
                     editor: {
@@ -180,7 +180,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }, {
                     dataIndex: 'fim',
                     xtype: 'datecolumn', // fundamental :-)
-                    header: 'Até',
+                    header: 'Until'.translate(),
                     width: 140,
                     format: 'Y-m-d H:i:s',
                     editor: {
@@ -191,7 +191,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }, {
                     dataIndex: 'alternativeproposta',
                     xtype: 'checkcolumn',
-                    header: 'Não Geográfico',
+                    header: 'Non-geographic'.translate(),
                     width: 90,
                     editor: {
                         xtype: 'checkbox',
@@ -201,7 +201,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }, {
                     dataIndex: 'active',
                     xtype: 'checkcolumn',
-                    header: 'Ativo',
+                    header: 'Active'.translate(),
                     width: 60,
                     editor: {
                         xtype: 'checkbox',
@@ -211,11 +211,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }],
             tbar: [{
                 itemId: 'add',
-                text: 'Adiciona',
+                text: 'Add'.translate(),
                 icon: 'resources/images/icons/fam/add.png'
             }, {
                 itemId: 'remove',
-                text: 'Apaga',
+                text: 'Remove'.translate(),
                 icon: 'resources/images/icons/fam/delete.gif',
                 disabled: true
             }],
@@ -223,8 +223,8 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
-                saveBtnText: 'Alterar',
-                cancelBtnText: 'Descartar',
+                saveBtnText: 'Update'.translate(),
+                cancelBtnText: 'Cancel'.translate(),
                 // clicksToEdit: 1, //this changes from the default double-click activation to single click activation
                 errorSummary: false //disables display of validation messages if the row is invalid
             })]
@@ -235,14 +235,14 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             width: 600,
             itemId: 'planoForm',
             bodyPadding: 10,
-            title: 'Descrição do plano',
+            title: 'Plan description'.translate(),
             items: [{
                 xtype: 'htmleditor',
                 anchor: '100%',
                 name: 'descricao'
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Âmbito geográfico',
+                fieldLabel: 'Geographic scope'.translate(),
                 labelAlign: 'top',
                 anchor: '100%',
                 name: 'the_geom'
@@ -254,12 +254,12 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                     xtype: 'button',
                     itemId: 'updateDescricaoPlano',
                     icon: 'resources/images/icons/fam/accept.png',
-                    text: 'Atualizar'
+                    text: 'Update plan'.translate()
                 }, {
                     xtype: 'button',
                     itemId: 'planLimits',
                     icon: 'resources/assets/pencil.png',
-                    text: 'Show map'
+                    text: 'Select limits on map'.translate()
                 }]
 
             }]
@@ -289,11 +289,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 width: 40
             }, {
                 dataIndex: 'idplano',
-                header: 'Plano',
+                header: 'Plan'.translate(),
                 width: 40
             }, {
                 dataIndex: 'designacao',
-                header: 'Tipo de Ocorrência',
+                header: 'Type'.translate(),
                 flex: 1,
                 editor: {
                     xtype: 'textfield',
@@ -302,7 +302,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }, {
                 dataIndex: 'ativa',
                 xtype: 'checkcolumn',
-                header: 'Em uso',
+                header: 'Active'.translate(),
                 width: 80,
                 editor: {
                     xtype: 'checkbox',
@@ -312,11 +312,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }],
             tbar: [{
                 itemId: 'add',
-                text: 'Adiciona',
+                text: 'Add'.translate(),
                 icon: 'resources/images/icons/fam/add.png'
             }, {
                 itemId: 'remove',
-                text: 'Apaga',
+                text: 'Remove'.translate(),
                 icon: 'resources/images/icons/fam/delete.gif',
                 disabled: true
             }],
@@ -324,8 +324,8 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
-                saveBtnText: 'Alterar',
-                cancelBtnText: 'Descartar'
+                saveBtnText: 'Update'.translate(),
+                cancelBtnText: 'Cancel'.translate()
                 // clicksToEdit: 1, //this changes from the default double-click activation to single click activation
                 // errorSummary: false //disables display of validation messages if the row is invalid
             })]
@@ -342,11 +342,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 width: 40
             }, {
                 dataIndex: 'idplano',
-                header: 'Plano',
+                header: 'Plan'.translate(),
                 width: 40
             }, {
                 dataIndex: 'estado',
-                header: 'Estado',
+                header: 'State'.translate(),
                 width: 80,
                 editor: {
                     xtype: 'textfield',
@@ -354,7 +354,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }
             }, {
                 dataIndex: 'significado',
-                header: 'Significado',
+                header: 'Meaning'.translate(),
                 flex: 1,
                 editor: {
                     xtype: 'textfield',
@@ -362,7 +362,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }
             }, {
                 dataIndex: 'color',
-                header: 'Cor',
+                header: 'Color'.translate(),
                 width: 80,
                 editor: {
                     xtype: 'textfield',
@@ -370,7 +370,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 }
             }, {
                 dataIndex: 'icon',
-                header: 'Caminho',
+                header: 'Path'.translate(),
                 width: 80,
                 editor: {
                     xtype: 'textfield',
@@ -379,11 +379,11 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             }],
             tbar: [{
                 itemId: 'add',
-                text: 'Adiciona',
+                text: 'Add'.translate(),
                 icon: 'resources/images/icons/fam/add.png'
             }, {
                 itemId: 'remove',
-                text: 'Apaga',
+                text: 'Remove'.translate(),
                 icon: 'resources/images/icons/fam/delete.gif',
                 disabled: true
             }],
@@ -391,8 +391,8 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             selModel: {  allowDeselect: true },
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
-                saveBtnText: 'Alterar',
-                cancelBtnText: 'Descartar'
+                saveBtnText: 'Update'.translate(),
+                cancelBtnText: 'Cancel'.translate()
                 // clicksToEdit: 1, //this changes from the default double-click activation to single click activation
                 // errorSummary: false //disables display of validation messages if the row is invalid
             })],

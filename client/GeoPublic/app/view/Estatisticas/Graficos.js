@@ -2,7 +2,7 @@ Ext.define('GeoPublic.view.Estatisticas.Graficos', {
 	extend : 'Ext.panel.Panel',
     requires: ['GeoPublic.view.Estatisticas.ChartByState', 'GeoPublic.view.Estatisticas.ChartByType', 'GeoPublic.view.Estatisticas.ChartByAtividade'],
 	alias : 'widget.graficos',
-	title : 'Gráficos',
+	title : 'Charts'.translate(),
 	minHeight : 290,
 	// itemId : 'estatisticas',
     layout: {
@@ -15,9 +15,10 @@ Ext.define('GeoPublic.view.Estatisticas.Graficos', {
 	},
 	initComponent : function() {
 		var me = this;
+        //<debug>
 		console.debug(this.initialConfig);
-
 		console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao);
+        //</debug>
 
 		// this.itemId = 'StartPlanoDescricao-' + this.initialConfig.id;
 		this.items = [{

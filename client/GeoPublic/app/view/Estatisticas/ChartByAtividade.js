@@ -13,7 +13,7 @@ Ext.define('GeoPublic.view.Estatisticas.ChartByAtividade', {
         label: {
             renderer: Ext.util.Format.numberRenderer('0')
         },
-        title: 'Contagem',
+        title: 'Count'.translate(),
         grid: true,
         majorTickSteps: 1,
         minimum: 0

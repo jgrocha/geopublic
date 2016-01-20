@@ -27,7 +27,7 @@ Ext.define('GeoPublic.view.Sobre', {
 		autoScroll : true,
 		bodyPadding : 10,
 		loader : {
-			url : 'resources/guiarapido/sobre.html'.translate(),
+			url : 'resources/guiarapido/about.html'.translate(),
 			autoLoad : true
 		}
 	}]
