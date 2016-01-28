@@ -397,7 +397,8 @@ Ext.define('GeoPublic.controller.StartPanel', {
                         descricao: plano.descricao,
                         // the_geom: plano.the_geom,
                         proposta: plano.proposta,
-                        alternativeproposta: plano.alternativeproposta
+                        alternativeproposta: plano.alternativeproposta,
+                        email: plano.email
                     }));
                 } else {
                     me.getPainelPrincipal().insert(sepTabIndex, Ext.create(GeoPublic.view.DiscussaoGeografica, {

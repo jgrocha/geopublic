@@ -21,6 +21,9 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 	}, {
 		ref : 'editor',
 		selector : 'grid-promotor #planoForm'
+	}, {
+		ref : 'editorProposal',
+		selector : 'grid-promotor #proposalForm'
 	}],
 	init : function() {
 		this.control({
@@ -32,6 +35,9 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 			},
 			"grid-promotor form#planoForm button#updateDescricaoPlano" : {
 				click : this.onUpdateDescricaoPlano
+			},
+			"grid-promotor form#proposalForm button#updatePlanProposal" : {
+				click : this.onUpdateDescricaoProposal
 			},
 			"grid-promotor form#planoForm button#planLimits" : {
 				click : this.onUpdatePlanLimits
@@ -99,6 +105,18 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 		var form = this.getEditor();
 		// var params = form.getForm().getValues(false, true, false, false);
 		// console.log(params);
+		var record = form.getRecord();
+		// console.log(record);
+		form.updateRecord(record);
+	},
+	onUpdateDescricaoProposal : function(button, e, options) {
+		console.log('onUpdateDescricaoProposal');
+		if (this.missingSelection()) {
+			return false;
+		}
+		var form = this.getEditorProposal();
+		var params = form.getForm().getValues(false, true, false, false);
+		console.log(params);
 		var record = form.getRecord();
 		// console.log(record);
 		form.updateRecord(record);

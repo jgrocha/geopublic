@@ -72,20 +72,20 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             disabled: true
         }, '->', {
             xtype: 'form',
-            api : {
-                submit : 'ExtRemote.DXFormUploads.filesubmitphotoprofile'
+            api: {
+                submit: 'ExtRemote.DXFormUploads.filesubmitphotoprofile'
             },
             items: [{
-                xtype : 'filefield',
-                name : 'photo',
-                itemId : 'photo',
+                xtype: 'filefield',
+                name: 'photo',
+                itemId: 'photo',
                 // fieldLabel : 'Photo',
-                labelWidth : 50,
-                msgTarget : 'side',
-                allowBlank : true,
+                labelWidth: 50,
+                msgTarget: 'side',
+                allowBlank: true,
                 //anchor : '40%',
-                buttonText : 'Choose photo'.translate(),
-                buttonOnly : true,
+                buttonText: 'Choose photo'.translate(),
+                buttonOnly: true,
                 disabled: true
             }]
         }, {
@@ -95,7 +95,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
             disabled: true
         }],
         selType: 'rowmodel',
-        selModel: {  allowDeselect: true },
+        selModel: {allowDeselect: true},
         // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
         plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
             saveBtnText: 'Update'.translate(),
@@ -220,7 +220,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
-            selModel: {  allowDeselect: true },
+            selModel: {allowDeselect: true},
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Update'.translate(),
@@ -229,39 +229,72 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 errorSummary: false //disables display of validation messages if the row is invalid
             })]
         }, {
-            xtype: 'form',
-            split: true,
-            disabled: true,
-            width: 600,
-            itemId: 'planoForm',
-            bodyPadding: 10,
-            title: 'Plan description'.translate(),
+            xtype: 'tabpanel',
+            plain: true,
             items: [{
-                xtype: 'htmleditor',
-                anchor: '100%',
-                name: 'descricao'
-            }, {
-                xtype: 'textfield',
-                fieldLabel: 'Geographic scope'.translate(),
-                labelAlign: 'top',
-                anchor: '100%',
-                name: 'the_geom'
-            }],
-            dockedItems: [{
-                xtype: 'toolbar',
-                dock: 'bottom',
+                xtype: 'form',
+                split: true,
+                disabled: true,
+                width: 600,
+                itemId: 'planoForm',
+                bodyPadding: 10,
+                title: 'Plan description'.translate(),
                 items: [{
-                    xtype: 'button',
-                    itemId: 'updateDescricaoPlano',
-                    icon: 'resources/images/icons/fam/accept.png',
-                    text: 'Update plan'.translate()
+                    xtype: 'htmleditor',
+                    anchor: '100%',
+                    name: 'descricao'
                 }, {
-                    xtype: 'button',
-                    itemId: 'planLimits',
-                    icon: 'resources/assets/pencil.png',
-                    text: 'Select limits on map'.translate()
-                }]
+                    xtype: 'textfield',
+                    fieldLabel: 'Geographic scope'.translate(),
+                    labelAlign: 'top',
+                    anchor: '100%',
+                    name: 'the_geom'
+                }],
+                dockedItems: [{
+                    xtype: 'toolbar',
+                    dock: 'bottom',
+                    items: [{
+                        xtype: 'button',
+                        itemId: 'updateDescricaoPlano',
+                        icon: 'resources/images/icons/fam/accept.png',
+                        text: 'Update plan'.translate()
+                    }, {
+                        xtype: 'button',
+                        itemId: 'planLimits',
+                        icon: 'resources/assets/pencil.png',
+                        text: 'Select limits on map'.translate()
+                    }]
 
+                }]
+            }, {
+                itemId: 'separador',
+                tabConfig: {
+                    xtype: 'tbfill'
+                }
+            }, {
+                xtype: 'form',
+                split: true,
+                disabled: true,
+                width: 600,
+                itemId: 'proposalForm',
+                bodyPadding: 10,
+                title: 'Proposal'.translate(),
+                items: [{
+                    xtype: 'htmleditor',
+                    anchor: '100%',
+                    name: 'proposta'
+                }],
+                dockedItems: [{
+                    xtype: 'toolbar',
+                    dock: 'bottom',
+                    items: [{
+                        xtype: 'button',
+                        itemId: 'updatePlanProposal',
+                        icon: 'resources/images/icons/fam/accept.png',
+                        text: 'Update proposal'.translate()
+                    }]
+
+                }]
             }]
         }]
     }, {
@@ -321,7 +354,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
-            selModel: {  allowDeselect: true },
+            selModel: {allowDeselect: true},
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Update'.translate(),
@@ -388,7 +421,7 @@ Ext.define('GeoPublic.view.BackOffice.Promotor', {
                 disabled: true
             }],
             selType: 'rowmodel',
-            selModel: {  allowDeselect: true },
+            selModel: {allowDeselect: true},
             // http://stackoverflow.com/questions/7750529/extjs-4-row-editor-grid-how-to-change-update-button-text
             plugins: [Ext.create('Ext.grid.plugin.RowEditing', {
                 saveBtnText: 'Update'.translate(),

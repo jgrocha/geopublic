@@ -142,9 +142,35 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 	},
 	onPlanoGridItemClick : function(dataview, record, item, index, e, eOpts) {
 		console.log('onPlanoGridItemClick');
-		var form = dataview.up('grid-promotor').down('form#planoForm');
-		form.getForm().loadRecord(record);
-		form.enable();
+		// which row was clicked?
+		console.log(record);
+		console.log(record.get('alternativeproposta'));
+
+		var tabs = dataview.up('grid-promotor').down('tabpanel');
+		var planoForm = tabs.child('#planoForm');
+		var proposalForm = tabs.child('#proposalForm');
+
+		var nongeo = record.get('alternativeproposta');
+		if (nongeo) {
+
+			var form = dataview.up('grid-promotor').down('form#proposalForm');
+			form.getForm().loadRecord(record);
+			form.enable();
+			tabs.setActiveTab(proposalForm);
+
+			var form = dataview.up('grid-promotor').down('form#planoForm');
+			form.disable();
+
+
+		} else {
+			var form = dataview.up('grid-promotor').down('form#planoForm');
+			form.getForm().loadRecord(record);
+			form.enable();
+			tabs.setActiveTab(planoForm);
+
+			var form = dataview.up('grid-promotor').down('form#proposalForm');
+			form.disable();
+		}
 	},
 	onGridSelect : function(selModel, selection) {
 		this.getButtonRemove().setDisabled(!selection.length);

@@ -164,7 +164,8 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 proposta: records[i].data.proposta,
                 feature: null,
                 estadoStore: me.getStoreEstado(),
-                geodiscussao: false
+                geodiscussao: false,
+                moderador: me.email
             });
             // me.down('#flow').add(newDiscussion);
             me.down('#flow').insert(0, newDiscussion);
