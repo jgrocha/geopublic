@@ -549,101 +549,101 @@ GeoPublic.Translation = [{
     "translation": '---'
 }, {
     "id": 'User management',
-    "translation": 'Διαχείριση χρηστών'
+    "translation": 'Gestão de utilizadores'
 }, {
     "id": 'Users',
-    "translation": 'Χρήστες'
+    "translation": 'Utilizadores'
 }, {
     "id": 'Groups and permissions',
-    "translation": 'Γκρουπ και δικαιώματα'
+    "translation": 'Grupos e Permissões'
 }, {
     "id": 'Layers',
-    "translation": 'Λίστα επιπέδων'
+    "translation": 'Camadas'
 }, {
     "id": 'Plans and promoters',
-    "translation": 'Θέματα και προωθητές'
+    "translation": 'Planos e Promotores'
 }, {
     "id": 'Comments',
-    "translation": 'Σχόλια'
+    "translation": 'Comentários'
 }, {
     "id": 'Citizens',
-    "translation": 'Πολίτες'
+    "translation": 'Cidadãos envolvidos'
 }, {
     "id": 'Submitted',
-    "translation": 'Καταχωρημένο'
+    "translation": 'εγγεγραμμένος'
 }, {
     "id": 'Order',
-    "translation": 'Παραγγελία'
+    "translation": 'Ordem'
 }, {
     "id": 'Layer label',
-    "translation": 'Ετικέτα επιπέδου'
+    "translation": 'Designação'
 }, {
     "id": 'Layer name',
-    "translation": 'Όνομα επιπέδου'
+    "translation": 'Nome da camada'
 }, {
     "id": 'Url',
-    "translation": 'Διεύθυνση'
+    "translation": 'Endereço'
 }, {
     "id": 'Geometry',
-    "translation": 'Γεωμετρία'
+    "translation": 'Geometria'
 }, {
     "id": 'ETRS',
     "translation": 'ETRS'
 }, {
     "id": 'Style',
-    "translation": 'Στυλ'
+    "translation": 'Estilo'
 }, {
     "id": 'Tooltip',
-    "translation": 'Πληροφορία εργαλέιου'
+    "translation": 'Tooltip'
 }, {
     "id": 'Base',
-    "translation": 'Βάση'
+    "translation": 'Base'
 }, {
     "id": 'Single',
-    "translation": 'Μονός'
+    "translation": 'Single'
 }, {
     "id": 'Visible',
-    "translation": 'Ορατός'
+    "translation": 'Visível'
 }, {
     "id": 'Observations',
-    "translation": 'Παρατηρήσεις'
+    "translation": 'Observações'
 }, {
     "id": 'Active filters',
-    "translation": 'Ενεργά φίλτρα'
+    "translation": 'Filtros ativos'
 }, {
     "id": 'Clear filters',
-    "translation": 'Καθαρισμός Φίλτρων'
+    "translation": 'Limpar filtros'
 }, {
     "id": 'Observations',
-    "translation": 'Παρατηρήσεις'
+    "translation": 'Observações'
 }, {
     "id": 'Register',
-    "translation": 'Εγγραφή'
+    "translation": 'Registar'
 }, {
     "id": 'Repeat password',
-    "translation": 'Επανάληψη κωδικού'
+    "translation": 'Repetir senha'
 }, {
     "id": 'Register to participate in the discussions.',
-    "translation": 'Εγγραφείτε για να συμμετέχετε στις συζητήσεις.'
+    "translation": 'Registe-se para poder participar ativamente neste site.'
 }, {
     "id": 'Use a valid email address to identify yourself.',
-    "translation": 'Χρησιμοποιήστε μία ενεργή διεύθυνση email για την ταυτοποίηση σας.'
+    "translation": 'Use um endereço de email para se identificar.'
 }, {
     "id": 'Title...',
-    "translation": 'Τίτλος...'
+    "translation": 'Título...'
 }, {
     "id": 'Choose type...',
-    "translation": 'Επιλέξτε τύπο...'
+    "translation": 'Escolha um tipo...'
 }, {
     "id": 'Enter details...',
-    "translation": 'Καταχωρήστε λεπτομέρειες...'
+    "translation": 'Descreva a sua participação...'
 }, {
     "id": '{0} minutes ago',
-    "translation": 'Πριν {0} λεπτά'
+    "translation": 'Há {0} minutos'
 }, {
     "id": '{0}:{1} ago',
-    "translation": '{0}:{1} πριν'
+    "translation": 'Há {0}:{1}'
 }, {
     "id": '{0} days ago ({1} at {2})',
-    "translation": 'Πριν {0} μέρες ({1} στις {2})'
+    "translation": 'Há {0} dias ({1} às {2})'
 }];

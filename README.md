@@ -125,19 +125,6 @@ mkdir -p public/participation_data
 mkdir -p public/uploaded_images
 ```
 
-##### Create admin user
-
-```bash
-sudo su postgres
--- create database structure
-psql geopublic -f geopublic-20160115-all.sql
--- populate supporting tables (groups, menus and permissions)
-psql geopublic -f geopublic-20160115-data.sql
--- initial user; replace the email 'jgr@geomaster.pt' with your own; replace the password 'pa55word' with your own
-psql geopublic -c "insert into utilizador (idgrupo, email, password, nome, emailconfirmacao) values(1, 'jgr@geomaster.pt', encode(digest('pa55word', 'sha1'), 'hex'), 'Administrator', true);"
-exit
-```
-
 ##### About server folders
 
 On the server side, under `public_html`:
@@ -258,7 +245,7 @@ To display your file instead of the original one, use the translation file `pt.j
 
 #### Email messages
 
-All emails messages are created from templates stored in the `templates` folder. To send email messages in your languages, edit all templates in theat folder. There is a template for HTML based messages and another for plain text messages.
+All emails messages are created from templates stored in the `templates` folder. To send email messages in your languages, edit all templates in that folder. There is a template for HTML based messages and another for plain text messages.
 
 #### Update the application
 

@@ -80,8 +80,19 @@
                         tileSize: new OpenLayers.Size(256, 256)
                     });
 
-            map.addLayer(demolayer);
+//            map.addLayer(demolayer);
             map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+
+            var tessalonica = new OpenLayers.Layer.XYZ( "ESRI",
+                    "http://gis.thessaloniki.gr/ArcGIS2/rest/services/CachedServices/DimThes_greek_live/MapServer/tile/${z}/${y}/${x}",
+                    {sphericalMercator: true}
+            );
+
+            map.addLayer(tessalonica);
+
+            layer = new OpenLayers.Layer.ArcGIS93Rest( "ArcGIS Server Layer", "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/export",                     {layers: "show:0,2"});
+
+
 
             var bounds = new OpenLayers.Bounds(-119191.40749999962, -300404.80399999936, 162129.08110000013, 276083.7674000006);
             var vector_layer = new OpenLayers.Layer.Vector("Point", {
@@ -109,7 +120,7 @@
 //            console.log(position);
 //            map.setCenter(position, 16);
             // map.zoomToExtent(new OpenLayers.Bounds(-945266.8308609043,4947530.290098204,-938839.131263624,4950079.394225834));
-            map.zoomToExtent(new OpenLayers.Bounds(-945266.8308609043,4947530.290098204,-938839.131263624,4950079.394225834));
+            map.zoomToExtent(new OpenLayers.Bounds(2540000,4950000,2560000,4960000));
         }
     </script>
 </head>

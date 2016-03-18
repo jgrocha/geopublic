@@ -9,7 +9,7 @@ GeoPublic.Translation = [{
     "translation": "Συντεταγμένες"
 }, {
     "id": 'Câmara Municipal de Águeda',
-    "translation": "Θεσσαλονίκης"
+    "translation": "Δήμος Θεσσαλονίκης"
 }, {
     "id": 'Remove selected image or document',
     "translation": "Διαγραφή επιλεγμένης εικόνας ή εγγράφου"
@@ -549,101 +549,101 @@ GeoPublic.Translation = [{
     "translation": '---'
 }, {
     "id": 'User management',
-    "translation": 'Gestão de utilizadores'
+    "translation": 'Διαχείριση χρηστών'
 }, {
     "id": 'Users',
-    "translation": 'Utilizadores'
+    "translation": 'Χρήστες'
 }, {
     "id": 'Groups and permissions',
-    "translation": 'Grupos e Permissões'
+    "translation": 'Γκρουπ και δικαιώματα'
 }, {
     "id": 'Layers',
-    "translation": 'Camadas'
+    "translation": 'Λίστα επιπέδων'
 }, {
     "id": 'Plans and promoters',
-    "translation": 'Planos e Promotores'
+    "translation": 'Θέματα και προωθητές'
 }, {
     "id": 'Comments',
-    "translation": 'Comentários'
+    "translation": 'Σχόλια'
 }, {
     "id": 'Citizens',
-    "translation": 'Cidadãos envolvidos'
+    "translation": 'Πολίτες'
 }, {
     "id": 'Submitted',
-    "translation": 'εγγεγραμμένος'
+    "translation": 'Καταχωρημένο'
 }, {
     "id": 'Order',
-    "translation": 'Ordem'
+    "translation": 'Παραγγελία'
 }, {
     "id": 'Layer label',
-    "translation": 'Designação'
+    "translation": 'Ετικέτα επιπέδου'
 }, {
     "id": 'Layer name',
-    "translation": 'Nome da camada'
+    "translation": 'Όνομα επιπέδου'
 }, {
     "id": 'Url',
-    "translation": 'Endereço'
+    "translation": 'Διεύθυνση'
 }, {
     "id": 'Geometry',
-    "translation": 'Geometria'
+    "translation": 'Γεωμετρία'
 }, {
     "id": 'ETRS',
     "translation": 'ETRS'
 }, {
     "id": 'Style',
-    "translation": 'Estilo'
+    "translation": 'Στυλ'
 }, {
     "id": 'Tooltip',
-    "translation": 'Tooltip'
+    "translation": 'Πληροφορία εργαλέιου'
 }, {
     "id": 'Base',
-    "translation": 'Base'
+    "translation": 'Βάση'
 }, {
     "id": 'Single',
-    "translation": 'Single'
+    "translation": 'Μονός'
 }, {
     "id": 'Visible',
-    "translation": 'Visível'
+    "translation": 'Ορατός'
 }, {
     "id": 'Observations',
-    "translation": 'Observações'
+    "translation": 'Παρατηρήσεις'
 }, {
     "id": 'Active filters',
-    "translation": 'Filtros ativos'
+    "translation": 'Ενεργά φίλτρα'
 }, {
     "id": 'Clear filters',
-    "translation": 'Limpar filtros'
+    "translation": 'Καθαρισμός Φίλτρων'
 }, {
     "id": 'Observations',
-    "translation": 'Observações'
+    "translation": 'Παρατηρήσεις'
 }, {
     "id": 'Register',
-    "translation": 'Registar'
+    "translation": 'Εγγραφή'
 }, {
     "id": 'Repeat password',
-    "translation": 'Repetir senha'
+    "translation": 'Επανάληψη κωδικού'
 }, {
     "id": 'Register to participate in the discussions.',
-    "translation": 'Registe-se para poder participar ativamente neste site.'
+    "translation": 'Εγγραφείτε για να συμμετέχετε στις συζητήσεις.'
 }, {
     "id": 'Use a valid email address to identify yourself.',
-    "translation": 'Use um endereço de email para se identificar.'
+    "translation": 'Χρησιμοποιήστε μία ενεργή διεύθυνση email για την ταυτοποίηση σας.'
 }, {
     "id": 'Title...',
-    "translation": 'Título...'
+    "translation": 'Τίτλος...'
 }, {
     "id": 'Choose type...',
-    "translation": 'Escolha um tipo...'
+    "translation": 'Επιλέξτε τύπο...'
 }, {
     "id": 'Enter details...',
-    "translation": 'Descreva a sua participação...'
+    "translation": 'Καταχωρήστε λεπτομέρειες...'
 }, {
     "id": '{0} minutes ago',
-    "translation": 'Há {0} minutos'
+    "translation": 'Πριν {0} λεπτά'
 }, {
     "id": '{0}:{1} ago',
-    "translation": 'Há {0}:{1}'
+    "translation": '{0}:{1} πριν'
 }, {
     "id": '{0} days ago ({1} at {2})',
-    "translation": 'Há {0} dias ({1} às {2})'
+    "translation": 'Πριν {0} μέρες ({1} στις {2})'
 }];
