@@ -41,12 +41,12 @@ SELECT pg_catalog.setval('"grupo_id_seq"', 5, true);
 --
 
 INSERT INTO "menu" VALUES (4, 'User management', NULL, NULL, NULL, false);
-INSERT INTO "menu" VALUES (1, 'Access log', NULL, NULL, 'grid-sessao', false);
+INSERT INTO "menu" VALUES (1, 'Last access', NULL, NULL, 'grid-sessao', false);
 INSERT INTO "menu" VALUES (2, 'Profile', NULL, NULL, 'profile', false);
 INSERT INTO "menu" VALUES (22, 'Layers', NULL, NULL, 'layer', false);
 INSERT INTO "menu" VALUES (6, 'Groups and permissions', NULL, 4, 'permissoes', false);
 INSERT INTO "menu" VALUES (5, 'Users', NULL, 4, 'grid-utilizador', false);
-INSERT INTO "menu" VALUES (23, 'Plans and promotors', NULL, NULL, 'grid-promotor', false);
+INSERT INTO "menu" VALUES (23, 'Plans and promoters', NULL, NULL, 'grid-promotor', false);
 
 
 --

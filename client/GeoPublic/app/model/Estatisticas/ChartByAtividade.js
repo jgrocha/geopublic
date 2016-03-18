@@ -5,7 +5,10 @@ Ext.define('GeoPublic.model.Estatisticas.ChartByAtividade', {
 		type : 'int'
 	}, {
 		name : 'type',
-		type : 'string'
+		type : 'string',
+		convert: function(value, record) {
+			return value.translate();
+		}
 	}, {
 		name : 'count',
 		type : 'int'

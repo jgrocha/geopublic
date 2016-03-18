@@ -105,7 +105,7 @@ Ext.define('GeoPublic.view.Users.Login', {
 				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
 			}, {
 				xtype : 'label',
-				html : "<i>Don't use this option on a public computer.</i>",
+				html : "<i>Don't use this option on a public computer.</i>".translate(),
 				style : 'display:block; padding:6px 0px 0px 0px' // top right bottom left
 			}]
 

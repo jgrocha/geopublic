@@ -41,7 +41,7 @@ VALUES (10, 'OSM', 'http://a.tile.openstreetmap.org/${z}/${x}/${y}.png,http://b.
 'OSM', 3857, TRUE, TRUE, NEW.idutilizador, NEW.id);
 
 INSERT INTO ppgis.estado (id, idplano, estado, significado, color, icon) 
-VALUES (1, NEW.id, 'Recebida', 'Parcicipação registada', 'red', 'resources/images/traffic-cone-icon-red-32.png');
+VALUES (1, NEW.id, 'Submitted', 'Participation submitted', 'red', 'resources/images/traffic-cone-icon-red-32.png');
 
      RETURN NEW;
   END;

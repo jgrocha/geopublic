@@ -7,7 +7,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
         'Ext.form.field.Checkbox', 'Ext.grid.column.Action',
         'Ext.grid.plugin.RowEditing', 'Ext.form.field.HtmlEditor',
         'Ext.ux.grid.FiltersFeature'],
-    title: 'Camadas do mapa',
+    title: 'Layers'.translate(),
     layout: 'border',
     style: 'padding:5px',
     glyph: 0xf0c9, // fa-bars
@@ -21,7 +21,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             autoReload: true, // false,
             local: false,
             encode: true,
-            menuFilterText: 'Filtrar'
+            menuFilterText: 'Filter'.translate()
         };
 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -46,7 +46,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'ord',
-                text: 'Ord',
+                text: 'Order'.translate(),
                 width: 60,
                 filter: {
                     type: 'numeric'
@@ -57,7 +57,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'titulo',
-                text: 'Designação',
+                text: 'Layer label'.translate(),
                 width: 120,
                 filter: {
                     type: 'string'
@@ -68,7 +68,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'layer',
-                text: 'Nome do layer',
+                text: 'Layer name'.translate(),
                 width: 120,
                 filter: {
                     type: 'string'
@@ -79,7 +79,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'grupo',
-                text: 'Grupo',
+                text: 'Group'.translate(),
                 width: 120,
                 hidden: true,
                 filter: {
@@ -91,7 +91,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'url',
-                text: 'Url',
+                text: 'Url'.translate(),
                 flex: 1,
                 filter: {
                     type: 'string'
@@ -102,7 +102,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'tipo',
-                text: 'Tipo de geometria',
+                text: 'Geometry'.translate(),
                 width: 120,
                 filter: {
                     type: 'string'
@@ -113,7 +113,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'srid',
-                text: 'SRID',
+                text: 'ETRS'.translate(),
                 width: 60,
                 filter: {
                     type: 'int'
@@ -124,7 +124,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'estilo',
-                text: 'Estilo',
+                text: 'Style'.translate(),
                 width: 80,
                 filter: {
                     type: 'string'
@@ -135,7 +135,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'qtip',
-                text: 'Tooltip',
+                text: 'Tooltip'.translate(),
                 width: 120,
                 hidden: true,
                 filter: {
@@ -148,7 +148,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'base',
                 xtype: 'checkcolumn',
-                text: 'Base',
+                text: 'Base'.translate(),
                 width: 60,
                 filter: {
                     type: 'boolean',
@@ -161,7 +161,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'singletile',
                 xtype: 'checkcolumn',
-                text: 'Single',
+                text: 'Single'.translate(),
                 width: 60,
                 hidden: true,
                 filter: {
@@ -175,12 +175,12 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'visivel',
                 xtype: 'checkcolumn',
-                text: 'Visível',
+                text: 'Visible'.translate(),
                 width: 60,
                 filter: {
                     type: 'boolean',
-                    yesText: 'Sim',
-                    noText: 'Não'
+                    yesText: 'Yes'.translate(),
+                    noText: 'No'.translate()
                 },
                 editor: {
                     xtype: 'checkbox'
@@ -188,19 +188,19 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }, {
                 dataIndex: 'activo',
                 xtype: 'checkcolumn',
-                text: 'Activo',
+                text: 'Active'.translate(),
                 width: 60,
                 filter: {
                     type: 'boolean',
-                    yesText: 'Sim',
-                    noText: 'Não'
+                    yesText: 'Yes'.translate(),
+                    noText: 'No'.translate()
                 },
                 editor: {
                     xtype: 'checkbox'
                 }
             }, {
                 dataIndex: 'idplano',
-                text: 'Plano',
+                text: 'Plan'.translate(),
                 width: 180,
                 filter: {
                     type: 'numeric'
@@ -232,7 +232,7 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
                 }
             }, {
                 dataIndex: 'observacoes',
-                text: 'Observações',
+                text: 'Observations'.translate(),
                 hidden: true,
                 flex: 2,
                 filter: {
@@ -245,11 +245,11 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
             }],
             tbar: [{
                 itemId: 'add',
-                text: 'Adiciona',
+                text: 'Add'.translate(),
                 icon: 'resources/images/icons/fam/add.png'
             }, {
                 itemId: 'remove',
-                text: 'Apaga',
+                text: 'Remove'.translate(),
                 icon: 'resources/images/icons/fam/delete.gif',
                 disabled: true
             }],
@@ -265,15 +265,15 @@ Ext.define('GeoPublic.view.BackOffice.Layer', {
         grid.child('pagingtoolbar').add([
             '->',
             {
-                text: 'Filtros ativos',
-                tooltip: 'Ver que filtros estão a ser utilizados',
+                text: 'Active filters'.translate(),
+                //tooltip: 'Ver que filtros estão a ser utilizados',
                 handler: function () {
                     var data = Ext.encode(grid.filters.getFilterData());
-                    Ext.Msg.alert('Filtros ativos', data);
+                    Ext.Msg.alert('Active filters'.translate(), data);
                 }
             }, {
-                text: 'Limpar filtros',
-                tooltip: 'Descarta todos os filtros existentes',
+                text: 'Clear filters'.translate(),
+                //tooltip: 'Descarta todos os filtros existentes',
                 handler: function () {
                     grid.filters.clearFilters();
                 }

@@ -7,7 +7,7 @@ Ext.define('GeoPublic.view.Users.Registo', {
 	layout : {
 		type : 'fit'
 	},
-	title : "Registe-se",
+	title : 'New user'.translate(),
 	modal : true,
 	closable : false,
 	defaultFocus : 'email',
@@ -18,61 +18,61 @@ Ext.define('GeoPublic.view.Users.Registo', {
 		defaults : {
 			xtype : 'textfield',
 			anchor : '100%',
-			labelWidth : 60,
+			labelWidth : 78,
 			allowBlank : false,
 			// vtype : 'alphanum',
 			minLength : 3,
 			// msgTarget : 'under',
-			msgTarget : 'side',
-			minLengthText : 'O mínimo são {0} carateres'
+			msgTarget : 'side'
+			//minLengthText : 'O mínimo são {0} carateres'
 		},
 		plugins : {
 			ptype : 'datatip'
 		},
 		items : [{
 			xtype : 'label',
-			text : 'Registe-se para poder participar ativamente neste site.',
+			text : 'Register to participate in the discussions.'.translate(),
 			style : 'display:block; padding:10px 0px 0px 0px' // top right bottom left
 		}, {
 			xtype : 'label',
 			forId : 'email',
-			text : 'Use um endereço de email para se identificar.',
+			text : 'Use a valid email address to identify yourself.'.translate(),
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			name : 'email',
 			itemId : 'email',
-			fieldLabel : 'E-mail',
+			fieldLabel : 'Email'.translate(),
 			vtype : 'email',
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>',
 			maxLength : 48,
-			allowBlank : false,
-			tooltip : 'Insira o seu email'
+			allowBlank : false
+			//tooltip : 'Insira o seu email'
 		}, {
 			name : 'name',
 			// itemId : 'user',
-			fieldLabel : 'Nome',
+			fieldLabel : 'Name'.translate(),
 			maxLength : 120,
-			allowBlank : false,
-			tooltip : 'Insira o seu nome'
+			allowBlank : false
+			//tooltip : 'Insira o seu nome'
 		}, {
 			// http://stackoverflow.com/questions/9704913/confirm-password-validator-extjs-4
 			inputType : 'password',
 			name : 'password',
 			itemId : 'password',
-			fieldLabel : 'Senha',
+			fieldLabel : 'Password'.translate(),
 			enableKeyEvents : true,
 			maxLength : 15,
-			allowBlank : false,
-			tooltip : 'Escolha uma senha'
+			allowBlank : false
+			//tooltip : 'Escolha uma senha'
 		}, {
 			inputType : 'password',
 			name : 'password2x',
 			vtype : 'password', // para validar
-			fieldLabel : 'Repetir senha',
+			fieldLabel : 'Repeat password'.translate(),
 			enableKeyEvents : true,
 			maxLength : 15,
-			allowBlank : false,
-			tooltip : 'Repita a senha escolhida para confirmar'
+			allowBlank : false
+			//tooltip : 'Repita a senha escolhida para confirmar'
 		} /*, {
 		 xtype : 'checkbox',
 		 labelWidth : 160,
@@ -87,12 +87,12 @@ Ext.define('GeoPublic.view.Users.Registo', {
 			}, {
 				xtype : 'button',
 				itemId : 'cancelar',
-				text : 'Cancelar'
+				text : 'Cancel'.translate()
 			}, {
 				xtype : 'button',
 				itemId : 'entrar',
 				formBind : true,
-				text : 'Registar'
+				text : 'Register'.translate()
 			}]
 		}]
 	}]

@@ -181,7 +181,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                         iditem = 'menu-' + records[i].data.extjsview;
                         submenu = menu.items.get('menu-' + records[i].data.idsuperior);
                         submenu.menu.add({
-                            text: records[i].data.titulo,
+                            text: records[i].data.titulo.translate(),
                             id: iditem,
                             handler: this.onItemMenuClick,
                             scope: this
@@ -193,7 +193,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                             iditem = 'menu-' + records[i].data.id;
                             // insert before logout entry
                             menu.insert(menu.items.length - 1, {
-                                text: records[i].data.titulo,
+                                text: records[i].data.titulo.translate(),
                                 id: iditem,
                                 // handler: this.onItemMenuClick,
                                 menu: {
@@ -204,7 +204,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                             iditem = 'menu-' + records[i].data.extjsview;
                             // insert before logout entry
                             menu.insert(menu.items.length - 1, {
-                                text: records[i].data.titulo,
+                                text: records[i].data.titulo.translate(),
                                 id: iditem,
                                 handler: this.onItemMenuClick,
                                 scope: this
@@ -225,7 +225,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
         if (check.length > 0) {
             // A componente já foi criada
             // Selecionar o tab correspondente
-            console.log('A classe ' + classe + ' já foi instanciada.');
+            //console.log('A classe ' + classe + ' já foi instanciada.');
             newTab = mainPanel.items.findBy(function (tab) {
                 return tab.xtype === classe;
             });
@@ -233,7 +233,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 mainPanel.setActiveTab(newTab);
             }
         } else {
-            console.log('Vamos criar a classe ' + classe);
+            //console.log('Vamos criar a classe ' + classe);
             if (Ext.ClassManager.getNameByAlias('widget.' + classe) != "") {
                 newTab = mainPanel.add({
                     xtype: classe,
@@ -245,7 +245,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 // this.getSessaoStore().proxy.setExtraParam("userid", GeoPublic.LoggedInUser.data.id);
                 // this.getSessaoStore().load();
             } else {
-                console.log("Erro! The class " + 'widget.' + classe + " does not exist (yet)!");
+                console.log("Error! The class " + 'widget.' + classe + " does not exist (yet)!");
             }
         }
     },

@@ -108,22 +108,33 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
             }
             // console.log('Painel discussao paleio');
         }
+
         // http://docs.sencha.com/extjs/4.2.2/#!/api/Ext.Date
-        var tempo = 'Há ';
+        //var tempo = 'Há ';
+        var tempo = '';
         if (this.initialConfig.days > 0) {
-            tempo += this.initialConfig.days + ' dias (' + Ext.Date.format(this.initialConfig.datacriacao, 'l') + '), às ' + Ext.Date.format(this.initialConfig.datacriacao, 'H:i');
+            // tempo += this.initialConfig.days + ' dias (' + Ext.Date.format(this.initialConfig.datacriacao, 'l') + '), às ' + Ext.Date.format(this.initialConfig.datacriacao, 'H:i');
+            tempo = Ext.String.format('{0} days ago ({1} at {2})'.translate(), this.initialConfig.days, Ext.Date.format(this.initialConfig.datacriacao, 'l'), Ext.Date.format(this.initialConfig.datacriacao, 'H:i') );
         } else {
             if (this.initialConfig.hours > 0) {
-                tempo += this.initialConfig.hours + ':' + this.initialConfig.minutes;
+                //tempo += this.initialConfig.hours + ':' + this.initialConfig.minutes;
+                tempo = Ext.String.format('{0}:{1} ago'.translate(), this.initialConfig.hours, this.initialConfig.minutes );
             } else {
                 if (this.initialConfig.minutes > 0) {
-                    tempo += this.initialConfig.minutes + ' minutos';
+                    //tempo += this.initialConfig.minutes + ' minutos';
+                    tempo = Ext.String.format('{0} minutes ago'.translate(), this.initialConfig.minutes );
                     // tempo += this.initialConfig.seconds + ' segundos';
                 } else {
-                    tempo += 'menos de 1 minuto';
+                    //tempo += 'menos de 1 minuto';
+                    tempo = 'Less than 1 minute'.translate(); // 'Há menos de 1 minuto';
                 }
             }
         }
+
+        //var tempo = Ext.String.format('{0} days ago ({1} at {2})'.translate(), this.initialConfig.days, Ext.Date.format(this.initialConfig.datacriacao, 'l'), Ext.Date.format(this.initialConfig.datacriacao, 'H:i') );
+        //var tempo = Ext.String.format('{0}:{1} ago'.translate(), this.initialConfig.hours, this.initialConfig.minutes );
+        //var tempo = Ext.String.format('{0} minutes ago'.translate(), this.initialConfig.minutes );
+        //var tempo = 'Less than 1 minute'.translate(); // 'Há menos de 1 minuto';
 
         this.items = [];
 

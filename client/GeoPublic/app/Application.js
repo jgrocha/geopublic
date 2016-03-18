@@ -209,8 +209,14 @@ Ext.define('GeoPublic.Application', {
 		//</debug>
 
         var userLang = navigator.language || navigator.userLanguage;
+		console.log(userLang);
+
+		// Portuguese
         if (/^pt/i.test(userLang))
             Ext.Loader.injectScriptElement('resources/locale/ext-lang-pt_PT.js', Ext.emptyFn);
+		// Greek
+        if (/^el/i.test(userLang))
+            Ext.Loader.injectScriptElement('resources/locale/ext-lang-el_GR.js', Ext.emptyFn);
 
         if (Ext.supports.LocalStorage) {
 			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));

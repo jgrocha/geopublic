@@ -461,9 +461,6 @@ GeoPublic.Translation = [{
     "id": 'Add',
     "translation": 'Adiciona'
 }, {
-    "id": 'Remove',
-    "translation": 'Apaga'
-}, {
     "id": 'Active',
     "translation": 'Ativo'
 }, {
@@ -541,12 +538,106 @@ GeoPublic.Translation = [{
 }, {
     "id": 'I am on my computer',
     "translation": 'Estou no meu computador'
+}, {
+    "id": '---',
+    "translation": '---'
+}, {
+    "id": 'User management',
+    "translation": 'Gestão de utilizadores'
+}, {
+    "id": 'Users',
+    "translation": 'Utilizadores'
+}, {
+    "id": 'Groups and permissions',
+    "translation": 'Grupos e Permissões'
+}, {
+    "id": 'Layers',
+    "translation": 'Camadas'
+}, {
+    "id": 'Plans and promoters',
+    "translation": 'Planos e Promotores'
+}, {
+    "id": 'Comments',
+    "translation": 'Comentários'
+}, {
+    "id": 'Citizens',
+    "translation": 'Cidadãos envolvidos'
+}, {
+    "id": 'Submitted',
+    "translation": 'Recebida'
+}, {
+    "id": 'Order',
+    "translation": 'Ordem'
+}, {
+    "id": 'Layer label',
+    "translation": 'Designação'
+}, {
+    "id": 'Layer name',
+    "translation": 'Nome da camada'
+}, {
+    "id": 'Url',
+    "translation": 'Endereço'
+}, {
+    "id": 'Geometry',
+    "translation": 'Geometria'
+}, {
+    "id": 'ETRS',
+    "translation": 'ETRS'
+}, {
+    "id": 'Style',
+    "translation": 'Estilo'
+}, {
+    "id": 'Tooltip',
+    "translation": 'Tooltip'
+}, {
+    "id": 'Base',
+    "translation": 'Base'
+}, {
+    "id": 'Single',
+    "translation": 'Single'
+}, {
+    "id": 'Visible',
+    "translation": 'Visível'
+}, {
+    "id": 'Observations',
+    "translation": 'Observações'
+}, {
+    "id": 'Active filters',
+    "translation": 'Filtros ativos'
+}, {
+    "id": 'Clear filters',
+    "translation": 'Limpar filtros'
+}, {
+    "id": 'Observations',
+    "translation": 'Observações'
+}, {
+    "id": 'Register',
+    "translation": 'Registar'
+}, {
+    "id": 'Repeat password',
+    "translation": 'Repetir senha'
+}, {
+    "id": 'Register to participate in the discussions.',
+    "translation": 'Registe-se para poder participar ativamente neste site.'
+}, {
+    "id": 'Use a valid email address to identify yourself.',
+    "translation": 'Use um endereço de email para se identificar.'
+}, {
+    "id": 'Title...',
+    "translation": 'Título...'
+}, {
+    "id": 'Choose type...',
+    "translation": 'Escolha um tipo...'
+}, {
+    "id": 'Enter details...',
+    "translation": 'Descreva a sua participação...'
+}, {
+    "id": '{0} minutes ago',
+    "translation": 'Há {0} minutos'
+}, {
+    "id": '{0}:{1} ago',
+    "translation": 'Há {0}:{1}'
+}, {
+    "id": '{0} days ago ({1} at {2})',
+    "translation": 'Há {0} dias ({1} às {2})'
 }];
-
-/*
- * 'Uploading your photo...'.translate()
- * 'Error uploading file'.translate()
- * 
- * 'resources/images/community_blue_48x48.png'.translate() // 'resources/images/logo_cmagueda.png'
- * 'resources/guiarapido/participacaocivica.html'.translate(),
- */

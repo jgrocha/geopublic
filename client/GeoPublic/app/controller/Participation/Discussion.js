@@ -212,7 +212,8 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                         // SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, e.estado, e.color
                         // console.log(rec);
                         var datacriacao = Ext.Date.parse(rec.datacriacao, 'c');
-                        var tempo = 'Há ';
+                        //var tempo = 'Há ';
+                        var tempo = '';
                         if (!rec.haquantotempo.days) {
                             rec.haquantotempo.days = 0;
                         }
@@ -223,16 +224,20 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                             rec.haquantotempo.minutes = 0;
                         }
                         if (rec.haquantotempo.days > 0) {
-                            tempo += rec.haquantotempo.days + ' dias (' + Ext.Date.format(datacriacao, 'l') + '), às ' + Ext.Date.format(datacriacao, 'H:i');
+                            //tempo += rec.haquantotempo.days + ' dias (' + Ext.Date.format(datacriacao, 'l') + '), às ' + Ext.Date.format(datacriacao, 'H:i');
+                            tempo = Ext.String.format('{0} days ago ({1} at {2})'.translate(), rec.haquantotempo.days, Ext.Date.format(datacriacao, 'l'), Ext.Date.format(datacriacao, 'H:i') );
                         } else {
                             if (rec.haquantotempo.hours > 0) {
-                                tempo += rec.haquantotempo.hours + ':' + rec.haquantotempo.minutes;
+                                //tempo += rec.haquantotempo.hours + ':' + rec.haquantotempo.minutes;
+                                tempo = Ext.String.format('{0}:{1} ago'.translate(), rec.haquantotempo.hours, rec.haquantotempo.minutes );
                             } else {
                                 if (rec.haquantotempo.minutes > 0) {
-                                    tempo += rec.haquantotempo.minutes + ' minutos';
+                                    //tempo += rec.haquantotempo.minutes + ' minutos';
+                                    tempo = Ext.String.format('{0} minutes ago'.translate(), rec.haquantotempo.minutes );
                                     // tempo += rec.haquantotempo.seconds + ' segundos';
                                 } else {
-                                    tempo += 'menos de 1 minuto';
+                                    //tempo += 'menos de 1 minuto';
+                                    tempo = 'Less than 1 minute'.translate();
                                 }
                             }
                         }

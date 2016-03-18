@@ -268,7 +268,7 @@ Ext.define('GeoPublic.view.Users.Profile', {
 		title : 'Location'.translate(),
 		items : [{
 			xtype : 'label',
-			text : 'Click on the map to enter your location',
+			text : 'Click on the map to enter your location'.translate(),
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			xtype : 'home-map-panel'

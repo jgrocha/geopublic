@@ -99,8 +99,8 @@ Ext.define("Ext.locale.pt_PT.picker.Date", {
     disabledDatesText: "",
     nextText: 'Mês Seguinte (Control+Right)',
     prevText: 'Mês Anterior (Control+Left)',
-    monthYearText: 'Escolha um mês (Control+Up/Down avaç;ar/recuar anos)',
-    todayTip: "{0} (barra de espaç;o)",
+    monthYearText: 'Escolha um mês (Control+Up/Down avaçar/recuar anos)',
+    todayTip: "{0} (barra de espaço)",
     format: "y/m/d",
     startDay: 0
 });
@@ -117,7 +117,7 @@ Ext.define("Ext.locale.pt_PT.toolbar.Paging", {
     afterPageText: "de {0}",
     firstText: "Primeira Página",
     prevText: "Página Anterior",
-    nextText: "Pr%oacute;xima Página",
+    nextText: "Próxima Página",
     lastText: "Última Página",
     refreshText: "Recaregar",
     displayMsg: "A mostrar {0} - {1} de {2}",
@@ -131,8 +131,8 @@ Ext.define("Ext.locale.pt_PT.form.field.Base", {
 
 Ext.define("Ext.locale.pt_PT.form.field.Text", {
     override: "Ext.form.field.Text",
-    minLengthText: "O comprimento mínimo deste campo &eaute; {0}",
-    maxLengthText: "O comprimento máximo deste campo &eaute; {0}",
+    minLengthText: "O comprimento mínimo deste campo é {0}",
+    maxLengthText: "O comprimento máximo deste campo é {0}",
     blankText: "Este campo é de preenchimento obrigatório",
     regexText: "",
     emptyText: null
@@ -140,8 +140,8 @@ Ext.define("Ext.locale.pt_PT.form.field.Text", {
 
 Ext.define("Ext.locale.pt_PT.form.field.Number", {
     override: "Ext.form.field.Number",
-    minText: "O valor mínimo deste campo &eaute; {0}",
-    maxText: "O valor máximo deste campo &eaute; {0}",
+    minText: "O valor mínimo deste campo é {0}",
+    maxText: "O valor máximo deste campo é {0}",
     nanText: "{0} não é um numero"
 });
 
@@ -167,7 +167,7 @@ Ext.define("Ext.locale.pt_PT.form.field.ComboBox", {
 
 Ext.define("Ext.locale.pt_PT.form.field.VTypes", {
     override: "Ext.form.field.VTypes",
-    emailText: 'Este campo deve ser um endereç;o de email no formato "utilizador@dominio.com"',
+    emailText: 'Este campo deve ser um endereço de email no formato "utilizador@dominio.com"',
     urlText: 'Este campo deve ser um URL no formato "http:/' + '/www.dominio.com"',
     alphaText: 'Este campo deve conter apenas letras e _',
     alphanumText: 'Este campo deve conter apenas letras, números e _'
@@ -175,7 +175,7 @@ Ext.define("Ext.locale.pt_PT.form.field.VTypes", {
 
 Ext.define("Ext.locale.pt_PT.form.field.HtmlEditor", {
     override: "Ext.form.field.HtmlEditor",
-    createLinkText: 'Indique o endereç;o do link:'
+    createLinkText: 'Indique o endereço do link:'
 }, function() {
     Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         buttonTips: {
@@ -246,7 +246,7 @@ Ext.define("Ext.locale.pt_PT.form.field.HtmlEditor", {
             },
             sourceedit: {
                 title: 'Editar código',
-                text: 'Alterar para o modo de ediç;ão de código.',
+                text: 'Alterar para o modo de edição de código.',
                 cls: Ext.baseCSSPrefix + 'html-editor-tip'
             }
         }
@@ -260,8 +260,8 @@ Ext.define("Ext.locale.pt_PT.form.Basic", {
 
 Ext.define("Ext.locale.pt_PT.grid.header.Container", {
     override: "Ext.grid.header.Container",
-    sortAscText: "Ordenaç;ão Crescente",
-    sortDescText: "Ordenaç;ão Decrescente",
+    sortAscText: "Ordenação Crescente",
+    sortDescText: "Ordenação Decrescente",
     lockText: "Fixar Coluna",
     unlockText: "Libertar Coluna",
     columnsText: "Colunas"

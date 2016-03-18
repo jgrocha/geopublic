@@ -1338,7 +1338,7 @@ var DXParticipacao = {
                 }
             });
         } else {
-            console.log('statsByType: idplano parameter missing');
+            //console.log('statsByType: idplano parameter missing');
             callback({
                 success: false
             });
@@ -1418,14 +1418,14 @@ var DXParticipacao = {
          */
         if (params.idplano) {
             var sql = "";
-            sql += "select 1 as id, 'Participações' as type, count(*) as count";
+            sql += "select 1 as id, 'Number of participations' as type, count(*) as count";
             sql += " from ppgis.ocorrencia where idplano = " + params.idplano + " and NOT apagado";
             sql += " union";
-            sql += " select 2, 'Comentários', count(c.*)";
+            sql += " select 2, 'Comments', count(c.*)";
             sql += " from ppgis.comentario c, ppgis.ocorrencia o";
             sql += " where o.idplano = " + params.idplano + " and c.idocorrencia = o.id and NOT c.apagado";
             sql += " union";
-            sql += " select 3, 'Cidadãos envolvidos', count(*) from";
+            sql += " select 3, 'Citizens', count(*) from";
             sql += " (select c.idutilizador";
             sql += " from ppgis.comentario c, ppgis.ocorrencia o";
             sql += " where o.idplano = " + params.idplano + " and c.idocorrencia = o.id and NOT o.apagado and NOT c.apagado";
