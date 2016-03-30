@@ -233,9 +233,9 @@ Ext.define('GeoPublic.controller.BackOffice.Promotor', {
 		} else {
 			console.log(records.length + ' registos foram devolvidos');
 		}
-	},
+	}/*,
 	onLaunch : function() {
 		var me = this;
 		console.log('...O controlador GeoPublic.controller.Promotor arrancou.');
-	}
+	}*/
 });

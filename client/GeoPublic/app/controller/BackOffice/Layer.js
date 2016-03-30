@@ -86,9 +86,9 @@ Ext.define('GeoPublic.controller.BackOffice.Layer', {
         if (store.getCount() > 0) {
             sm.select(0);
         }
-    },
+    }/*,
     onLaunch: function () {
         var me = this;
-        console.log('...O controlador GeoPublic.controller.BackOffice.Layer arrancou.');
-    }
+        // console.log('...O controlador GeoPublic.controller.BackOffice.Layer arrancou.');
+    }*/
 });

@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Multiple projections</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="http://svn.osgeo.org/metacrs/proj4js/trunk/lib/proj4js-compressed.js"></script>
+    <script src="http://spatialreference.org/ref/epsg/3763/proj4js/"></script>
+    <script src="http://spatialreference.org/ref/epsg/2100/proj4js/"></script>
+    <link rel="stylesheet" type="text/css"
+          href="http://dev.openlayers.org/releases/OpenLayers-2.13.1/theme/default/style.css"/>
+    <!-- <script src="http://dev.openlayers.org/releases/OpenLayers-2.13.1/lib/OpenLayers.js"></script> -->
+    <script src="/resources/js/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script>
+        var map = null;
+        function init() {
+
+            // cf. view-source:http://dev.openlayers.org/examples/arcgiscache_jsonp.html
+            // http://dev.openlayers.org/examples/arcgiscache_ags.html
+
+            var options = {
+                controls: [new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom(), new OpenLayers.Control.LayerSwitcher()],
+                units: "m",
+                projection: new OpenLayers.Projection('EPSG:900913'),
+                numZoomLevels: 21,
+                projection: "EPSG:900913",
+                displayProjection: "EPSG:2100"
+            };
+
+            map = new OpenLayers.Map('map', options);
+
+            map.addLayer(new OpenLayers.Layer.OSM("Simple OSM Map"));
+
+
+            var tessalonica = new OpenLayers.Layer.ArcGISCache();
+            map.addLayer(tessalonica);
+
+//            var tessalonica = new OpenLayers.Layer.XYZ( "ESRI",
+//                    "http://gis.thessaloniki.gr/ArcGIS2/rest/services/CachedServices/DimThes_greek_live/MapServer/tile/${z}/${y}/${x}",
+//                    {projection: "EPSG:2100"}
+//            );
+//
+////            map.addLayer(tessalonica);
+//
+//            var tessalonica2 = new OpenLayers.Layer.ArcGIS93Rest(
+//                    "ArcGIS Server Layer",
+//                    "http://gis.thessaloniki.gr/ArcGIS2/rest/services/LandService/MapServer/export",
+////                  http://gis.thessaloniki.gr/ArcGIS2/rest/services/LandService/MapServer/export?dpi=96&transparent=true&format=png8&bbox=412821.2148106166%2C4496604.331326825%2C413799.02003065136%2C4497086.932292029&bboxSR=2100&imageSR=2100&size=1862%2C919&f=image
+////                  http://gis.thessaloniki.gr/ArcGIS2/rest/services/LandService/MapServer/export?dpi=96&transparent=true&format=png8&BBOX=2817774.610313%2C5009377.085%2C3130860.678125%2C5322463.152813&bboxSR=900913&imageSR=2100&size=1862%2C919&f=image
+//                    {projection: "EPSG:2100", layers: "show:1"}
+//            );
+//
+//            map.addLayer(tessalonica2);
+
+            map.zoomToExtent(new OpenLayers.Bounds(2540000,4950000,2560000,4960000));
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id='map' style='width: 400px; height: 500px;'></div>
+</body>
+</html>

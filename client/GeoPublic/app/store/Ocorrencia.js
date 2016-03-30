@@ -3,5 +3,9 @@ Ext.define('GeoPublic.store.Ocorrencia', {
 	extend : 'Ext.data.Store',
 	model : 'GeoPublic.model.Ocorrencia',
 	autoLoad : false,
-	autoSync : true
+	autoSync : true,
+	//
+	remoteSort: true, //enable remote filter
+	remoteFilter: true, //enable remote sorting
+	pageSize: 12,
 });

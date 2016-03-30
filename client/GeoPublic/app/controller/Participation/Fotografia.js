@@ -51,6 +51,6 @@ Ext.define('GeoPublic.controller.Participation.Fotografia', {
 	},
 	onLaunch : function() {
 		var me = this;
-		console.log('...O controlador GeoPublic.controller.Participation.Fotografia arrancou.');
+		// console.log('...O controlador GeoPublic.controller.Participation.Fotografia arrancou.');
 	}
 });

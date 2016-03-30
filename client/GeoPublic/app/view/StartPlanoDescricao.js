@@ -13,7 +13,7 @@ Ext.define('GeoPublic.view.StartPlanoDescricao', {
 	initComponent : function() {
 		var me = this;
 		// console.debug(this.initialConfig);
-		console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao);
+		// console.log('Abrir com o plano ' + this.initialConfig.idplano + ' denominado ' + this.initialConfig.designacao);
 		this.title = this.initialConfig.designacao;
 		// this.itemId = 'StartPlanoDescricao-' + this.initialConfig.id;
         this.items = [{

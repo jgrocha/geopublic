@@ -113,9 +113,9 @@ Ext.define('GeoPublic.controller.Participation.EstadoOcorrencia', {
 		} else {
 			console.log(records.length + ' registos foram devolvidos');
 		}
-	},
+	}/*,
 	onLaunch : function() {
 		var me = this;
 		console.log('...O controlador GeoPublic.controller.Participation.EstadoOcorrencia arrancou.');
-	}
+	}*/
 });

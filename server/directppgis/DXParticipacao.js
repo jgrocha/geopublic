@@ -1265,6 +1265,14 @@ var DXParticipacao = {
         if (params.idplano) {
             where = 'idplano = ' + params.idplano;
         }
+        var limit = '';
+        // console.log('params.limit = ' + params.limit);
+        // console.log('params.start = ' + params.start);
+        if (params.hasOwnProperty('limit') && parseInt(params.limit) > 0) {
+            if (params.hasOwnProperty('start') && parseInt(params.start) >= 0) {
+                limit = ' LIMIT ' + params.limit + ' OFFSET ' + params.start;
+            }
+        }
         var conn = db.connect();
         /*
          SELECT o.*, e.estado, e.color, e.icon, ST_AsGeoJSON(the_geom) as geojson, (SELECT COUNT(*) FROM ppgis.comentario c WHERE c.idocorrencia = o.id and NOT c.apagado) AS numcomentarios,
@@ -1281,6 +1289,10 @@ var DXParticipacao = {
         sql += ' FROM ppgis.ocorrencia o, ppgis.estado e, public.utilizador u';
         sql += ' WHERE NOT o.apagado AND o.' + where + ' and e.id = o.idestado AND e.idplano = o.idplano';
         sql += ' AND o.idutilizador = u.id';
+
+        // the order is inverted in the interface
+        sql += ' ORDER by numcomentarios ASC, haquantotempo DESC';
+        sql += limit;
 
         // OpenLayers.Geometry.fromWKT("POINT(-4.259215 45.344827)")
         console.log(sql);

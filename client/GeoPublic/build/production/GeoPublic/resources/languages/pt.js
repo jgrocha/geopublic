@@ -213,7 +213,7 @@ GeoPublic.Translation = [{
     "translation": "Participar"
 }, {
     "id": 'Location missing',
-    "translation": "Sem localização"
+    "translation": "Localize a sua paticipação"
 }, {
     "id": 'Error saving changes',
     "translation": "Ocorreu um erro ao gravar as alterações"
@@ -539,9 +539,6 @@ GeoPublic.Translation = [{
     "id": 'I am on my computer',
     "translation": 'Estou no meu computador'
 }, {
-    "id": '---',
-    "translation": '---'
-}, {
     "id": 'User management',
     "translation": 'Gestão de utilizadores'
 }, {
@@ -640,4 +637,10 @@ GeoPublic.Translation = [{
 }, {
     "id": '{0} days ago ({1} at {2})',
     "translation": 'Há {0} dias ({1} às {2})'
+}, {
+    "id": '---',
+    "translation": '---'
+}, {
+    "id": 'Plan scope',
+    "translation": 'Limites do Plano'
 }];

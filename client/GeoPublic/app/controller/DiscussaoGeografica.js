@@ -26,20 +26,29 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
     onOcorrenciaStoreLoad: function (store, records) {
         //<debug>
         console.log('onOcorrenciaStoreLoad ' + records.length);
+        console.log(store.proxy.extraParams);
         //</debug>
+
+        var pageCount = store.getCount();
+        var total = store.getTotalCount();
+        // console.log('this.numOcorrenciasLoaded = ' + this.numOcorrenciasLoaded + ' ' + pageCount + ' of ' + total);
+        this.numOcorrenciasLoaded += pageCount;
+
         // o scope passado é o do painel
         // this === panel
         var me = this;
         // console.log(this);
-        var start = 0;
-        var total = records.length;
-        //var limit = total <= 10 ? total : 10;
-        var limit = total;
-        for (var i = start; i < total; i++) {
 
-            var report = me.down('mapa').map.getLayersByName('Report')[0];
-            // report.destroyFeatures();
-            var parser = new OpenLayers.Format.GeoJSON();
+
+        var report = me.down('mapa').map.getLayersByName('Report')[0];
+        // report.destroyFeatures();
+        var parser = new OpenLayers.Format.GeoJSON();
+        
+        var start = 0;
+        // var total = records.length;
+        //var limit = total <= 10 ? total : 10;
+        var limit = pageCount;
+        for (var i = start; i < limit; i++) {
 
             var f = null;
             if (records[i].data.geojson) {
@@ -110,20 +119,30 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         }
         me.down('#flow').doLayout();
 
+        if (this.numOcorrenciasLoaded < total) {
+            // console.log('Ler mais ocorrências');
+            store.load({
+                params: {
+                    idplano: records[0].data.idplano,
+                    start: this.numOcorrenciasLoaded,
+                    limit: this.numOcorrenciasPerPage
+                }
+            });
+        } else {
+            // console.log('Não vai ler mais ocorrências');
+        }
+
     },
     onDiscussaoGeograficaAfterRender: function (panel) {
         var me = this;
         var store = panel.getStoreOcorrencias();
+        panel.numOcorrenciasLoaded = 0;
+        panel.numOcorrenciasPerPage = 5;
         store.on({
             scope: panel,
             load: this.onOcorrenciaStoreLoad
         });
-        store.load({
-            params: {
-                idplano: panel.idplano
-            }
-        });
-        //
+
         var estore = panel.getStoreEstado();
         estore.on({
             scope: panel,
@@ -134,6 +153,18 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                 idplano: panel.idplano
             }
         });
+
+        var task = new Ext.util.DelayedTask(function(){
+            store.load({
+                params: {
+                    idplano: panel.idplano,
+                    start: 0,
+                    limit: 5
+                }
+            });
+        });
+        task.delay(500);
+
     },
     onEstadoOcorrenciaStoreLoad: function (store, records) {
         // console.log('onEstadoOcorrenciaStoreLoad ' + records.length);

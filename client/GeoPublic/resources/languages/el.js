@@ -646,4 +646,10 @@ GeoPublic.Translation = [{
 }, {
     "id": '{0} days ago ({1} at {2})',
     "translation": 'Πριν {0} μέρες ({1} στις {2})'
+}, {
+    "id": '---',
+    "translation": '---'
+}, {
+    "id": 'Plan scope',
+    "translation": 'πεδίο εφαρμογής σχεδίου'
 }];

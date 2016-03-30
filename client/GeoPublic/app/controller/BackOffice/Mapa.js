@@ -36,7 +36,7 @@ Ext.define('GeoPublic.controller.BackOffice.Mapa', {
             // create some attributes for the feature
             var attributes = {name: "Limits"};
             var feature = new OpenLayers.Feature.Vector(polygon, attributes);
-            var bboxpolygon = new OpenLayers.Layer.Vector("Limites do Plano", {
+            var bboxpolygon = new OpenLayers.Layer.Vector("Plan scope".translate(), {
                 displayInLayerSwitcher: true,
                 isBaseLayer: false,
                 styleMap: new OpenLayers.Style({

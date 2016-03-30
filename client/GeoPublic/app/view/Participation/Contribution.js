@@ -12,7 +12,7 @@ Ext.define('GeoPublic.view.Participation.Contribution', {
 		align : 'stretch'
 	},
     onTipoOcorrenciaStoreLoad: function (store, records) {
-        console.log('onTipoOcorrenciaStoreLoad ' + records.length);
+        // console.log('onTipoOcorrenciaStoreLoad ' + records.length);
         if (records.length == 0) {
             this.down('combo#id_tipo_ocorrencia').hide();
         }

@@ -30,7 +30,7 @@ Ext.define('GeoPublic.controller.Mapa', {
         }, this);
     },
     onButtonAllDocuments: function (button, e, options) {
-        console.log('onButtonAllDocuments');
+        // console.log('onButtonAllDocuments');
         var me = this;
         //var storeDocuments = this.getParticipationDocumentComboStore();
 
@@ -149,7 +149,7 @@ Ext.define('GeoPublic.controller.Mapa', {
                 var total = records.length;
                 var novolayer = {};
                 for (var i = 0; i < total; i++) {
-                    console.log(records[i].data);
+                    // console.log(records[i].data);
                     // console.log(records[i].data.url.trim().split(/ *, */));
 
                     switch (records[i].data.tipo) {
@@ -200,7 +200,7 @@ Ext.define('GeoPublic.controller.Mapa', {
                             });
                             break;
                         default:
-                            console.log('Tipo desconhecido: ' + records[i].data.tipo);
+                            // console.log('Tipo desconhecido: ' + records[i].data.tipo);
                             break;
                     }
                     layers.push(novolayer);
@@ -268,7 +268,7 @@ Ext.define('GeoPublic.controller.Mapa', {
                 // create some attributes for the feature
                 var attributes = {idplano: mapPanel.idplano, name: "Limits"};
                 var feature = new OpenLayers.Feature.Vector(polygon, attributes);
-                var bboxpolygon = new OpenLayers.Layer.Vector("Limites do Plano", {
+                var bboxpolygon = new OpenLayers.Layer.Vector("Plan scope".translate(), {
                     displayInLayerSwitcher: true,
                     isBaseLayer: false,
                     styleMap: new OpenLayers.Style({
@@ -470,7 +470,7 @@ Ext.define('GeoPublic.controller.Mapa', {
         //<debug>
         map.events.register('zoomend', this, function (event) {
             var zLevel = map.getZoom();
-            console.log('Zoom level: ', zLevel);
+            // console.log('Zoom level: ', zLevel);
         });
         //</debug>
 

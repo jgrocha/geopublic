@@ -8,7 +8,7 @@ Ext.define('GeoPublic.controller.Participation.ActivityNew', {
         selector: 'activity #flow'
     }],
     init: function () {
-        console.log('O controlador GeoPublic.controller.Participation.ActivityNew init...');
+        // console.log('O controlador GeoPublic.controller.Participation.ActivityNew init...');
         this.control({
             'activitynew': {
                 'afterrender': this.onActivityNewPanelAfterRender
@@ -16,9 +16,9 @@ Ext.define('GeoPublic.controller.Participation.ActivityNew', {
         }, this);
     },
     onLaunch: function () {
-        console.log('...O controlador GeoPublic.controller.Participation.ActivityNew onLaunch.');
+        // console.log('...O controlador GeoPublic.controller.Participation.ActivityNew onLaunch.');
     },
     onActivityNewPanelAfterRender: function (panel, options) {
-        console.log('controlador GeoPublic.controller.Participation.ActivityNew onActivityNewPanelAfterRender');
+        // console.log('controlador GeoPublic.controller.Participation.ActivityNew onActivityNewPanelAfterRender');
     }
 });

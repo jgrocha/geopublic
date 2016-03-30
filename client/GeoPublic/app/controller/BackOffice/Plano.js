@@ -241,6 +241,6 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 	},
 	onLaunch : function() {
 		var me = this;
-		console.log('...O controlador GeoPublic.controller.Plano arrancou.');
+		// console.log('...O controlador GeoPublic.controller.Plano arrancou.');
 	}
 });

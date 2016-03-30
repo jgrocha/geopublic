@@ -1085,7 +1085,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Home": [],
   "GeoPublic.view.Mapa": [],
   "GeoPublic.view.MapaComProjeto": [],
-  "GeoPublic.view.Participation.Activity": [],
   "GeoPublic.view.Participation.ActivityNew": [],
   "GeoPublic.view.Participation.AllDcoments": [],
   "GeoPublic.view.Participation.Comment": [],
@@ -2410,9 +2409,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "GeoPublic.view.MapaComProjeto": [
     "widget.mapa-com-projeto"
-  ],
-  "GeoPublic.view.Participation.Activity": [
-    "widget.activity"
   ],
   "GeoPublic.view.Participation.ActivityNew": [
     "widget.activitynew"
