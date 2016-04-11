@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 User registration
+    
+  if user
+    p. Welcome #{user.name}
+    p. 
+      Your email #{user.email} was validated.
+      You can login using your email and password.
+  else
+    p. 
+      Something is wrong with this request.
+      This request is no longer valid.
+    p You have to register again.
+    
+  p= 'Let me go to the '
+    a(href='#{site}') site

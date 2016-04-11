@@ -228,6 +228,7 @@ var DXLogin = {
 				// site : 'http://' + request.headers.host,
 				site : siteStr,
 				token : token,
+				lang: lang,
 				callback : function(err, responseStatus) {
 					if (err) {
                         console.log('Erro no envio de mail');
@@ -397,6 +398,7 @@ var DXLogin = {
 									token : token,
 									// site : 'http://' + request.headers.host,
 									site : siteStr,
+									lang: lang,
 									callback : function(err, responseStatus) {
 										if (err) {
                                             console.log('Erro no envio de mail');

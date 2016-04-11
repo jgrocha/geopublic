@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Password reset
+    
+  if user
+    p. Welcome #{user.name}
+    p. 
+      A new password was sent to #{user.email}. Check your email.
+      From now on, you can only login with this new password.
+    p After your first login, you can change your password.
+  else
+    p.
+      Something is wrong with this request.
+      This request is no longer valid.
+    p You have to request a new password again.
+
+  p= 'Let me go to the '
+    a(href='#{site}') site

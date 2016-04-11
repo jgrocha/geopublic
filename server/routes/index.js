@@ -5,7 +5,7 @@ var emailTemplates = require('email-templates');
 
 exports.registo = function(pg) {
 	return function(req, res) {
-		console.log('/registo/' + req.params.id + ' ' + req.headers.host);
+		console.log('/registo/' + req.params.lang + ' ' + req.params.id + ' ' + req.headers.host);
 		console.log('Vai-se registar com a língua: ' + req.session.lang);
 		var siteStr = '';
 		if (global.App.url) {
@@ -19,7 +19,7 @@ exports.registo = function(pg) {
 			if (err || result.rowCount == 0) {
 				console.log('SQL =' + sql + ' Error: ' + err);
 				pg.disconnect(conn);
-				res.render('registo', {
+				res.render(req.params.lang + '/' + 'registo', {
 					title : 'Registo de utilizadores',
 					site : siteStr
 				});
@@ -32,12 +32,12 @@ exports.registo = function(pg) {
 					// release connection
 					if (err || updateResult.rowCount == 0) {
 						console.log('UPDATE =' + sql + ' Error: ' + err);
-						res.render('registo', {
+						res.render(req.params.lang + '/' + 'registo', {
 							title : 'Registo de utilizadores',
 							site : siteStr
 						});
 					} else {
-						res.render('registo', {
+						res.render(req.params.lang + '/' + 'registo', {
 							title : 'Registo de utilizadores',
 							site : siteStr,
 							user : {
@@ -54,7 +54,7 @@ exports.registo = function(pg) {
 
 exports.reset = function(pg) {
 	return function(req, res) {
-		console.log('/reset/' + req.params.id);
+		console.log('/reset/' + req.params.lang + ' ' + req.params.id);
 		var siteStr = '';
 		if (global.App.url) {
 			siteStr = global.App.url;
@@ -75,7 +75,7 @@ exports.reset = function(pg) {
 			if (err || result.rowCount == 0) {
 				console.log('SQL =' + sql + ' Error: ' + err);
 				pg.disconnect(conn);
-				res.render('reset', {
+				res.render(req.params.lang + '/' + 'reset', {
 					title : 'Reposição da senha',
 					site : siteStr
 				});
@@ -91,7 +91,7 @@ exports.reset = function(pg) {
 					// release connection
 					if (err || updateResult.rowCount == 0) {
 						console.log('UPDATE =' + sqlUpdate + ' Error: ' + err);
-						res.render('reset', {
+						res.render(req.params.lang + '/' + 'reset', {
 							title : 'Reposição da senha',
 							site : siteStr
 						});
@@ -109,7 +109,7 @@ exports.reset = function(pg) {
 								} else {
 									console.log(responseStatus.message);
 								}
-								res.render('reset', {
+								res.render(req.params.lang + '/' + 'reset', {
 									title : 'Registo de utilizadores',
 									site : siteStr,
 									user : {
@@ -120,7 +120,7 @@ exports.reset = function(pg) {
 								global.App.transport.close();
 							}
 						};
-						emailTemplates(global.App.templates, function(err, template) {
+						emailTemplates(global.App.templates + '/' + req.params.lang, function(err, template) {
 							if (err) {
 								console.log(err);
 							} else {
