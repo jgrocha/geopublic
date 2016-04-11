@@ -7,5 +7,5 @@ Ext.define('GeoPublic.store.Ocorrencia', {
 	//
 	remoteSort: true, //enable remote filter
 	remoteFilter: true, //enable remote sorting
-	pageSize: 12,
+	pageSize: 12
 });

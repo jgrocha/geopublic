@@ -50,5 +50,32 @@ Ext.define('GeoPublic.view.TopHeader', {
 			icon : 'resources/assets/logout.png',
 			itemId : 'botaoLogout'
 		}]
+	}, {
+		xtype: 'button',
+		itemId : 'botaoLanguage',
+		scale : 'medium',
+
+		// iconCls: 'button-home-small',
+		// bind: {
+		// 	text: '{languageName}',
+		// 	iconCls: '{flagCls}'
+		// },
+		text: 'app-language-name'.translate(),
+		menu: [{
+			text: 'English',
+			iconCls: 'english',
+			action: 'en'/*,
+			handler: 'onLanguageMenuClick'*/
+		}, {
+			text: 'Português',
+			iconCls: 'portuguese',
+			action: 'pt-PT'/*,
+			handler: 'onLanguageMenuClick'*/
+		}, {
+		 text:'Ελληνική',
+		 iconCls: 'greek',
+		 action: 'el'/*,
+		 handler: 'onLanguageMenuClick'*/
+		 }]
 	}]
 });

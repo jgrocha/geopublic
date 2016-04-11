@@ -24,6 +24,9 @@ var enviarEmailComment = function (params) {
     } else {
         siteStr = params.site;
     }
+
+    var lang = params.lang;
+
     /*
      -- quem lançou o comentário
      select u.nome, u.email, u.masculino
@@ -94,7 +97,7 @@ var enviarEmailComment = function (params) {
                             smtpTransport.close();
                         }
                     };
-                    emailTemplates(global.App.templates, function (err, template) {
+                     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -152,7 +155,7 @@ var enviarEmailComment = function (params) {
                     // se o email de quem lançou o comentário for igual ao email de quem lançou a participação,
                     // não envio email
                     if (primeiroresult.rows[0].email != segundoresult.rows[0].email) {
-                        emailTemplates(global.App.templates, function (err, template) {
+                         emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -201,7 +204,7 @@ var enviarEmailComment = function (params) {
                             smtpTransport.close();
                         }
                     };
-                    emailTemplates(global.App.templates, function (err, template) {
+                     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -244,6 +247,8 @@ var enviarEmailParticipation = function (params) {
     } else {
         siteStr = params.site;
     }
+    var lang = params.lang;
+
     /*
      mesmo depois de apagar a participação, a mesma existe na BD :-)
      select o.titulo, o.participacao, u.nome, u.email, u.masculino, p.designacao, p.responsavel, p.email as responsavelemail, e.designacao as entidade
@@ -298,7 +303,7 @@ var enviarEmailParticipation = function (params) {
                     smtpTransport.close();
                 }
             };
-            emailTemplates(global.App.templates, function (err, template) {
+             emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -341,7 +346,7 @@ var enviarEmailParticipation = function (params) {
                     smtpTransport.close();
                 }
             };
-            emailTemplates(global.App.templates, function (err, template) {
+             emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -373,6 +378,11 @@ var enviarEmailPlan = function (destino, parametros, callback) {
     } else {
         siteStr = destino.site;
     }
+    var lang = 'en';
+    if (request.session && request.session.lang) {
+        lang = request.session.lang;
+    }
+    console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
     var locals = {
         email: email,
         subject: 'Novo plano para discussão',
@@ -396,7 +406,7 @@ var enviarEmailPlan = function (destino, parametros, callback) {
             smtpTransport.close();
         }
     };
-    emailTemplates(global.App.templates, function (err, template) {
+     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
         if (err) {
             console.log(err);
         } else {
@@ -442,6 +452,12 @@ var DXParticipacao = {
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log('updateComment: ', params);
         console.log('maxparticipation: ', maxparticipation);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
 
         // special case: the idestado can be empty
         // we remove it from the params
@@ -499,7 +515,8 @@ var DXParticipacao = {
                             userid: request.session.userid,
                             id: id,
                             comentario: params.comentario.substr(0, maxparticipation),
-                            idocorrencia: params.idocorrencia
+                            idocorrencia: params.idocorrencia,
+                            lang: lang
                         });
 
                     }
@@ -513,6 +530,12 @@ var DXParticipacao = {
          */
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log('createComment: ', params);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
 
         // special case: the idestado can be empty
         // we remove it from the params
@@ -581,7 +604,8 @@ var DXParticipacao = {
                             userid: request.session.userid,
                             id: resultInsert.rows[0].id,
                             comentario: params.comentario.substr(0, maxparticipation),
-                            idocorrencia: params.idocorrencia
+                            idocorrencia: params.idocorrencia,
+                            lang: lang
                         });
 
                         /*
@@ -610,6 +634,13 @@ var DXParticipacao = {
         console.log('readComment: ');
         console.log(params);
         var idocorrencia = params;
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
         /*
          SELECT c.id, c.comentario, c.datacriacao, now()-c.datacriacao as haquantotempo, u.fotografia, u.nome, u.id as idutilizador, p.idutilizador as idresponsavel, e.estado, e.color
@@ -663,6 +694,12 @@ var DXParticipacao = {
         console.log(params);
         var id = params.idcomentario;
 
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
         // antes de remover o comentário, preciso de saber umas coisas...
         var sql = '';
@@ -693,7 +730,8 @@ var DXParticipacao = {
                             userid: request.session.userid,
                             id: id,
                             comentario: result.rows[0].comentario,
-                            idocorrencia: result.rows[0].idocorrencia
+                            idocorrencia: result.rows[0].idocorrencia,
+                            lang: lang
                         });
 
                         callback({
@@ -726,6 +764,13 @@ var DXParticipacao = {
     readFotografiaTmp: function (params, callback, sessionID, request) {
         console.log('readFotografiaTmp: ');
         console.log(params);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
 
         var sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, name FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
@@ -775,6 +820,13 @@ var DXParticipacao = {
             wherestr = 'id = ' + params.id;
         }
         console.log(wherestr);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
         var sql = 'delete FROM ppgis.fotografiatmp where ' + wherestr;
         conn.query(sql, function (err, result) {
@@ -885,6 +937,13 @@ var DXParticipacao = {
         var id = params.idocorrencia;
         // Pode ter fotografias associadas...
         // Se tiver comentários, não se remove
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
         // https://github.com/brianc/node-postgres/wiki/Transactions
         conn.query('BEGIN', function (err, resultBegin) {
@@ -921,7 +980,8 @@ var DXParticipacao = {
                             titulo: '',
                             participacao: '', // params.participacao,
                             idplano: params.idplano,
-                            nota: ''
+                            nota: '',
+                            lang: lang
                         }); // sem callback nem parametros para o callback...
 
                         /*
@@ -956,6 +1016,12 @@ var DXParticipacao = {
          { idocorrencia: 37,
          the_geom: '{"type":"Point","coordinates":[-940147.1728822,4949493.2266015]}' }
          */
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
 
         var i = 1, id, fields = [], values = [];
         id = params.idocorrencia;
@@ -1054,7 +1120,8 @@ var DXParticipacao = {
                                     titulo: '',
                                     participacao: '', // params.participacao,
                                     idplano: params.idplano,
-                                    nota: nota
+                                    nota: nota,
+                                    lang: lang
                                 }); // sem callback nem parametros para o callback...
 
                                 /*
@@ -1132,6 +1199,13 @@ var DXParticipacao = {
          */
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log('createOcorrencia: ', params);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var fields = [], values = [];
         // o primeiro parâmetro é a chave (garantido por paramOrder : 'id', em app/model/Promotor.js)
         // o id vem a 0, quando se insere um registo
@@ -1226,7 +1300,8 @@ var DXParticipacao = {
                                 titulo: params.titulo,
                                 participacao: params.participacao,
                                 idplano: params.idplano,
-                                nota: ''
+                                nota: '',
+                                lang: lang
                             }); // sem callback nem parametros para o callback...
 
                             /*
@@ -1255,6 +1330,13 @@ var DXParticipacao = {
     readOcorrencia: function (params, callback, sessionID, request) {
         console.log('DXParticipacao.readOcorrencia');
         console.log(params);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         // podem-se pedir todas as ocorrências ou só uma
         // só uma para acrescentar depois de se inserir ou
         // para se acrecentar quando se recebe uma notificação pelo socket.io
@@ -1917,6 +1999,13 @@ var DXParticipacao = {
          */
 
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         if (request.session.userid) {
             console.log('createPlano: ', params);
             var i = 1, id, fields = [], buracos = [], values = [];
@@ -2003,6 +2092,13 @@ var DXParticipacao = {
 
         console.log('Session ID = ' + sessionID, request.session.userid, request.session.groupid);
         console.log('updatePlano: ', params);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var i = 1, id, fields = [], values = [];
         id = params.id;
         delete params.id;
@@ -2076,6 +2172,13 @@ var DXParticipacao = {
         // falta proteger só para grupo admin
         // falta remover a pasta que foi criada no método createPlano
         console.log('destroyPlano: ', params.id);
+
+        var lang = 'en';
+        if (request.session && request.session.lang) {
+            lang = request.session.lang;
+        }
+        console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
         var conn = db.connect();
         var sql = 'delete FROM ppgis.plano where id = ' + params.id;
         conn.query(sql, function (err, result) {

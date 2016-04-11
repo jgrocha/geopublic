@@ -1,4 +1,13 @@
 GeoPublic.Translation = [{
+    "id": "app-language",
+    "translation": "el"
+}, {
+    "id": "app-language-cls",
+    "translation": "greek"
+}, {
+    "id": "app-language-name",
+    "translation": "Ελληνική"
+}, {
     "id": 'You logged in using your {0} account. Would you like to close your {0} session?',
     "translation": "Έχετε συνδεθεί με το λογαριασμό {0}. Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
 }, {

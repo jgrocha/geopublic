@@ -206,6 +206,12 @@ var DXLogin = {
 		console.log('registration: request.session.userid = ' + request.session.userid);
 		console.log('registration: request.session.lang = ' + request.session.lang);
 
+		var lang = 'en';
+		if (request.session && request.session.lang) {
+			lang = request.session.lang;
+		}
+		console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
 		var enviarEmail = function(parametros, callback) {
 			// envio o email!
 			var siteStr = '';
@@ -237,7 +243,7 @@ var DXLogin = {
 					smtpTransport.close();
 				}
 			};
-			emailTemplates(global.App.templates, function(err, template) {
+			emailTemplates(global.App.templates + '/' + lang, function(err, template) {
 				if (err) {
 					console.log(err);
 				} else {
@@ -335,6 +341,12 @@ var DXLogin = {
 		var ip = request.ip;
 		var host = '';
 
+		var lang = 'en';
+		if (request.session && request.session.lang) {
+			lang = request.session.lang;
+		}
+		console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
 		var conn = db.connect();
 		// se existe.
 		var sql = "SELECT nome, masculino FROM utilizador WHERE email = '" + email + "'";
@@ -403,7 +415,7 @@ var DXLogin = {
 										smtpTransport.close();
 									}
 								};
-								emailTemplates(global.App.templates, function(err, template) {
+								emailTemplates(global.App.templates + '/' + lang, function(err, template) {
 									if (err) {
 										console.log(err);
 									} else {
@@ -431,6 +443,33 @@ var DXLogin = {
 			}
 		});
 	},
+
+	changeLanguage: function (params, callback, sessionID, request, response) {
+		console.log('DXLogin.changeLanguage() Session ID = ' + sessionID);
+		console.log(params);
+
+		var lang = 'en';
+		if (request.session && request.session.lang) {
+			lang = request.session.lang;
+		}
+		console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
+
+		if (params.lang) {
+			console.log('Changing request.session.lang → ' + params.lang);
+			request.session.lang = params.lang;
+			lang = request.session.lang;
+			callback({
+				success : true,
+				message: 'Language changed'
+			});
+		} else {
+			callback({
+				success: false,
+				message: 'Language was not updated'
+			});
+		}
+	},
+
 	update : function(params, callback, sessionID, request, response) {
 		console.log('Session ID = ' + sessionID);
 		var fields = [], values = [], i = 1;

@@ -168,7 +168,62 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 	}
 });
 
-app.get('/translation', function(request, response) {
+app.get('/translation', function (request, response) {
+	console.log('/translation: Session ID = ' + request.sessionID);
+	console.log(request.session);
+
+	var buf = '';
+	if (request.session && request.session.lang) {
+		console.log('→→→ Já existe request.session.lang → ' + request.session.lang);
+		console.log('→→→ TENHO QUE MANDAR A QUE ME PEDEM! → ' + request.session.lang);
+		buf = fs.readFileSync('./public/resources/languages/' + request.session.lang + '.js', 'utf8');
+		response.writeHead(200, {
+			'Content-Type': 'application/json; charset=utf-8'
+		});
+		response.end(buf);
+	} else {
+		console.log('→→→ Não existe request.session.lang :-(');
+		var acceptedLanguages = request.acceptedLanguages; // accepts(request).languages();
+		// if request.session.lang exists, we don't care about
+		console.log(acceptedLanguages);
+		// [ 'pt-PT', 'pt', 'en-US', 'en', 'es', 'fr', 'it' ]
+		var exist = 0, i = 0, n = 0;
+		if (acceptedLanguages) {
+			n = acceptedLanguages.length;
+		}
+
+		while (!exist && (i < n)) {
+			try {
+				console.log('./public/resources/languages/' + acceptedLanguages[i] + '.js');
+				buf = fs.readFileSync('./public/resources/languages/' + acceptedLanguages[i] + '.js', 'utf8');
+				response.writeHead(200, {
+					'Content-Type': 'application/json; charset=utf-8'
+				});
+				request.session.lang = acceptedLanguages[i];
+				console.log('Language ' + request.session.lang + ' added to request.session.lang');
+				response.end(buf);
+				exist = 1;
+			} catch (err) {
+				console.log('Language ' + acceptedLanguages[i] + ' not supported.');
+				//console.log(err);
+			}
+			i++;
+		}
+		if (!exist) {
+			console.log('None of the accepted languages is supported');
+			buf = fs.readFileSync('./public/resources/languages/en.js', 'utf8');
+			response.writeHead(200, {
+				'Content-Type': 'application/json; charset=utf-8'
+			});
+			request.session.lang = 'en';
+			console.log('Language ' + request.session.lang + ' added to request.session.lang');
+			response.end(buf);
+
+		}
+	}
+});
+
+/*app.get('/translation', function(request, response) {
 	console.log(request.acceptedLanguages);
 	console.log(request.session);
 	// [ 'pt-PT', 'pt', 'en-US', 'en', 'es', 'fr', 'it' ]
@@ -191,14 +246,17 @@ app.get('/translation', function(request, response) {
 		i++;
 	}
 	if (!exist) {
-		request.session.lang = null;
 		console.log('None of the accepted languages is supported');
+		buf = fs.readFileSync('./public/resources/languages/en.js', 'utf8');
 		response.writeHead(200, {
-			'Content-Type' : 'application/json'
+			'Content-Type': 'application/json; charset=utf-8'
 		});
-		response.end('GeoPublic.Translation = [];');
+		request.session.lang = 'en';
+		console.log('Language ' + request.session.lang + ' added to request.session.lang');
+		response.end(buf);
+
 	}
-});
+});*/
 
 /*
  * To give some feedback to the user, we can redirect him to a feedback page (light), with will redirect him to the application
