@@ -222,7 +222,8 @@ var DXLogin = {
 			}
 			var locals = {
 				email : email,
-				subject : 'Registo',
+				// subject : 'Registo',
+				subject : 'Registration',
 				saudacao : 'Caro(a)',
 				name : name,
 				// site : 'http://' + request.headers.host,
@@ -248,7 +249,7 @@ var DXLogin = {
 				if (err) {
 					console.log(err);
 				} else {
-					template('registo', locals, function(err, html, text) {
+					template('registration', locals, function(err, html, text) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -392,7 +393,8 @@ var DXLogin = {
 
 								var locals = {
 									email : email,
-									subject : 'Pedido de nova senha',
+									// subject : 'Pedido de nova senha',
+									subject : 'New password request',
 									saudacao : saudacao,
 									name : result.rows[0].nome,
 									token : token,

@@ -462,14 +462,16 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 // console.debug(result);
                 // console.debug(event);
                 if (result.success) {
-                    Ext.Msg.alert('Processo de registo iniciado', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.' + '<br/>' + 'Só pode entrar, depois de confirmado o endereço de email.');
+                    // tempo = ;
+                    Ext.Msg.alert('Registration process initiated'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email ) + '<br/>' + 'Please follow the instructions.'.translate() + '<br/>' +
+                        'You need to confirm the email before your first login.'.translate());
                 } else {
-                    Ext.Msg.alert('Problema no registo', result.message);
+                    Ext.Msg.alert('Registration error'.translate(), result.message);
                 }
                 registo.close();
             });
         } else {
-            Ext.Msg.alert('Preenchimento incorreto', 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos.');
+            Ext.Msg.alert('Invalid data'.translate(), 'Please review the form data'.translate());
         }
     },
     onButtonClickEntrar: function (button, e, options) {

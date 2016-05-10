@@ -23,7 +23,7 @@
     "smtpsecure": true,
     "smtpfrom": "epl@sig.cm-agueda.pt",
     "smtpuser": "epl@sig.cm-agueda.pt",
-    "smtppass": "20160229"
+    "smtppass": "xxxxxxx"
   },
   "ExtDirectConfig": {
     "namespace": "ExtRemote",

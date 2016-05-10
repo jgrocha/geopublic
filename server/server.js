@@ -30,16 +30,17 @@ var redis = require("redis").createClient();
 
 var transport = nodemailer.createTransport(smtpTransport({
     // host: 'mail.cm-agueda.pt',
-    host: 'mail.geomaster.pt',
-    port: 465,
-    secure: true,
+    // host: 'mail.geomaster.pt',
+    host: ServerConfig.smtphost,
+    port: ServerConfig.smtpport,
+    secure: ServerConfig.smtpsecure,
     tls: {
         rejectUnauthorized: false
     },
     debug: true,
     auth: {
-        user: 'ppgis@geomaster.pt',
-        pass: '20150507'
+        user: ServerConfig.smtpuser,
+        pass: ServerConfig.smtppass
     }
 }));
 
@@ -57,7 +58,8 @@ if (ServerConfig.maxparticipation) {
 console.log(global.App.maxparticipation);
 
 // 'http://cm-agueda.geomaster.pt/ppgis/';
-global.App.from = 'ppgis@geomaster.pt';
+// global.App.from = 'ppgis@geomaster.pt';
+global.App.from = ServerConfig.smtpfrom;
 global.App.transport = transport;
 global.App.templates = templatesDir;
 

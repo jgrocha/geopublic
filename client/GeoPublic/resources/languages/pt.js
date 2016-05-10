@@ -652,4 +652,25 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Plan scope',
     "translation": 'Limites do Plano'
+}, {
+    "id": 'Registration process initiated',
+    "translation": 'Processo de registo iniciado'
+}, {
+    "id": 'An email was sent to {0}',
+    "translation": 'Foi enviado um email para {0}'
+}, {
+    "id": 'Please follow the instructions.',
+    "translation": 'Siga as indicações enviadas.'
+}, {
+    "id": 'You need to confirm the email before your first login.',
+    "translation": 'Só pode entrar, depois de confirmado o endereço de email.'
+}, {
+    "id": 'Registration error',
+    "translation": 'Problema no registo'
+}, {
+    "id": 'Invalid data',
+    "translation": 'Preenchimento incorreto'
+}, {
+    "id": 'Please review the form data',
+    "translation": 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos'
 }];

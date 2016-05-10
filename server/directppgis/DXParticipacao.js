@@ -385,7 +385,8 @@ var enviarEmailPlan = function (destino, parametros, callback) {
     console.log('Language: ' + lang + ' request.session.lang=' + request.session.lang);
     var locals = {
         email: email,
-        subject: 'Novo plano para discussão',
+        // subject: 'Novo plano para discussão',
+        subject: 'New plan for discussion',
         saudacao: 'Caro(a)',
         name: name,
         // site : 'http://' + request.headers.host,
@@ -511,7 +512,8 @@ var DXParticipacao = {
 
                         enviarEmailComment({
                             operation: 'update',
-                            assunto: 'Comentário alterado',
+                            // assunto: 'Comentário alterado',
+                            assunto: 'Comment changed',
                             userid: request.session.userid,
                             id: id,
                             comentario: params.comentario.substr(0, maxparticipation),
@@ -600,7 +602,8 @@ var DXParticipacao = {
 
                         enviarEmailComment({
                             operation: 'insert',
-                            assunto: 'Novo comentário',
+                            // assunto: 'Novo comentário',
+                            assunto: 'New comment',
                             userid: request.session.userid,
                             id: resultInsert.rows[0].id,
                             comentario: params.comentario.substr(0, maxparticipation),
@@ -726,7 +729,8 @@ var DXParticipacao = {
 
                         enviarEmailComment({
                             operation: 'delete',
-                            assunto: 'Comentário eliminado',
+                            // assunto: 'Comentário eliminado',
+                            assunto: 'Comment deleted',
                             userid: request.session.userid,
                             id: id,
                             comentario: result.rows[0].comentario,
@@ -974,7 +978,8 @@ var DXParticipacao = {
 
                         enviarEmailParticipation({
                             operation: 'delete',
-                            assunto: 'Participação eliminada',
+                            // assunto: 'Participação eliminada',
+                            assunto: 'Participation deleted',
                             userid: request.session.userid,
                             id: id,
                             titulo: '',
@@ -1114,7 +1119,8 @@ var DXParticipacao = {
 
                                 enviarEmailParticipation({
                                     operation: 'update',
-                                    assunto: 'Participação atualizada',
+                                    // assunto: 'Participação atualizada',
+                                    assunto: 'Participation updated',
                                     userid: request.session.userid,
                                     id: id,
                                     titulo: '',
@@ -1294,7 +1300,8 @@ var DXParticipacao = {
 
                             enviarEmailParticipation({
                                 operation: 'insert',
-                                assunto: 'Nova participação',
+                                // assunto: 'Nova participação',
+                                assunto: 'New participation',
                                 userid: request.session.userid,
                                 id: newid,
                                 titulo: params.titulo,
