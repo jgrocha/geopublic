@@ -4,9 +4,9 @@ Ext.define('GeoPublic.Translation', {}, function() {
 	    wasLoading = Loader.isLoading;
 	// Loader.loadScriptFile('/translation', Ext.emptyFn, Ext.emptyFn, null, true);
 	// loadScriptFile( url, onLoad, onError, scope, synchronous )PRIVATE
-	Loader.loadScriptFile('/translation', // URL of script
+	Loader.loadScriptFile('translation', // URL of script
 	function() {// callback fn when script is loaded
-		console.log('loadScriptFile /translation ok');
+		console.log('loadScriptFile translation ok');
 
 		String.prototype.translate = function() {
 			var s = this.valueOf();
