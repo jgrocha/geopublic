@@ -188,6 +188,25 @@ tail -f <log file>
 sudo stop ppgis
 ```
 
+### About server configuration
+
+Several issues can be configured by editing `server-config.js`.
+
+#### Deploy using a prefix after the host name
+
+To deploy the application using a prefix, like `http://www.server.com/haveyoursay/`
+edit the `server-config.js` and create or edit the option under `ServerConfig`:
+
+```
+    "urlprefix": "/haveyoursay"
+```
+
+If you don't use a prefix, you can remove this option of make it an empty string like:
+
+```
+    "urlprefix": ""
+```
+
 ### Prepare the first plan for discussion
 
 Login with the user created, p.e: 'jgr@geomaster.pt' and 'pa55word'

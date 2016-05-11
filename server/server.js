@@ -49,6 +49,13 @@ if (ServerConfig.url) {
 	global.App.url = ServerConfig.url;
 }
 
+if (ServerConfig.urlprefix) {
+	global.App.prefix = ServerConfig.urlprefix;
+	ExtDirectConfig.classPath = global.App.prefix + ExtDirectConfig.classPath;
+} else {
+	global.App.prefix = "";
+}
+
 if (ServerConfig.maxparticipation) {
     global.App.maxparticipation = ServerConfig.maxparticipation;
 } else {
@@ -123,7 +130,12 @@ app.configure(function() {
 			// cookie: { maxAge: null }
 		}));
 	}
-	app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
+
+	if (global.App.prefix) {
+		app.use(global.App.prefix, express.static(path.join(__dirname, ServerConfig.webRoot)));
+	} else {
+		app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
+	}
 
 	console.log('views: ' + path.join(__dirname, 'views'));
 	app.set('views', path.join(__dirname, 'views'));
@@ -158,7 +170,7 @@ if (ServerConfig.enableCORS) {
 }
 
 //GET method returns API
-app.get(ExtDirectConfig.apiPath, function(request, response) {
+app.get(global.App.prefix + ExtDirectConfig.apiPath, function(request, response) {
 	try {
 		var api = extdirect.getAPI(ExtDirectConfig);
 		response.writeHead(200, {
@@ -170,8 +182,9 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 	}
 });
 
-app.get('/translation', function (request, response) {
-	console.log('/translation: Session ID = ' + request.sessionID);
+app.get(global.App.prefix + '/translation', function (request, response) {
+	console.log(global.App.prefix + '/translation: Session ID = ' + request.sessionID);
+	// console.log(request);
 	console.log(request.session);
 
 	var buf = '';
@@ -220,7 +233,6 @@ app.get('/translation', function (request, response) {
 			request.session.lang = 'en';
 			console.log('Language ' + request.session.lang + ' added to request.session.lang');
 			response.end(buf);
-
 		}
 	}
 });
