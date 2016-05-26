@@ -114,10 +114,15 @@ cd
 mkdir public_html
 cd public_html/
 svn checkout https://github.com/jgrocha/geopublic/trunk/server .
--- port where the server run. Port 80 maybe taken by Apache
+cp server-config-template.json server-config.json
 sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
--- full address
 sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
+sed -i 's/"smtphost": "sig.cm-agueda.pt"/"smtphost": "sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtpport": 465/"smtpport": 465/' server-config.json
+sed -i 's/"smtpfrom": "epl@sig.cm-agueda.pt"/"smtpfrom": "epl@sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtpuser": "epl@sig.cm-agueda.pt"/"smtpuser": "epl@sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtppass": "password"/"smtppass": "xxxxxxxx"/' server-config.json
+sed -i 's/"urlprefix": "\/haveyoursay"/"urlprefix": ""/' server-config.json
 npm update
 svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 mkdir -p uploads
@@ -177,9 +182,7 @@ sudo start ppgis
 #### Monitoring the application
 
 ```bash
-cd ~/public_html
-sudo forever list
-tail -f <log file>
+tail -f /var/log/ppgis.log
 ```
 
 #### Stop the application
@@ -274,8 +277,15 @@ sudo stop ppgis
 find . -name .svn -exec rm -rf \{\} \;
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/server .
 svn revert -R .
+cp server-config-template.json server-config.json
 sed -i 's/"port": [0-9]\+/"port": 80/' server-config.json
 sed -i 's/localhost/euparticipo.cm-agueda.pt/' server-config.json
+sed -i 's/"smtphost": "sig.cm-agueda.pt"/"smtphost": "sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtpport": 465/"smtpport": 465/' server-config.json
+sed -i 's/"smtpfrom": "epl@sig.cm-agueda.pt"/"smtpfrom": "epl@sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtpuser": "epl@sig.cm-agueda.pt"/"smtpuser": "epl@sig.cm-agueda.pt"/' server-config.json
+sed -i 's/"smtppass": "password"/"smtppass": "xxxxxxxx"/' server-config.json
+sed -i 's/"urlprefix": "\/haveyoursay"/"urlprefix": ""/' server-config.json
 npm update
 svn checkout --force https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/production/GeoPublic public
 svn revert -R public
