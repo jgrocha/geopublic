@@ -1,664 +1,664 @@
 GeoPublic.Translation = [{
-    "id": "app-language",
-    "translation": "el"
+    id: "app-language",
+    translation: "el"
 }, {
-    "id": "app-language-cls",
-    "translation": "greek"
+    id: "app-language-cls",
+    translation: "greek"
 }, {
-    "id": "app-language-name",
-    "translation": "Ελληνική"
+    id: "app-language-name",
+    translation: "Ελληνική"
 }, {
-    "id": 'You logged in using your {0} account. Would you like to close your {0} session?',
-    "translation": "Έχετε συνδεθεί με το λογαριασμό {0}. Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
+    id: 'You logged in using your {0} account. Would you like to close your {0} session?',
+    translation: "Έχετε συνδεθεί με το λογαριασμό {0}. Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
 }, {
-    "id": 'Also close session on {0}?',
-    "translation": "Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
+    id: 'Also close session on {0}?',
+    translation: "Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
 }, {
-    "id": 'Coordinates',
-    "translation": "Συντεταγμένες"
+    id: 'Coordinates',
+    translation: "Συντεταγμένες"
 }, {
-    "id": 'Câmara Municipal de Águeda',
-    "translation": "Δήμος Θεσσαλονίκης"
+    id: 'Câmara Municipal de Águeda',
+    translation: "Δήμος Θεσσαλονίκης"
 }, {
-    "id": 'Remove selected image or document',
-    "translation": "Διαγραφή επιλεγμένης εικόνας ή εγγράφου"
+    id: 'Remove selected image or document',
+    translation: "Διαγραφή επιλεγμένης εικόνας ή εγγράφου"
 }, {
-    "id": 'About Have your Say platform',
-    "translation": "Σχετικά με την πλατφόρμα Πες τη γνώμη σου"
+    id: 'About Have your Say platform',
+    translation: "Σχετικά με την πλατφόρμα Πες τη γνώμη σου"
 }, {
-    "id": 'About',
-    "translation": "Σχετικά"
+    id: 'About',
+    translation: "Σχετικά"
 }, {
-    "id": 'Statistics',
-    "translation": "Στατιστικά"
+    id: 'Statistics',
+    translation: "Στατιστικά"
 }, {
-    "id": 'Participation statistics by plan',
-    "translation": "Στατιστικά συμμετοχής ανά θέμα"
+    id: 'Participation statistics by plan',
+    translation: "Στατιστικά συμμετοχής ανά θέμα"
 }, {
-    "id": 'Charts',
-    "translation": "Γραφήματα"
+    id: 'Charts',
+    translation: "Γραφήματα"
 }, {
-    "id": 'Count',
-    "translation": "κόμης"
+    id: 'Count',
+    translation: "κόμης"
 }, {
-    "id": 'Number of participations',
-    "translation": "Πλήθος συμμετοχών"
+    id: 'Number of participations',
+    translation: "Πλήθος συμμετοχών"
 }, {
-    "id": 'Choose photo',
-    "translation": "Επιλέξτε φωτογραφία"
+    id: 'Choose photo',
+    translation: "Επιλέξτε φωτογραφία"
 }, {
-    "id": 'Current password',
-    "translation": "Τρέχων κωδικός"
+    id: 'Current password',
+    translation: "Τρέχων κωδικός"
 }, {
-    "id": 'Enter your current password',
-    "translation": "Πληκτρολογήστε τον τρέχοντα κωδικό"
+    id: 'Enter your current password',
+    translation: "Πληκτρολογήστε τον τρέχοντα κωδικό"
 }, {
-    "id": 'New password',
-    "translation": "Νέος κωδικός"
+    id: 'New password',
+    translation: "Νέος κωδικός"
 }, {
-    "id": 'Enter a new password',
-    "translation": "Πληκτρολογήστε ένα νέο κωδικο"
+    id: 'Enter a new password',
+    translation: "Πληκτρολογήστε ένα νέο κωδικο"
 }, {
-    "id": 'Repeat new password',
-    "translation": "'Επαναλάβετε το νέο κωδικό"
+    id: 'Repeat new password',
+    translation: "'Επαναλάβετε το νέο κωδικό"
 }, {
-    "id": 'Repeat the new password',
-    "translation": "'Επαναλάβετε το νέο κωδικό για επιβεβαίωση"
+    id: 'Repeat the new password',
+    translation: "'Επαναλάβετε το νέο κωδικό για επιβεβαίωση"
 }, {
-    "id": 'Photograph',
-    "translation": "Φωτογραφία"
+    id: 'Photograph',
+    translation: "Φωτογραφία"
 }, {
-    "id": 'Photo',
-    "translation": "Φωτογραφία"
+    id: 'Photo',
+    translation: "Φωτογραφία"
 }, {
-    "id": 'Personal data',
-    "translation": "Προσωπικά δεδομένα"
+    id: 'Personal data',
+    translation: "Προσωπικά δεδομένα"
 }, {
-    "id": 'Identification',
-    "translation": "Ταυτότητα"
+    id: 'Identification',
+    translation: "Ταυτότητα"
 }, {
-    "id": 'Have Your Say',
-    "translation": "Πες τη γνώμη σου"
+    id: 'Have Your Say',
+    translation: "Πες τη γνώμη σου"
 }, {
-    "id": 'New user',
-    "translation": "Νέος χρήστης"
+    id: 'New user',
+    translation: "Νέος χρήστης"
 }, {
-    "id": 'Start session',
-    "translation": "Εκκίνηση συνεδρίας"
+    id: 'Start session',
+    translation: "Εκκίνηση συνεδρίας"
 }, {
-    "id": 'Last access',
-    "translation": "Τελευταία πρόσβαση"
+    id: 'Last access',
+    translation: "Τελευταία πρόσβαση"
 }, {
-    "id": 'Profile',
-    "translation": "Προφίλ"
+    id: 'Profile',
+    translation: "Προφίλ"
 }, {
-    "id": 'Logout',
-    "translation": "Αποσύνδεση"
+    id: 'Logout',
+    translation: "Αποσύνδεση"
 }, {
-    "id": 'Authentication',
-    "translation": "Αυθεντικοποίηση"
+    id: 'Authentication',
+    translation: "Αυθεντικοποίηση"
 }, {
-    "id": 'Welcome',
-    "translation": "Καλώς ήρθατε"
+    id: 'Welcome',
+    translation: "Καλώς ήρθατε"
 }, {
-    "id": 'Institution',
-    "translation": "Οργανισμός"
+    id: 'Institution',
+    translation: "Οργανισμός"
 }, {
-    "id": 'Institutions',
-    "translation": "Οργανισμοί"
+    id: 'Institutions',
+    translation: "Οργανισμοί"
 }, {
-    "id": 'Registration date',
-    "translation": "Ημερομηνία εγγραφής"
+    id: 'Registration date',
+    translation: "Ημερομηνία εγγραφής"
 }, {
-    "id": 'Plans under discussion',
-    "translation": "Θέματα υπό συζήτηση"
+    id: 'Plans under discussion',
+    translation: "Θέματα υπό συζήτηση"
 }, {
-    "id": 'Plan',
-    "translation": "Θέμα"
+    id: 'Plan',
+    translation: "Θέμα"
 }, {
-    "id": 'Participation rules',
-    "translation": "Κανόνες συμμετοχής"
+    id: 'Participation rules',
+    translation: "Κανόνες συμμετοχής"
 }, {
-    "id": 'Discuss the plan',
-    "translation": "Συζητήστε το σχέδιο"
+    id: 'Discuss the plan',
+    translation: "Συζητήστε το σχέδιο"
 }, {
-    "id": 'Introduction',
-    "translation": "Είσοδος"
+    id: 'Introduction',
+    translation: "Είσοδος"
 }, {
-    "id": 'Responsible',
-    "translation": "Υπεύθυνος"
+    id: 'Responsible',
+    translation: "Υπεύθυνος"
 }, {
-    "id": 'From',
-    "translation": "Από"
+    id: 'From',
+    translation: "Από"
 }, {
-    "id": 'Until',
-    "translation": "Έως"
+    id: 'Until',
+    translation: "Έως"
 }, {
-    "id": 'Contact',
-    "translation": "Επικοινωνία"
+    id: 'Contact',
+    translation: "Επικοινωνία"
 }, {
-    "id": 'Uploading your photo...',
-    "translation": "Μεταφόρτωση αρχείου ..."
+    id: 'Uploading your photo...',
+    translation: "Μεταφόρτωση αρχείου ..."
 }, {
-    "id": 'Error uploading file',
-    "translation": "Σφάλμα στη μεταφόρτωση αρχείου"
+    id: 'Error uploading file',
+    translation: "Σφάλμα στη μεταφόρτωση αρχείου"
 }, {
     "_id": 'resources/images/community_blue_48x48.png',
     "_translation": "resources/images/logo_cmagueda.png"
 }, {
-    "id": 'resources/guiarapido/participacaocivica.html',
-    "translation": "resources/guiarapido/public_participation_el.html"
+    id: 'resources/guiarapido/participacaocivica.html',
+    translation: "resources/guiarapido/public_participation_el.html"
 }, {
-    "id": 'resources/guiarapido/alldocuments.html',
-    "translation": "resources/guiarapido/alldocuments_el.html"
+    id: 'resources/guiarapido/alldocuments.html',
+    translation: "resources/guiarapido/alldocuments_el.html"
 }, {
-    "id": 'resources/guiarapido/about.html',
-    "translation": "resources/guiarapido/about_el.html"
+    id: 'resources/guiarapido/about.html',
+    translation: "resources/guiarapido/about_el.html"
 }, {
-    "id": 'resources/guiarapido/participate_geo.html',
-    "translation": "resources/guiarapido/participate_geo_el.html"
+    id: 'resources/guiarapido/participate_geo.html',
+    translation: "resources/guiarapido/participate_geo_el.html"
 }, {
-    "id": 'Edit participation',
-    "translation": "Επεξεργασία συμμετοχής"
+    id: 'Edit participation',
+    translation: "Επεξεργασία συμμετοχής"
 }, {
-    "id": 'Delete participation',
-    "translation": "Διαγραφή συμμετοχής"
+    id: 'Delete participation',
+    translation: "Διαγραφή συμμετοχής"
 }, {
-    "id": 'Center on map',
-    "translation": "Κεντράρισμα χάρτη"
+    id: 'Center on map',
+    translation: "Κεντράρισμα χάρτη"
 }, {
-    "id": 'View proposal',
-    "translation": "Δες την πρόταση"
+    id: 'View proposal',
+    translation: "Δες την πρόταση"
 }, {
-    "id": 'New comment',
-    "translation": "Νέο σχόλιο"
+    id: 'New comment',
+    translation: "Νέο σχόλιο"
 }, {
-    "id": 'New comment was submitted',
-    "translation": "Υποβλήθηκε νέο σχόλιο"
+    id: 'New comment was submitted',
+    translation: "Υποβλήθηκε νέο σχόλιο"
 }, {
-    "id": 'Comment updated',
-    "translation": "Το σχόλιο ενημερώθηκε"
+    id: 'Comment updated',
+    translation: "Το σχόλιο ενημερώθηκε"
 }, {
-    "id": 'A comment was updated',
-    "translation": "Ένα σχόλιο ενημερώθηκε"
+    id: 'A comment was updated',
+    translation: "Ένα σχόλιο ενημερώθηκε"
 }, {
-    "id": 'Comment deleted',
-    "translation": "Το σχόλιο διαγράφηκε"
+    id: 'Comment deleted',
+    translation: "Το σχόλιο διαγράφηκε"
 }, {
-    "id": 'A comment was deleted',
-    "translation": "Ένα σχόλιο διαγράφηκε"
+    id: 'A comment was deleted',
+    translation: "Ένα σχόλιο διαγράφηκε"
 }, {
-    "id": 'New participation',
-    "translation": "Νέα συμμετοχή"
+    id: 'New participation',
+    translation: "Νέα συμμετοχή"
 }, {
-    "id": 'New participation was submitted',
-    "translation": "Υποβλήθηκε νέα συμμετοχή"
+    id: 'New participation was submitted',
+    translation: "Υποβλήθηκε νέα συμμετοχή"
 }, {
-    "id": 'Participation updated',
-    "translation": "Η συμμετοχή ενημερώθηκε"
+    id: 'Participation updated',
+    translation: "Η συμμετοχή ενημερώθηκε"
 }, {
-    "id": 'A participation was updated',
-    "translation": "Μία συμμετοχή ενημερώθηκε"
+    id: 'A participation was updated',
+    translation: "Μία συμμετοχή ενημερώθηκε"
 }, {
-    "id": 'Participation deleted',
-    "translation": "Η συμμετοχή διαγράφηκε"
+    id: 'Participation deleted',
+    translation: "Η συμμετοχή διαγράφηκε"
 }, {
-    "id": 'A participation was deleted',
-    "translation": "Μία συμμετοχή διαγράφηκε"
+    id: 'A participation was deleted',
+    translation: "Μία συμμετοχή διαγράφηκε"
 }, {
-    "id": 'Participate',
-    "translation": "Συμμετοχή"
+    id: 'Participate',
+    translation: "Συμμετοχή"
 }, {
-    "id": 'Update',
-    "translation": "Ενημέρωση"
+    id: 'Update',
+    translation: "Ενημέρωση"
 }, {
-    "id": 'Update plan',
-    "translation": "Ενημέρωση θέματος"
+    id: 'Update plan',
+    translation: "Ενημέρωση θέματος"
 }, {
-    "id": 'Cancel',
-    "translation": "Ακύρωση"
+    id: 'Cancel',
+    translation: "Ακύρωση"
 }, {
-    "id": 'Participation',
-    "translation": "Συμμετοχή"
+    id: 'Participation',
+    translation: "Συμμετοχή"
 }, {
-    "id": 'Participate',
-    "translation": "Συμμετοχή"
+    id: 'Location missing',
+    translation: "Δεν έχει καθοριστεί τοποθεσία"
 }, {
-    "id": 'Location missing',
-    "translation": "Δεν έχει καθοριστεί τοποθεσία"
+    id: 'Error saving changes',
+    translation: "Σφάλμα στην αποθήκευση των αλλαγών"
 }, {
-    "id": 'Error saving changes',
-    "translation": "Σφάλμα στην αποθήκευση των αλλαγών"
+    id: 'Attention',
+    translation: "Προσοχή"
 }, {
-    "id": 'Attention',
-    "translation": "Προσοχή"
+    id: 'You must provide the location on the map',
+    translation: "Πρέπει να καθορίσετε τη θέση στο χάρτη"
 }, {
-    "id": 'You must provide the location on the map',
-    "translation": "Πρέπει να καθορίσετε τη θέση στο χάρτη"
+    id: 'Error',
+    translation: "Σφάλμα"
 }, {
-    "id": 'Error',
-    "translation": "Σφάλμα"
+    id: 'Success',
+    translation: "Επιτυχία"
 }, {
-    "id": 'Success',
-    "translation": "Επιτυχία"
+    id: 'Changes were successfully saved',
+    translation: "Οι αλλαγές αποθηκεύτηκαν επιτυχώς"
 }, {
-    "id": 'Changes were successfully saved',
-    "translation": "Οι αλλαγές αποθηκεύτηκαν επιτυχώς"
+    id: 'You need to authenticate to participate',
+    translation: "Πρέπει να συνδεθείτε για να συμμετέχετε"
 }, {
-    "id": 'You need to authenticate to participate',
-    "translation": "Πρέπει να συνδεθείτε για να συμμετέχετε"
-},{
-    "id": 'You need to choose a plan to participate',
-    "translation": "Πρέπει να επιλέξετε ένα θέμα για να συμμετέχετε"
+    id: 'You need to choose a plan to participate',
+    translation: "Πρέπει να επιλέξετε ένα θέμα για να συμμετέχετε"
 }, {
-    "id": 'Are you sure you want to delete this comment?',
-    "translation": 'Θέλετε σίγουρα να σβήσετε αυτό το σχόλιο;'
+    id: 'Are you sure you want to delete this comment?',
+    translation: 'Θέλετε σίγουρα να σβήσετε αυτό το σχόλιο;'
 }, {
-    "id": 'Clear',
-    "translation": "Καθαρισμός"
+    id: 'Clear',
+    translation: "Καθαρισμός"
 }, {
-    "id": 'Comment',
-    "translation": "Σχόλιο"
+    id: 'Comment',
+    translation: "Σχόλιο"
 }, {
-    "id": 'Comment was successfully removed',
-    "translation": "Το σχόλιο διαγράφηκε με επιτυχία"
+    id: 'Comment was successfully removed',
+    translation: "Το σχόλιο διαγράφηκε με επιτυχία"
 }, {
-    "id": 'Are you sure you want to delete this participation?',
-    "translation": 'Θέλετε σίγουρα να σβήσετε αυτή τη συμμετοχή;'
+    id: 'Are you sure you want to delete this participation?',
+    translation: 'Θέλετε σίγουρα να σβήσετε αυτή τη συμμετοχή;'
 }, {
-    "id": 'Participation was successfully removed',
-    "translation": "Η συμμετοχή διαγράφηκε με επιτυχία"
+    id: 'Participation was successfully removed',
+    translation: "Η συμμετοχή διαγράφηκε με επιτυχία"
 }, {
-    "id": 'Your participation was saved',
-    "translation": "Η συμμετοχή αποθηκεύτηκε"
+    id: 'Your participation was saved',
+    translation: "Η συμμετοχή αποθηκεύτηκε"
 }, {
-    "id": 'Error starting session',
-    "translation": "Σφάλμα στην εκκίνηση της συνεδρίας"
+    id: 'Error starting session',
+    translation: "Σφάλμα στην εκκίνηση της συνεδρίας"
 }, {
-    "id": 'Error deleting comment',
-    "translation": "Σφάλμα στη διαγραφή του σχολίου"
-},{
-    "id": 'Error updating comment',
-    "translation": "Σφάλμα στην ενημέρωση του σχολίου"
+    id: 'Error deleting comment',
+    translation: "Σφάλμα στη διαγραφή του σχολίου"
 }, {
-    "id": 'Error deleting participation',
-    "translation": "Σφάλμα στη διαγραφή της συμμετοχής"
+    id: 'Error updating comment',
+    translation: "Σφάλμα στην ενημέρωση του σχολίου"
 }, {
-    "id": 'Invalid user or password',
-    "translation": "Εσφαλμένο email ή κωδικός"
+    id: 'Error deleting participation',
+    translation: "Σφάλμα στη διαγραφή της συμμετοχής"
 }, {
-    "id": 'The discussion was closed on your login',
-    "translation": "H συζήτηση έκλεισε πριν συνδεθείτε"
+    id: 'Invalid user or password',
+    translation: "Εσφαλμένο email ή κωδικός"
 }, {
-    "id": 'The discussion was closed on your logout',
-    "translation": "H συζήτηση έκλεισε πριν αποσυνδεθείτε"
+    id: 'The discussion was closed on your login',
+    translation: "H συζήτηση έκλεισε πριν συνδεθείτε"
 }, {
-    "id": 'You can reopen the discussion with participation privileges',
-    "translation": "Μπορείτε να ξανανοίξετε την συζήτηση με δικαίωμα συμμετοχής"
+    id: 'The discussion was closed on your logout',
+    translation: "H συζήτηση έκλεισε πριν αποσυνδεθείτε"
 }, {
-    "id": 'You can reopen the discussion with read only privileges',
-    "translation": "Μπορείτε να ξανανοίξετε την συζήτηση μόνο με δικαίωμα ανάγνωσης"
+    id: 'You can reopen the discussion with participation privileges',
+    translation: "Μπορείτε να ξανανοίξετε την συζήτηση με δικαίωμα συμμετοχής"
 }, {
-    "id": 'Discussion panel closed',
-    "translation": "Η πίνακας συζήτησης έχει κλείσει"
+    id: 'You can reopen the discussion with read only privileges',
+    translation: "Μπορείτε να ξανανοίξετε την συζήτηση μόνο με δικαίωμα ανάγνωσης"
 }, {
-    "id": 'Passwords do not match',
-    "translation": "Ο κωδικός δεν ταιριάζει"
+    id: 'Discussion panel closed',
+    translation: "Η πίνακας συζήτησης έχει κλείσει"
 }, {
-    "id": 'comments',
-    "translation": "σχόλια"
+    id: 'Passwords do not match',
+    translation: "Ο κωδικός δεν ταιριάζει"
 }, {
-    "id": 'Site',
-    "translation": "Ιστότοπος"
+    id: 'comments',
+    translation: "σχόλια"
 }, {
-    "id": 'Email',
-    "translation": "Email"
+    id: 'Site',
+    translation: "Ιστότοπος"
 }, {
-    "id": 'Email address',
-    "translation": "Διεύθυνση email"
+    id: 'Email',
+    translation: "Email"
 }, {
-    "id": 'Postal address',
-    "translation": "Ταχυδρομική διεύθυνση"
+    id: 'Email address',
+    translation: "Διεύθυνση email"
 }, {
-    "id": 'Address',
-    "translation": "Διεύθυνση"
+    id: 'Postal address',
+    translation: "Ταχυδρομική διεύθυνση"
 }, {
-    "id": 'Location',
-    "translation": "Τοποθεσία"
+    id: 'Address',
+    translation: "Διεύθυνση"
 }, {
-    "id": 'Zip code',
-    "translation": "ΤΚ"
+    id: 'Location',
+    translation: "Τοποθεσία"
 }, {
-    "id": 'The zip code must have 4 digits at least',
-    "translation": "Ο ταχυδρομικός κώδικας πρέπει να έχει τουλάχιστον 4 ψηφία"
+    id: 'Zip code',
+    translation: "ΤΚ"
 }, {
-    "id": 'Save',
-    "translation": "Αποθήκευση"
+    id: 'The zip code must have 4 digits at least',
+    translation: "Ο ταχυδρομικός κώδικας πρέπει να έχει τουλάχιστον 4 ψηφία"
 }, {
-    "id": 'Location',
-    "translation": "Θέση"
+    id: 'Save',
+    translation: "Αποθήκευση"
 }, {
-    "id": 'Click on the map to enter your location',
-    "translation": "Πατήστε στο χάρτη για να εισάγετε τη θέση"
+    id: 'Click on the map to enter your location',
+    translation: "Πατήστε στο χάρτη για να εισάγετε τη θέση"
 }, {
-    "id": 'Longitude',
-    "translation": "Γεωγραφικό μήκος"
+    id: 'Longitude',
+    translation: "Γεωγραφικό μήκος"
 }, {
-    "id": 'Latitude',
-    "translation": "Γεωγραφικό πλάτος"
+    id: 'Latitude',
+    translation: "Γεωγραφικό πλάτος"
 }, {
-    "id": 'Remove location information',
-    "translation": "Διαγράψτε την πληροφορία θέσης"
+    id: 'Remove location information',
+    translation: "Διαγράψτε την πληροφορία θέσης"
 }, {
-    "id": 'Save location information',
-    "translation": "Αποθηκεύστε την πληροφορία θέσης"
+    id: 'Save location information',
+    translation: "Αποθηκεύστε την πληροφορία θέσης"
 }, {
-    "id": 'Change password',
-    "translation": "Αλλάξτε κωδικό"
+    id: 'Change password',
+    translation: "Αλλάξτε κωδικό"
 }, {
-    "id": 'Change email',
-    "translation": "Αλλάξτε email"
+    id: 'Change email',
+    translation: "Αλλάξτε email"
 }, {
-    "id": 'Telephone',
-    "translation": "Τηλέφωνο"
+    id: 'Telephone',
+    translation: "Τηλέφωνο"
 }, {
-    "id": 'Telephone numbers',
-    "translation": "Τηλεφωνικοί αριθμοί"
+    id: 'Telephone numbers',
+    translation: "Τηλεφωνικοί αριθμοί"
 }, {
-    "id": 'Mobile',
-    "translation": "Κινητό"
+    id: 'Mobile',
+    translation: "Κινητό"
 }, {
-    "id": 'Logo',
-    "translation": "Λογότυπο"
+    id: 'Logo',
+    translation: "Λογότυπο"
 }, {
-    "id": 'Favorite',
-    "translation": "Αγαπημένο"
+    id: 'Favorite',
+    translation: "Αγαπημένο"
 }, {
-    "id": 'Less than 1 minute',
-    "translation": "Λιγότερο από 1 λεπτό"
+    id: 'Less than 1 minute',
+    translation: "Λιγότερο από 1 λεπτό"
 }, {
-    "id": 'Edit comment',
-    "translation": "Επεξεργασία σχολίου"
+    id: 'Edit comment',
+    translation: "Επεξεργασία σχολίου"
 }, {
-    "id": 'Delete comment',
-    "translation": "Διαγραφή σχολίου"
+    id: 'Delete comment',
+    translation: "Διαγραφή σχολίου"
 }, {
-    "id": 'Useful documents',
-    "translation": "Χρήσιμα έγγραφα"
+    id: 'Useful documents',
+    translation: "Χρήσιμα έγγραφα"
 }, {
-    "id": 'Choose a document...',
-    "translation": "Επιλέξτε ένα έγγραφα"
+    id: 'Choose a document...',
+    translation: "Επιλέξτε ένα έγγραφα"
 }, {
-    "id": 'Are you sure you want to delete this user?',
-    "translation": 'Θέλετε σίγουρα να σβήσετε αυτόν το χρήστη;'
+    id: 'Are you sure you want to delete this user?',
+    translation: 'Θέλετε σίγουρα να σβήσετε αυτόν το χρήστη;'
 }, {
-    "id": 'Documents',
-    "translation": 'Έγγραφα'
+    id: 'Documents',
+    translation: 'Έγγραφα'
 }, {
-    "id": 'No documents were uploaded yet',
-    "translation": 'Δεν έχουν μεταφορτωθεί ακόμα έγγραφα'
+    id: 'No documents were uploaded yet',
+    translation: 'Δεν έχουν μεταφορτωθεί ακόμα έγγραφα'
 }, {
-    "id": 'Filter',
-    "translation": 'Φιλτράρισμα'
+    id: 'Filter',
+    translation: 'Φιλτράρισμα'
 }, {
-    "id": 'User ID',
-    "translation": 'Ταυτότητα χρήστη'
+    id: 'User ID',
+    translation: 'Ταυτότητα χρήστη'
 }, {
-    "id": 'Group',
-    "translation": 'Γκρουπ'
+    id: 'Group',
+    translation: 'Γκρουπ'
 }, {
-    "id": 'Login date',
-    "translation": 'Ημερομηνία σύνδεσης'
+    id: 'Login date',
+    translation: 'Ημερομηνία σύνδεσης'
 }, {
-    "id": 'IP address',
-    "translation": 'Διεύθυνση IP'
+    id: 'IP address',
+    translation: 'Διεύθυνση IP'
 }, {
-    "id": 'Hostname',
-    "translation": 'Όνομα υπολογιστή'
+    id: 'Hostname',
+    translation: 'Όνομα υπολογιστή'
 }, {
-    "id": 'Browser',
-    "translation": 'Φυλλομετρητής'
+    id: 'Browser',
+    translation: 'Φυλλομετρητής'
 }, {
-    "id": 'Name',
-    "translation": 'Ονοματεπώνυμο'
+    id: 'Name',
+    translation: 'Ονοματεπώνυμο'
 }, {
-    "id": 'VAT number',
-    "translation": 'ΑΦΜ'
+    id: 'VAT number',
+    translation: 'ΑΦΜ'
 }, {
-    "id": 'VAT number',
-    "translation": 'ΑΦΜ'
+    id: 'Civil ID',
+    translation: 'Αριθμός Ταυτότητας'
 }, {
-    "id": 'Civil ID',
-    "translation": 'Αριθμός Ταυτότητας'
+    id: 'Sex',
+    translation: 'Φύλο'
 }, {
-    "id": 'Sex',
-    "translation": 'Φύλο'
+    id: 'Male',
+    translation: 'Αρσενικό'
 }, {
-    "id": 'Male',
-    "translation": 'Αρσενικό'
+    id: 'Female',
+    translation: 'Θηλυκό'
 }, {
-    "id": 'Female',
-    "translation": 'Θηλυκό'
+    id: 'Creation date',
+    translation: 'Ημερομηνία δημιουργίας'
 }, {
-    "id": 'Creation date',
-    "translation": 'Ημερομηνία δημιουργίας'
+    id: 'After day',
+    translation: 'Μετά την '
 }, {
-    "id": 'After day',
-    "translation": 'Μετά την '
+    id: 'Before day',
+    translation: 'Πριν την'
 }, {
-    "id": 'Before day',
-    "translation": 'Πριν την'
+    id: 'On day',
+    translation: 'Κατά την'
 }, {
-    "id": 'On day',
-    "translation": 'Κατά την'
+    id: 'Can login?',
+    translation: 'Μπορεί να συνδεθεί;'
 }, {
-    "id": 'Can login?',
-    "translation": 'Μπορεί να συνδεθεί;'
+    id: 'Yes',
+    translation: 'Ναι'
 }, {
-    "id": 'Yes',
-    "translation": 'Ναι'
+    id: 'No',
+    translation: 'Όχι'
 }, {
-    "id": 'No',
-    "translation": 'Όχι'
+    id: 'Remove',
+    translation: 'Διαγραφή'
 }, {
-    "id": 'Remove',
-    "translation": 'Διαγραφή'
+    id: 'All documents',
+    translation: 'Όλα τα έγγραφα'
 }, {
-    "id": 'All documents',
-    "translation": 'Όλα τα έγγραφα'
+    id: 'Search within the plan limits',
+    translation: 'Αναζήτηση εντός των ορίων του θέματος'
 }, {
-    "id": 'Search within the plan limits',
-    "translation": 'Αναζήτηση εντός των ορίων του θέματος'
+    id: 'Add',
+    translation: 'Προσθήκη'
 }, {
-    "id": 'Add',
-    "translation": 'Προσθήκη'
+    id: 'Active',
+    translation: 'Ενεργό'
 }, {
-    "id": 'Remove',
-    "translation": 'Διαγραφή'
+    id: 'Path',
+    translation: 'Διαδρομή'
 }, {
-    "id": 'Active',
-    "translation": 'Ενεργό'
+    id: 'Non-geographic',
+    translation: 'Μη γεωγραφικό'
 }, {
-    "id": 'Path',
-    "translation": 'Διαδρομή'
+    id: 'Color',
+    translation: 'Χρώμα'
 }, {
-    "id": 'Non-geographic',
-    "translation": 'Μη γεωγραφικό'
+    id: 'Meaning',
+    translation: 'Σημασία'
 }, {
-    "id": 'Color',
-    "translation": 'Χρώμα'
+    id: 'State',
+    translation: 'Χώρα'
 }, {
-    "id": 'Meaning',
-    "translation": 'Σημασία'
+    id: 'Type',
+    translation: 'Τύπος'
 }, {
-    "id": 'State',
-    "translation": 'Χώρα'
+    id: 'Select limits on map',
+    translation: 'Επιλέξτε τα όρια στο χάρτη'
 }, {
-    "id": 'Type',
-    "translation": 'Τύπος'
+    id: 'Geographic scope',
+    translation: 'Περιοχή'
 }, {
-    "id": 'Select limits on map',
-    "translation": 'Επιλέξτε τα όρια στο χάρτη'
+    id: 'Plan description',
+    translation: 'Περιγραφή θέματος'
 }, {
-    "id": 'Geographic scope',
-    "translation": 'Περιοχή'
+    id: 'Write a comment...',
+    translation: 'Γράψε ένα σχόλιο ...'
 }, {
-    "id": 'Plan description',
-    "translation": 'Περιγραφή θέματος'
+    id: 'New state...',
+    translation: 'Νέα κατάσταση ...'
 }, {
-    "id": 'Write a comment...',
-    "translation": 'Γράψε ένα σχόλιο ...'
+    id: 'Missing location',
+    translation: 'Ακαθόριστη τοποθεσία'
 }, {
-    "id": 'New state...',
-    "translation": 'Νέα κατάσταση ...'
+    id: 'Proposal',
+    translation: 'Πρόταση'
 }, {
-    "id": 'Missing location',
-    "translation": 'Ακαθόριστη τοποθεσία'
+    id: 'The minimum are {0} characters',
+    translation: 'Τουλάχιστον {0} χαρακτήρες'
 }, {
-    "id": 'Proposal',
-    "translation": 'Πρόταση'
+    id: 'Use a social network',
+    translation: 'Χρησιμοποίησε ένα μέσο κοινωνική δικτύωσης'
 }, {
-    "id": 'The minimum are {0} characters',
-    "translation": 'Τουλάχιστον {0} χαρακτήρες'
+    id: 'Your social network is a suitable authentication form to use this platform without an additional password',
+    translation: 'Το μέσο κοινωνικής δικτύωσης σας είναι μια κατάλληλη μέθοδος αυθεντικοποίησης για να χρησιμοποιήσετε αυτή την πλατφόρμα χωρίς κωδικό'
 }, {
-    "id": 'Use a social network',
-    "translation": 'Χρησιμοποίησε ένα μέσο κοινωνική δικτύωσης'
+    id: '<b>Nothing will be published on your social network</b>',
+    translation: '<b>Τίποτα δεν θα δημοσιευτεί στο μέσο κοινωνικής δικτύωσης σας.</b>'
 }, {
-    "id": 'Your social network is a suitable authentication form to use this platform without an additional password',
-    "translation": 'Το μέσο κοινωνικής δικτύωσης σας είναι μια κατάλληλη μέθοδος αυθεντικοποίησης για να χρησιμοποιήσετε αυτή την πλατφόρμα χωρίς κωδικό'
+    id: 'If you are on your computer, you can login automatically for a week.<br/>',
+    translation: 'Αν χρησιμοποιείτε τον υπολογιστή σας μπορείτε να συνδέεστε αυτόματα για μία βδομάδα.<br/>'
 }, {
-    "id": '<b>Nothing will be published on your social network</b>',
-    "translation": '<b>Τίποτα δεν θα δημοσιευτεί στο μέσο κοινωνικής δικτύωσης σας.</b>'
+    id: "<i>Don't use this option on a public computer.</i>",
+    translation: '<i>Μην χρησιμοποιείτε αυτή την επιλογή σε ένα δημόσιο υπολογιστή.</i>'
 }, {
-    "id": 'If you are on your computer, you can login automatically for a week.<br/>',
-    "translation": 'Αν χρησιμοποιείτε τον υπολογιστή σας μπορείτε να συνδέεστε αυτόματα για μία βδομάδα.<br/>'
+    id: 'Use your registered email and password',
+    translation: 'Χρησιμοποιήστε το email και τον κωδικό που έχετε καταχωρήσει'
 }, {
-    "id": "<i>Don't use this option on a public computer.</i>",
-    "translation": '<i>Μην χρησιμοποιείτε αυτή την επιλογή σε ένα δημόσιο υπολογιστή.</i>'
+    id: 'Password',
+    translation: 'Κωδικός'
 }, {
-    "id": 'Use your registered email and password',
-    "translation": 'Χρησιμοποιήστε το email και τον κωδικό που έχετε καταχωρήσει'
+    id: 'Lost password',
+    translation: 'Ξεχάσατε τον κωδικό σας'
 }, {
-    "id": 'Password',
-    "translation": 'Κωδικός'
+    id: 'Login',
+    translation: 'Σύνδεση'
 }, {
-    "id": 'Lost password',
-    "translation": 'Ξεχάσατε τον κωδικό σας'
+    id: 'I am on my computer',
+    translation: 'Είμαι στον προσωπικό μου υπολογιστή'
 }, {
-    "id": 'Login',
-    "translation": 'Σύνδεση'
+    id: '---',
+    translation: '---'
 }, {
-    "id": 'Use your registered email and password',
-    "translation": 'Χρησιμοποιήστε το email και τον κωδικό που έχετε καταχωρήσει'
+    id: 'User management',
+    translation: 'Διαχείριση χρηστών'
 }, {
-    "id": 'I am on my computer',
-    "translation": 'Είμαι στον προσωπικό μου υπολογιστή'
+    id: 'Users',
+    translation: 'Χρήστες'
 }, {
-    "id": '---',
-    "translation": '---'
+    id: 'Groups and permissions',
+    translation: 'Γκρουπ και δικαιώματα'
 }, {
-    "id": 'User management',
-    "translation": 'Διαχείριση χρηστών'
+    id: 'Layers',
+    translation: 'Λίστα επιπέδων'
 }, {
-    "id": 'Users',
-    "translation": 'Χρήστες'
+    id: 'Plans and promoters',
+    translation: 'Θέματα και προωθητές'
 }, {
-    "id": 'Groups and permissions',
-    "translation": 'Γκρουπ και δικαιώματα'
+    id: 'Comments',
+    translation: 'Σχόλια'
 }, {
-    "id": 'Layers',
-    "translation": 'Λίστα επιπέδων'
+    id: 'Citizens',
+    translation: 'Πολίτες'
 }, {
-    "id": 'Plans and promoters',
-    "translation": 'Θέματα και προωθητές'
+    id: 'Submitted',
+    translation: 'Καταχωρημένο'
 }, {
-    "id": 'Comments',
-    "translation": 'Σχόλια'
+    id: 'Order',
+    translation: 'Παραγγελία'
 }, {
-    "id": 'Citizens',
-    "translation": 'Πολίτες'
+    id: 'Layer label',
+    translation: 'Ετικέτα επιπέδου'
 }, {
-    "id": 'Submitted',
-    "translation": 'Καταχωρημένο'
+    id: 'Layer name',
+    translation: 'Όνομα επιπέδου'
 }, {
-    "id": 'Order',
-    "translation": 'Παραγγελία'
+    id: 'Url',
+    translation: 'Διεύθυνση'
 }, {
-    "id": 'Layer label',
-    "translation": 'Ετικέτα επιπέδου'
+    id: 'Geometry',
+    translation: 'Γεωμετρία'
 }, {
-    "id": 'Layer name',
-    "translation": 'Όνομα επιπέδου'
+    id: 'ETRS',
+    translation: 'ETRS'
 }, {
-    "id": 'Url',
-    "translation": 'Διεύθυνση'
+    id: 'Style',
+    translation: 'Στυλ'
 }, {
-    "id": 'Geometry',
-    "translation": 'Γεωμετρία'
+    id: 'Tooltip',
+    translation: 'Πληροφορία εργαλέιου'
 }, {
-    "id": 'ETRS',
-    "translation": 'ETRS'
+    id: 'Base',
+    translation: 'Βάση'
 }, {
-    "id": 'Style',
-    "translation": 'Στυλ'
+    id: 'Single',
+    translation: 'Μονός'
 }, {
-    "id": 'Tooltip',
-    "translation": 'Πληροφορία εργαλέιου'
+    id: 'Visible',
+    translation: 'Ορατός'
 }, {
-    "id": 'Base',
-    "translation": 'Βάση'
+    id: 'Observations',
+    translation: 'Παρατηρήσεις'
 }, {
-    "id": 'Single',
-    "translation": 'Μονός'
+    id: 'Active filters',
+    translation: 'Ενεργά φίλτρα'
 }, {
-    "id": 'Visible',
-    "translation": 'Ορατός'
+    id: 'Clear filters',
+    translation: 'Καθαρισμός Φίλτρων'
 }, {
-    "id": 'Observations',
-    "translation": 'Παρατηρήσεις'
+    id: 'Register',
+    translation: 'Εγγραφή'
 }, {
-    "id": 'Active filters',
-    "translation": 'Ενεργά φίλτρα'
+    id: 'Repeat password',
+    translation: 'Επανάληψη κωδικού'
 }, {
-    "id": 'Clear filters',
-    "translation": 'Καθαρισμός Φίλτρων'
+    id: 'Register to participate in the discussions.',
+    translation: 'Εγγραφείτε για να συμμετέχετε στις συζητήσεις.'
 }, {
-    "id": 'Observations',
-    "translation": 'Παρατηρήσεις'
+    id: 'Use a valid email address to identify yourself.',
+    translation: 'Χρησιμοποιήστε μία ενεργή διεύθυνση email για την ταυτοποίηση σας.'
 }, {
-    "id": 'Register',
-    "translation": 'Εγγραφή'
+    id: 'Title...',
+    translation: 'Τίτλος...'
 }, {
-    "id": 'Repeat password',
-    "translation": 'Επανάληψη κωδικού'
+    id: 'Choose type...',
+    translation: 'Επιλέξτε τύπο...'
 }, {
-    "id": 'Register to participate in the discussions.',
-    "translation": 'Εγγραφείτε για να συμμετέχετε στις συζητήσεις.'
+    id: 'Enter details...',
+    translation: 'Καταχωρήστε λεπτομέρειες...'
 }, {
-    "id": 'Use a valid email address to identify yourself.',
-    "translation": 'Χρησιμοποιήστε μία ενεργή διεύθυνση email για την ταυτοποίηση σας.'
+    id: '{0} minutes ago',
+    translation: 'Πριν {0} λεπτά'
 }, {
-    "id": 'Title...',
-    "translation": 'Τίτλος...'
+    id: '{0}:{1} ago',
+    translation: '{0}:{1} πριν'
 }, {
-    "id": 'Choose type...',
-    "translation": 'Επιλέξτε τύπο...'
+    id: '{0} days ago ({1} at {2})',
+    translation: 'Πριν {0} μέρες ({1} στις {2})'
 }, {
-    "id": 'Enter details...',
-    "translation": 'Καταχωρήστε λεπτομέρειες...'
+    id: 'Plan scope',
+    translation: 'πεδίο εφαρμογής σχεδίου'
 }, {
-    "id": '{0} minutes ago',
-    "translation": 'Πριν {0} λεπτά'
+    id: 'Registration process initiated',
+    translation: 'Η διαδικασία εγγραφής έχει ξεκινήσει'
 }, {
-    "id": '{0}:{1} ago',
-    "translation": '{0}:{1} πριν'
+    id: 'An email was sent to {0}',
+    translation: 'Ένα ηλεκτρονικό μήνυμα έχει σταλέι στο {0}'
 }, {
-    "id": '{0} days ago ({1} at {2})',
-    "translation": 'Πριν {0} μέρες ({1} στις {2})'
+    id: 'Please follow the instructions.',
+    translation: 'Παρακαλώ ακολουθήστε τις οδηγίες.'
 }, {
-    "id": '---',
-    "translation": '---'
+    id: 'You need to confirm the email before your first login.',
+    translation: 'Πρέπει να επιβεβαιώσετε το email σας πριν εγγραφείτε.'
 }, {
-    "id": 'Plan scope',
-    "translation": 'πεδίο εφαρμογής σχεδίου'
+    id: 'Registration error',
+    translation: 'Πρόβλημα εγγραφής'
+}, {
+    id: 'Invalid data',
+    translation: 'Μη έγκυρα δεδομένα'
+}, {
+    id: 'Please review the form data',
+    translation: 'Παρακαλώ ελέξτε τα δεδομένα της φόρμας'
 }];
