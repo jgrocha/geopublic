@@ -203,9 +203,6 @@ GeoPublic.Translation = [{
     "id": 'A participation was deleted',
     "translation": "Uma participação foi removida"
 }, {
-    "id": 'Participate',
-    "translation": "Participe"
-}, {
     "id": 'Update',
     "translation": "Alterar"
 }, {
@@ -332,9 +329,6 @@ GeoPublic.Translation = [{
     "id": 'Save',
     "translation": "Gravar"
 }, {
-    "id": 'Location',
-    "translation": "Localização"
-}, {
     "id": 'Click on the map to enter your location',
     "translation": "Click no mapa para indicar a sua localização"
 }, {
@@ -418,9 +412,6 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Name',
     "translation": 'Nome'
-}, {
-    "id": 'VAT number',
-    "translation": 'Nº de Identificação Fiscal'
 }, {
     "id": 'VAT number',
     "translation": 'Nº de Identificação Fiscal'
@@ -542,9 +533,6 @@ GeoPublic.Translation = [{
     "id": 'Login',
     "translation": 'Entrar'
 }, {
-    "id": 'Use your registered email and password',
-    "translation": 'Use os dados do registo'
-}, {
     "id": 'I am on my computer',
     "translation": 'Estou no meu computador'
 }, {
@@ -613,9 +601,6 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Clear filters',
     "translation": 'Limpar filtros'
-}, {
-    "id": 'Observations',
-    "translation": 'Observações'
 }, {
     "id": 'Register',
     "translation": 'Registar'
