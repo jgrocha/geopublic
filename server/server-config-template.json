@@ -1,6 +1,11 @@
 {
   "ServerConfig": {
-    "port": 3003,
+    "http": true,
+    "port": 3000,
+    "https": true,
+    "porthttps": 8443,
+    "key": "certificate/server.key",
+    "cert": "certificate/server.cert",
     "logger": "dev",
     "enableUpload": true,
     "enableCompression": true,

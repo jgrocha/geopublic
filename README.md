@@ -210,6 +210,15 @@ If you don't use a prefix, you can remove this option of make it an empty string
     "urlprefix": ""
 ```
 
+Add an additional link:
+
+```
+cd public_html
+mkdir haveyoursay
+cd haveyoursay
+ln -s ../directppgis .
+```
+
 ### Prepare the first plan for discussion
 
 Login with the user created, p.e: 'jgr@geomaster.pt' and 'pa55word'
@@ -346,3 +355,32 @@ If you already have Apache running on port 80, you can use Apache `mod_proxy`.
         ProxyPassReverse / http://localhost:3003/
 </VirtualHost>
 ```
+
+### Using HTTPS
+
+To use https, the `server-config.json` file must be properly configured.
+
+```
+  "ServerConfig": {
+    (...)
+    "https": true,
+    "porthttps": 8443,
+    "key": "certificate/key.pem",
+    "cert": "certificate/cert.pem",
+    (...)
+  }
+```
+
+There is no problem, is both http and https are enabled. If so, two servers are launched, one for each protocol.
+
+#### Self signed certificates for testing
+
+To test the https protocol (http over SSL/TLS), a self signed certificate can be generated with:
+
+```
+cd public_html/certificate
+openssl req  -nodes -new -x509 -keyout server.key -out server.cert
+```
+
+This creates a self signed certificate, without encryption.
+
