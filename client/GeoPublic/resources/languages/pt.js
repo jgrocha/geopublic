@@ -656,9 +656,15 @@ GeoPublic.Translation = [{
     "id": 'Please review the form data',
     "translation": 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos'
 }, {
+    "id": '--',
+    "translation": '--'
+}, {
     "id": 'Send',
     "translation": 'Enviar'
 }, {
     "id": 'You will receive further instructions on the email',
     "translation": 'Irá receber nesse email as instruções necessárias'
+}, {
+    "id": 'It was not possible to send the email message',
+    "translation": 'Não foi possível enviar o email'
 }];

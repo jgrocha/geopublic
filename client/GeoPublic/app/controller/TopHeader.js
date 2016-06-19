@@ -420,7 +420,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
         console.log('registo submit');
         //</debug>
 
-        var formPanel = button.up('form'), registo = button.up('lostpassword');
+        var formPanel = button.up('form'), lostPasswordPanel = button.up('lostpassword');
         var email = formPanel.down('textfield[name=email]').getValue();
 
         if (formPanel.getForm().isValid()) {
@@ -428,14 +428,15 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 email: email
             }, function (result, event) {
                 if (result.success) {
-                    Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
+                    Ext.Msg.alert('Success'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email ) + '<br/>' + 'Please follow the instructions.'.translate());
+                    // Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
                 } else {
-                    Ext.Msg.alert('Problems with password', result.message);
+                    Ext.Msg.alert('Error'.translate(), 'It was not possible to send the email message'.translate());
                 }
-                registo.close();
+                lostPasswordPanel.close();
             });
         } else {
-            Ext.Msg.alert('Preenchimento incorreto', 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos.');
+            Ext.Msg.alert('Invalid data'.translate(), 'Please review the form data'.translate());
         }
     },
 
