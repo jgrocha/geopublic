@@ -7,7 +7,7 @@ Ext.define('GeoPublic.view.Users.LostPassword', {
 	layout : {
 		type : 'fit'
 	},
-	title : "Recuperar a senha",
+	title : "Lost password".translate(),
 	modal : true,
 	closable : false,
 	defaultFocus : 'user',
@@ -23,19 +23,19 @@ Ext.define('GeoPublic.view.Users.LostPassword', {
 			vtype : 'alphanum',
 			minLength : 3,
 			msgTarget : 'under',
-			minLengthText : 'O mínimo são {0} carateres'
+			minLengthText : 'The minimum are {0} characters'.translate()
 		},
 		plugins : {
 			ptype : 'datatip'
 		},
 		items : [{
 			xtype : 'label',
-			text : 'Introduza o endereço de email com que se registou.',
+			text : 'Email address'.translate(),
 			style : 'display:block; padding:10px 0px 0px 0px' // top right bottom left
 		}, {
 			xtype : 'label',
 			forId : 'email',
-			text : 'Irá receber nesse email as instruções necessárias.',
+			text : 'You will receive further instructions on the email'.translate(),
 			style : 'display:block; padding:20px 0px 20px 0px' // top right bottom left
 		}, {
 			name : 'email',
@@ -45,7 +45,7 @@ Ext.define('GeoPublic.view.Users.LostPassword', {
 			afterLabelTextTpl : '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>',
 			maxLength : 48,
 			allowBlank : false,
-			tooltip : 'Insira o seu email'
+			tooltip : 'Email address'.translate()
 		}],
 		dockedItems : [{
 			xtype : 'toolbar',
@@ -55,12 +55,12 @@ Ext.define('GeoPublic.view.Users.LostPassword', {
 			}, {
 				xtype : 'button',
 				itemId : 'cancelar',
-				text : 'Cancelar'
+				text : 'Cancel'.translate()
 			}, {
 				xtype : 'button',
 				itemId : 'entrar',
 				formBind : true,
-				text : 'Enviar'
+				text : 'Send'.translate()
 			}]
 		}]
 	}]

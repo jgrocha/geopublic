@@ -37,7 +37,7 @@ if (ServerConfig.https) {
     };
 }
 
-var transport = nodemailer.createTransport(smtpTransport({
+var smtpOptions = {
     // host: 'mail.cm-agueda.pt',
     // host: 'mail.geomaster.pt',
     host: ServerConfig.smtphost,
@@ -46,12 +46,33 @@ var transport = nodemailer.createTransport(smtpTransport({
     tls: {
         rejectUnauthorized: false
     },
-    debug: true,
-    auth: {
+    debug: true/*,
+     auth: {
+     user: ServerConfig.smtpuser,
+     pass: ServerConfig.smtppass
+     }*/
+}
+
+var smtpOptions = {
+    // host: 'mail.cm-agueda.pt',
+    // host: 'mail.geomaster.pt',
+    host: ServerConfig.smtphost,
+    port: ServerConfig.smtpport,
+    secure: ServerConfig.smtpsecure,
+    tls: {
+        rejectUnauthorized: false
+    },
+    debug: true
+};
+
+if (ServerConfig.smtpuser) {
+    smtpOptions["auth"] = {
         user: ServerConfig.smtpuser,
-        pass: ServerConfig.smtppass
+            pass: ServerConfig.smtppass
     }
-}));
+}
+
+var transport = nodemailer.createTransport(smtpTransport(smtpOptions));
 
 // Deployment url
 if (ServerConfig.url) {

@@ -143,8 +143,8 @@ GeoPublic.Translation = [{
     id: 'Error uploading file',
     translation: "Σφάλμα στη μεταφόρτωση αρχείου"
 }, {
-    "_id": 'resources/images/community_blue_48x48.png',
-    "_translation": "resources/images/logo_cmagueda.png"
+    id: 'resources/images/community_blue_48x48.png',
+    translation: "resources/images/logo_cmagueda.png"
 }, {
     id: 'resources/guiarapido/participacaocivica.html',
     translation: "resources/guiarapido/public_participation_el.html"

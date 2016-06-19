@@ -632,9 +632,6 @@ GeoPublic.Translation = [{
     "id": '{0} days ago ({1} at {2})',
     "translation": 'Há {0} dias ({1} às {2})'
 }, {
-    "id": '---',
-    "translation": '---'
-}, {
     "id": 'Plan scope',
     "translation": 'Limites do Plano'
 }, {
@@ -658,4 +655,10 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Please review the form data',
     "translation": 'Reveja o preenchimento dos campos, pois os dados não são considerados válidos'
+}, {
+    "id": 'Send',
+    "translation": 'Enviar'
+}, {
+    "id": 'You will receive further instructions on the email',
+    "translation": 'Irá receber nesse email as instruções necessárias'
 }];
