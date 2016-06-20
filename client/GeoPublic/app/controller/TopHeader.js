@@ -334,17 +334,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
         console.log(item.action);
         //</debug>
         if ("app-language".translate() != item.action) {
-            console.log('Vamos mudar de language!');
-
-            ExtRemote.DXLogin.deauthenticate({}, function (result, event) {
-                if (result.success) {
-                    // Ext.Msg.alert(result.message);
-                    me.application.fireEvent('logoutComSucesso');
-                    // me.fireEvent('logout');	// para ser apanhado pelo mapPanel (MainMapPanel controller)
-                } else {
-                    Ext.Msg.alert('Erro ao terminar a sessão.', Ext.encode(result));
-                }
-            });
+            // console.log('Vamos mudar de language!');
             
             ExtRemote.DXLogin.changeLanguage({
                 lang: item.action
@@ -355,8 +345,6 @@ Ext.define('GeoPublic.controller.TopHeader', {
                     Ext.Msg.alert('Error'.translate(), Ext.encode(result));
                 }
             });
-        } else {
-            console.log('Não é preciso mudar de language!');
         }
     },
 
