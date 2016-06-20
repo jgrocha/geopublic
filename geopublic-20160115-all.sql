@@ -1225,3 +1225,37 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+-- Added on 2016-06-20 to support delete plan
+
+alter table ppgis.estado drop CONSTRAINT estado_plano_fk;
+alter table ppgis.estado ADD CONSTRAINT estado_plano_fk
+ FOREIGN KEY (idplano)
+      REFERENCES ppgis.plano (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;
+
+ALTER TABLE ppgis.ocorrencia DROP CONSTRAINT ocorrencia_plano_fk;
+alter table ppgis.ocorrencia ADD CONSTRAINT ocorrencia_plano_fk FOREIGN KEY (idplano)
+      REFERENCES ppgis.plano (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;
+
+ALTER TABLE public.tema DROP CONSTRAINT tema_plano_fk;
+alter table public.tema ADD CONSTRAINT tema_plano_fk FOREIGN KEY (idplano)
+      REFERENCES ppgis.plano (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;
+
+ALTER TABLE ppgis.comentario DROP CONSTRAINT comentario_ocorrencia_fk;
+alter table ppgis.comentario ADD CONSTRAINT comentario_ocorrencia_fk FOREIGN KEY (idocorrencia)
+      REFERENCES ppgis.ocorrencia (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;
+
+ALTER TABLE ppgis.tipoocorrencia DROP CONSTRAINT tipoocorrencia_plano_fk;
+alter table ppgis.tipoocorrencia ADD
+  CONSTRAINT tipoocorrencia_plano_fk FOREIGN KEY (idplano)
+      REFERENCES ppgis.plano (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;
+
+ALTER TABLE ppgis.fotografia DROP CONSTRAINT fotografia_ocorrencia_fk;
+alter table ppgis.fotografia ADD
+  CONSTRAINT fotografia_ocorrencia_fk FOREIGN KEY (idocorrencia)
+      REFERENCES ppgis.ocorrencia (id) MATCH SIMPLE
+      ON UPDATE cascade ON DELETE cascade;

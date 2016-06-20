@@ -42,7 +42,7 @@ Ext.define('GeoPublic.controller.BackOffice.Utilizador', {
                     sm.select(0);
                 }
             }
-        })
+        });
     },
     onGridSelect : function(selModel, selection) {
         console.log('onGridSelect');

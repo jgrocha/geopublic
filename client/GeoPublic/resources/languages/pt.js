@@ -667,4 +667,13 @@ GeoPublic.Translation = [{
 }, {
     "id": 'It was not possible to send the email message',
     "translation": 'Não foi possível enviar o email'
+}, {
+    "id": 'Remove plan',
+    "translation": 'Remover plano'
+}, {
+    "id": 'You can not remove a plan created by another user',
+    "translation": 'Não pode remover um plano criado por outro utilizador'
+}, {
+    "id": 'Are you sure you want to delete this plan?',
+    "translation": 'Tem a certeza que quer remover este plano?'
 }];

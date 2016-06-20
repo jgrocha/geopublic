@@ -216,12 +216,16 @@ Ext.define('GeoPublic.controller.BackOffice.Plano', {
 		var selection = sm.getSelection();
 		console.log(GeoPublic.LoggedInUser.data.id + ' === ' + selection[0].data.idutilizador);
 		if (GeoPublic.LoggedInUser.data.id === selection[0].data.idutilizador) {
-			store.remove(sm.getSelection());
-			if (store.getCount() > 0) {
-				sm.select(0);
-			}
+			Ext.Msg.confirm('Attention'.translate(), 'Are you sure you want to delete this plan?'.translate(), function (buttonId, text, opt) {
+				if (buttonId == 'yes') {
+					store.remove(sm.getSelection());
+					if (store.getCount() > 0) {
+						sm.select(0);
+					}
+				}
+			});
 		} else {
-			Ext.example.msg('Remover plano', 'Não pode remover um plano criado por outro utilizador.');
+			Ext.example.msg('Remove plan'.translate(), 'You can not remove a plan created by another user'.translate());
 		}
 
 		var form = this.getEditor();
