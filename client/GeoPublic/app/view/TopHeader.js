@@ -37,19 +37,23 @@ Ext.define('GeoPublic.view.TopHeader', {
 		xtype : 'splitbutton',
 		text : 'Start session'.translate(),
 		itemId : 'botaoLogin',
-		resizable : true,
+		// resizable : true,
+		width: 192,
 		scale : 'medium',
-		menu : [/*{
-			text : 'Last access'.translate(),
-			itemId : 'botaoLastAccess'
-		}, {
-			text : 'Profile'.translate(),
-			itemId : 'botaoPerfil'
-		}, */ {
-			text : 'Logout'.translate(),
-			icon : 'resources/assets/logout.png',
-			itemId : 'botaoLogout'
-		}]
+		menu : {
+			width: 192,
+			items: [/*{
+			 text : 'Last access'.translate(),
+			 itemId : 'botaoLastAccess'
+			 }, {
+			 text : 'Profile'.translate(),
+			 itemId : 'botaoPerfil'
+			 }, */ {
+				text: 'Logout'.translate(),
+				icon: 'resources/assets/logout.png',
+				itemId: 'botaoLogout'
+			}]
+		}
 	}, {
 		xtype: 'button',
 		itemId : 'botaoLanguage',
