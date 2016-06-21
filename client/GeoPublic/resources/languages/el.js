@@ -661,4 +661,13 @@ GeoPublic.Translation = [{
 }, {
     id: 'Please review the form data',
     translation: 'Παρακαλώ ελέξτε τα δεδομένα της φόρμας'
+}, {
+    id: 'Send',
+    translation: 'Αποστολή'
+}, {
+    id: 'You will receive further instructions on the email',
+    translation: 'Θα σας αποσταλλούν περισσότερες οδηγίες μέσω ηλεκτρονικού ταχυδρομείου'
+}, {
+    id: 'It was not possible to send the email message',
+    translation: 'Δεν κατέστη δυνατό να αποσταλεί το μήνυμα ηλεκρτονικού ταχυδρομείου'
 }];
