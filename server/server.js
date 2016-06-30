@@ -162,6 +162,7 @@ app.configure(function () {
     }
 
     if (global.App.prefix) {
+        app.all(/^\/haveyoursay$/, function(req, res) { res.redirect('/haveyoursay/'); });
         app.use(global.App.prefix, express.static(path.join(__dirname, ServerConfig.webRoot)));
     } else {
         app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
