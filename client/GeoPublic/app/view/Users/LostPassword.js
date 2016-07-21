@@ -2,8 +2,8 @@ Ext.define('GeoPublic.view.Users.LostPassword', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.lostpassword',
 	// autoShow : true,
-	height : 218,
-	width : 360,
+	height : 246,
+	width : 378,
 	layout : {
 		type : 'fit'
 	},
