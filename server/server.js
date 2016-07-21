@@ -308,8 +308,8 @@ app.get(global.App.prefix + '/translation', function (request, response) {
  * Using this strategy, the user does not see/uses the parameters in the application URL
  */
 
-app.get('/registo/:lang/:id', routes.registo(global.App.database));
-app.get('/reset/:lang/:id', routes.reset(global.App.database));
+app.get(global.App.prefix + '/registo/:lang/:id', routes.registo(global.App.database));
+app.get(global.App.prefix + '/reset/:lang/:id', routes.reset(global.App.database));
 
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function (request, response) {

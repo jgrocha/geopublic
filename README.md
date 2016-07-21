@@ -128,9 +128,13 @@ svn checkout https://github.com/jgrocha/geopublic/trunk/client/GeoPublic/build/p
 mkdir -p uploads
 mkdir -p public/participation_data
 mkdir -p public/uploaded_images
-cd public/resources/languages
+cd ~/public_html/public/resources/languages
 ln -s en.js en-US.js
 ln -s pt.js pt-PT.js
+ln -s pt.js pt-BR.js
+cd ~/public_html/views
+ln -s pt-PT pt
+ln -s pt-PT pt-BR
 ```
 
 ##### About server folders
