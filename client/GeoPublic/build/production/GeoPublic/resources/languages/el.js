@@ -8,6 +8,9 @@ GeoPublic.Translation = [{
     id: "app-language-name",
     translation: "Ελληνική"
 }, {
+    "id": 'Have your Say',
+    "translation": "Πες τη γνώμη σου"
+}, {
     id: 'You logged in using your {0} account. Would you like to close your {0} session?',
     translation: "Έχετε συνδεθεί με το λογαριασμό {0}. Θέλετε να κλείσετε τη συνεδρία με το λογαριασμό {0};"
 }, {

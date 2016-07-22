@@ -208,7 +208,9 @@ Ext.define('GeoPublic.Application', {
 		console.log('... tudo carregado e pronto a funcionar (app/Application.js).');
 		//</debug>
 
-        var userLang = navigator.language || navigator.userLanguage;
+		document.title = 'Have your Say'.translate();
+
+		var userLang = navigator.language || navigator.userLanguage;
 		console.log(userLang);
 
 		// Portuguese
