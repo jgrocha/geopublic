@@ -648,7 +648,7 @@ GeoPublic.Translation = [{
     translation: 'Η διαδικασία εγγραφής έχει ξεκινήσει'
 }, {
     id: 'An email was sent to {0}',
-    translation: 'Ένα ηλεκτρονικό μήνυμα έχει σταλέι στο {0}'
+    translation: 'Ένα ηλεκτρονικό μήνυμα έχει σταλεί στο {0}'
 }, {
     id: 'Please follow the instructions.',
     translation: 'Παρακαλώ ακολουθήστε τις οδηγίες.'
