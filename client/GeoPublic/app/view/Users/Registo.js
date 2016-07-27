@@ -3,7 +3,7 @@ Ext.define('GeoPublic.view.Users.Registo', {
 	alias : 'widget.registo',
 	// autoShow : true,
 	height : 320,
-	width : 400,
+	width : 460,
 	layout : {
 		type : 'fit'
 	},
@@ -18,7 +18,7 @@ Ext.define('GeoPublic.view.Users.Registo', {
 		defaults : {
 			xtype : 'textfield',
 			anchor : '100%',
-			labelWidth : 78,
+			labelWidth : 138,
 			allowBlank : false,
 			// vtype : 'alphanum',
 			minLength : 3,
