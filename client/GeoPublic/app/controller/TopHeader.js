@@ -294,19 +294,19 @@ Ext.define('GeoPublic.controller.TopHeader', {
 
         // cheirar se já está loginado nalguma rede social...
 
-        var online = function(session){
+        var online = function (session) {
             var current_time = (new Date()).getTime() / 1000;
             return session && session.access_token && session.expires > current_time;
         };
 
-        var fb = hello( "facebook" ).getAuthResponse();
-        var gl = hello( "google" ).getAuthResponse();
-        var wl = hello( "windows" ).getAuthResponse();
+        var fb = hello("facebook").getAuthResponse();
+        var gl = hello("google").getAuthResponse();
+        var wl = hello("windows").getAuthResponse();
 
-        console.log( (online(fb) ? "Signed":"Not signed") + " into FaceBook");
+        console.log((online(fb) ? "Signed" : "Not signed") + " into FaceBook");
         console.log(fb);
-        console.log( (online(gl) ? "Signed":"Not signed") + " into Google");
-        console.log( (online(wl) ? "Signed":"Not signed") + " into Microsoft");
+        console.log((online(gl) ? "Signed" : "Not signed") + " into Google");
+        console.log((online(wl) ? "Signed" : "Not signed") + " into Microsoft");
 
 
         // passar a verificar o objeto global GeoPublic.LoggedInUser
@@ -325,7 +325,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
             //</debug>
         }
     },
-    
+
     onButtonClickLanguage: function (menu, item, event) {
         var me = this;
         //<debug>
@@ -335,7 +335,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
         //</debug>
         if ("app-language".translate() != item.action) {
             // console.log('Vamos mudar de language!');
-            
+
             ExtRemote.DXLogin.changeLanguage({
                 lang: item.action
             }, function (result, event) {
@@ -416,7 +416,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 email: email
             }, function (result, event) {
                 if (result.success) {
-                    Ext.Msg.alert('Success'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email ) + '<br/>' + 'Please follow the instructions.'.translate());
+                    Ext.Msg.alert('Success'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email) + '<br/>' + 'Please follow the instructions.'.translate());
                     // Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
                 } else {
                     Ext.Msg.alert('Error'.translate(), 'It was not possible to send the email message'.translate());
@@ -451,9 +451,19 @@ Ext.define('GeoPublic.controller.TopHeader', {
                 // console.debug(result);
                 // console.debug(event);
                 if (result.success) {
-                    // tempo = ;
+                    // code to fix https://github.com/STORM-CLOUDS/SCP/issues/30
+                    var mensagem = {
+                        minWidth: 480,
+                        minHeight: 200,
+                        title: 'Registration process initiated'.translate(),
+                        msg: Ext.String.format('An email was sent to {0}'.translate(), email) + '<br/>' + 'Please follow the instructions.'.translate() + '<br/>' +
+                        'You need to confirm the email before your first login.'.translate()
+                    };
+                    Ext.MessageBox.alert(mensagem);
+                    /* correct code
                     Ext.Msg.alert('Registration process initiated'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email ) + '<br/>' + 'Please follow the instructions.'.translate() + '<br/>' +
-                        'You need to confirm the email before your first login.'.translate());
+                     'You need to confirm the email before your first login.'.translate());
+                     */
                 } else {
                     Ext.Msg.alert('Registration error'.translate(), result.message);
                 }
