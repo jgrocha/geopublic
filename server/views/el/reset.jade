@@ -1,19 +1,19 @@
 extends layout
 
 block content
-  h1 Password reset
-    
+  h1 Επαναφορά κωδικού πρόσβασης
+
   if user
-    p. Welcome #{user.name}
-    p. 
-      A new password was sent to #{user.email}. Check your email.
-      From now on, you can only login with this new password.
-    p After your first login, you can change your password.
+    p. Καλώς ορίσατε #{user.name}
+    p.
+      Ένας νέος κωδικός πρόσβασης έχει αποσταλεί στο #{user.email}. Ελέγξτε το email σας.
+      Από τώρα και στο εξής, μπορείτε να συνδεθείτε μόνο με αυτό το νέο κωδικό πρόσβασης.
+    p Μετά την πρώτη σύνδεσή σας, μπορείτε να αλλάξετε τον κωδικό πρόσβασής σας.
   else
     p.
-      Something is wrong with this request.
-      This request is no longer valid.
-    p You have to request a new password again.
+      Κάτι δεν πήγε καλά με το αίτημά σας.
+      Το αίτημα αυτό δεν είναι πλέον έγκυρο.
+    p θα πρέπει να ζητήσετε και πάλι ένα νέο κωδικό πρόσβασης.
 
-  p= 'Let me go to the '
-    a(href='#{site}') site
+  p= 'Επιτρέψτε μου να πάω στην '
+  a(href='#{site}') ιστοσελίδα

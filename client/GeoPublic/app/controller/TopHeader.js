@@ -419,7 +419,19 @@ Ext.define('GeoPublic.controller.TopHeader', {
                     Ext.Msg.alert('Success'.translate(), Ext.String.format('An email was sent to {0}'.translate(), email) + '<br/>' + 'Please follow the instructions.'.translate());
                     // Ext.Msg.alert('Successul', 'Foi enviado um email para ' + email + '<br/>' + 'Siga as indicações enviadas.');
                 } else {
+                    // todo
+                    // to fix https://github.com/STORM-CLOUDS/SCP/issues/31
+                    var mensagem = {
+                        minWidth: 480,
+                        minHeight: 200,
+                        title: 'Error'.translate(),
+                        msg: 'It was not possible to send the email message'.translate()
+                    };
+                    Ext.MessageBox.alert(mensagem);
+
+                    /* correct code
                     Ext.Msg.alert('Error'.translate(), 'It was not possible to send the email message'.translate());
+                    */
                 }
                 lostPasswordPanel.close();
             });

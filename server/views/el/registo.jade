@@ -1,18 +1,18 @@
 extends layout
 
 block content
-  h1 User registration
-    
+  h1 Εγγραφή χρήστη
+
   if user
-    p. Welcome #{user.name}
-    p. 
-      Your email #{user.email} was validated.
-      You can login using your email and password.
+    p. Καλώς ορίσατε #{user.name}
+    p.
+      Το email σας #{user.email} επικυρώθηκε.
+      Μπορείτε να συνδεθείτε χρησιμοποιώντας το email και τον κωδικό πρόσβασής σας.
   else
-    p. 
-      Something is wrong with this request.
-      This request is no longer valid.
-    p You have to register again.
-    
-  p= 'Let me go to the '
-    a(href='#{site}') site
+    p.
+      Κάτι δεν πήγε καλά με το αίτημά σας.
+      Το αίτημα αυτό δεν είναι πλέον έγκυρο.
+    p Θα πρέπει να εγγραφείτε ξανά.
+
+  p= 'Επιτρέψτε μου να πάω στην  '
+  a(href='#{site}') ιστοσελίδα
