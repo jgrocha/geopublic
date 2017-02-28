@@ -2,8 +2,15 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/CMAgueda" />
+      <excludeFolder url="file://$MODULE_DIR$/Tessalonica" />
       <excludeFolder url="file://$MODULE_DIR$/client/GeoPublic/ext" />
       <excludeFolder url="file://$MODULE_DIR$/client/GeoPublic/geoext2-2.0.2" />
+      <excludeFolder url="file://$MODULE_DIR$/server/haveyoursay" />
+      <excludeFolder url="file://$MODULE_DIR$/server/public" />
+      <excludeFolder url="file://$MODULE_DIR$/server/public.development" />
+      <excludeFolder url="file://$MODULE_DIR$/server/public.production" />
+      <excludeFolder url="file://$MODULE_DIR$/server/uploads" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

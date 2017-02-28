@@ -12,6 +12,7 @@ Ext.define('GeoPublic.view.Participation.ActivityNew', {
         me.idplano = me.initialConfig.config.idplano;
         me.itemId = 'activity-' + me.idplano;
         me.geodiscussao = me.initialConfig.config.geodiscussao;
+        me.closed = me.initialConfig.config.closed;
         me.items = [{
             xtype: 'contribution',
             collapsible: true,

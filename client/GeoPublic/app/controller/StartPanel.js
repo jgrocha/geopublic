@@ -1,28 +1,28 @@
 Ext.define('GeoPublic.controller.StartPanel', {
     extend: 'Ext.app.Controller',
-    requires: ['GeoPublic.view.StartPlano', 'GeoPublic.view.StartPlanoDescricao', 'GeoPublic.view.DiscussaoRegulamento', 'GeoPublic.view.DiscussaoGeografica'],
+    requires: ['GeoPublic.view.Plano', 'GeoPublic.view.StartPlanoDescricao', 'GeoPublic.view.DiscussaoRegulamento', 'GeoPublic.view.DiscussaoGeografica'],
     stores: ['PromotorCombo', 'PlanoCombo'],
     // getPromotorComboStore(), getPlanoComboStore()
     refs: [{
-        selector: 'viewport > tabpanel',
+        selector: 'viewport tabpanel',
         ref: 'painelPrincipal' // gera um getPainelPrincipal
     }, {
-        selector: 'viewport > tabpanel > startpanel',
+        selector: 'viewport tabpanel > startpanel',
         ref: 'startPanel' // gera um getStartPanel
     }, {
-        selector: 'viewport > tabpanel > startpanel #promotorbar',
+        selector: 'viewport tabpanel > startpanel #promotorbar',
         ref: 'promotorBar' // gera um getPromotorBar
     }, {
-        selector: 'viewport > tabpanel > startpanel #circlebar',
+        selector: 'viewport tabpanel > startpanel #circlebar',
         ref: 'circleBar' // gera um getCircleBar
     }, {
-        selector: 'viewport > tabpanel > startpanel #planbar',
+        selector: 'viewport tabpanel > startpanel #planbar',
         ref: 'planBar' // gera um getPlanBar
     }, {
-        selector: 'viewport > tabpanel > startpanel #readybar',
+        selector: 'viewport tabpanel > startpanel #readybar',
         ref: 'readyBar' // gera um getReadyBar
     }, {
-        selector: 'viewport > tabpanel > startpanel #planpresentationbar',
+        selector: 'viewport tabpanel > startpanel #planpresentationbar',
         ref: 'planPresentationBar' // gera um getPlanPresentationBar
     }],
     init: function () {
@@ -51,7 +51,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
             'startpromotor': {
                 'clickPlano': this.onClickPlano
             },
-            'startplano button#apresentacao': {
+            'startpanel startplano button#apresentacao': {
                 'click': this.onMostraApresentacaoPlano
             },
             'startplanodescricao button#regras': {
@@ -100,11 +100,11 @@ Ext.define('GeoPublic.controller.StartPanel', {
                 bar.add(newPromotor);
             }
             bar.doLayout();
-            bar.getEl().fadeIn({
+/*            bar.getEl().fadeIn({
                 opacity: 1, //can be any value between 0 and 1 (e.g. .5)
                 easing: 'easeIn', // 'easeOut',
                 duration: 1500
-            });
+            });*/
             /*
              var pos = bar.getOffsetsTo(this.getStartPanel())[1];
              this.getStartPanel().body.scroll('top', pos, true);
@@ -263,6 +263,7 @@ Ext.define('GeoPublic.controller.StartPanel', {
     },
     /* deprecated :-) */
     onPromotorClick: function (button, e, options) {
+        console.log('StartPanel → onPromotorClick');
         // Tem que sincronizar com as combos do MapPanel
         // Aqui é o mesmo que escolher um valor na combo (e vice versa)
         var p = button.up('startpanel').down('#planbar');

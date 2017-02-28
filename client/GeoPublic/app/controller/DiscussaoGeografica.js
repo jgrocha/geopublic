@@ -106,7 +106,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                     feature: f, // pode ser null
                     estadoStore: me.getStoreEstado(),
                     geodiscussao: true,
-                    moderador: me.email
+                    moderador: me.email,
+                    closed: me.closed
                 });
                 // me.down('#flow').add(newDiscussion);
                 me.down('#flow').insert(0, newDiscussion);

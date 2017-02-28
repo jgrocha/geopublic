@@ -11,6 +11,9 @@ GeoPublic.Translation = [{
     "id": 'Have your Say',
     "translation": "Eu participo"
 }, {
+    "id": 'Have your Say',
+    "translation": "Eu participo"
+}, {
     "id": 'You logged in using your {0} account. Would you like to close your {0} session?',
     "translation": "Entrou com a sua conta do {0}. Deseja também sair do {0}?"
 }, {

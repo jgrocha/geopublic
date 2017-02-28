@@ -322,8 +322,13 @@ Ext.define('GeoPublic.controller.Participation.Contribution', {
     },
     onContributionBeforeExpand: function (p, animate, eOpts) {
         // console.log("onContributionBeforeExpand: só abre se o utilizador estiver logginado");
+        var plano = p.up('activitynew').idplano;
+        var closed = p.up('activitynew').closed;
+        if (closed) {
+            Ext.example.msg('Participation'.translate(), 'This plan is already closed.'.translate());
+            return false;
+        }
         if (GeoPublic.LoggedInUser) {
-            var plano = p.up('activitynew').idplano;
             if (plano) {
                 return true;
             } else {

@@ -4,10 +4,10 @@ Ext.define('GeoPublic.Application', {
 	name : 'GeoPublic',
 	requires : ['GeoPublic.Translation', 'GeoPublic.DirectAPI', 'Ext.grid.plugin.RowEditing', 'Ext.form.Label', 'Ext.util.Cookies', 'Ext.ux.DataTip', 'GeoExt.panel.Map', 'Ext.button.Split', 'Ext.grid.column.Date', 'Ext.state.LocalStorageProvider', 'Ext.ux.Wizard', 'Ext.ux.wizard.Header', 'Ext.ux.wizard.CardLayout', 'Ext.ux.wizard.Card', 'GeoPublic.view.Participation.Discussion', 'Ext.form.field.Hidden', 'Ext.Img', 'Ext.chart.Chart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category', 'Ext.chart.series.Pie', 'Ext.form.FieldSet' ],
 	extend : 'Ext.app.Application',
-	views : ['StartPanel', 'StartPromotor', 'StartPlano', 'StartPlanoDescricao', 'BackOffice.Promotor', 'TopHeader', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'Users.Profile', 'Users.Login', 'Guia', 'MapaComProjeto', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas', 'Sobre', 'BackOffice.Permission'], // , 'ChartByType', 'ChartByState'
-	controllers : ['TopHeader', 'Users.Profile', 'StartPanel', 'BackOffice.Promotor', 'BackOffice.Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'StartPlano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas', 'BackOffice.Layer', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'BackOffice.Permission', 'BackOffice.Mapa'],
+	views : ['Welcome', /*'StartPanel', 'StartPromotor',*/ 'Plano', 'StartPlanoDescricao', 'BackOffice.Promotor', 'TopHeader', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'Users.Profile', 'Users.Login', 'Guia', 'MapaComProjeto', 'Participation.Contribution', 'Participation.Ocorrencias', 'Participation.Discussion', 'Participation.CommentList', 'Participation.CommentForm', 'Participation.FotografiaTmp', 'Estatisticas.Estatisticas', 'Sobre', 'BackOffice.Permission'], // , 'ChartByType', 'ChartByState'
+	controllers : ['Welcome', 'TopHeader', 'Users.Profile', /*'StartPanel',*/ 'BackOffice.Promotor', 'BackOffice.Plano', 'TipoOcorrencia', 'Participation.Contribution', 'Participation.Discussion', 'Participation.EstadoOcorrencia', 'Participation.Fotografia', 'DiscussaoRegulamento', 'Participation.ActivityNew', 'Mapa', 'DiscussaoGeografica', 'Plano', 'StartPromotor', 'StartPlanoDescricao', 'Participation.FrameViewer', 'Estatisticas.Estatisticas', 'BackOffice.Layer', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'BackOffice.Permission', 'BackOffice.Mapa'],
 	models : ['Utilizador', 'BackOffice.Sessao', 'Promotor', 'Plano', 'TipoOcorrencia', 'Participation.EstadoOcorrencia', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade'],
-	stores : ['BackOffice.Sessao', 'BackOffice.Utilizador', 'BackOffice.Grupo', 'BackOffice.Permissao', 'BackOffice.Menu', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade', 'Estatisticas.Promotor', 'Estatisticas.Plano', 'BackOffice.Plano', 'BackOffice.GrupoCombo'],
+	stores : ['PlanToShow', 'BackOffice.Sessao', 'BackOffice.Utilizador', 'BackOffice.Grupo', 'BackOffice.Permissao', 'BackOffice.Menu', 'Promotor', 'Plano', 'Participation.EstadoOcorrencia', 'Participation.EstadoCombo', 'Estatisticas.ChartByState', 'Estatisticas.ChartByType', 'Estatisticas.ChartByAtividade', 'Estatisticas.Promotor', 'Estatisticas.Plano', 'BackOffice.Plano', 'BackOffice.GrupoCombo'],
 	splashscreen : {},
 	refs : [{
 		selector : 'viewport > tabpanel',
@@ -103,13 +103,11 @@ Ext.define('GeoPublic.Application', {
 			GeoPublic.mapproxy = ['http://a.geomaster.pt/mapproxy/tms/', 'http://b.geomaster.pt/mapproxy/tms/', 'http://c.geomaster.pt/mapproxy/tms/', 'http://d.geomaster.pt/mapproxy/tms/'];
 		}
 
-		var socket = io.connect();
-		/*
-		var socket = io.connect({
-			// path : '/ppgis/socket.io'
-			path : '/socket.io'
-		});
-		*/
+/*		var socket = io.connect();
+		// var socket = io.connect({
+		// 	path : '/haveyoursay/socket.io'
+		// 	// path : '/socket.io'
+		// });
 
 		// No servidor
 		// var io = require('socket.io').listen(servidor, { resource: '/ppgis/socket.io'});
@@ -179,7 +177,7 @@ Ext.define('GeoPublic.Application', {
             me.fireEvent('newParticipation', data);
             // Ext.example.msg('Nova participação recebida', data.params.participacao);
             Ext.example.msg('Participation deleted'.translate(), 'A participation was deleted'.translate());
-        });
+        });*/
 
 		fromProjection = new OpenLayers.Projection("EPSG:900913");
 		toProjection = new OpenLayers.Projection("EPSG:4326");

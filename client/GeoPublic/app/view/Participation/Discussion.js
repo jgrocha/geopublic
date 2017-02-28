@@ -33,6 +33,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
         this.feature = this.initialConfig.feature;
         this.participacao = this.initialConfig.participacao;
         this.moderator = this.initialConfig.moderador;
+        this.closed = this.initialConfig.closed;
 
         var botoesParticipacao = [];
 
@@ -48,7 +49,7 @@ Ext.define('GeoPublic.view.Participation.Discussion', {
         botoesParticipacao.push('->');
 
         var showFormComments = false;
-        if (GeoPublic.LoggedInUser) {
+        if ((GeoPublic.LoggedInUser) && !this.closed) {
             showFormComments = true;
 
             var useremail = GeoPublic.LoggedInUser.data.email;

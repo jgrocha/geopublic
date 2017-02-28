@@ -197,6 +197,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
         // console.log('GeoPublic.controller.Participation.Discussion onOcorrenciaBeforeExpand');
         var d = p.up('discussion');
         var o = d.idocorrencia;
+        var closed = d.closed;
         // console.debug(p);
         if (!p.loaded) {
             // p.header.getEl().setStyle('cursor', 'default');
@@ -257,7 +258,8 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                             estado: rec.estado,
                             cor: rec.color,
                             idutilizador: rec.idutilizador,
-                            idresponsavel: rec.idresponsavel
+                            idresponsavel: rec.idresponsavel,
+                            closed: closed
                         });
                         p.add(newComment);
                         // p.insert(0, newComment);
@@ -348,6 +350,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
     onButtonGravarComentario: function (button, e, options) {
         var me = this;
         var d = button.up('discussion');
+        var closed = d.closed;
         var activity = d.up('activitynew');
         var fc = button.up('form').getForm();
         var params = fc.getValues(false, false, false, false);
@@ -420,7 +423,8 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                             estado: result.data[0].estado,
                             cor: result.data[0].color,
                             idutilizador: result.data[0].idutilizador,
-                            idresponsavel: result.data[0].idresponsavel
+                            idresponsavel: result.data[0].idresponsavel,
+                            closed: closed
                         });
                         p.add(newComment);
                         // p.insert(0, newComment);

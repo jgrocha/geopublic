@@ -97,7 +97,7 @@ var enviarEmailComment = function (params) {
                             smtpTransport.close();
                         }
                     };
-                     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+                    emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -155,7 +155,7 @@ var enviarEmailComment = function (params) {
                     // se o email de quem lançou o comentário for igual ao email de quem lançou a participação,
                     // não envio email
                     if (primeiroresult.rows[0].email != segundoresult.rows[0].email) {
-                         emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+                        emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -204,7 +204,7 @@ var enviarEmailComment = function (params) {
                             smtpTransport.close();
                         }
                     };
-                     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+                    emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -303,7 +303,7 @@ var enviarEmailParticipation = function (params) {
                     smtpTransport.close();
                 }
             };
-             emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+            emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -346,7 +346,7 @@ var enviarEmailParticipation = function (params) {
                     smtpTransport.close();
                 }
             };
-             emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+            emailTemplates(global.App.templates + '/' + lang, function (err, template) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -407,7 +407,7 @@ var enviarEmailPlan = function (destino, parametros, callback) {
             smtpTransport.close();
         }
     };
-     emailTemplates(global.App.templates + '/' + lang, function (err, template) {
+    emailTemplates(global.App.templates + '/' + lang, function (err, template) {
         if (err) {
             console.log(err);
         } else {
@@ -880,7 +880,7 @@ var DXParticipacao = {
         }
         if (params.idplano && params.idplano > 0) {
             idplano = params.idplano;
-            sql  = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name ";
+            sql = "SELECT id, pasta || '/80x80/' || caminho as url, largura, altura, datacriacao, observacoes as documento, name ";
             sql += "FROM ppgis.fotografia where not inapropriada and ";
             sql += "idocorrencia IN ( select id from ppgis.ocorrencia where idplano = " + idplano + ") and observacoes is not null";
             totalQuery = 'SELECT count(*) as totals FROM ppgis.fotografia where not inapropriada and not apagado and idocorrencia IN ( select id from ppgis.ocorrencia where idplano = ' + idplano + ") and observacoes is not null";
@@ -1261,76 +1261,81 @@ var DXParticipacao = {
                     console.log('INSERT INTO ppgis.ocorrencia', err);
                     rollback(conn, callback);
                 }
-                var newid = resultInsert.rows[0].id;
-                var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name) ';
-                sql += 'select ' + newid + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name ';
-                sql += 'from ppgis.fotografiatmp ';
-                sql += "where sessionid = '" + sessionID + "'";
-                conn.query(sql, function (err, result2Insert) {
-                    if (err) {
-                        console.log('insert into ppgis.fotografia', err);
-                        rollback(conn, callback);
-                    }
-                    sql = "delete FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
-                    conn.query(sql, function (err, result) {
+                if (resultInsert.rows.length != 1) {
+                    console.log('Error. Is the plan still open?', err);
+                    rollback(conn, callback);
+                } else {
+                    var newid = resultInsert.rows[0].id;
+                    var sql = 'insert into ppgis.fotografia (idocorrencia, pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name) ';
+                    sql += 'select ' + newid + ', pasta, caminho, observacoes, idutilizador, tamanho, largura, altura, datacriacao, name ';
+                    sql += 'from ppgis.fotografiatmp ';
+                    sql += "where sessionid = '" + sessionID + "'";
+                    conn.query(sql, function (err, result2Insert) {
                         if (err) {
-                            console.log('delete FROM ppgis.fotografiatmp', err);
+                            console.log('insert into ppgis.fotografia', err);
                             rollback(conn, callback);
                         }
-                        conn.query('COMMIT', function (err, result) {
-                            db.disconnect(conn);
-                            callback({
-                                success: true,
-                                message: 'Ocorrência inserida',
-                                data: resultInsert.rows,
-                                dataphoto: result2Insert
-                            });
-                            /*
-                             * Notify users by email
-                             *
-                             * createOcorrencia:  { titulo: 'Notificação 1',
-                             participacao: 'nihao tong shue',
-                             idplano: 29,
-                             idestado: 1,
-                             proposta: '' }
+                        sql = "delete FROM ppgis.fotografiatmp where sessionid = '" + sessionID + "'";
+                        conn.query(sql, function (err, result) {
+                            if (err) {
+                                console.log('delete FROM ppgis.fotografiatmp', err);
+                                rollback(conn, callback);
+                            }
+                            conn.query('COMMIT', function (err, result) {
+                                db.disconnect(conn);
+                                callback({
+                                    success: true,
+                                    message: 'Ocorrência inserida',
+                                    data: resultInsert.rows,
+                                    dataphoto: result2Insert
+                                });
+                                /*
+                                 * Notify users by email
+                                 *
+                                 * createOcorrencia:  { titulo: 'Notificação 1',
+                                 participacao: 'nihao tong shue',
+                                 idplano: 29,
+                                 idestado: 1,
+                                 proposta: '' }
 
-                             request.session.userid
+                                 request.session.userid
 
-                             */
+                                 */
 
-                            enviarEmailParticipation({
-                                operation: 'insert',
-                                // assunto: 'Nova participação',
-                                assunto: 'New participation',
-                                userid: request.session.userid,
-                                id: newid,
-                                titulo: params.titulo,
-                                participacao: params.participacao,
-                                idplano: params.idplano,
-                                nota: '',
-                                lang: lang
-                            }); // sem callback nem parametros para o callback...
+                                enviarEmailParticipation({
+                                    operation: 'insert',
+                                    // assunto: 'Nova participação',
+                                    assunto: 'New participation',
+                                    userid: request.session.userid,
+                                    id: newid,
+                                    titulo: params.titulo,
+                                    participacao: params.participacao,
+                                    idplano: params.idplano,
+                                    nota: '',
+                                    lang: lang
+                                }); // sem callback nem parametros para o callback...
 
-                            /*
-                             * Atualizar as estatísticas...
-                             */
-                            DXParticipacao.numeros({}, function (res) {
-                                console.log('Novas estatísticas calculadas: ');
-                                // console.log(res.data);
-                                if (res.success) {
-                                    io.emit('participation-created', {
-                                        msg: 'New participation',
-                                        params: params,
-                                        idutilizador: request.session.userid,
-                                        numeros: res.data
-                                    });
-                                } else {
-                                    console.log('Problema GRAVE ao calcular as novas estatísticas. O mundo está perdido.');
-                                }
+                                /*
+                                 * Atualizar as estatísticas...
+                                 */
+                                DXParticipacao.numeros({}, function (res) {
+                                    console.log('Novas estatísticas calculadas: ');
+                                    // console.log(res.data);
+                                    if (res.success) {
+                                        io.emit('participation-created', {
+                                            msg: 'New participation',
+                                            params: params,
+                                            idutilizador: request.session.userid,
+                                            numeros: res.data
+                                        });
+                                    } else {
+                                        console.log('Problema GRAVE ao calcular as novas estatísticas. O mundo está perdido.');
+                                    }
+                                });
                             });
                         });
                     });
-                });
+                }
             });
         });
     },
@@ -2222,26 +2227,26 @@ var DXParticipacao = {
             }
         } else {
             // plan combobox in layers grid
-            where = ' where true';
+            where = ' where true and active';
         }
 
         /*
-        if (params.mode && parseInt(params.mode)) {
-            // for statistics, we need all plans, even already closed
-            // for the layers combobox,  we need all plans, even already closed for all promoters
-            console.log('readPlano params.mode: ' + params.mode);
-            where += '';
-        } else {
-            // to select the plan for discussion, the user can only select the ones opened
-            console.log('readPlano SEM params.mode');
-            where += ' and fim > now()';
-        }
-        */
+         if (params.mode && parseInt(params.mode)) {
+         // for statistics, we need all plans, even already closed
+         // for the layers combobox,  we need all plans, even already closed for all promoters
+         console.log('readPlano params.mode: ' + params.mode);
+         where += '';
+         } else {
+         // to select the plan for discussion, the user can only select the ones opened
+         console.log('readPlano SEM params.mode');
+         where += ' and fim > now()';
+         }
+         */
 
         var userid = request.session.userid;
         var conn = db.connect();
         //var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active FROM ppgis.plano where idpromotor = ' + promotor + ' and active' + open;
-        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active, planocls FROM ppgis.plano ' + where;
+        var sql = 'SELECT id, idpromotor, designacao, descricao, responsavel, email, site, inicio, fim, datamodificacao, proposta, idutilizador, ST_AsGeoJSON(the_geom) as the_geom, alternativeproposta, active, planocls, background, fim < now() as closed FROM ppgis.plano ' + where;
         console.log(sql);
         conn.query(sql, function (err, result) {
             if (err) {

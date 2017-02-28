@@ -1015,13 +1015,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
   "GeoPublic.controller.Participation.FrameViewer": [],
+  "GeoPublic.controller.Plano": [],
   "GeoPublic.controller.StartPanel": [],
-  "GeoPublic.controller.StartPlano": [],
   "GeoPublic.controller.StartPlanoDescricao": [],
   "GeoPublic.controller.StartPromotor": [],
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.controller.Welcome": [],
   "GeoPublic.model.BackOffice.Grupo": [],
   "GeoPublic.model.BackOffice.Layer": [],
   "GeoPublic.model.BackOffice.Permissao": [],
@@ -1059,6 +1060,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
   "GeoPublic.store.Participation.Fotografia": [],
   "GeoPublic.store.Participation.FotografiaTmp": [],
+  "GeoPublic.store.PlanToShow": [],
   "GeoPublic.store.Plano": [],
   "GeoPublic.store.PlanoCombo": [],
   "GeoPublic.store.Promotor": [],
@@ -1096,9 +1098,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Participation.FotografiaTmp": [],
   "GeoPublic.view.Participation.FrameViewer": [],
   "GeoPublic.view.Participation.Ocorrencias": [],
+  "GeoPublic.view.Plano": [],
   "GeoPublic.view.Sobre": [],
   "GeoPublic.view.StartPanel": [],
-  "GeoPublic.view.StartPlano": [],
   "GeoPublic.view.StartPlanoDescricao": [],
   "GeoPublic.view.StartPromotor": [],
   "GeoPublic.view.TopHeader": [],
@@ -1106,7 +1108,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "GeoPublic.view.Users.LostPassword": [],
   "GeoPublic.view.Users.Profile": [],
   "GeoPublic.view.Users.Registo": [],
-  "GeoPublic.view.Viewport": []
+  "GeoPublic.view.Viewport": [],
+  "GeoPublic.view.Welcome": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -2300,13 +2303,14 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.controller.Participation.EstadoOcorrencia": [],
   "GeoPublic.controller.Participation.Fotografia": [],
   "GeoPublic.controller.Participation.FrameViewer": [],
+  "GeoPublic.controller.Plano": [],
   "GeoPublic.controller.StartPanel": [],
-  "GeoPublic.controller.StartPlano": [],
   "GeoPublic.controller.StartPlanoDescricao": [],
   "GeoPublic.controller.StartPromotor": [],
   "GeoPublic.controller.TipoOcorrencia": [],
   "GeoPublic.controller.TopHeader": [],
   "GeoPublic.controller.Users.Profile": [],
+  "GeoPublic.controller.Welcome": [],
   "GeoPublic.model.BackOffice.Grupo": [],
   "GeoPublic.model.BackOffice.Layer": [],
   "GeoPublic.model.BackOffice.Permissao": [],
@@ -2344,6 +2348,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.store.Participation.EstadoOcorrencia": [],
   "GeoPublic.store.Participation.Fotografia": [],
   "GeoPublic.store.Participation.FotografiaTmp": [],
+  "GeoPublic.store.PlanToShow": [],
   "GeoPublic.store.Plano": [],
   "GeoPublic.store.PlanoCombo": [],
   "GeoPublic.store.Promotor": [],
@@ -2443,14 +2448,14 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.Participation.Ocorrencias": [
     "widget.ocorrencias"
   ],
+  "GeoPublic.view.Plano": [
+    "widget.plano"
+  ],
   "GeoPublic.view.Sobre": [
     "widget.sobre"
   ],
   "GeoPublic.view.StartPanel": [
     "widget.startpanel"
-  ],
-  "GeoPublic.view.StartPlano": [
-    "widget.startplano"
   ],
   "GeoPublic.view.StartPlanoDescricao": [
     "widget.startplanodescricao"
@@ -2473,7 +2478,10 @@ Ext.ClassManager.addNameAliasMappings({
   "GeoPublic.view.Users.Registo": [
     "widget.registo"
   ],
-  "GeoPublic.view.Viewport": []
+  "GeoPublic.view.Viewport": [],
+  "GeoPublic.view.Welcome": [
+    "widget.welcome"
+  ]
 });
 Ext.setVersion("ext-theme-base", "4.2.1");
 Ext.setVersion("ext-theme-neptune", "4.2.1");

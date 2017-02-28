@@ -340,12 +340,23 @@ if (ServerConfig.https) {
 }
 
 // http://stackoverflow.com/questions/12824612/change-socket-io-static-file-serving-path
-if ('production' == process.env.NODE_ENV) {
-    var io = require('socket.io').listen(servidor);
-    // , { path: '/ppgis/socket.io'});
+
+if (global.App.prefix) {
+    console.log('path: ' + global.App.prefix + '/socket.io');
+    if ('production' == process.env.NODE_ENV) {
+        var io = require('socket.io').listen(servidor, { path: global.App.prefix + '/socket.io'});
+    } else {
+        var io = require('socket.io').listen(servidor, { path: global.App.prefix + '/socket.io'});
+    }
 } else {
-    var io = require('socket.io').listen(servidor);
-    // , { path: '/ppgis/socket.io'});
+    console.log('path: ' + global.App.prefix + '/socket.io');
+    if ('production' == process.env.NODE_ENV) {
+        var io = require('socket.io').listen(servidor);
+        // , { path: '/ppgis/socket.io'});
+    } else {
+        var io = require('socket.io').listen(servidor);
+        // , { path: '/ppgis/socket.io'});
+    }
 }
 
 io.sockets.on('connection', function (socket) {

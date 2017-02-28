@@ -26,6 +26,7 @@ Ext.define('GeoPublic.view.Participation.Comment', {
         this.idutilizador = this.initialConfig.idutilizador; // quem lançou o comentário
         this.idresponsavel = this.initialConfig.idresponsavel; // id responsável por este plano
         this.nome = this.initialConfig.nome;
+        this.closed = this.initialConfig.closed;
 
         var botoesComentarios = [];
 
@@ -41,7 +42,8 @@ Ext.define('GeoPublic.view.Participation.Comment', {
 
         if (GeoPublic.LoggedInUser) {
             showComments = true;
-            if (GeoPublic.LoggedInUser.data.id == this.idutilizador) {
+            // TODO: check if it is read only
+            if ((GeoPublic.LoggedInUser.data.id == this.idutilizador) && !this.closed) {
                 // console.log('Mostra botões para a participação ' + this.initialConfig.id_ocorrencia);
                 botoesComentarios.push({
                     glyph: 0xf044, // fa-edit (alias) [&#xf044

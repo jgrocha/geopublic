@@ -1,11 +1,11 @@
-Ext.define('GeoPublic.controller.StartPlano', {
+Ext.define('GeoPublic.controller.Plano', {
     extend: 'Ext.app.Controller',
     init: function () {
         this.control({
-            'startplano': {
+            'plano': {
                 'afterrender': this.onStartPlanoAfterRender
             },
-            'startplano button#apresentacao': {
+            'plano button#apresentacao': {
                 // 'mouseover': this.onMouseOverApresentacaoPlano,
                 // 'mouseout': this.onMouseOutApresentacaoPlano
             }

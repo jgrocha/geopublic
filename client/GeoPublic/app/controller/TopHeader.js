@@ -19,11 +19,17 @@ Ext.define('GeoPublic.controller.TopHeader', {
         selector: 'login',
         ref: 'loginPanel' // gera um getLoginPanel
     }, {
-        selector: 'viewport > tabpanel',
+        selector: 'viewport > panel',
+        ref: 'topPanel' // gera um getTopPanel
+    }, {
+        selector: 'viewport tabpanel',
         ref: 'painelPrincipal' // gera um getPainelPrincipal
     }],
     init: function () {
         this.control({
+            "welcome #rulebar button#botaoRegisto": {
+                click: this.onButtonClickRegisto
+            },
             "topheader button#botaoRegisto": {
                 click: this.onButtonClickRegisto
             },
@@ -77,16 +83,28 @@ Ext.define('GeoPublic.controller.TopHeader', {
             "login form textfield": {
                 // é disparado tanto em field.name = "user" como em field.name = "password"
                 specialkey: this.onTextfieldSpecialKey
-            } /* ,
-             "demo-cookies toolbar button" : {
-             click : this.onButtonClickAuthentificate
-             } */
+            },
+            "viewport tabpanel": {
+                // tabchange: this.onTabChange,
+                beforetabchange: this.onTabChange
+            }
         });
         this.application.on({
             scope: this,
             loginComSucesso: this.onLogin,
             logoutComSucesso: this.onLogout
         });
+    },
+    onTabChange: function(tabPanel, tab) {
+        if (tab.itemId && tab.itemId == 'welcome') {
+            console.log("No início: beforetabchange: " + tabPanel.id + tab.id);
+            this.getTopPanel().setHeight(388);
+            Ext.getBody().setStyle({'background-color':'white'});
+        } else {
+            console.log("beforetabchange: " + tabPanel.id + tab.id);
+            this.getTopPanel().setHeight(206);
+            Ext.getBody().setStyle('background-color', '#1598a9');
+        }
     },
     onLaunch: function () {
         this.getBotaoLogin().menu.disable();

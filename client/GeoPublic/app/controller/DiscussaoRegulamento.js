@@ -3,7 +3,7 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
     requires: ['GeoPublic.store.Ocorrencia'],
     // stores: ['Ocorrencia'],
     refs: [{ // Ext.ComponentQuery.query('app-main-map-panel toolbar')
-        selector: 'viewport > tabpanel',
+        selector: 'viewport tabpanel',
         ref: 'painelPrincipal' // gera um getPainelPrincipal
     }],
     init: function () {
@@ -165,7 +165,8 @@ Ext.define('GeoPublic.controller.DiscussaoRegulamento', {
                 feature: null,
                 estadoStore: me.getStoreEstado(),
                 geodiscussao: false,
-                moderador: me.email
+                moderador: me.email,
+                closed: me.closed
             });
             // me.down('#flow').add(newDiscussion);
             me.down('#flow').insert(0, newDiscussion);

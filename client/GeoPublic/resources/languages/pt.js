@@ -11,6 +11,9 @@ GeoPublic.Translation = [{
     "id": 'Have your Say',
     "translation": "Eu participo"
 }, {
+    "id": 'Have your Say',
+    "translation": "Eu participo"
+}, {
     "id": 'You logged in using your {0} account. Would you like to close your {0} session?',
     "translation": "Entrou com a sua conta do {0}. Deseja também sair do {0}?"
 }, {
@@ -679,4 +682,25 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Are you sure you want to delete this plan?',
     "translation": 'Tem a certeza que quer remover este plano?'
+}, {
+    "id": 'resources/guiarapido/rules/five.html',
+    "translation": 'resources/guiarapido/regras/five.html'
+}, {
+    "id": 'resources/guiarapido/rules/four.html',
+    "translation": 'resources/guiarapido/regras/four.html'
+}, {
+    "id": 'resources/guiarapido/rules/three.html',
+    "translation": 'resources/guiarapido/regras/three.html'
+}, {
+    "id": 'resources/guiarapido/rules/two.html',
+    "translation": 'resources/guiarapido/regras/two.html'
+}, {
+    "id": 'resources/guiarapido/rules/one.html',
+    "translation": 'resources/guiarapido/regras/one.html'
+}, {
+    "id": 'Back to plan description',
+    "translation": 'Voltar à descrição do plano'
+}, {
+    "id": 'Back to available plans',
+    "translation": 'Voltar à lista dos planos'
 }];

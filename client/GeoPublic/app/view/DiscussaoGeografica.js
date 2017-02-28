@@ -63,6 +63,7 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
             config : {
                 idplano : this.initialConfig.idplano,
                 idpromotor : this.initialConfig.idpromotor,
+                closed : this.initialConfig.closed,
                 geodiscussao : true
             }
         }];
