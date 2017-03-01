@@ -69,7 +69,9 @@ Ext.define('GeoPublic.view.Viewport', {
             xtype: 'container',
             title: 'Welcome'.translate(),
             itemId: 'welcome',
-            autoScroll: true,
+            // autoScroll: true,
+            overflowY: 'auto', // 'scroll',
+            overflowX: 'hidden',
             glyph: 0xf015,
             items: [{
                 xtype: 'welcome'

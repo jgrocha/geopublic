@@ -60,7 +60,7 @@ Ext.define('GeoPublic.view.Plano', {
                 },
                 items: [{
                     xtype: 'image',
-                    src: this.initialConfig.background, // 'resources/images/MSQUITO1-02.png',
+                    src: this.initialConfig.logo, // 'resources/images/MSQUITO1-02.png',
                     // height: 148,
                     width: 280
                     // maxHeight: 148,

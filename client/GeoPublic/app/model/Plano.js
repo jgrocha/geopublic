@@ -52,6 +52,9 @@ Ext.define('GeoPublic.model.Plano', {
 	}, 	{
         name : 'closed',
         type : 'boolean'
+    }, {
+        name : 'logo',
+        type : 'string'
     }],
 	// belongsTo : 'GeoPublic.model.Promotor',
 	// http://localhost/extjs/docs/index.html#!/api/Ext.data.proxy.Direct
