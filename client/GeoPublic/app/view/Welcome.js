@@ -45,7 +45,7 @@ Ext.define('GeoPublic.view.Welcome', {
                 items: {
                     xtype: 'button',
                     itemId: 'rules',
-                    text: 'Rules'.translate(),
+                    text: 'Participation rules'.translate(),
                     scale: 'large'
                 }
             }, {
@@ -168,9 +168,7 @@ Ext.define('GeoPublic.view.Welcome', {
                     scale: 'large'
                 }
             }]
-        }
-        ]
-        ;
+        }];
         this.callParent(arguments);
     }
 })
