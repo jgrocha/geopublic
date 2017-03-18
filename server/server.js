@@ -10,7 +10,8 @@ var express = require('express'), //
     path = require('path'), //
     extdirect = require('extdirect'), //
     db = require('./server-db'), //
-    fs = require('fs');
+    fs = require('fs'),
+    logger = require('morgan');
 
 var templatesDir = path.resolve(__dirname, 'templates'), //
     emailTemplates = require('email-templates');
@@ -132,7 +133,8 @@ if (ServerConfig.enableSessions) {
 
 app.configure(function () {
     app.set('port', process.env.PORT || ServerConfig.port);
-    app.use(express.logger(ServerConfig.logger));
+    var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+    app.use(logger(ServerConfig.logger, {stream: accessLogStream}));
     if (ServerConfig.enableUpload) {
         app.use(express.bodyParser({
             uploadDir: ServerConfig.fileUploadFolder

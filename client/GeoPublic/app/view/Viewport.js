@@ -71,7 +71,7 @@ Ext.define('GeoPublic.view.Viewport', {
             itemId: 'welcome',
             // autoScroll: true,
             overflowY: 'auto', // 'scroll',
-            overflowX: 'hidden',
+            overflowX: 'hidden', // 'scroll',
             glyph: 0xf015,
             items: [{
                 xtype: 'welcome'

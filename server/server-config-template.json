@@ -6,7 +6,7 @@
     "porthttps": 8443,
     "key": "certificate/server.key",
     "cert": "certificate/server.cert",
-    "logger": "dev",
+    "logger": "combined",
     "enableUpload": true,
     "enableCompression": true,
     "webRoot": "/public",
