@@ -7,8 +7,8 @@ if ('production' == process.env.NODE_ENV) {
 	conString = "postgres://geobox:geobox@localhost:5432/geopublic";
 	// em produção deve-se usar o pgbouncer
 } else {
-    conString = "postgres://geobox:geobox@localhost/geopublic";
-    // conString = "postgres://geobox:geobox@euparticipo.cm-agueda.pt/geopublic";
+    // conString = "postgres://geobox:geobox@localhost/geopublic";
+    conString = "postgres://geobox:geoptbox2k16@euparticipo.sig.cm-agueda.pt/geopublic";
 }
 
 // user with read only privileges to test operations with database errors

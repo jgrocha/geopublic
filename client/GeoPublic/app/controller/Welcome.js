@@ -28,10 +28,10 @@ Ext.define('GeoPublic.controller.Welcome', {
         this.control({
             'welcome': {
                 afterrender: function (view) {
-                    console.log('Welcome afterrender');
+                    // console.log('Welcome afterrender');
                     var layout = view.getLayout();
                     this.active = view.items.indexOf(layout.getActiveItem());
-                    console.log('Welcome active item: ' + this.active);
+                    // console.log('Welcome active item: ' + this.active);
 
                     var store = this.getPlanToShowStore();
                     store.load();
@@ -116,7 +116,7 @@ Ext.define('GeoPublic.controller.Welcome', {
         }
     },
     onMostraApresentacaoPlano: function (button, e, options) {
-        console.log('Welcome onMostraApresentacaoPlano');
+        // console.log('Welcome onMostraApresentacaoPlano');
 
         var startplano = button.up('plano');
 
@@ -137,8 +137,6 @@ Ext.define('GeoPublic.controller.Welcome', {
             tp.setBodyStyle('background-image', url);
             tp.setBodyStyle('background-repeat', 'no-repeat');
             tp.setBodyStyle('background-position', 'center top');
-        } else {
-            console.log('No background-image');
         }
 
         if (this.active < 2) {
@@ -148,14 +146,14 @@ Ext.define('GeoPublic.controller.Welcome', {
 
     },
     onPrev: function (b) {
-        console.log('Welcome onPrev');
+        // console.log('Welcome onPrev');
         if (this.active > 0) {
             var layout = this.getWelcome().getLayout();
             layout.setActiveItem(--this.active);
         }
     },
     onNext: function (b) {
-        console.log('Welcome onNext');
+        // console.log('Welcome onNext');
         if (this.active < 2) {
             var layout = this.getWelcome().getLayout();
             layout.setActiveItem(++this.active);
@@ -168,7 +166,7 @@ Ext.define('GeoPublic.controller.Welcome', {
         bar.removeAll(true);
 
         store.each(function (rec) {
-            console.log('showPlanos → ' + rec.get('designacao'));
+            // console.log('showPlanos → ' + rec.get('designacao'));
 
             var hoje = new Date();
             var closed = false;

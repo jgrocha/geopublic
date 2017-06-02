@@ -45,7 +45,7 @@ Ext.define('GeoPublic.view.DiscussaoGeografica', {
             region: 'center',
             xtype: 'mapa',
             collapsible: false,
-            // html: 'Janela com o mapa de suporte à discussão do aplno ' + this.initialConfig.designacao,
+            // html: 'Janela com o mapa de suporte à discussão do plano ' + this.initialConfig.designacao,
             config : {
                 idplano : this.initialConfig.idplano,
                 idpromotor : this.initialConfig.idpromotor,

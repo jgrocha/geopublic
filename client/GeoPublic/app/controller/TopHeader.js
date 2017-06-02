@@ -97,11 +97,11 @@ Ext.define('GeoPublic.controller.TopHeader', {
     },
     onTabChange: function(tabPanel, tab) {
         if (tab.itemId && tab.itemId == 'welcome') {
-            console.log("No início: beforetabchange: " + tabPanel.id + tab.id);
+            // console.log("No início: beforetabchange: " + tabPanel.id + tab.id);
             this.getTopPanel().setHeight(388);
             Ext.getBody().setStyle({'background-color':'white'});
         } else {
-            console.log("beforetabchange: " + tabPanel.id + tab.id);
+            // console.log("beforetabchange: " + tabPanel.id + tab.id);
             this.getTopPanel().setHeight(206);
             Ext.getBody().setStyle('background-color', '#1598a9');
         }
@@ -110,7 +110,7 @@ Ext.define('GeoPublic.controller.TopHeader', {
         this.getBotaoLogin().menu.disable();
     },
     onLogout: function () {
-        console.log('Vamos reagir ao evento logoutComSucesso');
+        // console.log('Vamos reagir ao evento logoutComSucesso');
         this.getBotaoRegisto().setDisabled(false);
         this.getBotaoLogin().setText('Start session'.translate());
         // Tirar alguma fotografia que haja

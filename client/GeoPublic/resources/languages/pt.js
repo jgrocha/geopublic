@@ -703,4 +703,7 @@ GeoPublic.Translation = [{
 }, {
     "id": 'Back to available plans',
     "translation": 'Voltar à lista dos planos'
+}, {
+    "id": 'Please wait while we get all participations',
+    "translation": 'A carregar as participações existentes. Aguarde, por favor.'
 }];

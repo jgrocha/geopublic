@@ -30,8 +30,8 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                 toggle: this.onShowComments
             },
             "discussion commentlist": {
-                beforeexpand: this.onCommentListBeforeExpand,
-                expand: this.onExpand
+                beforeexpand: this.onCommentListBeforeExpand
+                // , expand: this.onExpand
             }
         })
     },
@@ -264,7 +264,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                         p.add(newComment);
                         // p.insert(0, newComment);
                     });
-                    p.doLayout();
+                    // p.doLayout();
                     // pode ser que entretanto tenham entrado mais comentários...
                     // TODO
                     // alterar o botão para além do título (eventualmente deixar de usar o título)
@@ -428,7 +428,7 @@ Ext.define('GeoPublic.controller.Participation.Discussion', {
                         });
                         p.add(newComment);
                         // p.insert(0, newComment);
-                        p.doLayout();
+                        // p.doLayout();
 
                         p.numcomments = p.numcomments + 1;
                         d.down('button[action=view-comments]').setText(p.numcomments + ' ' + 'comments'.translate());

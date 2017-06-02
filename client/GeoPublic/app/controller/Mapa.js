@@ -288,6 +288,7 @@ Ext.define('GeoPublic.controller.Mapa', {
         });
 
     },
+
     onMapaAfterRender: function (mapPanel, options) {
         // console.log('onMapPanelAfterRender');
         var me = this;
@@ -473,6 +474,8 @@ Ext.define('GeoPublic.controller.Mapa', {
             // console.log('Zoom level: ', zLevel);
         });
         //</debug>
+
+        this.fireEvent('mapRendered', mapPanel);
 
     }
 });

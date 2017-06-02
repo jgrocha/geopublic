@@ -7,11 +7,25 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
             'discussao-geografica': {
                 // 'beforerender' : this.onBemVindoPanelBeforeRender,
                 // 'render' : this.onStartPanelRender
-                'afterrender': this.onDiscussaoGeograficaAfterRender,
+                // 'afterrender': this.onDiscussaoGeograficaAfterRender,
                 'beforedestroy': this.onBeforeDestroy
             }
         }, this);
+        this.listen({
+            controller: {
+                '*': {
+                    mapRendered: this.onMapRendered // mapPanel.fireEvent('mapRendered', mapPanel); in GeoPublic.controller.Mapa
+                }
+            }
+        });
     },
+
+    onMapRendered: function (mapPanel) {
+        // console.log('onMapRendered event listener');
+        var panel = mapPanel.up('discussao-geografica');
+        this.onDiscussaoGeograficaAfterRender(panel);
+    },
+
     onBeforeDestroy: function (panel, eOpts) {
         var store = panel.getStoreOcorrencias();
         //<debug>
@@ -43,7 +57,7 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
         var report = me.down('mapa').map.getLayersByName('Report')[0];
         // report.destroyFeatures();
         var parser = new OpenLayers.Format.GeoJSON();
-        
+
         var start = 0;
         // var total = records.length;
         //var limit = total <= 10 ? total : 10;
@@ -118,10 +132,14 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
                 f.discussion = null;
             }
         }
-        me.down('#flow').doLayout();
+        // me.down('#flow').doLayout();
 
         if (this.numOcorrenciasLoaded < total) {
-            // console.log('Ler mais ocorrências');
+            // console.log('Ler mais ocorrências: ' + this.numOcorrenciasLoaded + ' de ' + total + ' já foram lidas');
+            // me.myMask.hide();
+            // me.myMask.msg = this.numOcorrenciasLoaded + ' of ' + total + ' loaded. Please wait...';
+            // me.myMask.show();
+
             store.load({
                 params: {
                     idplano: records[0].data.idplano,
@@ -131,14 +149,19 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
             });
         } else {
             // console.log('Não vai ler mais ocorrências');
+            me.myMask.hide();
+            Ext.resumeLayouts(true);
         }
 
     },
     onDiscussaoGeograficaAfterRender: function (panel) {
+        // console.log('onDiscussaoGeograficaAfterRender');
+        // console.log(panel);
+
         var me = this;
         var store = panel.getStoreOcorrencias();
         panel.numOcorrenciasLoaded = 0;
-        panel.numOcorrenciasPerPage = 5;
+        panel.numOcorrenciasPerPage = 100;
         store.on({
             scope: panel,
             load: this.onOcorrenciaStoreLoad
@@ -146,8 +169,8 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
 
         var estore = panel.getStoreEstado();
         estore.on({
-            scope: panel,
-            load: this.onEstadoOcorrenciaStoreLoad
+            scope: panel
+            // , load: this.onEstadoOcorrenciaStoreLoad
         });
         estore.load({
             params: {
@@ -155,16 +178,34 @@ Ext.define('GeoPublic.controller.DiscussaoGeografica', {
             }
         });
 
-        var task = new Ext.util.DelayedTask(function(){
-            store.load({
-                params: {
-                    idplano: panel.idplano,
-                    start: 0,
-                    limit: 5
-                }
-            });
+        panel.myMask = new Ext.LoadMask(Ext.getBody(), {
+            msg: "Please wait while we get all participations".translate()
         });
-        task.delay(500);
+        panel.myMask.show();
+
+        // var task = new Ext.util.DelayedTask(function () {
+        //     Ext.suspendLayouts();
+        //
+        //     store.load({
+        //         params: {
+        //             idplano: panel.idplano,
+        //             start: 0,
+        //             limit: panel.numOcorrenciasPerPage
+        //         }
+        //     });
+        // });
+        // task.delay(500);
+
+        Ext.suspendLayouts();
+
+        store.load({
+            params: {
+                idplano: panel.idplano,
+                start: 0,
+                limit: panel.numOcorrenciasPerPage
+            }
+        });
+
 
     },
     onEstadoOcorrenciaStoreLoad: function (store, records) {
